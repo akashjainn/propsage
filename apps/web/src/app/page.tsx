@@ -5,6 +5,7 @@ import { MarketTape } from '@/components/MarketTape'
 import { EdgeCountTile, AvgEdgeTile, BooksOnlineTile, LiveMovementsTile } from '@/components/tiles/KPI'
 import { EdgeTable } from '@/components/tables/EdgeTable'
 import { ProbCurve, generateSampleProbCurve } from '@/components/charts/ProbCurve'
+import { VideoIntelligencePanel } from '@/components/VideoIntelligencePanel'
 import { cn } from '@/lib/utils'
 
 // Sample data types matching our API
@@ -230,7 +231,7 @@ export default function CommandCenter() {
         </section>
 
         {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-8">
           {/* Edge Table - Takes up 2 columns */}
           <div className="lg:col-span-2">
             <EdgeTable
@@ -258,6 +259,29 @@ export default function CommandCenter() {
                 </h3>
                 <p className="text-sm text-secondary">
                   Click on an edge in the table to view the probability curve analysis
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Video Intelligence Panel - 1 column */}
+          <div>
+            {selectedEdge ? (
+              <VideoIntelligencePanel
+                playerId={selectedEdge.playerId}
+                playerName={selectedEdge.playerName}
+                market={selectedEdge.market}
+                sport="basketball"
+                className="h-full"
+              />
+            ) : (
+              <div className="glass rounded-lg p-8 border border-border text-center">
+                <div className="text-muted mb-2">🎬</div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  Video Intelligence
+                </h3>
+                <p className="text-sm text-secondary">
+                  Select an edge to view AI-powered video analysis and player insights
                 </p>
               </div>
             )}

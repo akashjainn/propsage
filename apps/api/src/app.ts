@@ -7,6 +7,7 @@ import video from './routes/twelvelabs.js'
 import price from './routes/price.js'
 import videoIntel from './routes/videoIntel.js'
 import fml from './routes/fml.js'
+import videoIntelFML from './routes/videoIntelFML.js'
 import { timing } from './middleware/timing.js'
 import { config } from './config.js'
 
@@ -32,7 +33,8 @@ export function createApp() {
       video: '/video',
       price: '/price',
       videoIntel: '/video-intel',
-      fml: '/fml'
+      fml: '/fml',
+      videoIntelFML: '/fml/enhanced'
     },
     demo: config.demoMode,
     status: 'running'
@@ -51,5 +53,6 @@ export function createApp() {
   app.use('/price', price)
   app.use('/video-intel', videoIntel)
   app.use('/fml', fml)
+  app.use('/fml', videoIntelFML)
   return app
 }

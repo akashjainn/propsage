@@ -2,4 +2,4 @@
 > @propsage/api@0.1.0 dev C:\Users\akash\Documents\propsage\apps\api
 > tsx watch src/index.ts
 
-[23:50:34.717] [32mINFO[39m (7492): [36mAPI listening on :4000 (demo=true)[39m
+[00:35:26.696] [32mINFO[39m (19964): [36mAPI listening on :4000 (demo=true)[39m

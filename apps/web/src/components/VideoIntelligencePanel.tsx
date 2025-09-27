@@ -31,16 +31,35 @@ interface VideoIntelResponse {
   }
 }
 
-export function VideoIntelligencePanel() {
+interface VideoIntelligencePanelProps {
+  playerId?: string
+  playerName?: string
+  market?: string
+  sport?: string
+  className?: string
+}
+
+export function VideoIntelligencePanel({ 
+  playerId, 
+  playerName, 
+  market, 
+  sport = 'basketball',
+  className 
+}: VideoIntelligencePanelProps = {}) {
   const [videoSignals, setVideoSignals] = useState<VideoSignal[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<VideoSignal[]>([])
   const [meta, setMeta] = useState<VideoIntelResponse['meta'] | null>(null)
+  const [enhancedData, setEnhancedData] = useState<any>(null)
 
   useEffect(() => {
-    loadVideoIntelligence()
-  }, [])
+    if (playerId && playerName && market) {
+      loadEnhancedVideoIntelligence()
+    } else {
+      loadVideoIntelligence()
+    }
+  }, [playerId, playerName, market])
 
   const loadVideoIntelligence = async () => {
     try {
@@ -52,6 +71,29 @@ export function VideoIntelligencePanel() {
       setMeta(data.meta)
     } catch (error) {
       console.error('Failed to load video intelligence:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const loadEnhancedVideoIntelligence = async () => {
+    if (!playerId || !playerName || !market) return
+    
+    try {
+      setLoading(true)
+      const response = await fetch(`${webConfig.apiUrl}/fml/enhanced/${playerId}/${market}?name=${encodeURIComponent(playerName)}&sport=${sport}`)
+      const data = await response.json()
+      
+      setEnhancedData(data)
+      setVideoSignals(data.video_signals || [])
+      setMeta({
+        source: 'live' as const,
+        count: data.video_signals?.length || 0,
+        lastUpdate: new Date().toISOString(),
+        twelveLabsUsage: data.usage_stats
+      })
+    } catch (error) {
+      console.error('Failed to load enhanced video intelligence:', error)
     } finally {
       setLoading(false)
     }
