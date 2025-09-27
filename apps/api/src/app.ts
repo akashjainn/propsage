@@ -10,7 +10,10 @@ import { config } from './config.js'
 
 export function createApp() {
   const app = express()
-  app.use(cors({ origin: config.corsOrigin }))
+  app.use(cors({ 
+    origin: config.corsOrigin === 'http://localhost:3000' ? true : config.corsOrigin,
+    credentials: true 
+  }))
   app.use(express.json())
   app.use(timing)
   
