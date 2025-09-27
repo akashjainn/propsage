@@ -6,7 +6,7 @@ import fetch from "node-fetch"
 const r = Router()
 const BALDO_BASE = "https://api.balldontlie.io/v1"
 // Use your Balldontlie API key
-const BALDO_HEADERS: Record<string,string> = {
+const BALDO_HEADERS: Record<string, string> = {
   "Accept": "application/json",
   "Authorization": `Bearer ${process.env.BALLDONTLIE_API_KEY || 'f98954c1-4a2b-40c7-a1f3-0d099214aa91'}`
 }
@@ -76,17 +76,40 @@ function normalize(p: any): Player {
 r.get("/", async (req, res) => {
   try {
     const q = String(req.query.q ?? "").trim()
-    if (!q || q.length < 2) {
-      return res.json({ players: [] })
+
+    // Enhanced input validation
+    if (!q) {
+      return res.status(400).json({
+        error: "Query parameter 'q' is required",
+        players: []
+      })
+    }
+
+    if (q.length < 2) {
+      return res.status(400).json({
+        error: "Query must be at least 2 characters long",
+        players: []
+      })
+    }
+
+    // Sanitize input to prevent potential issues
+    if (q.length > 50) {
+      return res.status(400).json({
+        error: "Query too long (max 50 characters)",
+        players: []
+      })
     }
 
     const key = q.toLowerCase()
-    
+
     // ALWAYS check cache first
     const cached = cache.get(key)
     if (cached) {
+      console.log(`Cache hit for query: "${q}" (${cached.length} results)`)
       return res.json({ players: cached.slice(0, 25) })
     }
+
+    console.log(`Cache miss for query: "${q}"`)
 
     // ALWAYS try local JSON first (500 players available)
     console.log('Cache miss, searching local JSON first')
@@ -97,15 +120,16 @@ r.get("/", async (req, res) => {
         const firstName = (p.firstName ?? "").toLowerCase()
         const lastName = (p.lastName ?? "").toLowerCase()
         const team = (p.team ?? "").toLowerCase()
-        return playerName.includes(key) || 
-               firstName.includes(key) || 
-               lastName.includes(key) ||
-               team.includes(key)
+        return playerName.includes(key) ||
+          firstName.includes(key) ||
+          lastName.includes(key) ||
+          team.includes(key)
       })
       .slice(0, 25)
 
     // If we found results in local JSON, use them and cache
     if (localResults.length > 0) {
+      console.log(`Local JSON found ${localResults.length} results for "${q}", caching...`)
       cache.set(key, localResults)
       return res.json({ players: localResults })
     }
@@ -119,15 +143,15 @@ r.get("/", async (req, res) => {
     // Make API request as last resort
     console.log('No local results, making API request (rate limit OK)')
     recordRequest()
-    
+
     const url = `${BALDO_BASE}/players?per_page=25&search=${encodeURIComponent(q)}`
     const resp = await fetch(url, { headers: BALDO_HEADERS })
-    
+
     if (!resp.ok) {
       console.warn('API failed, no results found')
       return res.json({ players: [] })
     }
-    
+
     const data = await resp.json() as any
     const mapped: Player[] = (data?.data ?? []).map(normalize)
 
@@ -135,13 +159,34 @@ r.get("/", async (req, res) => {
     cache.set(key, mapped)
     console.log(`API success: found ${mapped.length} players for "${q}"`)
     res.json({ players: mapped })
-    
+
   } catch (e: any) {
     console.error('Player search error:', e)
-    // Final fallback
-    const local = await loadLocal()
-    const fallback = local.slice(0, 25) // Return first 25 as emergency fallback
-    res.json({ players: fallback })
+
+    // Provide more specific error information
+    const errorMessage = e?.message || 'Unknown error occurred'
+    const errorType = e?.name || 'Error'
+
+    console.error(`Error details - Type: ${errorType}, Message: ${errorMessage}`)
+
+    // Final fallback with error context
+    try {
+      const local = await loadLocal()
+      const fallback = local.slice(0, 25) // Return first 25 as emergency fallback
+      res.status(500).json({
+        players: fallback,
+        error: 'Search failed, showing cached results',
+        errorType,
+        fallback: true
+      })
+    } catch (fallbackError) {
+      console.error('Fallback also failed:', fallbackError)
+      res.status(500).json({
+        players: [],
+        error: 'Search and fallback both failed',
+        errorType: 'CriticalError'
+      })
+    }
   }
 })
 
@@ -197,10 +242,10 @@ r.get('/:id/markets', async (req, res) => {
 r.get('/:id/line-history', async (req, res) => {
   const { id } = req.params
   const market = (req.query.market as string) || 'points'
-  res.json({ 
-    player: { id, name: "Player" }, 
-    market, 
-    history: [] 
+  res.json({
+    player: { id, name: "Player" },
+    market,
+    history: []
   })
 })
 
