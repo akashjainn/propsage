@@ -83,7 +83,7 @@ export function EdgeTable({ data, loading = false, onRowClick, className }: Edge
       columnHelper.accessor('line', {
         header: 'Line',
         cell: info => (
-          <div className="font-mono text-sm">
+          <div className="font-mono text-sm tabular-nums lining-nums">
             {info.row.original.side === 'over' ? 'O' : 'U'} {info.getValue()}
           </div>
         ),
@@ -92,7 +92,7 @@ export function EdgeTable({ data, loading = false, onRowClick, className }: Edge
       columnHelper.accessor('bestPrice', {
         header: 'Best Price',
         cell: info => (
-          <div className="font-mono text-sm">
+          <div className="font-mono text-sm tabular-nums lining-nums">
             {info.getValue() > 0 ? '+' : ''}{info.getValue()}
           </div>
         ),
@@ -101,7 +101,7 @@ export function EdgeTable({ data, loading = false, onRowClick, className }: Edge
       columnHelper.accessor('fml', {
         header: 'FML',
         cell: info => (
-          <div className="font-mono text-sm text-secondary">
+          <div className="font-mono text-sm text-secondary tabular-nums lining-nums">
             {info.getValue().toFixed(1)}
           </div>
         ),
@@ -113,7 +113,7 @@ export function EdgeTable({ data, loading = false, onRowClick, className }: Edge
           const edge = info.getValue()
           return (
             <div className={cn(
-              'font-mono text-sm font-semibold',
+              'font-mono text-sm font-semibold tabular-nums lining-nums',
               edge > 0.05 && 'text-positive',
               edge > 0.02 && edge <= 0.05 && 'text-warning',
               edge <= 0.02 && 'text-negative'

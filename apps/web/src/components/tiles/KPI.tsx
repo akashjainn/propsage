@@ -1,6 +1,43 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 
+// Improved number formatting component
+function StatNumber({ 
+  value, 
+  unit = '', 
+  decimals = 0 
+}: { 
+  value: string | number
+  unit?: string
+  decimals?: number 
+}) {
+  // Handle string values (like "3.7%")
+  if (typeof value === 'string') {
+    return (
+      <div className="text-2xl font-semibold text-foreground tabular-nums lining-nums tracking-tight leading-none">
+        {value}
+      </div>
+    )
+  }
+
+  // Handle numeric values
+  const formatted = value.toLocaleString('en-US', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  })
+
+  return (
+    <div className="inline-flex items-baseline gap-1">
+      <span className="text-2xl font-semibold text-foreground tabular-nums lining-nums tracking-tight leading-none">
+        {formatted}
+      </span>
+      {unit && (
+        <span className="text-lg text-secondary leading-none">{unit}</span>
+      )}
+    </div>
+  )
+}
+
 interface KPITileProps {
   title: string
   value: string | number
@@ -52,15 +89,13 @@ export function KPITile({
             {loading ? (
               <div className="h-8 w-24 animate-pulse bg-surface rounded" />
             ) : (
-              <div className="text-2xl font-semibold text-foreground font-mono">
-                {typeof value === 'number' ? value.toLocaleString() : value}
-              </div>
+              <StatNumber value={value} />
             )}
             
             {change && !loading && (
               <div className="mt-2 flex items-center gap-1">
                 <span className={cn(
-                  'text-xs font-medium',
+                  'text-xs font-medium tabular-nums lining-nums',
                   change.direction === 'up' && 'text-positive',
                   change.direction === 'down' && 'text-negative',
                   change.direction === 'neutral' && 'text-secondary'
@@ -106,10 +141,11 @@ export function EdgeCountTile({ edges, loading }: { edges?: number; loading?: bo
 }
 
 export function AvgEdgeTile({ avgEdge, loading }: { avgEdge?: number; loading?: boolean }) {
+  const percentValue = avgEdge ? (avgEdge * 100).toFixed(1) : '0.0'
   return (
     <KPITile
       title="Avg Edge"
-      value={avgEdge ? `${(avgEdge * 100).toFixed(1)}%` : '0.0%'}
+      value={`${percentValue}%`}
       change={avgEdge ? { value: 0.8, period: '24h', direction: 'up' } : undefined}
       status={avgEdge && avgEdge > 0.03 ? 'healthy' : 'warning'}
       loading={loading}

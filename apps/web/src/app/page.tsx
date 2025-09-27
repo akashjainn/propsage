@@ -174,14 +174,20 @@ export default function CommandCenter() {
                 <span className="text-secondary">Live</span>
               </div>
               
-              <select className={cn(
-                'px-3 py-2 text-sm rounded-lg border border-border',
-                'bg-surface text-foreground focus:outline-none focus:ring-2 focus:ring-positive'
-              )}>
-                <option>NFL</option>
-                <option>NBA</option>
-                <option>MLB</option>
-              </select>
+              <div className="relative inline-block">
+                <select className={cn(
+                  'appearance-none pl-4 pr-10 py-2 text-sm rounded-full border border-border',
+                  'bg-surface text-foreground focus:outline-none focus:ring-2 focus:ring-positive',
+                  'tabular-nums'
+                )}>
+                  <option>NFL</option>
+                  <option>NBA</option>
+                  <option>MLB</option>
+                </select>
+                <span className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-secondary">
+                  ▼
+                </span>
+              </div>
               
               <button className={cn(
                 'px-4 py-2 text-sm font-medium rounded-lg',
