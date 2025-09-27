@@ -22,8 +22,29 @@ const listCache = new LRUCache<string, NflProp[]>({ max: 100, ttl: 1000*60*5 });
 const detailCache = new LRUCache<string, NflProp>({ max: 200, ttl: 1000*60*5 }); // 5min
 
 async function loadSeed(): Promise<NflProp[]> {
-  const dataPath = path.join(process.cwd(), "apps", "api", "data", "props.nfl.json");
-  const raw = await fs.readFile(dataPath, "utf-8");
+  // Try multiple possible paths for the data file
+  const possiblePaths = [
+    path.join(__dirname, "data", "props.nfl.json"), // Next to compiled route file
+    path.join(process.cwd(), "apps", "api", "data", "props.nfl.json"),
+    path.join(process.cwd(), "data", "props.nfl.json"),
+    path.join(__dirname, "..", "data", "props.nfl.json"),
+    path.join(__dirname, "..", "..", "data", "props.nfl.json")
+  ];
+  
+  let raw: string | undefined;
+  for (const dataPath of possiblePaths) {
+    try {
+      raw = await fs.readFile(dataPath, "utf-8");
+      break;
+    } catch (error) {
+      // Continue to next path
+      continue;
+    }
+  }
+  
+  if (!raw) {
+    throw new Error("Could not find props.nfl.json data file");
+  }
   const rows: Omit<NflProp, "edgePct">[] = JSON.parse(raw);
   
   return rows.map(p => {
