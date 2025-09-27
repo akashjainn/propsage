@@ -7,6 +7,7 @@ import { MarketsTable, MarketRow } from '@/components/MarketsTable'
 import { VideoPanel, Clip } from '@/components/VideoPanel'
 import { API_BASE } from '@/lib/api'
 import { useVideoClips } from '@/lib/useVideoClips'
+import { usePlayerSearch } from '@/lib/usePlayerSearch'
 
 interface MarketsResponse { player:{ id:string; name:string }; markets:MarketRow[]; best?: any }
 
@@ -55,21 +56,16 @@ function ClipCard({title,time,snippet}:{title:string;time:string;snippet:string}
 
 export default function HomePage() {
   const router = useRouter()
-  const [player, setPlayer] = useState<{id:string; name:string}|null>(null)
-  const [markets, setMarkets] = useState<MarketRow[]>([])
-  const [best, setBest] = useState<any>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [showResults, setShowResults] = useState(false)
   const { loading: loadingClips, clips, search: searchVideos } = useVideoClips()
+  const { q: playerQuery, setQ: setPlayerQuery, loading: loadingPlayers, results: playerResults } = usePlayerSearch()
 
   function handleSearch(_sport:string, q:string){
     if(!q) return
-    fetch(`${API_BASE}/players?q=${encodeURIComponent(q)}`)
-      .then(r=>r.json())
-      .then(d=>{
-        if (d.players?.length) {
-          const pl = d.players[0];
-          router.push(`/player/${pl.id}?market=points`)
-        }
-      })
+    setPlayerQuery(q)
+    setSearchQuery(q)
+    setShowResults(true)
   }
 
   // If home page after navigation might have state - do nothing else
@@ -103,6 +99,46 @@ export default function HomePage() {
           </p>
         </div>
       </section>
+
+      {/* Search Results */}
+      {showResults && (
+        <section className="mx-auto max-w-6xl px-6">
+          <div className="rounded-2xl bg-[var(--surface)]/80 ring-1 ring-[var(--stroke)] p-5">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold">Search Results for "{searchQuery}"</h2>
+              <button 
+                onClick={() => setShowResults(false)}
+                className="text-[var(--fg-dim)] hover:text-[var(--fg)] text-sm"
+              >
+                Clear
+              </button>
+            </div>
+            
+            {loadingPlayers ? (
+              <div className="text-[var(--fg-dim)] text-sm animate-pulse">Searching players...</div>
+            ) : playerResults.length === 0 ? (
+              <div className="text-[var(--fg-dim)] text-sm">No players found. Try a different search term.</div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {playerResults.map(player => (
+                  <div 
+                    key={player.id} 
+                    className="rounded-xl bg-[var(--card)] ring-1 ring-white/10 p-4 hover:bg-white/5 cursor-pointer transition"
+                    onClick={() => router.push(`/player/${player.id}?market=points`)}
+                  >
+                    <div className="font-medium text-[var(--fg)]">{player.name}</div>
+                    <div className="text-sm text-[var(--fg-dim)] mt-1">
+                      {player.team && <span>{player.team}</span>}
+                      {player.position && player.team && <span> • </span>}
+                      {player.position && <span>{player.position}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Content */}
       <main className="mx-auto max-w-6xl px-6 py-10 grid grid-cols-1 lg:grid-cols-3 gap-6">

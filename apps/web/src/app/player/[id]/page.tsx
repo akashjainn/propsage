@@ -20,10 +20,30 @@ export default function PlayerPage(){
   const [playerName, setPlayerName] = useState('')
 
   const loadMarkets = useCallback(()=>{
+    // First try to get player details
+    fetch(`${API_BASE}/players/${params.id}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(player => {
+        if (player) {
+          setPlayerName(player.name)
+          fetchClips(player.name)
+        } else {
+          // Fallback: try to get from ID
+          const cleanName = params.id.replace(/-/g, ' ').replace(/nba_\d+/, '').trim()
+          setPlayerName(cleanName || 'Player')
+        }
+      })
+      .catch(() => {
+        // Final fallback
+        const cleanName = params.id.replace(/-/g, ' ').replace(/nba_\d+/, '').trim()
+        setPlayerName(cleanName || 'Player')
+      })
+    
+    // Try to load markets (might be empty for new API)
     fetch(`${API_BASE}/players/${params.id}/markets`).then(r=>r.json()).then((d:MarketsResponse)=>{
-      setMarkets(d.markets||[]); setBest(d.best); setPlayerName(d.player.name)
-      // Auto fetch video clips initial
-      fetchClips(`${d.player.name}`)
+      setMarkets(d.markets||[]); setBest(d.best)
+    }).catch(() => {
+      console.log('No market data available for this player yet')
     })
   },[params.id])
 
