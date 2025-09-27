@@ -14,7 +14,7 @@ export function Dashboard() {
     return (
       <div className="max-w-6xl mx-auto">
         <div className="text-center py-16">
-          <div className="text-6xl mb-4">í¿€</div>
+          <div className="text-6xl mb-4">ðŸ“Š</div>
           <h2 className="text-2xl font-bold text-gray-300 mb-2">Ready to Analyze Props</h2>
           <p className="text-gray-400">
             Search for any player prop above to get real-time fair value analysis with AI-powered insights

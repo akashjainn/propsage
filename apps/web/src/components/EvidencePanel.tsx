@@ -51,7 +51,7 @@ export function EvidencePanel({ evidence }: EvidencePanelProps) {
 
       <div className="mt-6 p-4 bg-blue-900/20 rounded-lg border border-blue-500/30">
         <div className="flex items-start space-x-2">
-          <div className="text-blue-400 mt-0.5">í²¡</div>
+          <div className="text-blue-400 mt-0.5">ðŸ§ </div>
           <div>
             <p className="text-sm text-blue-300 font-medium">AI Summary</p>
             <p className="text-xs text-blue-200/80 mt-1">
