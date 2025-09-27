@@ -1,0 +1,6002 @@
+[
+  {
+    "id": "nba_1",
+    "sport": "NBA",
+    "name": "Alex Abrines",
+    "firstName": "Alex",
+    "lastName": "Abrines",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 1
+    }
+  },
+  {
+    "id": "nba_2",
+    "sport": "NBA",
+    "name": "Jaylen Adams",
+    "firstName": "Jaylen",
+    "lastName": "Adams",
+    "team": "ATL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 2
+    }
+  },
+  {
+    "id": "nba_3",
+    "sport": "NBA",
+    "name": "Steven Adams",
+    "firstName": "Steven",
+    "lastName": "Adams",
+    "team": "HOU",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 3
+    }
+  },
+  {
+    "id": "nba_4",
+    "sport": "NBA",
+    "name": "Bam Adebayo",
+    "firstName": "Bam",
+    "lastName": "Adebayo",
+    "team": "MIA",
+    "position": "C-F",
+    "externalIds": {
+      "balldontlie": 4
+    }
+  },
+  {
+    "id": "nba_5",
+    "sport": "NBA",
+    "name": "DeVaughn Akoon-Purcell",
+    "firstName": "DeVaughn",
+    "lastName": "Akoon-Purcell",
+    "team": "DEN",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 5
+    }
+  },
+  {
+    "id": "nba_6",
+    "sport": "NBA",
+    "name": "LaMarcus Aldridge",
+    "firstName": "LaMarcus",
+    "lastName": "Aldridge",
+    "team": "BKN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 6
+    }
+  },
+  {
+    "id": "nba_7",
+    "sport": "NBA",
+    "name": "Rawle Alkins",
+    "firstName": "Rawle",
+    "lastName": "Alkins",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 7
+    }
+  },
+  {
+    "id": "nba_8",
+    "sport": "NBA",
+    "name": "Grayson Allen",
+    "firstName": "Grayson",
+    "lastName": "Allen",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 8
+    }
+  },
+  {
+    "id": "nba_9",
+    "sport": "NBA",
+    "name": "Jarrett Allen",
+    "firstName": "Jarrett",
+    "lastName": "Allen",
+    "team": "CLE",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 9
+    }
+  },
+  {
+    "id": "nba_10",
+    "sport": "NBA",
+    "name": "Al-Farouq Aminu",
+    "firstName": "Al-Farouq",
+    "lastName": "Aminu",
+    "team": "POR",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 10
+    }
+  },
+  {
+    "id": "nba_11",
+    "sport": "NBA",
+    "name": "Justin Anderson",
+    "firstName": "Justin",
+    "lastName": "Anderson",
+    "team": "IND",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 11
+    }
+  },
+  {
+    "id": "nba_12",
+    "sport": "NBA",
+    "name": "Kyle Anderson",
+    "firstName": "Kyle",
+    "lastName": "Anderson",
+    "team": "MIA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 12
+    }
+  },
+  {
+    "id": "nba_13",
+    "sport": "NBA",
+    "name": "Ryan Anderson",
+    "firstName": "Ryan",
+    "lastName": "Anderson",
+    "team": "NOP",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 13
+    }
+  },
+  {
+    "id": "nba_14",
+    "sport": "NBA",
+    "name": "Ike Anigbogu",
+    "firstName": "Ike",
+    "lastName": "Anigbogu",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 14
+    }
+  },
+  {
+    "id": "nba_15",
+    "sport": "NBA",
+    "name": "Giannis Antetokounmpo",
+    "firstName": "Giannis",
+    "lastName": "Antetokounmpo",
+    "team": "MIL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 15
+    }
+  },
+  {
+    "id": "nba_16",
+    "sport": "NBA",
+    "name": "Kostas Antetokounmpo",
+    "firstName": "Kostas",
+    "lastName": "Antetokounmpo",
+    "team": "CHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 16
+    }
+  },
+  {
+    "id": "nba_17",
+    "sport": "NBA",
+    "name": "Carmelo Anthony",
+    "firstName": "Carmelo",
+    "lastName": "Anthony",
+    "team": "LAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 17
+    }
+  },
+  {
+    "id": "nba_18",
+    "sport": "NBA",
+    "name": "OG Anunoby",
+    "firstName": "OG",
+    "lastName": "Anunoby",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 18
+    }
+  },
+  {
+    "id": "nba_19",
+    "sport": "NBA",
+    "name": "Ryan Arcidiacono",
+    "firstName": "Ryan",
+    "lastName": "Arcidiacono",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 19
+    }
+  },
+  {
+    "id": "nba_20",
+    "sport": "NBA",
+    "name": "Trevor Ariza",
+    "firstName": "Trevor",
+    "lastName": "Ariza",
+    "team": "LAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 20
+    }
+  },
+  {
+    "id": "nba_21",
+    "sport": "NBA",
+    "name": "D.J. Augustin",
+    "firstName": "D.J.",
+    "lastName": "Augustin",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 21
+    }
+  },
+  {
+    "id": "nba_22",
+    "sport": "NBA",
+    "name": "Deandre Ayton",
+    "firstName": "Deandre",
+    "lastName": "Ayton",
+    "team": "POR",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 22
+    }
+  },
+  {
+    "id": "nba_23",
+    "sport": "NBA",
+    "name": "Dwayne Bacon",
+    "firstName": "Dwayne",
+    "lastName": "Bacon",
+    "team": "LAL",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 23
+    }
+  },
+  {
+    "id": "nba_24",
+    "sport": "NBA",
+    "name": "Marvin Bagley III",
+    "firstName": "Marvin",
+    "lastName": "Bagley III",
+    "team": "MEM",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 24
+    }
+  },
+  {
+    "id": "nba_25",
+    "sport": "NBA",
+    "name": "Ron Baker",
+    "firstName": "Ron",
+    "lastName": "Baker",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 25
+    }
+  },
+  {
+    "id": "nba_26",
+    "sport": "NBA",
+    "name": "Wade Baldwin IV",
+    "firstName": "Wade",
+    "lastName": "Baldwin IV",
+    "team": "MEM",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 26
+    }
+  },
+  {
+    "id": "nba_27",
+    "sport": "NBA",
+    "name": "Lonzo Ball",
+    "firstName": "Lonzo",
+    "lastName": "Ball",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 27
+    }
+  },
+  {
+    "id": "nba_28",
+    "sport": "NBA",
+    "name": "Mo Bamba",
+    "firstName": "Mo",
+    "lastName": "Bamba",
+    "team": "NOP",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 28
+    }
+  },
+  {
+    "id": "nba_29",
+    "sport": "NBA",
+    "name": "J.J. Barea",
+    "firstName": "J.J.",
+    "lastName": "Barea",
+    "team": "DAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 29
+    }
+  },
+  {
+    "id": "nba_30",
+    "sport": "NBA",
+    "name": "Harrison Barnes",
+    "firstName": "Harrison",
+    "lastName": "Barnes",
+    "team": "SAS",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 30
+    }
+  },
+  {
+    "id": "nba_31",
+    "sport": "NBA",
+    "name": "Will Barton",
+    "firstName": "Will",
+    "lastName": "Barton",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 31
+    }
+  },
+  {
+    "id": "nba_32",
+    "sport": "NBA",
+    "name": "Keita Bates-Diop",
+    "firstName": "Keita",
+    "lastName": "Bates-Diop",
+    "team": "MIN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 32
+    }
+  },
+  {
+    "id": "nba_33",
+    "sport": "NBA",
+    "name": "Nicolas Batum",
+    "firstName": "Nicolas",
+    "lastName": "Batum",
+    "team": "LAC",
+    "position": "F-G",
+    "externalIds": {
+      "balldontlie": 33
+    }
+  },
+  {
+    "id": "nba_34",
+    "sport": "NBA",
+    "name": "Jerryd Bayless",
+    "firstName": "Jerryd",
+    "lastName": "Bayless",
+    "team": "MIL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 34
+    }
+  },
+  {
+    "id": "nba_35",
+    "sport": "NBA",
+    "name": "Aron Baynes",
+    "firstName": "Aron",
+    "lastName": "Baynes",
+    "team": "DET",
+    "position": "C-F",
+    "externalIds": {
+      "balldontlie": 35
+    }
+  },
+  {
+    "id": "nba_36",
+    "sport": "NBA",
+    "name": "Kent Bazemore",
+    "firstName": "Kent",
+    "lastName": "Bazemore",
+    "team": "SAC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 36
+    }
+  },
+  {
+    "id": "nba_37",
+    "sport": "NBA",
+    "name": "Bradley Beal",
+    "firstName": "Bradley",
+    "lastName": "Beal",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 37
+    }
+  },
+  {
+    "id": "nba_38",
+    "sport": "NBA",
+    "name": "Malik Beasley",
+    "firstName": "Malik",
+    "lastName": "Beasley",
+    "team": "DET",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 38
+    }
+  },
+  {
+    "id": "nba_39",
+    "sport": "NBA",
+    "name": "Michael Beasley",
+    "firstName": "Michael",
+    "lastName": "Beasley",
+    "team": "MIA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 39
+    }
+  },
+  {
+    "id": "nba_40",
+    "sport": "NBA",
+    "name": "Marco Belinelli",
+    "firstName": "Marco",
+    "lastName": "Belinelli",
+    "team": "SAS",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 40
+    }
+  },
+  {
+    "id": "nba_41",
+    "sport": "NBA",
+    "name": "Jordan Bell",
+    "firstName": "Jordan",
+    "lastName": "Bell",
+    "team": "CHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 41
+    }
+  },
+  {
+    "id": "nba_42",
+    "sport": "NBA",
+    "name": "DeAndre' Bembry",
+    "firstName": "DeAndre'",
+    "lastName": "Bembry",
+    "team": "MIL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 42
+    }
+  },
+  {
+    "id": "nba_43",
+    "sport": "NBA",
+    "name": "Dragan Bender",
+    "firstName": "Dragan",
+    "lastName": "Bender",
+    "team": "PHX",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 43
+    }
+  },
+  {
+    "id": "nba_44",
+    "sport": "NBA",
+    "name": "Davis Bertans",
+    "firstName": "Davis",
+    "lastName": "Bertans",
+    "team": "CHA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 44
+    }
+  },
+  {
+    "id": "nba_45",
+    "sport": "NBA",
+    "name": "Patrick Beverley",
+    "firstName": "Patrick",
+    "lastName": "Beverley",
+    "team": "MIL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 45
+    }
+  },
+  {
+    "id": "nba_46",
+    "sport": "NBA",
+    "name": "Khem Birch",
+    "firstName": "Khem",
+    "lastName": "Birch",
+    "team": "SAS",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 46
+    }
+  },
+  {
+    "id": "nba_47",
+    "sport": "NBA",
+    "name": "Jabari Bird",
+    "firstName": "Jabari",
+    "lastName": "Bird",
+    "team": "BOS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 47
+    }
+  },
+  {
+    "id": "nba_48",
+    "sport": "NBA",
+    "name": "Bismack Biyombo",
+    "firstName": "Bismack",
+    "lastName": "Biyombo",
+    "team": "SAS",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 48
+    }
+  },
+  {
+    "id": "nba_49",
+    "sport": "NBA",
+    "name": "Nemanja Bjelica",
+    "firstName": "Nemanja",
+    "lastName": "Bjelica",
+    "team": "GSW",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 49
+    }
+  },
+  {
+    "id": "nba_50",
+    "sport": "NBA",
+    "name": "Antonio Blakeney",
+    "firstName": "Antonio",
+    "lastName": "Blakeney",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 50
+    }
+  },
+  {
+    "id": "nba_51",
+    "sport": "NBA",
+    "name": "Eric Bledsoe",
+    "firstName": "Eric",
+    "lastName": "Bledsoe",
+    "team": "POR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 51
+    }
+  },
+  {
+    "id": "nba_52",
+    "sport": "NBA",
+    "name": "Trevon Bluiett",
+    "firstName": "Trevon",
+    "lastName": "Bluiett",
+    "team": "UTA",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 52
+    }
+  },
+  {
+    "id": "nba_53",
+    "sport": "NBA",
+    "name": "Bogdan Bogdanovic",
+    "firstName": "Bogdan",
+    "lastName": "Bogdanovic",
+    "team": "LAC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 53
+    }
+  },
+  {
+    "id": "nba_54",
+    "sport": "NBA",
+    "name": "Bojan Bogdanovic",
+    "firstName": "Bojan",
+    "lastName": "Bogdanovic",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 54
+    }
+  },
+  {
+    "id": "nba_55",
+    "sport": "NBA",
+    "name": "Jonah Bolden",
+    "firstName": "Jonah",
+    "lastName": "Bolden",
+    "team": "PHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 55
+    }
+  },
+  {
+    "id": "nba_56",
+    "sport": "NBA",
+    "name": "Isaac Bonga",
+    "firstName": "Isaac",
+    "lastName": "Bonga",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 56
+    }
+  },
+  {
+    "id": "nba_57",
+    "sport": "NBA",
+    "name": "Devin Booker",
+    "firstName": "Devin",
+    "lastName": "Booker",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 57
+    }
+  },
+  {
+    "id": "nba_58",
+    "sport": "NBA",
+    "name": "Chris Boucher",
+    "firstName": "Chris",
+    "lastName": "Boucher",
+    "team": "TOR",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 58
+    }
+  },
+  {
+    "id": "nba_59",
+    "sport": "NBA",
+    "name": "Avery Bradley",
+    "firstName": "Avery",
+    "lastName": "Bradley",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 59
+    }
+  },
+  {
+    "id": "nba_60",
+    "sport": "NBA",
+    "name": "Tony Bradley",
+    "firstName": "Tony",
+    "lastName": "Bradley",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 60
+    }
+  },
+  {
+    "id": "nba_61",
+    "sport": "NBA",
+    "name": "Mikal Bridges",
+    "firstName": "Mikal",
+    "lastName": "Bridges",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 61
+    }
+  },
+  {
+    "id": "nba_62",
+    "sport": "NBA",
+    "name": "Miles Bridges",
+    "firstName": "Miles",
+    "lastName": "Bridges",
+    "team": "CHA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 62
+    }
+  },
+  {
+    "id": "nba_63",
+    "sport": "NBA",
+    "name": "Isaiah Briscoe",
+    "firstName": "Isaiah",
+    "lastName": "Briscoe",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 63
+    }
+  },
+  {
+    "id": "nba_64",
+    "sport": "NBA",
+    "name": "Ryan Broekhoff",
+    "firstName": "Ryan",
+    "lastName": "Broekhoff",
+    "team": "DAL",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 64
+    }
+  },
+  {
+    "id": "nba_65",
+    "sport": "NBA",
+    "name": "Malcolm Brogdon",
+    "firstName": "Malcolm",
+    "lastName": "Brogdon",
+    "team": "WAS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 65
+    }
+  },
+  {
+    "id": "nba_66",
+    "sport": "NBA",
+    "name": "Dillon Brooks",
+    "firstName": "Dillon",
+    "lastName": "Brooks",
+    "team": "HOU",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 66
+    }
+  },
+  {
+    "id": "nba_67",
+    "sport": "NBA",
+    "name": "MarShon Brooks",
+    "firstName": "MarShon",
+    "lastName": "Brooks",
+    "team": "BKN",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 67
+    }
+  },
+  {
+    "id": "nba_68",
+    "sport": "NBA",
+    "name": "Troy Brown Jr.",
+    "firstName": "Troy",
+    "lastName": "Brown Jr.",
+    "team": "DET",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 68
+    }
+  },
+  {
+    "id": "nba_69",
+    "sport": "NBA",
+    "name": "Bruce Brown",
+    "firstName": "Bruce",
+    "lastName": "Brown",
+    "team": "NOP",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 69
+    }
+  },
+  {
+    "id": "nba_70",
+    "sport": "NBA",
+    "name": "Jaylen Brown",
+    "firstName": "Jaylen",
+    "lastName": "Brown",
+    "team": "BOS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 70
+    }
+  },
+  {
+    "id": "nba_71",
+    "sport": "NBA",
+    "name": "Lorenzo Brown",
+    "firstName": "Lorenzo",
+    "lastName": "Brown",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 71
+    }
+  },
+  {
+    "id": "nba_72",
+    "sport": "NBA",
+    "name": "Sterling Brown",
+    "firstName": "Sterling",
+    "lastName": "Brown",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 72
+    }
+  },
+  {
+    "id": "nba_73",
+    "sport": "NBA",
+    "name": "Jalen Brunson",
+    "firstName": "Jalen",
+    "lastName": "Brunson",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 73
+    }
+  },
+  {
+    "id": "nba_74",
+    "sport": "NBA",
+    "name": "Thomas Bryant",
+    "firstName": "Thomas",
+    "lastName": "Bryant",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 74
+    }
+  },
+  {
+    "id": "nba_75",
+    "sport": "NBA",
+    "name": "Reggie Bullock",
+    "firstName": "Reggie",
+    "lastName": "Bullock",
+    "team": "HOU",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 75
+    }
+  },
+  {
+    "id": "nba_76",
+    "sport": "NBA",
+    "name": "Trey Burke",
+    "firstName": "Trey",
+    "lastName": "Burke",
+    "team": "DAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 76
+    }
+  },
+  {
+    "id": "nba_77",
+    "sport": "NBA",
+    "name": "Alec Burks",
+    "firstName": "Alec",
+    "lastName": "Burks",
+    "team": "MIA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 77
+    }
+  },
+  {
+    "id": "nba_78",
+    "sport": "NBA",
+    "name": "Deonte Burton",
+    "firstName": "Deonte",
+    "lastName": "Burton",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 78
+    }
+  },
+  {
+    "id": "nba_79",
+    "sport": "NBA",
+    "name": "Jimmy Butler",
+    "firstName": "Jimmy",
+    "lastName": "Butler",
+    "team": "GSW",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 79
+    }
+  },
+  {
+    "id": "nba_80",
+    "sport": "NBA",
+    "name": "Jose Calderon",
+    "firstName": "Jose",
+    "lastName": "Calderon",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 80
+    }
+  },
+  {
+    "id": "nba_81",
+    "sport": "NBA",
+    "name": "Kentavious Caldwell-Pope",
+    "firstName": "Kentavious",
+    "lastName": "Caldwell-Pope",
+    "team": "MEM",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 81
+    }
+  },
+  {
+    "id": "nba_82",
+    "sport": "NBA",
+    "name": "Isaiah Canaan",
+    "firstName": "Isaiah",
+    "lastName": "Canaan",
+    "team": "PHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 82
+    }
+  },
+  {
+    "id": "nba_83",
+    "sport": "NBA",
+    "name": "Clint Capela",
+    "firstName": "Clint",
+    "lastName": "Capela",
+    "team": "ATL",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 83
+    }
+  },
+  {
+    "id": "nba_84",
+    "sport": "NBA",
+    "name": "DeMarre Carroll",
+    "firstName": "DeMarre",
+    "lastName": "Carroll",
+    "team": "ATL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 84
+    }
+  },
+  {
+    "id": "nba_85",
+    "sport": "NBA",
+    "name": "Wendell Carter Jr.",
+    "firstName": "Wendell",
+    "lastName": "Carter Jr.",
+    "team": "ORL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 85
+    }
+  },
+  {
+    "id": "nba_86",
+    "sport": "NBA",
+    "name": "Michael Carter-Williams",
+    "firstName": "Michael",
+    "lastName": "Carter-Williams",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 86
+    }
+  },
+  {
+    "id": "nba_87",
+    "sport": "NBA",
+    "name": "Jevon Carter",
+    "firstName": "Jevon",
+    "lastName": "Carter",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 87
+    }
+  },
+  {
+    "id": "nba_88",
+    "sport": "NBA",
+    "name": "Vince Carter",
+    "firstName": "Vince",
+    "lastName": "Carter",
+    "team": "TOR",
+    "position": "F-G",
+    "externalIds": {
+      "balldontlie": 88
+    }
+  },
+  {
+    "id": "nba_89",
+    "sport": "NBA",
+    "name": "Alex Caruso",
+    "firstName": "Alex",
+    "lastName": "Caruso",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 89
+    }
+  },
+  {
+    "id": "nba_90",
+    "sport": "NBA",
+    "name": "Omri Casspi",
+    "firstName": "Omri",
+    "lastName": "Casspi",
+    "team": "SAC",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 90
+    }
+  },
+  {
+    "id": "nba_91",
+    "sport": "NBA",
+    "name": "Willie Cauley-Stein",
+    "firstName": "Willie",
+    "lastName": "Cauley-Stein",
+    "team": "PHI",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 91
+    }
+  },
+  {
+    "id": "nba_92",
+    "sport": "NBA",
+    "name": "Troy Caupain",
+    "firstName": "Troy",
+    "lastName": "Caupain",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 92
+    }
+  },
+  {
+    "id": "nba_93",
+    "sport": "NBA",
+    "name": "Tyler Cavanaugh",
+    "firstName": "Tyler",
+    "lastName": "Cavanaugh",
+    "team": "ATL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 93
+    }
+  },
+  {
+    "id": "nba_94",
+    "sport": "NBA",
+    "name": "Tyson Chandler",
+    "firstName": "Tyson",
+    "lastName": "Chandler",
+    "team": "NYK",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 94
+    }
+  },
+  {
+    "id": "nba_95",
+    "sport": "NBA",
+    "name": "Wilson Chandler",
+    "firstName": "Wilson",
+    "lastName": "Chandler",
+    "team": "DEN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 95
+    }
+  },
+  {
+    "id": "nba_96",
+    "sport": "NBA",
+    "name": "Joe Chealey",
+    "firstName": "Joe",
+    "lastName": "Chealey",
+    "team": "CHA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 96
+    }
+  },
+  {
+    "id": "nba_97",
+    "sport": "NBA",
+    "name": "Marquese Chriss",
+    "firstName": "Marquese",
+    "lastName": "Chriss",
+    "team": "DAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 97
+    }
+  },
+  {
+    "id": "nba_98",
+    "sport": "NBA",
+    "name": "Gary Clark",
+    "firstName": "Gary",
+    "lastName": "Clark",
+    "team": "NOP",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 98
+    }
+  },
+  {
+    "id": "nba_99",
+    "sport": "NBA",
+    "name": "Ian Clark",
+    "firstName": "Ian",
+    "lastName": "Clark",
+    "team": "GSW",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 99
+    }
+  },
+  {
+    "id": "nba_100",
+    "sport": "NBA",
+    "name": "Jordan Clarkson",
+    "firstName": "Jordan",
+    "lastName": "Clarkson",
+    "team": "UTA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 100
+    }
+  },
+  {
+    "id": "nba_1",
+    "sport": "NBA",
+    "name": "Alex Abrines",
+    "firstName": "Alex",
+    "lastName": "Abrines",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 1
+    }
+  },
+  {
+    "id": "nba_2",
+    "sport": "NBA",
+    "name": "Jaylen Adams",
+    "firstName": "Jaylen",
+    "lastName": "Adams",
+    "team": "ATL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 2
+    }
+  },
+  {
+    "id": "nba_3",
+    "sport": "NBA",
+    "name": "Steven Adams",
+    "firstName": "Steven",
+    "lastName": "Adams",
+    "team": "HOU",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 3
+    }
+  },
+  {
+    "id": "nba_4",
+    "sport": "NBA",
+    "name": "Bam Adebayo",
+    "firstName": "Bam",
+    "lastName": "Adebayo",
+    "team": "MIA",
+    "position": "C-F",
+    "externalIds": {
+      "balldontlie": 4
+    }
+  },
+  {
+    "id": "nba_5",
+    "sport": "NBA",
+    "name": "DeVaughn Akoon-Purcell",
+    "firstName": "DeVaughn",
+    "lastName": "Akoon-Purcell",
+    "team": "DEN",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 5
+    }
+  },
+  {
+    "id": "nba_6",
+    "sport": "NBA",
+    "name": "LaMarcus Aldridge",
+    "firstName": "LaMarcus",
+    "lastName": "Aldridge",
+    "team": "BKN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 6
+    }
+  },
+  {
+    "id": "nba_7",
+    "sport": "NBA",
+    "name": "Rawle Alkins",
+    "firstName": "Rawle",
+    "lastName": "Alkins",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 7
+    }
+  },
+  {
+    "id": "nba_8",
+    "sport": "NBA",
+    "name": "Grayson Allen",
+    "firstName": "Grayson",
+    "lastName": "Allen",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 8
+    }
+  },
+  {
+    "id": "nba_9",
+    "sport": "NBA",
+    "name": "Jarrett Allen",
+    "firstName": "Jarrett",
+    "lastName": "Allen",
+    "team": "CLE",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 9
+    }
+  },
+  {
+    "id": "nba_10",
+    "sport": "NBA",
+    "name": "Al-Farouq Aminu",
+    "firstName": "Al-Farouq",
+    "lastName": "Aminu",
+    "team": "POR",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 10
+    }
+  },
+  {
+    "id": "nba_11",
+    "sport": "NBA",
+    "name": "Justin Anderson",
+    "firstName": "Justin",
+    "lastName": "Anderson",
+    "team": "IND",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 11
+    }
+  },
+  {
+    "id": "nba_12",
+    "sport": "NBA",
+    "name": "Kyle Anderson",
+    "firstName": "Kyle",
+    "lastName": "Anderson",
+    "team": "MIA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 12
+    }
+  },
+  {
+    "id": "nba_13",
+    "sport": "NBA",
+    "name": "Ryan Anderson",
+    "firstName": "Ryan",
+    "lastName": "Anderson",
+    "team": "NOP",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 13
+    }
+  },
+  {
+    "id": "nba_14",
+    "sport": "NBA",
+    "name": "Ike Anigbogu",
+    "firstName": "Ike",
+    "lastName": "Anigbogu",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 14
+    }
+  },
+  {
+    "id": "nba_15",
+    "sport": "NBA",
+    "name": "Giannis Antetokounmpo",
+    "firstName": "Giannis",
+    "lastName": "Antetokounmpo",
+    "team": "MIL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 15
+    }
+  },
+  {
+    "id": "nba_16",
+    "sport": "NBA",
+    "name": "Kostas Antetokounmpo",
+    "firstName": "Kostas",
+    "lastName": "Antetokounmpo",
+    "team": "CHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 16
+    }
+  },
+  {
+    "id": "nba_17",
+    "sport": "NBA",
+    "name": "Carmelo Anthony",
+    "firstName": "Carmelo",
+    "lastName": "Anthony",
+    "team": "LAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 17
+    }
+  },
+  {
+    "id": "nba_18",
+    "sport": "NBA",
+    "name": "OG Anunoby",
+    "firstName": "OG",
+    "lastName": "Anunoby",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 18
+    }
+  },
+  {
+    "id": "nba_19",
+    "sport": "NBA",
+    "name": "Ryan Arcidiacono",
+    "firstName": "Ryan",
+    "lastName": "Arcidiacono",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 19
+    }
+  },
+  {
+    "id": "nba_20",
+    "sport": "NBA",
+    "name": "Trevor Ariza",
+    "firstName": "Trevor",
+    "lastName": "Ariza",
+    "team": "LAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 20
+    }
+  },
+  {
+    "id": "nba_21",
+    "sport": "NBA",
+    "name": "D.J. Augustin",
+    "firstName": "D.J.",
+    "lastName": "Augustin",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 21
+    }
+  },
+  {
+    "id": "nba_22",
+    "sport": "NBA",
+    "name": "Deandre Ayton",
+    "firstName": "Deandre",
+    "lastName": "Ayton",
+    "team": "POR",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 22
+    }
+  },
+  {
+    "id": "nba_23",
+    "sport": "NBA",
+    "name": "Dwayne Bacon",
+    "firstName": "Dwayne",
+    "lastName": "Bacon",
+    "team": "LAL",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 23
+    }
+  },
+  {
+    "id": "nba_24",
+    "sport": "NBA",
+    "name": "Marvin Bagley III",
+    "firstName": "Marvin",
+    "lastName": "Bagley III",
+    "team": "MEM",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 24
+    }
+  },
+  {
+    "id": "nba_25",
+    "sport": "NBA",
+    "name": "Ron Baker",
+    "firstName": "Ron",
+    "lastName": "Baker",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 25
+    }
+  },
+  {
+    "id": "nba_26",
+    "sport": "NBA",
+    "name": "Wade Baldwin IV",
+    "firstName": "Wade",
+    "lastName": "Baldwin IV",
+    "team": "MEM",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 26
+    }
+  },
+  {
+    "id": "nba_27",
+    "sport": "NBA",
+    "name": "Lonzo Ball",
+    "firstName": "Lonzo",
+    "lastName": "Ball",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 27
+    }
+  },
+  {
+    "id": "nba_28",
+    "sport": "NBA",
+    "name": "Mo Bamba",
+    "firstName": "Mo",
+    "lastName": "Bamba",
+    "team": "NOP",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 28
+    }
+  },
+  {
+    "id": "nba_29",
+    "sport": "NBA",
+    "name": "J.J. Barea",
+    "firstName": "J.J.",
+    "lastName": "Barea",
+    "team": "DAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 29
+    }
+  },
+  {
+    "id": "nba_30",
+    "sport": "NBA",
+    "name": "Harrison Barnes",
+    "firstName": "Harrison",
+    "lastName": "Barnes",
+    "team": "SAS",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 30
+    }
+  },
+  {
+    "id": "nba_31",
+    "sport": "NBA",
+    "name": "Will Barton",
+    "firstName": "Will",
+    "lastName": "Barton",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 31
+    }
+  },
+  {
+    "id": "nba_32",
+    "sport": "NBA",
+    "name": "Keita Bates-Diop",
+    "firstName": "Keita",
+    "lastName": "Bates-Diop",
+    "team": "MIN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 32
+    }
+  },
+  {
+    "id": "nba_33",
+    "sport": "NBA",
+    "name": "Nicolas Batum",
+    "firstName": "Nicolas",
+    "lastName": "Batum",
+    "team": "LAC",
+    "position": "F-G",
+    "externalIds": {
+      "balldontlie": 33
+    }
+  },
+  {
+    "id": "nba_34",
+    "sport": "NBA",
+    "name": "Jerryd Bayless",
+    "firstName": "Jerryd",
+    "lastName": "Bayless",
+    "team": "MIL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 34
+    }
+  },
+  {
+    "id": "nba_35",
+    "sport": "NBA",
+    "name": "Aron Baynes",
+    "firstName": "Aron",
+    "lastName": "Baynes",
+    "team": "DET",
+    "position": "C-F",
+    "externalIds": {
+      "balldontlie": 35
+    }
+  },
+  {
+    "id": "nba_36",
+    "sport": "NBA",
+    "name": "Kent Bazemore",
+    "firstName": "Kent",
+    "lastName": "Bazemore",
+    "team": "SAC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 36
+    }
+  },
+  {
+    "id": "nba_37",
+    "sport": "NBA",
+    "name": "Bradley Beal",
+    "firstName": "Bradley",
+    "lastName": "Beal",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 37
+    }
+  },
+  {
+    "id": "nba_38",
+    "sport": "NBA",
+    "name": "Malik Beasley",
+    "firstName": "Malik",
+    "lastName": "Beasley",
+    "team": "DET",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 38
+    }
+  },
+  {
+    "id": "nba_39",
+    "sport": "NBA",
+    "name": "Michael Beasley",
+    "firstName": "Michael",
+    "lastName": "Beasley",
+    "team": "MIA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 39
+    }
+  },
+  {
+    "id": "nba_40",
+    "sport": "NBA",
+    "name": "Marco Belinelli",
+    "firstName": "Marco",
+    "lastName": "Belinelli",
+    "team": "SAS",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 40
+    }
+  },
+  {
+    "id": "nba_41",
+    "sport": "NBA",
+    "name": "Jordan Bell",
+    "firstName": "Jordan",
+    "lastName": "Bell",
+    "team": "CHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 41
+    }
+  },
+  {
+    "id": "nba_42",
+    "sport": "NBA",
+    "name": "DeAndre' Bembry",
+    "firstName": "DeAndre'",
+    "lastName": "Bembry",
+    "team": "MIL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 42
+    }
+  },
+  {
+    "id": "nba_43",
+    "sport": "NBA",
+    "name": "Dragan Bender",
+    "firstName": "Dragan",
+    "lastName": "Bender",
+    "team": "PHX",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 43
+    }
+  },
+  {
+    "id": "nba_44",
+    "sport": "NBA",
+    "name": "Davis Bertans",
+    "firstName": "Davis",
+    "lastName": "Bertans",
+    "team": "CHA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 44
+    }
+  },
+  {
+    "id": "nba_45",
+    "sport": "NBA",
+    "name": "Patrick Beverley",
+    "firstName": "Patrick",
+    "lastName": "Beverley",
+    "team": "MIL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 45
+    }
+  },
+  {
+    "id": "nba_46",
+    "sport": "NBA",
+    "name": "Khem Birch",
+    "firstName": "Khem",
+    "lastName": "Birch",
+    "team": "SAS",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 46
+    }
+  },
+  {
+    "id": "nba_47",
+    "sport": "NBA",
+    "name": "Jabari Bird",
+    "firstName": "Jabari",
+    "lastName": "Bird",
+    "team": "BOS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 47
+    }
+  },
+  {
+    "id": "nba_48",
+    "sport": "NBA",
+    "name": "Bismack Biyombo",
+    "firstName": "Bismack",
+    "lastName": "Biyombo",
+    "team": "SAS",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 48
+    }
+  },
+  {
+    "id": "nba_49",
+    "sport": "NBA",
+    "name": "Nemanja Bjelica",
+    "firstName": "Nemanja",
+    "lastName": "Bjelica",
+    "team": "GSW",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 49
+    }
+  },
+  {
+    "id": "nba_50",
+    "sport": "NBA",
+    "name": "Antonio Blakeney",
+    "firstName": "Antonio",
+    "lastName": "Blakeney",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 50
+    }
+  },
+  {
+    "id": "nba_51",
+    "sport": "NBA",
+    "name": "Eric Bledsoe",
+    "firstName": "Eric",
+    "lastName": "Bledsoe",
+    "team": "POR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 51
+    }
+  },
+  {
+    "id": "nba_52",
+    "sport": "NBA",
+    "name": "Trevon Bluiett",
+    "firstName": "Trevon",
+    "lastName": "Bluiett",
+    "team": "UTA",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 52
+    }
+  },
+  {
+    "id": "nba_53",
+    "sport": "NBA",
+    "name": "Bogdan Bogdanovic",
+    "firstName": "Bogdan",
+    "lastName": "Bogdanovic",
+    "team": "LAC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 53
+    }
+  },
+  {
+    "id": "nba_54",
+    "sport": "NBA",
+    "name": "Bojan Bogdanovic",
+    "firstName": "Bojan",
+    "lastName": "Bogdanovic",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 54
+    }
+  },
+  {
+    "id": "nba_55",
+    "sport": "NBA",
+    "name": "Jonah Bolden",
+    "firstName": "Jonah",
+    "lastName": "Bolden",
+    "team": "PHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 55
+    }
+  },
+  {
+    "id": "nba_56",
+    "sport": "NBA",
+    "name": "Isaac Bonga",
+    "firstName": "Isaac",
+    "lastName": "Bonga",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 56
+    }
+  },
+  {
+    "id": "nba_57",
+    "sport": "NBA",
+    "name": "Devin Booker",
+    "firstName": "Devin",
+    "lastName": "Booker",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 57
+    }
+  },
+  {
+    "id": "nba_58",
+    "sport": "NBA",
+    "name": "Chris Boucher",
+    "firstName": "Chris",
+    "lastName": "Boucher",
+    "team": "TOR",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 58
+    }
+  },
+  {
+    "id": "nba_59",
+    "sport": "NBA",
+    "name": "Avery Bradley",
+    "firstName": "Avery",
+    "lastName": "Bradley",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 59
+    }
+  },
+  {
+    "id": "nba_60",
+    "sport": "NBA",
+    "name": "Tony Bradley",
+    "firstName": "Tony",
+    "lastName": "Bradley",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 60
+    }
+  },
+  {
+    "id": "nba_61",
+    "sport": "NBA",
+    "name": "Mikal Bridges",
+    "firstName": "Mikal",
+    "lastName": "Bridges",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 61
+    }
+  },
+  {
+    "id": "nba_62",
+    "sport": "NBA",
+    "name": "Miles Bridges",
+    "firstName": "Miles",
+    "lastName": "Bridges",
+    "team": "CHA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 62
+    }
+  },
+  {
+    "id": "nba_63",
+    "sport": "NBA",
+    "name": "Isaiah Briscoe",
+    "firstName": "Isaiah",
+    "lastName": "Briscoe",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 63
+    }
+  },
+  {
+    "id": "nba_64",
+    "sport": "NBA",
+    "name": "Ryan Broekhoff",
+    "firstName": "Ryan",
+    "lastName": "Broekhoff",
+    "team": "DAL",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 64
+    }
+  },
+  {
+    "id": "nba_65",
+    "sport": "NBA",
+    "name": "Malcolm Brogdon",
+    "firstName": "Malcolm",
+    "lastName": "Brogdon",
+    "team": "WAS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 65
+    }
+  },
+  {
+    "id": "nba_66",
+    "sport": "NBA",
+    "name": "Dillon Brooks",
+    "firstName": "Dillon",
+    "lastName": "Brooks",
+    "team": "HOU",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 66
+    }
+  },
+  {
+    "id": "nba_67",
+    "sport": "NBA",
+    "name": "MarShon Brooks",
+    "firstName": "MarShon",
+    "lastName": "Brooks",
+    "team": "BKN",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 67
+    }
+  },
+  {
+    "id": "nba_68",
+    "sport": "NBA",
+    "name": "Troy Brown Jr.",
+    "firstName": "Troy",
+    "lastName": "Brown Jr.",
+    "team": "DET",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 68
+    }
+  },
+  {
+    "id": "nba_69",
+    "sport": "NBA",
+    "name": "Bruce Brown",
+    "firstName": "Bruce",
+    "lastName": "Brown",
+    "team": "NOP",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 69
+    }
+  },
+  {
+    "id": "nba_70",
+    "sport": "NBA",
+    "name": "Jaylen Brown",
+    "firstName": "Jaylen",
+    "lastName": "Brown",
+    "team": "BOS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 70
+    }
+  },
+  {
+    "id": "nba_71",
+    "sport": "NBA",
+    "name": "Lorenzo Brown",
+    "firstName": "Lorenzo",
+    "lastName": "Brown",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 71
+    }
+  },
+  {
+    "id": "nba_72",
+    "sport": "NBA",
+    "name": "Sterling Brown",
+    "firstName": "Sterling",
+    "lastName": "Brown",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 72
+    }
+  },
+  {
+    "id": "nba_73",
+    "sport": "NBA",
+    "name": "Jalen Brunson",
+    "firstName": "Jalen",
+    "lastName": "Brunson",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 73
+    }
+  },
+  {
+    "id": "nba_74",
+    "sport": "NBA",
+    "name": "Thomas Bryant",
+    "firstName": "Thomas",
+    "lastName": "Bryant",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 74
+    }
+  },
+  {
+    "id": "nba_75",
+    "sport": "NBA",
+    "name": "Reggie Bullock",
+    "firstName": "Reggie",
+    "lastName": "Bullock",
+    "team": "HOU",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 75
+    }
+  },
+  {
+    "id": "nba_76",
+    "sport": "NBA",
+    "name": "Trey Burke",
+    "firstName": "Trey",
+    "lastName": "Burke",
+    "team": "DAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 76
+    }
+  },
+  {
+    "id": "nba_77",
+    "sport": "NBA",
+    "name": "Alec Burks",
+    "firstName": "Alec",
+    "lastName": "Burks",
+    "team": "MIA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 77
+    }
+  },
+  {
+    "id": "nba_78",
+    "sport": "NBA",
+    "name": "Deonte Burton",
+    "firstName": "Deonte",
+    "lastName": "Burton",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 78
+    }
+  },
+  {
+    "id": "nba_79",
+    "sport": "NBA",
+    "name": "Jimmy Butler",
+    "firstName": "Jimmy",
+    "lastName": "Butler",
+    "team": "GSW",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 79
+    }
+  },
+  {
+    "id": "nba_80",
+    "sport": "NBA",
+    "name": "Jose Calderon",
+    "firstName": "Jose",
+    "lastName": "Calderon",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 80
+    }
+  },
+  {
+    "id": "nba_81",
+    "sport": "NBA",
+    "name": "Kentavious Caldwell-Pope",
+    "firstName": "Kentavious",
+    "lastName": "Caldwell-Pope",
+    "team": "MEM",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 81
+    }
+  },
+  {
+    "id": "nba_82",
+    "sport": "NBA",
+    "name": "Isaiah Canaan",
+    "firstName": "Isaiah",
+    "lastName": "Canaan",
+    "team": "PHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 82
+    }
+  },
+  {
+    "id": "nba_83",
+    "sport": "NBA",
+    "name": "Clint Capela",
+    "firstName": "Clint",
+    "lastName": "Capela",
+    "team": "ATL",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 83
+    }
+  },
+  {
+    "id": "nba_84",
+    "sport": "NBA",
+    "name": "DeMarre Carroll",
+    "firstName": "DeMarre",
+    "lastName": "Carroll",
+    "team": "ATL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 84
+    }
+  },
+  {
+    "id": "nba_85",
+    "sport": "NBA",
+    "name": "Wendell Carter Jr.",
+    "firstName": "Wendell",
+    "lastName": "Carter Jr.",
+    "team": "ORL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 85
+    }
+  },
+  {
+    "id": "nba_86",
+    "sport": "NBA",
+    "name": "Michael Carter-Williams",
+    "firstName": "Michael",
+    "lastName": "Carter-Williams",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 86
+    }
+  },
+  {
+    "id": "nba_87",
+    "sport": "NBA",
+    "name": "Jevon Carter",
+    "firstName": "Jevon",
+    "lastName": "Carter",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 87
+    }
+  },
+  {
+    "id": "nba_88",
+    "sport": "NBA",
+    "name": "Vince Carter",
+    "firstName": "Vince",
+    "lastName": "Carter",
+    "team": "TOR",
+    "position": "F-G",
+    "externalIds": {
+      "balldontlie": 88
+    }
+  },
+  {
+    "id": "nba_89",
+    "sport": "NBA",
+    "name": "Alex Caruso",
+    "firstName": "Alex",
+    "lastName": "Caruso",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 89
+    }
+  },
+  {
+    "id": "nba_90",
+    "sport": "NBA",
+    "name": "Omri Casspi",
+    "firstName": "Omri",
+    "lastName": "Casspi",
+    "team": "SAC",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 90
+    }
+  },
+  {
+    "id": "nba_91",
+    "sport": "NBA",
+    "name": "Willie Cauley-Stein",
+    "firstName": "Willie",
+    "lastName": "Cauley-Stein",
+    "team": "PHI",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 91
+    }
+  },
+  {
+    "id": "nba_92",
+    "sport": "NBA",
+    "name": "Troy Caupain",
+    "firstName": "Troy",
+    "lastName": "Caupain",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 92
+    }
+  },
+  {
+    "id": "nba_93",
+    "sport": "NBA",
+    "name": "Tyler Cavanaugh",
+    "firstName": "Tyler",
+    "lastName": "Cavanaugh",
+    "team": "ATL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 93
+    }
+  },
+  {
+    "id": "nba_94",
+    "sport": "NBA",
+    "name": "Tyson Chandler",
+    "firstName": "Tyson",
+    "lastName": "Chandler",
+    "team": "NYK",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 94
+    }
+  },
+  {
+    "id": "nba_95",
+    "sport": "NBA",
+    "name": "Wilson Chandler",
+    "firstName": "Wilson",
+    "lastName": "Chandler",
+    "team": "DEN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 95
+    }
+  },
+  {
+    "id": "nba_96",
+    "sport": "NBA",
+    "name": "Joe Chealey",
+    "firstName": "Joe",
+    "lastName": "Chealey",
+    "team": "CHA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 96
+    }
+  },
+  {
+    "id": "nba_97",
+    "sport": "NBA",
+    "name": "Marquese Chriss",
+    "firstName": "Marquese",
+    "lastName": "Chriss",
+    "team": "DAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 97
+    }
+  },
+  {
+    "id": "nba_98",
+    "sport": "NBA",
+    "name": "Gary Clark",
+    "firstName": "Gary",
+    "lastName": "Clark",
+    "team": "NOP",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 98
+    }
+  },
+  {
+    "id": "nba_99",
+    "sport": "NBA",
+    "name": "Ian Clark",
+    "firstName": "Ian",
+    "lastName": "Clark",
+    "team": "GSW",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 99
+    }
+  },
+  {
+    "id": "nba_100",
+    "sport": "NBA",
+    "name": "Jordan Clarkson",
+    "firstName": "Jordan",
+    "lastName": "Clarkson",
+    "team": "UTA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 100
+    }
+  },
+  {
+    "id": "nba_1",
+    "sport": "NBA",
+    "name": "Alex Abrines",
+    "firstName": "Alex",
+    "lastName": "Abrines",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 1
+    }
+  },
+  {
+    "id": "nba_2",
+    "sport": "NBA",
+    "name": "Jaylen Adams",
+    "firstName": "Jaylen",
+    "lastName": "Adams",
+    "team": "ATL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 2
+    }
+  },
+  {
+    "id": "nba_3",
+    "sport": "NBA",
+    "name": "Steven Adams",
+    "firstName": "Steven",
+    "lastName": "Adams",
+    "team": "HOU",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 3
+    }
+  },
+  {
+    "id": "nba_4",
+    "sport": "NBA",
+    "name": "Bam Adebayo",
+    "firstName": "Bam",
+    "lastName": "Adebayo",
+    "team": "MIA",
+    "position": "C-F",
+    "externalIds": {
+      "balldontlie": 4
+    }
+  },
+  {
+    "id": "nba_5",
+    "sport": "NBA",
+    "name": "DeVaughn Akoon-Purcell",
+    "firstName": "DeVaughn",
+    "lastName": "Akoon-Purcell",
+    "team": "DEN",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 5
+    }
+  },
+  {
+    "id": "nba_6",
+    "sport": "NBA",
+    "name": "LaMarcus Aldridge",
+    "firstName": "LaMarcus",
+    "lastName": "Aldridge",
+    "team": "BKN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 6
+    }
+  },
+  {
+    "id": "nba_7",
+    "sport": "NBA",
+    "name": "Rawle Alkins",
+    "firstName": "Rawle",
+    "lastName": "Alkins",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 7
+    }
+  },
+  {
+    "id": "nba_8",
+    "sport": "NBA",
+    "name": "Grayson Allen",
+    "firstName": "Grayson",
+    "lastName": "Allen",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 8
+    }
+  },
+  {
+    "id": "nba_9",
+    "sport": "NBA",
+    "name": "Jarrett Allen",
+    "firstName": "Jarrett",
+    "lastName": "Allen",
+    "team": "CLE",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 9
+    }
+  },
+  {
+    "id": "nba_10",
+    "sport": "NBA",
+    "name": "Al-Farouq Aminu",
+    "firstName": "Al-Farouq",
+    "lastName": "Aminu",
+    "team": "POR",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 10
+    }
+  },
+  {
+    "id": "nba_11",
+    "sport": "NBA",
+    "name": "Justin Anderson",
+    "firstName": "Justin",
+    "lastName": "Anderson",
+    "team": "IND",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 11
+    }
+  },
+  {
+    "id": "nba_12",
+    "sport": "NBA",
+    "name": "Kyle Anderson",
+    "firstName": "Kyle",
+    "lastName": "Anderson",
+    "team": "MIA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 12
+    }
+  },
+  {
+    "id": "nba_13",
+    "sport": "NBA",
+    "name": "Ryan Anderson",
+    "firstName": "Ryan",
+    "lastName": "Anderson",
+    "team": "NOP",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 13
+    }
+  },
+  {
+    "id": "nba_14",
+    "sport": "NBA",
+    "name": "Ike Anigbogu",
+    "firstName": "Ike",
+    "lastName": "Anigbogu",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 14
+    }
+  },
+  {
+    "id": "nba_15",
+    "sport": "NBA",
+    "name": "Giannis Antetokounmpo",
+    "firstName": "Giannis",
+    "lastName": "Antetokounmpo",
+    "team": "MIL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 15
+    }
+  },
+  {
+    "id": "nba_16",
+    "sport": "NBA",
+    "name": "Kostas Antetokounmpo",
+    "firstName": "Kostas",
+    "lastName": "Antetokounmpo",
+    "team": "CHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 16
+    }
+  },
+  {
+    "id": "nba_17",
+    "sport": "NBA",
+    "name": "Carmelo Anthony",
+    "firstName": "Carmelo",
+    "lastName": "Anthony",
+    "team": "LAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 17
+    }
+  },
+  {
+    "id": "nba_18",
+    "sport": "NBA",
+    "name": "OG Anunoby",
+    "firstName": "OG",
+    "lastName": "Anunoby",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 18
+    }
+  },
+  {
+    "id": "nba_19",
+    "sport": "NBA",
+    "name": "Ryan Arcidiacono",
+    "firstName": "Ryan",
+    "lastName": "Arcidiacono",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 19
+    }
+  },
+  {
+    "id": "nba_20",
+    "sport": "NBA",
+    "name": "Trevor Ariza",
+    "firstName": "Trevor",
+    "lastName": "Ariza",
+    "team": "LAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 20
+    }
+  },
+  {
+    "id": "nba_21",
+    "sport": "NBA",
+    "name": "D.J. Augustin",
+    "firstName": "D.J.",
+    "lastName": "Augustin",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 21
+    }
+  },
+  {
+    "id": "nba_22",
+    "sport": "NBA",
+    "name": "Deandre Ayton",
+    "firstName": "Deandre",
+    "lastName": "Ayton",
+    "team": "POR",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 22
+    }
+  },
+  {
+    "id": "nba_23",
+    "sport": "NBA",
+    "name": "Dwayne Bacon",
+    "firstName": "Dwayne",
+    "lastName": "Bacon",
+    "team": "LAL",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 23
+    }
+  },
+  {
+    "id": "nba_24",
+    "sport": "NBA",
+    "name": "Marvin Bagley III",
+    "firstName": "Marvin",
+    "lastName": "Bagley III",
+    "team": "MEM",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 24
+    }
+  },
+  {
+    "id": "nba_25",
+    "sport": "NBA",
+    "name": "Ron Baker",
+    "firstName": "Ron",
+    "lastName": "Baker",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 25
+    }
+  },
+  {
+    "id": "nba_26",
+    "sport": "NBA",
+    "name": "Wade Baldwin IV",
+    "firstName": "Wade",
+    "lastName": "Baldwin IV",
+    "team": "MEM",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 26
+    }
+  },
+  {
+    "id": "nba_27",
+    "sport": "NBA",
+    "name": "Lonzo Ball",
+    "firstName": "Lonzo",
+    "lastName": "Ball",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 27
+    }
+  },
+  {
+    "id": "nba_28",
+    "sport": "NBA",
+    "name": "Mo Bamba",
+    "firstName": "Mo",
+    "lastName": "Bamba",
+    "team": "NOP",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 28
+    }
+  },
+  {
+    "id": "nba_29",
+    "sport": "NBA",
+    "name": "J.J. Barea",
+    "firstName": "J.J.",
+    "lastName": "Barea",
+    "team": "DAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 29
+    }
+  },
+  {
+    "id": "nba_30",
+    "sport": "NBA",
+    "name": "Harrison Barnes",
+    "firstName": "Harrison",
+    "lastName": "Barnes",
+    "team": "SAS",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 30
+    }
+  },
+  {
+    "id": "nba_31",
+    "sport": "NBA",
+    "name": "Will Barton",
+    "firstName": "Will",
+    "lastName": "Barton",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 31
+    }
+  },
+  {
+    "id": "nba_32",
+    "sport": "NBA",
+    "name": "Keita Bates-Diop",
+    "firstName": "Keita",
+    "lastName": "Bates-Diop",
+    "team": "MIN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 32
+    }
+  },
+  {
+    "id": "nba_33",
+    "sport": "NBA",
+    "name": "Nicolas Batum",
+    "firstName": "Nicolas",
+    "lastName": "Batum",
+    "team": "LAC",
+    "position": "F-G",
+    "externalIds": {
+      "balldontlie": 33
+    }
+  },
+  {
+    "id": "nba_34",
+    "sport": "NBA",
+    "name": "Jerryd Bayless",
+    "firstName": "Jerryd",
+    "lastName": "Bayless",
+    "team": "MIL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 34
+    }
+  },
+  {
+    "id": "nba_35",
+    "sport": "NBA",
+    "name": "Aron Baynes",
+    "firstName": "Aron",
+    "lastName": "Baynes",
+    "team": "DET",
+    "position": "C-F",
+    "externalIds": {
+      "balldontlie": 35
+    }
+  },
+  {
+    "id": "nba_36",
+    "sport": "NBA",
+    "name": "Kent Bazemore",
+    "firstName": "Kent",
+    "lastName": "Bazemore",
+    "team": "SAC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 36
+    }
+  },
+  {
+    "id": "nba_37",
+    "sport": "NBA",
+    "name": "Bradley Beal",
+    "firstName": "Bradley",
+    "lastName": "Beal",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 37
+    }
+  },
+  {
+    "id": "nba_38",
+    "sport": "NBA",
+    "name": "Malik Beasley",
+    "firstName": "Malik",
+    "lastName": "Beasley",
+    "team": "DET",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 38
+    }
+  },
+  {
+    "id": "nba_39",
+    "sport": "NBA",
+    "name": "Michael Beasley",
+    "firstName": "Michael",
+    "lastName": "Beasley",
+    "team": "MIA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 39
+    }
+  },
+  {
+    "id": "nba_40",
+    "sport": "NBA",
+    "name": "Marco Belinelli",
+    "firstName": "Marco",
+    "lastName": "Belinelli",
+    "team": "SAS",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 40
+    }
+  },
+  {
+    "id": "nba_41",
+    "sport": "NBA",
+    "name": "Jordan Bell",
+    "firstName": "Jordan",
+    "lastName": "Bell",
+    "team": "CHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 41
+    }
+  },
+  {
+    "id": "nba_42",
+    "sport": "NBA",
+    "name": "DeAndre' Bembry",
+    "firstName": "DeAndre'",
+    "lastName": "Bembry",
+    "team": "MIL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 42
+    }
+  },
+  {
+    "id": "nba_43",
+    "sport": "NBA",
+    "name": "Dragan Bender",
+    "firstName": "Dragan",
+    "lastName": "Bender",
+    "team": "PHX",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 43
+    }
+  },
+  {
+    "id": "nba_44",
+    "sport": "NBA",
+    "name": "Davis Bertans",
+    "firstName": "Davis",
+    "lastName": "Bertans",
+    "team": "CHA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 44
+    }
+  },
+  {
+    "id": "nba_45",
+    "sport": "NBA",
+    "name": "Patrick Beverley",
+    "firstName": "Patrick",
+    "lastName": "Beverley",
+    "team": "MIL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 45
+    }
+  },
+  {
+    "id": "nba_46",
+    "sport": "NBA",
+    "name": "Khem Birch",
+    "firstName": "Khem",
+    "lastName": "Birch",
+    "team": "SAS",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 46
+    }
+  },
+  {
+    "id": "nba_47",
+    "sport": "NBA",
+    "name": "Jabari Bird",
+    "firstName": "Jabari",
+    "lastName": "Bird",
+    "team": "BOS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 47
+    }
+  },
+  {
+    "id": "nba_48",
+    "sport": "NBA",
+    "name": "Bismack Biyombo",
+    "firstName": "Bismack",
+    "lastName": "Biyombo",
+    "team": "SAS",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 48
+    }
+  },
+  {
+    "id": "nba_49",
+    "sport": "NBA",
+    "name": "Nemanja Bjelica",
+    "firstName": "Nemanja",
+    "lastName": "Bjelica",
+    "team": "GSW",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 49
+    }
+  },
+  {
+    "id": "nba_50",
+    "sport": "NBA",
+    "name": "Antonio Blakeney",
+    "firstName": "Antonio",
+    "lastName": "Blakeney",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 50
+    }
+  },
+  {
+    "id": "nba_51",
+    "sport": "NBA",
+    "name": "Eric Bledsoe",
+    "firstName": "Eric",
+    "lastName": "Bledsoe",
+    "team": "POR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 51
+    }
+  },
+  {
+    "id": "nba_52",
+    "sport": "NBA",
+    "name": "Trevon Bluiett",
+    "firstName": "Trevon",
+    "lastName": "Bluiett",
+    "team": "UTA",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 52
+    }
+  },
+  {
+    "id": "nba_53",
+    "sport": "NBA",
+    "name": "Bogdan Bogdanovic",
+    "firstName": "Bogdan",
+    "lastName": "Bogdanovic",
+    "team": "LAC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 53
+    }
+  },
+  {
+    "id": "nba_54",
+    "sport": "NBA",
+    "name": "Bojan Bogdanovic",
+    "firstName": "Bojan",
+    "lastName": "Bogdanovic",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 54
+    }
+  },
+  {
+    "id": "nba_55",
+    "sport": "NBA",
+    "name": "Jonah Bolden",
+    "firstName": "Jonah",
+    "lastName": "Bolden",
+    "team": "PHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 55
+    }
+  },
+  {
+    "id": "nba_56",
+    "sport": "NBA",
+    "name": "Isaac Bonga",
+    "firstName": "Isaac",
+    "lastName": "Bonga",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 56
+    }
+  },
+  {
+    "id": "nba_57",
+    "sport": "NBA",
+    "name": "Devin Booker",
+    "firstName": "Devin",
+    "lastName": "Booker",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 57
+    }
+  },
+  {
+    "id": "nba_58",
+    "sport": "NBA",
+    "name": "Chris Boucher",
+    "firstName": "Chris",
+    "lastName": "Boucher",
+    "team": "TOR",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 58
+    }
+  },
+  {
+    "id": "nba_59",
+    "sport": "NBA",
+    "name": "Avery Bradley",
+    "firstName": "Avery",
+    "lastName": "Bradley",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 59
+    }
+  },
+  {
+    "id": "nba_60",
+    "sport": "NBA",
+    "name": "Tony Bradley",
+    "firstName": "Tony",
+    "lastName": "Bradley",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 60
+    }
+  },
+  {
+    "id": "nba_61",
+    "sport": "NBA",
+    "name": "Mikal Bridges",
+    "firstName": "Mikal",
+    "lastName": "Bridges",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 61
+    }
+  },
+  {
+    "id": "nba_62",
+    "sport": "NBA",
+    "name": "Miles Bridges",
+    "firstName": "Miles",
+    "lastName": "Bridges",
+    "team": "CHA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 62
+    }
+  },
+  {
+    "id": "nba_63",
+    "sport": "NBA",
+    "name": "Isaiah Briscoe",
+    "firstName": "Isaiah",
+    "lastName": "Briscoe",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 63
+    }
+  },
+  {
+    "id": "nba_64",
+    "sport": "NBA",
+    "name": "Ryan Broekhoff",
+    "firstName": "Ryan",
+    "lastName": "Broekhoff",
+    "team": "DAL",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 64
+    }
+  },
+  {
+    "id": "nba_65",
+    "sport": "NBA",
+    "name": "Malcolm Brogdon",
+    "firstName": "Malcolm",
+    "lastName": "Brogdon",
+    "team": "WAS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 65
+    }
+  },
+  {
+    "id": "nba_66",
+    "sport": "NBA",
+    "name": "Dillon Brooks",
+    "firstName": "Dillon",
+    "lastName": "Brooks",
+    "team": "HOU",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 66
+    }
+  },
+  {
+    "id": "nba_67",
+    "sport": "NBA",
+    "name": "MarShon Brooks",
+    "firstName": "MarShon",
+    "lastName": "Brooks",
+    "team": "BKN",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 67
+    }
+  },
+  {
+    "id": "nba_68",
+    "sport": "NBA",
+    "name": "Troy Brown Jr.",
+    "firstName": "Troy",
+    "lastName": "Brown Jr.",
+    "team": "DET",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 68
+    }
+  },
+  {
+    "id": "nba_69",
+    "sport": "NBA",
+    "name": "Bruce Brown",
+    "firstName": "Bruce",
+    "lastName": "Brown",
+    "team": "NOP",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 69
+    }
+  },
+  {
+    "id": "nba_70",
+    "sport": "NBA",
+    "name": "Jaylen Brown",
+    "firstName": "Jaylen",
+    "lastName": "Brown",
+    "team": "BOS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 70
+    }
+  },
+  {
+    "id": "nba_71",
+    "sport": "NBA",
+    "name": "Lorenzo Brown",
+    "firstName": "Lorenzo",
+    "lastName": "Brown",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 71
+    }
+  },
+  {
+    "id": "nba_72",
+    "sport": "NBA",
+    "name": "Sterling Brown",
+    "firstName": "Sterling",
+    "lastName": "Brown",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 72
+    }
+  },
+  {
+    "id": "nba_73",
+    "sport": "NBA",
+    "name": "Jalen Brunson",
+    "firstName": "Jalen",
+    "lastName": "Brunson",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 73
+    }
+  },
+  {
+    "id": "nba_74",
+    "sport": "NBA",
+    "name": "Thomas Bryant",
+    "firstName": "Thomas",
+    "lastName": "Bryant",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 74
+    }
+  },
+  {
+    "id": "nba_75",
+    "sport": "NBA",
+    "name": "Reggie Bullock",
+    "firstName": "Reggie",
+    "lastName": "Bullock",
+    "team": "HOU",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 75
+    }
+  },
+  {
+    "id": "nba_76",
+    "sport": "NBA",
+    "name": "Trey Burke",
+    "firstName": "Trey",
+    "lastName": "Burke",
+    "team": "DAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 76
+    }
+  },
+  {
+    "id": "nba_77",
+    "sport": "NBA",
+    "name": "Alec Burks",
+    "firstName": "Alec",
+    "lastName": "Burks",
+    "team": "MIA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 77
+    }
+  },
+  {
+    "id": "nba_78",
+    "sport": "NBA",
+    "name": "Deonte Burton",
+    "firstName": "Deonte",
+    "lastName": "Burton",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 78
+    }
+  },
+  {
+    "id": "nba_79",
+    "sport": "NBA",
+    "name": "Jimmy Butler",
+    "firstName": "Jimmy",
+    "lastName": "Butler",
+    "team": "GSW",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 79
+    }
+  },
+  {
+    "id": "nba_80",
+    "sport": "NBA",
+    "name": "Jose Calderon",
+    "firstName": "Jose",
+    "lastName": "Calderon",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 80
+    }
+  },
+  {
+    "id": "nba_81",
+    "sport": "NBA",
+    "name": "Kentavious Caldwell-Pope",
+    "firstName": "Kentavious",
+    "lastName": "Caldwell-Pope",
+    "team": "MEM",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 81
+    }
+  },
+  {
+    "id": "nba_82",
+    "sport": "NBA",
+    "name": "Isaiah Canaan",
+    "firstName": "Isaiah",
+    "lastName": "Canaan",
+    "team": "PHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 82
+    }
+  },
+  {
+    "id": "nba_83",
+    "sport": "NBA",
+    "name": "Clint Capela",
+    "firstName": "Clint",
+    "lastName": "Capela",
+    "team": "ATL",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 83
+    }
+  },
+  {
+    "id": "nba_84",
+    "sport": "NBA",
+    "name": "DeMarre Carroll",
+    "firstName": "DeMarre",
+    "lastName": "Carroll",
+    "team": "ATL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 84
+    }
+  },
+  {
+    "id": "nba_85",
+    "sport": "NBA",
+    "name": "Wendell Carter Jr.",
+    "firstName": "Wendell",
+    "lastName": "Carter Jr.",
+    "team": "ORL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 85
+    }
+  },
+  {
+    "id": "nba_86",
+    "sport": "NBA",
+    "name": "Michael Carter-Williams",
+    "firstName": "Michael",
+    "lastName": "Carter-Williams",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 86
+    }
+  },
+  {
+    "id": "nba_87",
+    "sport": "NBA",
+    "name": "Jevon Carter",
+    "firstName": "Jevon",
+    "lastName": "Carter",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 87
+    }
+  },
+  {
+    "id": "nba_88",
+    "sport": "NBA",
+    "name": "Vince Carter",
+    "firstName": "Vince",
+    "lastName": "Carter",
+    "team": "TOR",
+    "position": "F-G",
+    "externalIds": {
+      "balldontlie": 88
+    }
+  },
+  {
+    "id": "nba_89",
+    "sport": "NBA",
+    "name": "Alex Caruso",
+    "firstName": "Alex",
+    "lastName": "Caruso",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 89
+    }
+  },
+  {
+    "id": "nba_90",
+    "sport": "NBA",
+    "name": "Omri Casspi",
+    "firstName": "Omri",
+    "lastName": "Casspi",
+    "team": "SAC",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 90
+    }
+  },
+  {
+    "id": "nba_91",
+    "sport": "NBA",
+    "name": "Willie Cauley-Stein",
+    "firstName": "Willie",
+    "lastName": "Cauley-Stein",
+    "team": "PHI",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 91
+    }
+  },
+  {
+    "id": "nba_92",
+    "sport": "NBA",
+    "name": "Troy Caupain",
+    "firstName": "Troy",
+    "lastName": "Caupain",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 92
+    }
+  },
+  {
+    "id": "nba_93",
+    "sport": "NBA",
+    "name": "Tyler Cavanaugh",
+    "firstName": "Tyler",
+    "lastName": "Cavanaugh",
+    "team": "ATL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 93
+    }
+  },
+  {
+    "id": "nba_94",
+    "sport": "NBA",
+    "name": "Tyson Chandler",
+    "firstName": "Tyson",
+    "lastName": "Chandler",
+    "team": "NYK",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 94
+    }
+  },
+  {
+    "id": "nba_95",
+    "sport": "NBA",
+    "name": "Wilson Chandler",
+    "firstName": "Wilson",
+    "lastName": "Chandler",
+    "team": "DEN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 95
+    }
+  },
+  {
+    "id": "nba_96",
+    "sport": "NBA",
+    "name": "Joe Chealey",
+    "firstName": "Joe",
+    "lastName": "Chealey",
+    "team": "CHA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 96
+    }
+  },
+  {
+    "id": "nba_97",
+    "sport": "NBA",
+    "name": "Marquese Chriss",
+    "firstName": "Marquese",
+    "lastName": "Chriss",
+    "team": "DAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 97
+    }
+  },
+  {
+    "id": "nba_98",
+    "sport": "NBA",
+    "name": "Gary Clark",
+    "firstName": "Gary",
+    "lastName": "Clark",
+    "team": "NOP",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 98
+    }
+  },
+  {
+    "id": "nba_99",
+    "sport": "NBA",
+    "name": "Ian Clark",
+    "firstName": "Ian",
+    "lastName": "Clark",
+    "team": "GSW",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 99
+    }
+  },
+  {
+    "id": "nba_100",
+    "sport": "NBA",
+    "name": "Jordan Clarkson",
+    "firstName": "Jordan",
+    "lastName": "Clarkson",
+    "team": "UTA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 100
+    }
+  },
+  {
+    "id": "nba_1",
+    "sport": "NBA",
+    "name": "Alex Abrines",
+    "firstName": "Alex",
+    "lastName": "Abrines",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 1
+    }
+  },
+  {
+    "id": "nba_2",
+    "sport": "NBA",
+    "name": "Jaylen Adams",
+    "firstName": "Jaylen",
+    "lastName": "Adams",
+    "team": "ATL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 2
+    }
+  },
+  {
+    "id": "nba_3",
+    "sport": "NBA",
+    "name": "Steven Adams",
+    "firstName": "Steven",
+    "lastName": "Adams",
+    "team": "HOU",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 3
+    }
+  },
+  {
+    "id": "nba_4",
+    "sport": "NBA",
+    "name": "Bam Adebayo",
+    "firstName": "Bam",
+    "lastName": "Adebayo",
+    "team": "MIA",
+    "position": "C-F",
+    "externalIds": {
+      "balldontlie": 4
+    }
+  },
+  {
+    "id": "nba_5",
+    "sport": "NBA",
+    "name": "DeVaughn Akoon-Purcell",
+    "firstName": "DeVaughn",
+    "lastName": "Akoon-Purcell",
+    "team": "DEN",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 5
+    }
+  },
+  {
+    "id": "nba_6",
+    "sport": "NBA",
+    "name": "LaMarcus Aldridge",
+    "firstName": "LaMarcus",
+    "lastName": "Aldridge",
+    "team": "BKN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 6
+    }
+  },
+  {
+    "id": "nba_7",
+    "sport": "NBA",
+    "name": "Rawle Alkins",
+    "firstName": "Rawle",
+    "lastName": "Alkins",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 7
+    }
+  },
+  {
+    "id": "nba_8",
+    "sport": "NBA",
+    "name": "Grayson Allen",
+    "firstName": "Grayson",
+    "lastName": "Allen",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 8
+    }
+  },
+  {
+    "id": "nba_9",
+    "sport": "NBA",
+    "name": "Jarrett Allen",
+    "firstName": "Jarrett",
+    "lastName": "Allen",
+    "team": "CLE",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 9
+    }
+  },
+  {
+    "id": "nba_10",
+    "sport": "NBA",
+    "name": "Al-Farouq Aminu",
+    "firstName": "Al-Farouq",
+    "lastName": "Aminu",
+    "team": "POR",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 10
+    }
+  },
+  {
+    "id": "nba_11",
+    "sport": "NBA",
+    "name": "Justin Anderson",
+    "firstName": "Justin",
+    "lastName": "Anderson",
+    "team": "IND",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 11
+    }
+  },
+  {
+    "id": "nba_12",
+    "sport": "NBA",
+    "name": "Kyle Anderson",
+    "firstName": "Kyle",
+    "lastName": "Anderson",
+    "team": "MIA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 12
+    }
+  },
+  {
+    "id": "nba_13",
+    "sport": "NBA",
+    "name": "Ryan Anderson",
+    "firstName": "Ryan",
+    "lastName": "Anderson",
+    "team": "NOP",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 13
+    }
+  },
+  {
+    "id": "nba_14",
+    "sport": "NBA",
+    "name": "Ike Anigbogu",
+    "firstName": "Ike",
+    "lastName": "Anigbogu",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 14
+    }
+  },
+  {
+    "id": "nba_15",
+    "sport": "NBA",
+    "name": "Giannis Antetokounmpo",
+    "firstName": "Giannis",
+    "lastName": "Antetokounmpo",
+    "team": "MIL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 15
+    }
+  },
+  {
+    "id": "nba_16",
+    "sport": "NBA",
+    "name": "Kostas Antetokounmpo",
+    "firstName": "Kostas",
+    "lastName": "Antetokounmpo",
+    "team": "CHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 16
+    }
+  },
+  {
+    "id": "nba_17",
+    "sport": "NBA",
+    "name": "Carmelo Anthony",
+    "firstName": "Carmelo",
+    "lastName": "Anthony",
+    "team": "LAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 17
+    }
+  },
+  {
+    "id": "nba_18",
+    "sport": "NBA",
+    "name": "OG Anunoby",
+    "firstName": "OG",
+    "lastName": "Anunoby",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 18
+    }
+  },
+  {
+    "id": "nba_19",
+    "sport": "NBA",
+    "name": "Ryan Arcidiacono",
+    "firstName": "Ryan",
+    "lastName": "Arcidiacono",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 19
+    }
+  },
+  {
+    "id": "nba_20",
+    "sport": "NBA",
+    "name": "Trevor Ariza",
+    "firstName": "Trevor",
+    "lastName": "Ariza",
+    "team": "LAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 20
+    }
+  },
+  {
+    "id": "nba_21",
+    "sport": "NBA",
+    "name": "D.J. Augustin",
+    "firstName": "D.J.",
+    "lastName": "Augustin",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 21
+    }
+  },
+  {
+    "id": "nba_22",
+    "sport": "NBA",
+    "name": "Deandre Ayton",
+    "firstName": "Deandre",
+    "lastName": "Ayton",
+    "team": "POR",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 22
+    }
+  },
+  {
+    "id": "nba_23",
+    "sport": "NBA",
+    "name": "Dwayne Bacon",
+    "firstName": "Dwayne",
+    "lastName": "Bacon",
+    "team": "LAL",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 23
+    }
+  },
+  {
+    "id": "nba_24",
+    "sport": "NBA",
+    "name": "Marvin Bagley III",
+    "firstName": "Marvin",
+    "lastName": "Bagley III",
+    "team": "MEM",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 24
+    }
+  },
+  {
+    "id": "nba_25",
+    "sport": "NBA",
+    "name": "Ron Baker",
+    "firstName": "Ron",
+    "lastName": "Baker",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 25
+    }
+  },
+  {
+    "id": "nba_26",
+    "sport": "NBA",
+    "name": "Wade Baldwin IV",
+    "firstName": "Wade",
+    "lastName": "Baldwin IV",
+    "team": "MEM",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 26
+    }
+  },
+  {
+    "id": "nba_27",
+    "sport": "NBA",
+    "name": "Lonzo Ball",
+    "firstName": "Lonzo",
+    "lastName": "Ball",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 27
+    }
+  },
+  {
+    "id": "nba_28",
+    "sport": "NBA",
+    "name": "Mo Bamba",
+    "firstName": "Mo",
+    "lastName": "Bamba",
+    "team": "NOP",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 28
+    }
+  },
+  {
+    "id": "nba_29",
+    "sport": "NBA",
+    "name": "J.J. Barea",
+    "firstName": "J.J.",
+    "lastName": "Barea",
+    "team": "DAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 29
+    }
+  },
+  {
+    "id": "nba_30",
+    "sport": "NBA",
+    "name": "Harrison Barnes",
+    "firstName": "Harrison",
+    "lastName": "Barnes",
+    "team": "SAS",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 30
+    }
+  },
+  {
+    "id": "nba_31",
+    "sport": "NBA",
+    "name": "Will Barton",
+    "firstName": "Will",
+    "lastName": "Barton",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 31
+    }
+  },
+  {
+    "id": "nba_32",
+    "sport": "NBA",
+    "name": "Keita Bates-Diop",
+    "firstName": "Keita",
+    "lastName": "Bates-Diop",
+    "team": "MIN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 32
+    }
+  },
+  {
+    "id": "nba_33",
+    "sport": "NBA",
+    "name": "Nicolas Batum",
+    "firstName": "Nicolas",
+    "lastName": "Batum",
+    "team": "LAC",
+    "position": "F-G",
+    "externalIds": {
+      "balldontlie": 33
+    }
+  },
+  {
+    "id": "nba_34",
+    "sport": "NBA",
+    "name": "Jerryd Bayless",
+    "firstName": "Jerryd",
+    "lastName": "Bayless",
+    "team": "MIL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 34
+    }
+  },
+  {
+    "id": "nba_35",
+    "sport": "NBA",
+    "name": "Aron Baynes",
+    "firstName": "Aron",
+    "lastName": "Baynes",
+    "team": "DET",
+    "position": "C-F",
+    "externalIds": {
+      "balldontlie": 35
+    }
+  },
+  {
+    "id": "nba_36",
+    "sport": "NBA",
+    "name": "Kent Bazemore",
+    "firstName": "Kent",
+    "lastName": "Bazemore",
+    "team": "SAC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 36
+    }
+  },
+  {
+    "id": "nba_37",
+    "sport": "NBA",
+    "name": "Bradley Beal",
+    "firstName": "Bradley",
+    "lastName": "Beal",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 37
+    }
+  },
+  {
+    "id": "nba_38",
+    "sport": "NBA",
+    "name": "Malik Beasley",
+    "firstName": "Malik",
+    "lastName": "Beasley",
+    "team": "DET",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 38
+    }
+  },
+  {
+    "id": "nba_39",
+    "sport": "NBA",
+    "name": "Michael Beasley",
+    "firstName": "Michael",
+    "lastName": "Beasley",
+    "team": "MIA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 39
+    }
+  },
+  {
+    "id": "nba_40",
+    "sport": "NBA",
+    "name": "Marco Belinelli",
+    "firstName": "Marco",
+    "lastName": "Belinelli",
+    "team": "SAS",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 40
+    }
+  },
+  {
+    "id": "nba_41",
+    "sport": "NBA",
+    "name": "Jordan Bell",
+    "firstName": "Jordan",
+    "lastName": "Bell",
+    "team": "CHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 41
+    }
+  },
+  {
+    "id": "nba_42",
+    "sport": "NBA",
+    "name": "DeAndre' Bembry",
+    "firstName": "DeAndre'",
+    "lastName": "Bembry",
+    "team": "MIL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 42
+    }
+  },
+  {
+    "id": "nba_43",
+    "sport": "NBA",
+    "name": "Dragan Bender",
+    "firstName": "Dragan",
+    "lastName": "Bender",
+    "team": "PHX",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 43
+    }
+  },
+  {
+    "id": "nba_44",
+    "sport": "NBA",
+    "name": "Davis Bertans",
+    "firstName": "Davis",
+    "lastName": "Bertans",
+    "team": "CHA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 44
+    }
+  },
+  {
+    "id": "nba_45",
+    "sport": "NBA",
+    "name": "Patrick Beverley",
+    "firstName": "Patrick",
+    "lastName": "Beverley",
+    "team": "MIL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 45
+    }
+  },
+  {
+    "id": "nba_46",
+    "sport": "NBA",
+    "name": "Khem Birch",
+    "firstName": "Khem",
+    "lastName": "Birch",
+    "team": "SAS",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 46
+    }
+  },
+  {
+    "id": "nba_47",
+    "sport": "NBA",
+    "name": "Jabari Bird",
+    "firstName": "Jabari",
+    "lastName": "Bird",
+    "team": "BOS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 47
+    }
+  },
+  {
+    "id": "nba_48",
+    "sport": "NBA",
+    "name": "Bismack Biyombo",
+    "firstName": "Bismack",
+    "lastName": "Biyombo",
+    "team": "SAS",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 48
+    }
+  },
+  {
+    "id": "nba_49",
+    "sport": "NBA",
+    "name": "Nemanja Bjelica",
+    "firstName": "Nemanja",
+    "lastName": "Bjelica",
+    "team": "GSW",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 49
+    }
+  },
+  {
+    "id": "nba_50",
+    "sport": "NBA",
+    "name": "Antonio Blakeney",
+    "firstName": "Antonio",
+    "lastName": "Blakeney",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 50
+    }
+  },
+  {
+    "id": "nba_51",
+    "sport": "NBA",
+    "name": "Eric Bledsoe",
+    "firstName": "Eric",
+    "lastName": "Bledsoe",
+    "team": "POR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 51
+    }
+  },
+  {
+    "id": "nba_52",
+    "sport": "NBA",
+    "name": "Trevon Bluiett",
+    "firstName": "Trevon",
+    "lastName": "Bluiett",
+    "team": "UTA",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 52
+    }
+  },
+  {
+    "id": "nba_53",
+    "sport": "NBA",
+    "name": "Bogdan Bogdanovic",
+    "firstName": "Bogdan",
+    "lastName": "Bogdanovic",
+    "team": "LAC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 53
+    }
+  },
+  {
+    "id": "nba_54",
+    "sport": "NBA",
+    "name": "Bojan Bogdanovic",
+    "firstName": "Bojan",
+    "lastName": "Bogdanovic",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 54
+    }
+  },
+  {
+    "id": "nba_55",
+    "sport": "NBA",
+    "name": "Jonah Bolden",
+    "firstName": "Jonah",
+    "lastName": "Bolden",
+    "team": "PHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 55
+    }
+  },
+  {
+    "id": "nba_56",
+    "sport": "NBA",
+    "name": "Isaac Bonga",
+    "firstName": "Isaac",
+    "lastName": "Bonga",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 56
+    }
+  },
+  {
+    "id": "nba_57",
+    "sport": "NBA",
+    "name": "Devin Booker",
+    "firstName": "Devin",
+    "lastName": "Booker",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 57
+    }
+  },
+  {
+    "id": "nba_58",
+    "sport": "NBA",
+    "name": "Chris Boucher",
+    "firstName": "Chris",
+    "lastName": "Boucher",
+    "team": "TOR",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 58
+    }
+  },
+  {
+    "id": "nba_59",
+    "sport": "NBA",
+    "name": "Avery Bradley",
+    "firstName": "Avery",
+    "lastName": "Bradley",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 59
+    }
+  },
+  {
+    "id": "nba_60",
+    "sport": "NBA",
+    "name": "Tony Bradley",
+    "firstName": "Tony",
+    "lastName": "Bradley",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 60
+    }
+  },
+  {
+    "id": "nba_61",
+    "sport": "NBA",
+    "name": "Mikal Bridges",
+    "firstName": "Mikal",
+    "lastName": "Bridges",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 61
+    }
+  },
+  {
+    "id": "nba_62",
+    "sport": "NBA",
+    "name": "Miles Bridges",
+    "firstName": "Miles",
+    "lastName": "Bridges",
+    "team": "CHA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 62
+    }
+  },
+  {
+    "id": "nba_63",
+    "sport": "NBA",
+    "name": "Isaiah Briscoe",
+    "firstName": "Isaiah",
+    "lastName": "Briscoe",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 63
+    }
+  },
+  {
+    "id": "nba_64",
+    "sport": "NBA",
+    "name": "Ryan Broekhoff",
+    "firstName": "Ryan",
+    "lastName": "Broekhoff",
+    "team": "DAL",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 64
+    }
+  },
+  {
+    "id": "nba_65",
+    "sport": "NBA",
+    "name": "Malcolm Brogdon",
+    "firstName": "Malcolm",
+    "lastName": "Brogdon",
+    "team": "WAS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 65
+    }
+  },
+  {
+    "id": "nba_66",
+    "sport": "NBA",
+    "name": "Dillon Brooks",
+    "firstName": "Dillon",
+    "lastName": "Brooks",
+    "team": "HOU",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 66
+    }
+  },
+  {
+    "id": "nba_67",
+    "sport": "NBA",
+    "name": "MarShon Brooks",
+    "firstName": "MarShon",
+    "lastName": "Brooks",
+    "team": "BKN",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 67
+    }
+  },
+  {
+    "id": "nba_68",
+    "sport": "NBA",
+    "name": "Troy Brown Jr.",
+    "firstName": "Troy",
+    "lastName": "Brown Jr.",
+    "team": "DET",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 68
+    }
+  },
+  {
+    "id": "nba_69",
+    "sport": "NBA",
+    "name": "Bruce Brown",
+    "firstName": "Bruce",
+    "lastName": "Brown",
+    "team": "NOP",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 69
+    }
+  },
+  {
+    "id": "nba_70",
+    "sport": "NBA",
+    "name": "Jaylen Brown",
+    "firstName": "Jaylen",
+    "lastName": "Brown",
+    "team": "BOS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 70
+    }
+  },
+  {
+    "id": "nba_71",
+    "sport": "NBA",
+    "name": "Lorenzo Brown",
+    "firstName": "Lorenzo",
+    "lastName": "Brown",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 71
+    }
+  },
+  {
+    "id": "nba_72",
+    "sport": "NBA",
+    "name": "Sterling Brown",
+    "firstName": "Sterling",
+    "lastName": "Brown",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 72
+    }
+  },
+  {
+    "id": "nba_73",
+    "sport": "NBA",
+    "name": "Jalen Brunson",
+    "firstName": "Jalen",
+    "lastName": "Brunson",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 73
+    }
+  },
+  {
+    "id": "nba_74",
+    "sport": "NBA",
+    "name": "Thomas Bryant",
+    "firstName": "Thomas",
+    "lastName": "Bryant",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 74
+    }
+  },
+  {
+    "id": "nba_75",
+    "sport": "NBA",
+    "name": "Reggie Bullock",
+    "firstName": "Reggie",
+    "lastName": "Bullock",
+    "team": "HOU",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 75
+    }
+  },
+  {
+    "id": "nba_76",
+    "sport": "NBA",
+    "name": "Trey Burke",
+    "firstName": "Trey",
+    "lastName": "Burke",
+    "team": "DAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 76
+    }
+  },
+  {
+    "id": "nba_77",
+    "sport": "NBA",
+    "name": "Alec Burks",
+    "firstName": "Alec",
+    "lastName": "Burks",
+    "team": "MIA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 77
+    }
+  },
+  {
+    "id": "nba_78",
+    "sport": "NBA",
+    "name": "Deonte Burton",
+    "firstName": "Deonte",
+    "lastName": "Burton",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 78
+    }
+  },
+  {
+    "id": "nba_79",
+    "sport": "NBA",
+    "name": "Jimmy Butler",
+    "firstName": "Jimmy",
+    "lastName": "Butler",
+    "team": "GSW",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 79
+    }
+  },
+  {
+    "id": "nba_80",
+    "sport": "NBA",
+    "name": "Jose Calderon",
+    "firstName": "Jose",
+    "lastName": "Calderon",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 80
+    }
+  },
+  {
+    "id": "nba_81",
+    "sport": "NBA",
+    "name": "Kentavious Caldwell-Pope",
+    "firstName": "Kentavious",
+    "lastName": "Caldwell-Pope",
+    "team": "MEM",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 81
+    }
+  },
+  {
+    "id": "nba_82",
+    "sport": "NBA",
+    "name": "Isaiah Canaan",
+    "firstName": "Isaiah",
+    "lastName": "Canaan",
+    "team": "PHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 82
+    }
+  },
+  {
+    "id": "nba_83",
+    "sport": "NBA",
+    "name": "Clint Capela",
+    "firstName": "Clint",
+    "lastName": "Capela",
+    "team": "ATL",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 83
+    }
+  },
+  {
+    "id": "nba_84",
+    "sport": "NBA",
+    "name": "DeMarre Carroll",
+    "firstName": "DeMarre",
+    "lastName": "Carroll",
+    "team": "ATL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 84
+    }
+  },
+  {
+    "id": "nba_85",
+    "sport": "NBA",
+    "name": "Wendell Carter Jr.",
+    "firstName": "Wendell",
+    "lastName": "Carter Jr.",
+    "team": "ORL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 85
+    }
+  },
+  {
+    "id": "nba_86",
+    "sport": "NBA",
+    "name": "Michael Carter-Williams",
+    "firstName": "Michael",
+    "lastName": "Carter-Williams",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 86
+    }
+  },
+  {
+    "id": "nba_87",
+    "sport": "NBA",
+    "name": "Jevon Carter",
+    "firstName": "Jevon",
+    "lastName": "Carter",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 87
+    }
+  },
+  {
+    "id": "nba_88",
+    "sport": "NBA",
+    "name": "Vince Carter",
+    "firstName": "Vince",
+    "lastName": "Carter",
+    "team": "TOR",
+    "position": "F-G",
+    "externalIds": {
+      "balldontlie": 88
+    }
+  },
+  {
+    "id": "nba_89",
+    "sport": "NBA",
+    "name": "Alex Caruso",
+    "firstName": "Alex",
+    "lastName": "Caruso",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 89
+    }
+  },
+  {
+    "id": "nba_90",
+    "sport": "NBA",
+    "name": "Omri Casspi",
+    "firstName": "Omri",
+    "lastName": "Casspi",
+    "team": "SAC",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 90
+    }
+  },
+  {
+    "id": "nba_91",
+    "sport": "NBA",
+    "name": "Willie Cauley-Stein",
+    "firstName": "Willie",
+    "lastName": "Cauley-Stein",
+    "team": "PHI",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 91
+    }
+  },
+  {
+    "id": "nba_92",
+    "sport": "NBA",
+    "name": "Troy Caupain",
+    "firstName": "Troy",
+    "lastName": "Caupain",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 92
+    }
+  },
+  {
+    "id": "nba_93",
+    "sport": "NBA",
+    "name": "Tyler Cavanaugh",
+    "firstName": "Tyler",
+    "lastName": "Cavanaugh",
+    "team": "ATL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 93
+    }
+  },
+  {
+    "id": "nba_94",
+    "sport": "NBA",
+    "name": "Tyson Chandler",
+    "firstName": "Tyson",
+    "lastName": "Chandler",
+    "team": "NYK",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 94
+    }
+  },
+  {
+    "id": "nba_95",
+    "sport": "NBA",
+    "name": "Wilson Chandler",
+    "firstName": "Wilson",
+    "lastName": "Chandler",
+    "team": "DEN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 95
+    }
+  },
+  {
+    "id": "nba_96",
+    "sport": "NBA",
+    "name": "Joe Chealey",
+    "firstName": "Joe",
+    "lastName": "Chealey",
+    "team": "CHA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 96
+    }
+  },
+  {
+    "id": "nba_97",
+    "sport": "NBA",
+    "name": "Marquese Chriss",
+    "firstName": "Marquese",
+    "lastName": "Chriss",
+    "team": "DAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 97
+    }
+  },
+  {
+    "id": "nba_98",
+    "sport": "NBA",
+    "name": "Gary Clark",
+    "firstName": "Gary",
+    "lastName": "Clark",
+    "team": "NOP",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 98
+    }
+  },
+  {
+    "id": "nba_99",
+    "sport": "NBA",
+    "name": "Ian Clark",
+    "firstName": "Ian",
+    "lastName": "Clark",
+    "team": "GSW",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 99
+    }
+  },
+  {
+    "id": "nba_100",
+    "sport": "NBA",
+    "name": "Jordan Clarkson",
+    "firstName": "Jordan",
+    "lastName": "Clarkson",
+    "team": "UTA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 100
+    }
+  },
+  {
+    "id": "nba_1",
+    "sport": "NBA",
+    "name": "Alex Abrines",
+    "firstName": "Alex",
+    "lastName": "Abrines",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 1
+    }
+  },
+  {
+    "id": "nba_2",
+    "sport": "NBA",
+    "name": "Jaylen Adams",
+    "firstName": "Jaylen",
+    "lastName": "Adams",
+    "team": "ATL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 2
+    }
+  },
+  {
+    "id": "nba_3",
+    "sport": "NBA",
+    "name": "Steven Adams",
+    "firstName": "Steven",
+    "lastName": "Adams",
+    "team": "HOU",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 3
+    }
+  },
+  {
+    "id": "nba_4",
+    "sport": "NBA",
+    "name": "Bam Adebayo",
+    "firstName": "Bam",
+    "lastName": "Adebayo",
+    "team": "MIA",
+    "position": "C-F",
+    "externalIds": {
+      "balldontlie": 4
+    }
+  },
+  {
+    "id": "nba_5",
+    "sport": "NBA",
+    "name": "DeVaughn Akoon-Purcell",
+    "firstName": "DeVaughn",
+    "lastName": "Akoon-Purcell",
+    "team": "DEN",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 5
+    }
+  },
+  {
+    "id": "nba_6",
+    "sport": "NBA",
+    "name": "LaMarcus Aldridge",
+    "firstName": "LaMarcus",
+    "lastName": "Aldridge",
+    "team": "BKN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 6
+    }
+  },
+  {
+    "id": "nba_7",
+    "sport": "NBA",
+    "name": "Rawle Alkins",
+    "firstName": "Rawle",
+    "lastName": "Alkins",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 7
+    }
+  },
+  {
+    "id": "nba_8",
+    "sport": "NBA",
+    "name": "Grayson Allen",
+    "firstName": "Grayson",
+    "lastName": "Allen",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 8
+    }
+  },
+  {
+    "id": "nba_9",
+    "sport": "NBA",
+    "name": "Jarrett Allen",
+    "firstName": "Jarrett",
+    "lastName": "Allen",
+    "team": "CLE",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 9
+    }
+  },
+  {
+    "id": "nba_10",
+    "sport": "NBA",
+    "name": "Al-Farouq Aminu",
+    "firstName": "Al-Farouq",
+    "lastName": "Aminu",
+    "team": "POR",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 10
+    }
+  },
+  {
+    "id": "nba_11",
+    "sport": "NBA",
+    "name": "Justin Anderson",
+    "firstName": "Justin",
+    "lastName": "Anderson",
+    "team": "IND",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 11
+    }
+  },
+  {
+    "id": "nba_12",
+    "sport": "NBA",
+    "name": "Kyle Anderson",
+    "firstName": "Kyle",
+    "lastName": "Anderson",
+    "team": "MIA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 12
+    }
+  },
+  {
+    "id": "nba_13",
+    "sport": "NBA",
+    "name": "Ryan Anderson",
+    "firstName": "Ryan",
+    "lastName": "Anderson",
+    "team": "NOP",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 13
+    }
+  },
+  {
+    "id": "nba_14",
+    "sport": "NBA",
+    "name": "Ike Anigbogu",
+    "firstName": "Ike",
+    "lastName": "Anigbogu",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 14
+    }
+  },
+  {
+    "id": "nba_15",
+    "sport": "NBA",
+    "name": "Giannis Antetokounmpo",
+    "firstName": "Giannis",
+    "lastName": "Antetokounmpo",
+    "team": "MIL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 15
+    }
+  },
+  {
+    "id": "nba_16",
+    "sport": "NBA",
+    "name": "Kostas Antetokounmpo",
+    "firstName": "Kostas",
+    "lastName": "Antetokounmpo",
+    "team": "CHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 16
+    }
+  },
+  {
+    "id": "nba_17",
+    "sport": "NBA",
+    "name": "Carmelo Anthony",
+    "firstName": "Carmelo",
+    "lastName": "Anthony",
+    "team": "LAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 17
+    }
+  },
+  {
+    "id": "nba_18",
+    "sport": "NBA",
+    "name": "OG Anunoby",
+    "firstName": "OG",
+    "lastName": "Anunoby",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 18
+    }
+  },
+  {
+    "id": "nba_19",
+    "sport": "NBA",
+    "name": "Ryan Arcidiacono",
+    "firstName": "Ryan",
+    "lastName": "Arcidiacono",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 19
+    }
+  },
+  {
+    "id": "nba_20",
+    "sport": "NBA",
+    "name": "Trevor Ariza",
+    "firstName": "Trevor",
+    "lastName": "Ariza",
+    "team": "LAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 20
+    }
+  },
+  {
+    "id": "nba_21",
+    "sport": "NBA",
+    "name": "D.J. Augustin",
+    "firstName": "D.J.",
+    "lastName": "Augustin",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 21
+    }
+  },
+  {
+    "id": "nba_22",
+    "sport": "NBA",
+    "name": "Deandre Ayton",
+    "firstName": "Deandre",
+    "lastName": "Ayton",
+    "team": "POR",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 22
+    }
+  },
+  {
+    "id": "nba_23",
+    "sport": "NBA",
+    "name": "Dwayne Bacon",
+    "firstName": "Dwayne",
+    "lastName": "Bacon",
+    "team": "LAL",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 23
+    }
+  },
+  {
+    "id": "nba_24",
+    "sport": "NBA",
+    "name": "Marvin Bagley III",
+    "firstName": "Marvin",
+    "lastName": "Bagley III",
+    "team": "MEM",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 24
+    }
+  },
+  {
+    "id": "nba_25",
+    "sport": "NBA",
+    "name": "Ron Baker",
+    "firstName": "Ron",
+    "lastName": "Baker",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 25
+    }
+  },
+  {
+    "id": "nba_26",
+    "sport": "NBA",
+    "name": "Wade Baldwin IV",
+    "firstName": "Wade",
+    "lastName": "Baldwin IV",
+    "team": "MEM",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 26
+    }
+  },
+  {
+    "id": "nba_27",
+    "sport": "NBA",
+    "name": "Lonzo Ball",
+    "firstName": "Lonzo",
+    "lastName": "Ball",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 27
+    }
+  },
+  {
+    "id": "nba_28",
+    "sport": "NBA",
+    "name": "Mo Bamba",
+    "firstName": "Mo",
+    "lastName": "Bamba",
+    "team": "NOP",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 28
+    }
+  },
+  {
+    "id": "nba_29",
+    "sport": "NBA",
+    "name": "J.J. Barea",
+    "firstName": "J.J.",
+    "lastName": "Barea",
+    "team": "DAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 29
+    }
+  },
+  {
+    "id": "nba_30",
+    "sport": "NBA",
+    "name": "Harrison Barnes",
+    "firstName": "Harrison",
+    "lastName": "Barnes",
+    "team": "SAS",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 30
+    }
+  },
+  {
+    "id": "nba_31",
+    "sport": "NBA",
+    "name": "Will Barton",
+    "firstName": "Will",
+    "lastName": "Barton",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 31
+    }
+  },
+  {
+    "id": "nba_32",
+    "sport": "NBA",
+    "name": "Keita Bates-Diop",
+    "firstName": "Keita",
+    "lastName": "Bates-Diop",
+    "team": "MIN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 32
+    }
+  },
+  {
+    "id": "nba_33",
+    "sport": "NBA",
+    "name": "Nicolas Batum",
+    "firstName": "Nicolas",
+    "lastName": "Batum",
+    "team": "LAC",
+    "position": "F-G",
+    "externalIds": {
+      "balldontlie": 33
+    }
+  },
+  {
+    "id": "nba_34",
+    "sport": "NBA",
+    "name": "Jerryd Bayless",
+    "firstName": "Jerryd",
+    "lastName": "Bayless",
+    "team": "MIL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 34
+    }
+  },
+  {
+    "id": "nba_35",
+    "sport": "NBA",
+    "name": "Aron Baynes",
+    "firstName": "Aron",
+    "lastName": "Baynes",
+    "team": "DET",
+    "position": "C-F",
+    "externalIds": {
+      "balldontlie": 35
+    }
+  },
+  {
+    "id": "nba_36",
+    "sport": "NBA",
+    "name": "Kent Bazemore",
+    "firstName": "Kent",
+    "lastName": "Bazemore",
+    "team": "SAC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 36
+    }
+  },
+  {
+    "id": "nba_37",
+    "sport": "NBA",
+    "name": "Bradley Beal",
+    "firstName": "Bradley",
+    "lastName": "Beal",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 37
+    }
+  },
+  {
+    "id": "nba_38",
+    "sport": "NBA",
+    "name": "Malik Beasley",
+    "firstName": "Malik",
+    "lastName": "Beasley",
+    "team": "DET",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 38
+    }
+  },
+  {
+    "id": "nba_39",
+    "sport": "NBA",
+    "name": "Michael Beasley",
+    "firstName": "Michael",
+    "lastName": "Beasley",
+    "team": "MIA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 39
+    }
+  },
+  {
+    "id": "nba_40",
+    "sport": "NBA",
+    "name": "Marco Belinelli",
+    "firstName": "Marco",
+    "lastName": "Belinelli",
+    "team": "SAS",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 40
+    }
+  },
+  {
+    "id": "nba_41",
+    "sport": "NBA",
+    "name": "Jordan Bell",
+    "firstName": "Jordan",
+    "lastName": "Bell",
+    "team": "CHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 41
+    }
+  },
+  {
+    "id": "nba_42",
+    "sport": "NBA",
+    "name": "DeAndre' Bembry",
+    "firstName": "DeAndre'",
+    "lastName": "Bembry",
+    "team": "MIL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 42
+    }
+  },
+  {
+    "id": "nba_43",
+    "sport": "NBA",
+    "name": "Dragan Bender",
+    "firstName": "Dragan",
+    "lastName": "Bender",
+    "team": "PHX",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 43
+    }
+  },
+  {
+    "id": "nba_44",
+    "sport": "NBA",
+    "name": "Davis Bertans",
+    "firstName": "Davis",
+    "lastName": "Bertans",
+    "team": "CHA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 44
+    }
+  },
+  {
+    "id": "nba_45",
+    "sport": "NBA",
+    "name": "Patrick Beverley",
+    "firstName": "Patrick",
+    "lastName": "Beverley",
+    "team": "MIL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 45
+    }
+  },
+  {
+    "id": "nba_46",
+    "sport": "NBA",
+    "name": "Khem Birch",
+    "firstName": "Khem",
+    "lastName": "Birch",
+    "team": "SAS",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 46
+    }
+  },
+  {
+    "id": "nba_47",
+    "sport": "NBA",
+    "name": "Jabari Bird",
+    "firstName": "Jabari",
+    "lastName": "Bird",
+    "team": "BOS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 47
+    }
+  },
+  {
+    "id": "nba_48",
+    "sport": "NBA",
+    "name": "Bismack Biyombo",
+    "firstName": "Bismack",
+    "lastName": "Biyombo",
+    "team": "SAS",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 48
+    }
+  },
+  {
+    "id": "nba_49",
+    "sport": "NBA",
+    "name": "Nemanja Bjelica",
+    "firstName": "Nemanja",
+    "lastName": "Bjelica",
+    "team": "GSW",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 49
+    }
+  },
+  {
+    "id": "nba_50",
+    "sport": "NBA",
+    "name": "Antonio Blakeney",
+    "firstName": "Antonio",
+    "lastName": "Blakeney",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 50
+    }
+  },
+  {
+    "id": "nba_51",
+    "sport": "NBA",
+    "name": "Eric Bledsoe",
+    "firstName": "Eric",
+    "lastName": "Bledsoe",
+    "team": "POR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 51
+    }
+  },
+  {
+    "id": "nba_52",
+    "sport": "NBA",
+    "name": "Trevon Bluiett",
+    "firstName": "Trevon",
+    "lastName": "Bluiett",
+    "team": "UTA",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 52
+    }
+  },
+  {
+    "id": "nba_53",
+    "sport": "NBA",
+    "name": "Bogdan Bogdanovic",
+    "firstName": "Bogdan",
+    "lastName": "Bogdanovic",
+    "team": "LAC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 53
+    }
+  },
+  {
+    "id": "nba_54",
+    "sport": "NBA",
+    "name": "Bojan Bogdanovic",
+    "firstName": "Bojan",
+    "lastName": "Bogdanovic",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 54
+    }
+  },
+  {
+    "id": "nba_55",
+    "sport": "NBA",
+    "name": "Jonah Bolden",
+    "firstName": "Jonah",
+    "lastName": "Bolden",
+    "team": "PHI",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 55
+    }
+  },
+  {
+    "id": "nba_56",
+    "sport": "NBA",
+    "name": "Isaac Bonga",
+    "firstName": "Isaac",
+    "lastName": "Bonga",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 56
+    }
+  },
+  {
+    "id": "nba_57",
+    "sport": "NBA",
+    "name": "Devin Booker",
+    "firstName": "Devin",
+    "lastName": "Booker",
+    "team": "PHX",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 57
+    }
+  },
+  {
+    "id": "nba_58",
+    "sport": "NBA",
+    "name": "Chris Boucher",
+    "firstName": "Chris",
+    "lastName": "Boucher",
+    "team": "TOR",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 58
+    }
+  },
+  {
+    "id": "nba_59",
+    "sport": "NBA",
+    "name": "Avery Bradley",
+    "firstName": "Avery",
+    "lastName": "Bradley",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 59
+    }
+  },
+  {
+    "id": "nba_60",
+    "sport": "NBA",
+    "name": "Tony Bradley",
+    "firstName": "Tony",
+    "lastName": "Bradley",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 60
+    }
+  },
+  {
+    "id": "nba_61",
+    "sport": "NBA",
+    "name": "Mikal Bridges",
+    "firstName": "Mikal",
+    "lastName": "Bridges",
+    "team": "NYK",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 61
+    }
+  },
+  {
+    "id": "nba_62",
+    "sport": "NBA",
+    "name": "Miles Bridges",
+    "firstName": "Miles",
+    "lastName": "Bridges",
+    "team": "CHA",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 62
+    }
+  },
+  {
+    "id": "nba_63",
+    "sport": "NBA",
+    "name": "Isaiah Briscoe",
+    "firstName": "Isaiah",
+    "lastName": "Briscoe",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 63
+    }
+  },
+  {
+    "id": "nba_64",
+    "sport": "NBA",
+    "name": "Ryan Broekhoff",
+    "firstName": "Ryan",
+    "lastName": "Broekhoff",
+    "team": "DAL",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 64
+    }
+  },
+  {
+    "id": "nba_65",
+    "sport": "NBA",
+    "name": "Malcolm Brogdon",
+    "firstName": "Malcolm",
+    "lastName": "Brogdon",
+    "team": "WAS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 65
+    }
+  },
+  {
+    "id": "nba_66",
+    "sport": "NBA",
+    "name": "Dillon Brooks",
+    "firstName": "Dillon",
+    "lastName": "Brooks",
+    "team": "HOU",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 66
+    }
+  },
+  {
+    "id": "nba_67",
+    "sport": "NBA",
+    "name": "MarShon Brooks",
+    "firstName": "MarShon",
+    "lastName": "Brooks",
+    "team": "BKN",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 67
+    }
+  },
+  {
+    "id": "nba_68",
+    "sport": "NBA",
+    "name": "Troy Brown Jr.",
+    "firstName": "Troy",
+    "lastName": "Brown Jr.",
+    "team": "DET",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 68
+    }
+  },
+  {
+    "id": "nba_69",
+    "sport": "NBA",
+    "name": "Bruce Brown",
+    "firstName": "Bruce",
+    "lastName": "Brown",
+    "team": "NOP",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 69
+    }
+  },
+  {
+    "id": "nba_70",
+    "sport": "NBA",
+    "name": "Jaylen Brown",
+    "firstName": "Jaylen",
+    "lastName": "Brown",
+    "team": "BOS",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 70
+    }
+  },
+  {
+    "id": "nba_71",
+    "sport": "NBA",
+    "name": "Lorenzo Brown",
+    "firstName": "Lorenzo",
+    "lastName": "Brown",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 71
+    }
+  },
+  {
+    "id": "nba_72",
+    "sport": "NBA",
+    "name": "Sterling Brown",
+    "firstName": "Sterling",
+    "lastName": "Brown",
+    "team": "LAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 72
+    }
+  },
+  {
+    "id": "nba_73",
+    "sport": "NBA",
+    "name": "Jalen Brunson",
+    "firstName": "Jalen",
+    "lastName": "Brunson",
+    "team": "NYK",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 73
+    }
+  },
+  {
+    "id": "nba_74",
+    "sport": "NBA",
+    "name": "Thomas Bryant",
+    "firstName": "Thomas",
+    "lastName": "Bryant",
+    "team": "IND",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 74
+    }
+  },
+  {
+    "id": "nba_75",
+    "sport": "NBA",
+    "name": "Reggie Bullock",
+    "firstName": "Reggie",
+    "lastName": "Bullock",
+    "team": "HOU",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 75
+    }
+  },
+  {
+    "id": "nba_76",
+    "sport": "NBA",
+    "name": "Trey Burke",
+    "firstName": "Trey",
+    "lastName": "Burke",
+    "team": "DAL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 76
+    }
+  },
+  {
+    "id": "nba_77",
+    "sport": "NBA",
+    "name": "Alec Burks",
+    "firstName": "Alec",
+    "lastName": "Burks",
+    "team": "MIA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 77
+    }
+  },
+  {
+    "id": "nba_78",
+    "sport": "NBA",
+    "name": "Deonte Burton",
+    "firstName": "Deonte",
+    "lastName": "Burton",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 78
+    }
+  },
+  {
+    "id": "nba_79",
+    "sport": "NBA",
+    "name": "Jimmy Butler",
+    "firstName": "Jimmy",
+    "lastName": "Butler",
+    "team": "GSW",
+    "position": "G-F",
+    "externalIds": {
+      "balldontlie": 79
+    }
+  },
+  {
+    "id": "nba_80",
+    "sport": "NBA",
+    "name": "Jose Calderon",
+    "firstName": "Jose",
+    "lastName": "Calderon",
+    "team": "TOR",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 80
+    }
+  },
+  {
+    "id": "nba_81",
+    "sport": "NBA",
+    "name": "Kentavious Caldwell-Pope",
+    "firstName": "Kentavious",
+    "lastName": "Caldwell-Pope",
+    "team": "MEM",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 81
+    }
+  },
+  {
+    "id": "nba_82",
+    "sport": "NBA",
+    "name": "Isaiah Canaan",
+    "firstName": "Isaiah",
+    "lastName": "Canaan",
+    "team": "PHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 82
+    }
+  },
+  {
+    "id": "nba_83",
+    "sport": "NBA",
+    "name": "Clint Capela",
+    "firstName": "Clint",
+    "lastName": "Capela",
+    "team": "ATL",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 83
+    }
+  },
+  {
+    "id": "nba_84",
+    "sport": "NBA",
+    "name": "DeMarre Carroll",
+    "firstName": "DeMarre",
+    "lastName": "Carroll",
+    "team": "ATL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 84
+    }
+  },
+  {
+    "id": "nba_85",
+    "sport": "NBA",
+    "name": "Wendell Carter Jr.",
+    "firstName": "Wendell",
+    "lastName": "Carter Jr.",
+    "team": "ORL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 85
+    }
+  },
+  {
+    "id": "nba_86",
+    "sport": "NBA",
+    "name": "Michael Carter-Williams",
+    "firstName": "Michael",
+    "lastName": "Carter-Williams",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 86
+    }
+  },
+  {
+    "id": "nba_87",
+    "sport": "NBA",
+    "name": "Jevon Carter",
+    "firstName": "Jevon",
+    "lastName": "Carter",
+    "team": "CHI",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 87
+    }
+  },
+  {
+    "id": "nba_88",
+    "sport": "NBA",
+    "name": "Vince Carter",
+    "firstName": "Vince",
+    "lastName": "Carter",
+    "team": "TOR",
+    "position": "F-G",
+    "externalIds": {
+      "balldontlie": 88
+    }
+  },
+  {
+    "id": "nba_89",
+    "sport": "NBA",
+    "name": "Alex Caruso",
+    "firstName": "Alex",
+    "lastName": "Caruso",
+    "team": "OKC",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 89
+    }
+  },
+  {
+    "id": "nba_90",
+    "sport": "NBA",
+    "name": "Omri Casspi",
+    "firstName": "Omri",
+    "lastName": "Casspi",
+    "team": "SAC",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 90
+    }
+  },
+  {
+    "id": "nba_91",
+    "sport": "NBA",
+    "name": "Willie Cauley-Stein",
+    "firstName": "Willie",
+    "lastName": "Cauley-Stein",
+    "team": "PHI",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 91
+    }
+  },
+  {
+    "id": "nba_92",
+    "sport": "NBA",
+    "name": "Troy Caupain",
+    "firstName": "Troy",
+    "lastName": "Caupain",
+    "team": "ORL",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 92
+    }
+  },
+  {
+    "id": "nba_93",
+    "sport": "NBA",
+    "name": "Tyler Cavanaugh",
+    "firstName": "Tyler",
+    "lastName": "Cavanaugh",
+    "team": "ATL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 93
+    }
+  },
+  {
+    "id": "nba_94",
+    "sport": "NBA",
+    "name": "Tyson Chandler",
+    "firstName": "Tyson",
+    "lastName": "Chandler",
+    "team": "NYK",
+    "position": "C",
+    "externalIds": {
+      "balldontlie": 94
+    }
+  },
+  {
+    "id": "nba_95",
+    "sport": "NBA",
+    "name": "Wilson Chandler",
+    "firstName": "Wilson",
+    "lastName": "Chandler",
+    "team": "DEN",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 95
+    }
+  },
+  {
+    "id": "nba_96",
+    "sport": "NBA",
+    "name": "Joe Chealey",
+    "firstName": "Joe",
+    "lastName": "Chealey",
+    "team": "CHA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 96
+    }
+  },
+  {
+    "id": "nba_97",
+    "sport": "NBA",
+    "name": "Marquese Chriss",
+    "firstName": "Marquese",
+    "lastName": "Chriss",
+    "team": "DAL",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 97
+    }
+  },
+  {
+    "id": "nba_98",
+    "sport": "NBA",
+    "name": "Gary Clark",
+    "firstName": "Gary",
+    "lastName": "Clark",
+    "team": "NOP",
+    "position": "F",
+    "externalIds": {
+      "balldontlie": 98
+    }
+  },
+  {
+    "id": "nba_99",
+    "sport": "NBA",
+    "name": "Ian Clark",
+    "firstName": "Ian",
+    "lastName": "Clark",
+    "team": "GSW",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 99
+    }
+  },
+  {
+    "id": "nba_100",
+    "sport": "NBA",
+    "name": "Jordan Clarkson",
+    "firstName": "Jordan",
+    "lastName": "Clarkson",
+    "team": "UTA",
+    "position": "G",
+    "externalIds": {
+      "balldontlie": 100
+    }
+  }
+]

@@ -1,105 +1,142 @@
-import { Router } from 'express'
-import { findPlayerId, getPlayerName, getProps, getPriors } from '../services/demoCache.js'
-import { computeFairline } from '../services/fairline.js'
+import { Router } from "express"
+import { LRUCache } from "lru-cache"
+import fs from "node:fs/promises"
+import fetch from "node-fetch"
 
-const router = Router()
+const r = Router()
+const BALDO_BASE = "https://api.balldontlie.io/v1"
+// Use your Balldontlie API key
+const BALDO_HEADERS: Record<string,string> = {
+  "Accept": "application/json",
+  "Authorization": `Bearer ${process.env.BALLDONTLIE_API_KEY || 'f98954c1-4a2b-40c7-a1f3-0d099214aa91'}`
+}
 
-// GET /players?q=trae young
-router.get('/', (req, res) => {
-  const q = (req.query.q as string || '').trim()
-  const priors = getPriors()
+type Player = {
+  id: string
+  sport: "NBA"
+  name: string
+  firstName?: string
+  lastName?: string
+  team?: string          // e.g., "MIN"
+  position?: string      // e.g., "G"
+  aliases?: string[]
+  externalIds: { balldontlie: number }
+}
 
-  if (!q) {
-    // Return a small default list (top priors)
-    const unique: Record<string, boolean> = {}
-    const players = priors.slice(0, 10).filter(p => {
-      if (unique[p.playerId]) return false
-      unique[p.playerId] = true
-      return true
-    }).map(p => ({ id: p.playerId, name: getPlayerName(p.playerId) }))
-    return res.json({ players })
+const cache = new LRUCache<string, Player[]>({ max: 500, ttl: 1000 * 60 * 15 }) // 15 min
+const detailCache = new LRUCache<number, any>({ max: 500, ttl: 1000 * 60 * 60 })
+
+// Local fallback data
+let localPlayers: any[] | null = null
+async function loadLocal() {
+  if (!localPlayers) {
+    try {
+      const raw = await fs.readFile(process.cwd() + "/apps/api/data/players.nba.json", "utf-8")
+      localPlayers = JSON.parse(raw)
+    } catch { localPlayers = [] }
   }
+  return localPlayers!
+}
 
-  const id = findPlayerId(q)
-  if (!id) return res.json({ players: [] })
-  return res.json({ players: [{ id, name: getPlayerName(id) }] })
+function normalize(p: any): Player {
+  const name = `${p.first_name ?? ""} ${p.last_name ?? ""}`.trim()
+  return {
+    id: `nba_${p.id}`,
+    sport: "NBA",
+    name,
+    firstName: p.first_name ?? undefined,
+    lastName: p.last_name ?? undefined,
+    team: p.team?.abbreviation ?? undefined,
+    position: p.position || undefined,
+    aliases: [],
+    externalIds: { balldontlie: p.id },
+  }
+}
+
+// GET /players?q=luk
+r.get("/", async (req, res) => {
+  try {
+    const q = String(req.query.q ?? "").trim()
+    if (!q || q.length < 2) {
+      // Return empty for backward compatibility (legacy expected { players: [] })
+      return res.json({ players: [] })
+    }
+
+    const key = q.toLowerCase()
+    const cached = cache.get(key)
+    if (cached) {
+      return res.json({ players: cached.slice(0, 25) })
+    }
+
+    const url = `${BALDO_BASE}/players?per_page=25&search=${encodeURIComponent(q)}`
+    const resp = await fetch(url, { headers: BALDO_HEADERS })
+    
+    if (!resp.ok) {
+      console.warn('Balldontlie API failed, using local fallback')
+      // Fallback to local filtered results
+      const local = await loadLocal()
+      const out = local
+        .filter((p: any) => 
+          (p.name ?? "").toLowerCase().includes(key) || 
+          (p.team ?? "").toLowerCase().includes(key)
+        )
+        .slice(0, 25)
+      return res.json({ players: out })
+    }
+    
+    const data = await resp.json() as any
+    const mapped: Player[] = (data?.data ?? []).map(normalize)
+
+    cache.set(key, mapped)
+    res.json({ players: mapped })
+  } catch (e: any) {
+    console.error('Player search error:', e)
+    res.status(500).json({ error: e?.message ?? "search_failed" })
+  }
 })
 
-// GET /players/:id/markets
-router.get('/:id/markets', (req, res) => {
+// GET /players/:id  (id like nba_237)
+r.get("/:id", async (req, res) => {
+  try {
+    const idStr = String(req.params.id)
+    if (!idStr.startsWith("nba_")) return res.status(400).json({ error: "bad_id" })
+    const balId = Number(idStr.replace("nba_", ""))
+    if (!balId) return res.status(400).json({ error: "bad_id" })
+
+    const cached = detailCache.get(balId)
+    if (cached) return res.json(normalize(cached))
+
+    const resp = await fetch(`${BALDO_BASE}/players/${balId}`, { headers: BALDO_HEADERS })
+    if (!resp.ok) return res.status(resp.status).json({ error: await resp.text() })
+    const data = await resp.json() as any
+    detailCache.set(balId, data)
+    return res.json(normalize(data))
+  } catch (e: any) {
+    res.status(500).json({ error: e?.message ?? "detail_failed" })
+  }
+})
+
+// Legacy markets endpoint for backward compatibility
+r.get('/:id/markets', async (req, res) => {
+  // For now, return empty markets since this was using demo cache
+  // This can be enhanced later with real betting data
   const { id } = req.params
-  const props = getProps().filter(p => p.playerId === id)
-  const priors = getPriors().filter(pr => pr.playerId === id)
-
-  if (props.length === 0 && priors.length === 0) {
-    return res.status(404).json({ error: 'player_not_found' })
-  }
-
-  const markets = props.map(p => {
-    const fair = computeFairline({ player_id: p.playerId, market: p.market, line: p.line })
-    // Fallback if no prior (should be rare in demo data)
-    const fairLine = fair?.fair_line ?? p.line
-    const edgeModel = fair?.edge ?? 0
-    const edgePct = ((fairLine - p.line) / (p.line === 0 ? 1 : p.line)) * 100 // basic % diff
-    return {
-      book: p.source,
-      market: p.market,
-      marketLine: p.line,
-      fairLine,
-      edgePct,          // simple diff based edge %
-      modelEdgePct: edgeModel * 100, // from MC engine if scaled (already expressed maybe as decimal)
-      ts: p.ts
-    }
-  })
-
-  // Also include priors for markets that may not currently have a market line
-  priors.forEach(pr => {
-    const exists = markets.find(m => m.market === pr.market)
-    if (!exists) {
-      markets.push({
-        book: '—',
-        market: pr.market,
-        marketLine: pr.mu,
-        fairLine: pr.mu,
-        edgePct: 0,
-        modelEdgePct: 0,
-        ts: pr.updatedAt
-      })
-    }
-  })
-
-  // Pick best edge (largest positive edgePct)
-  const best = markets.reduce((acc, m) => {
-    if (!acc) return m
-    return (m.edgePct > (acc.edgePct ?? -Infinity)) ? m : acc
-  }, null as any)
-
   res.json({
-    player: { id, name: getPlayerName(id) },
-    markets,
-    best
+    player: { id, name: "Player" },
+    markets: [],
+    best: null
   })
 })
 
-// GET /players/:id/line-history?market=points
-router.get('/:id/line-history', (req, res) => {
+// Legacy line history endpoint  
+r.get('/:id/line-history', async (req, res) => {
   const { id } = req.params
   const market = (req.query.market as string) || 'points'
-  const props = getProps().filter(p => p.playerId === id && p.market === market)
-  if (props.length === 0) return res.json({ history: [] })
-  const latest = props[0]
-  // Generate synthetic 24h history (hourly)
-  const points: Array<{ ts: string; marketLine: number; fairLine: number }> = []
-  const now = Date.now()
-  for (let i = 23; i >= 0; i--) {
-    const t = now - i * 60 * 60 * 1000
-    const jitter = 1 + (Math.sin(i) * 0.02) + ((Math.random() - 0.5) * 0.03)
-    const marketLine = parseFloat((latest.line * jitter).toFixed(2))
-    const fair = computeFairline({ player_id: latest.playerId, market: latest.market, line: marketLine })
-    const fairLine = fair?.fair_line ?? marketLine
-    points.push({ ts: new Date(t).toISOString(), marketLine, fairLine })
-  }
-  res.json({ player: { id, name: getPlayerName(id) }, market, history: points })
+  res.json({ 
+    player: { id, name: "Player" }, 
+    market, 
+    history: [] 
+  })
 })
 
-export default router
+export default r
