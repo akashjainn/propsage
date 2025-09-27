@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import lines from './routes/lines.js'
 import fairline from './routes/fairline.js'
+import players from './routes/players'
 import perplexity from './routes/perplexity.js'
 import video from './routes/twelvelabs.js'
 import price from './routes/price.js'
@@ -47,6 +48,7 @@ export function createApp() {
     ok: true,
   }))
   app.use('/lines', lines)
+  app.use('/players', players)
   app.use('/fairline', fairline)
   app.use('/evidence', perplexity)
   app.use('/video', video)

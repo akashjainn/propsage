@@ -129,13 +129,13 @@ export function VideoIntelligencePanel({
   const getSignalColor = (signalType: string, value: number) => {
     switch (signalType) {
       case 'injury':
-        return value > 0.7 ? 'text-red-600' : value > 0.4 ? 'text-yellow-600' : 'text-green-600'
+        return value > 0.7 ? 'text-destructive' : value > 0.4 ? 'text-warning' : 'text-positive'
       case 'minutes_restriction':
-        return value > 0.6 ? 'text-orange-600' : 'text-blue-600'
+        return value > 0.6 ? 'text-warning' : 'text-info'
       case 'weather':
-        return value > 0.5 ? 'text-gray-600' : 'text-blue-400'
+        return value > 0.5 ? 'text-muted' : 'text-info'
       default:
-        return 'text-purple-600'
+        return 'text-accent'
     }
   }
 
@@ -149,13 +149,13 @@ export function VideoIntelligencePanel({
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-surface rounded-lg shadow-lg p-6">
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
+          <div className="h-4 bg-surface-hover rounded w-1/4 mb-4"></div>
           <div className="space-y-3">
-            <div className="h-4 bg-gray-200 rounded"></div>
-            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+            <div className="h-4 bg-surface-hover rounded"></div>
+            <div className="h-4 bg-surface-hover rounded w-5/6"></div>
+            <div className="h-4 bg-surface-hover rounded w-3/4"></div>
           </div>
         </div>
       </div>
@@ -163,10 +163,10 @@ export function VideoIntelligencePanel({
   }
 
   return (
-    <div className="bg-white rounded-lg shadow">
-      <div className="p-6 border-b border-gray-200">
+    <div className="bg-surface rounded-lg shadow-lg">
+      <div className="p-6 border-b border-border">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+          <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
             🎬 Video Intelligence
             {meta?.source === 'live' && (
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
@@ -174,14 +174,14 @@ export function VideoIntelligencePanel({
               </span>
             )}
             {meta?.source === 'demo' && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent text-accent-foreground">
                 Demo
               </span>
             )}
           </h2>
           <button
             onClick={loadVideoIntelligence}
-            className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-3 py-1 text-sm bg-primary text-primary-foreground rounded hover:bg-primary/90"
           >
             Refresh
           </button>
@@ -212,7 +212,7 @@ export function VideoIntelligencePanel({
 
         {/* Usage Stats */}
         {meta && (
-          <div className="text-sm text-gray-600 mb-4">
+          <div className="text-sm text-muted mb-4">
             <span>{meta.count} signals</span>
             {meta.twelveLabsUsage && (
               <span className="ml-4">
@@ -227,8 +227,8 @@ export function VideoIntelligencePanel({
 
       {/* Search Results */}
       {searchResults.length > 0 && (
-        <div className="p-6 border-b border-gray-200 bg-purple-50">
-          <h3 className="font-semibold text-gray-900 mb-3">Search Results ({searchResults.length})</h3>
+        <div className="p-6 border-b border-border bg-accent/5">
+          <h3 className="font-semibold text-foreground mb-3">Search Results ({searchResults.length})</h3>
           <div className="space-y-3">
             {searchResults.map((signal, index) => (
               <VideoSignalCard key={index} signal={signal} />
@@ -239,7 +239,7 @@ export function VideoIntelligencePanel({
 
       {/* All Video Signals */}
       <div className="p-6">
-        <h3 className="font-semibold text-gray-900 mb-4">Latest Video Intelligence</h3>
+        <h3 className="font-semibold text-foreground mb-4">Latest Video Intelligence</h3>
         {videoSignals.length > 0 ? (
           <div className="space-y-4">
             {videoSignals.map((signal, index) => (
@@ -247,7 +247,7 @@ export function VideoIntelligencePanel({
             ))}
           </div>
         ) : (
-          <div className="text-center py-8 text-gray-500">
+          <div className="text-center py-8 text-muted">
             <p>No video intelligence signals available</p>
             <p className="text-sm mt-2">Try searching for specific players or events</p>
           </div>
@@ -291,7 +291,7 @@ function VideoSignalCard({ signal }: { signal: VideoSignal }) {
   }
 
   return (
-    <div className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+     <div className="border border-border rounded-lg p-4 hover:bg-surface-hover">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
