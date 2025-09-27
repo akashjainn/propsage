@@ -27,6 +27,24 @@ pnpm dev
 ```
 API on :4000, Web on :3000.
 
+### Offline Demo Mode
+Set `DEMO_MODE=true` in `.env` (default) and the API will serve lines, priors, evidence, and video clips from `data/*.json` caches. No external network calls are made. Disable by setting `DEMO_MODE=false` and providing valid `PPLX_API_KEY` / `TL_API_KEY`.
+
+### API Examples
+```
+curl http://localhost:4000/health
+curl http://localhost:4000/lines
+curl -X POST http://localhost:4000/fairline -H "Content-Type: application/json" -d '{"player_id":"ANT","market":"PTS","line":25.5}'
+curl http://localhost:4000/evidence/ANT
+curl http://localhost:4000/video/ANT
+```
+
+### Troubleshooting
+- CORS: API allows `http://localhost:3000` by default. If frontend hosted elsewhere, adjust origin in `index.ts`.
+- Ports: Change via `PORT` env var.
+- Missing data: Ensure JSON files exist in `data/` and are valid; restart process to clear in-memory caches.
+- Rate limits (when demo off): Evidence/video adapters include basic backoff; persistent failures return empty arrays.
+
 ## Core Concepts
 - Pricing: Lightweight normal approximation with evidence-driven mean/variance shifts; Monte Carlo for edge & CI.
 - Evidence: News snippets with bounded influence (deltaMu, deltaSigma, weight) -> applied list retained for audit.

@@ -5,6 +5,8 @@ import { WebSocketServer } from 'ws'
 import { createServer } from 'http'
 import lines from './routes/lines'
 import fairline from './routes/fairline'
+import perplexity from './routes/perplexity'
+import video from './routes/twelvelabs'
 import { timing } from './middleware/timing'
 import { config } from './config'
 import { getPriors } from './services/demoCache'
@@ -19,6 +21,8 @@ app.use(timing)
 app.get('/health', (_req, res) => res.json({ demo: config.demoMode, video: config.videoEnabled }))
 app.use('/lines', lines)
 app.use('/fairline', fairline)
+app.use('/evidence', perplexity)
+app.use('/video', video)
 
 const server = createServer(app)
 const wss = new WebSocketServer({ server })
