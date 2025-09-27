@@ -20,7 +20,7 @@ export function VideoPanel({ clips }: VideoPanelProps) {
           <div key={clip.id} className="group cursor-pointer">
             <div className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden mb-2">
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-4xl">í¾¥</div>
+                <div className="text-4xl" aria-hidden="true">ðŸŽ¬</div>
               </div>
               
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -50,7 +50,7 @@ export function VideoPanel({ clips }: VideoPanelProps) {
 
       <div className="mt-4 p-4 bg-purple-900/20 rounded-lg border border-purple-500/30">
         <div className="flex items-start space-x-2">
-          <div className="text-purple-400 mt-0.5">í¾¯</div>
+          <div className="text-purple-400 mt-0.5" aria-hidden="true">ðŸŽ¥</div>
           <div>
             <p className="text-sm text-purple-300 font-medium">Video Analysis</p>
             <p className="text-xs text-purple-200/80 mt-1">
