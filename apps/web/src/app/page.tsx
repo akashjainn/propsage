@@ -133,6 +133,7 @@ export default function HomePage() {
                 {selectedSport} Players
                 {searchQuery && <span className="text-[var(--fg-dim)]"> for "{searchQuery}"</span>}
               </h2>
+            </div>
               
             {loadingPlayers ? (
               <div className="text-[var(--fg-dim)] text-sm animate-pulse">Searching players...</div>
@@ -151,10 +152,10 @@ export default function HomePage() {
                   >
                     <div className="font-medium text-[var(--fg)]">{player.name}</div>
                     <div className="text-sm text-[var(--fg-dim)] mt-1">
-                      {player.team && <span style={{color: player.teamColor}}>{player.team}</span>}
+                      {player.team && <span style={{color: (player as any).teamColor || '#374151'}}>{player.team}</span>}
                       {player.position && player.team && <span> • </span>}
                       {player.position && <span>{player.position}</span>}
-                      {player.class && <span> • {formatPlayerClass(player.class)}</span>}
+                      {(player as any).class && <span> • {formatPlayerClass((player as any).class)}</span>}
                     </div>
                   </div>
                 ))}
@@ -175,7 +176,7 @@ export default function HomePage() {
                 <div>
                   <h2 className="text-2xl font-semibold">{propsData.player.name}</h2>
                   <div className="text-[var(--fg-dim)]">
-                    <span style={{color: propsData.player.teamColor}}>{propsData.player.team}</span>
+                    <span style={{color: (propsData.player as any).teamColor || '#374151'}}>{propsData.player.team}</span>
                     {propsData.player.position && <span> • {propsData.player.position}</span>}
                     {propsData.player.team && <span> • {getConference(propsData.player.team)}</span>}
                   </div>
@@ -223,9 +224,14 @@ export default function HomePage() {
 
               {/* Markets table */}
               <MarketsTable 
-                markets={propsData.props} 
-                onSelectProp={(prop) => setSelectedPropId(prop.propId)}
-                selectedPropId={selectedPropId}
+                rows={propsData.props.map((prop: any) => ({
+                  book: prop.book,
+                  market: prop.stat,
+                  marketLine: prop.marketLine,
+                  fairLine: prop.fairLine,
+                  edgePct: prop.edgePct
+                }))} 
+                onSelect={(prop: any) => setSelectedPropId(prop.propId)}
               />
             </>
           ) : (
