@@ -7,9 +7,9 @@ import { MarketsTable, MarketRow } from '@/components/MarketsTable'
 import { VideoPanel, Clip } from '@/components/VideoPanel'
 import { API_BASE } from '@/lib/api'
 import { useVideoClips } from '@/lib/useVideoClips'
-import { useNflPlayerSearch } from '@/lib/useNflPlayerSearch'
-import { useNflProps } from '@/lib/useNflProps'
-import { statToShortLabel, formatEdge } from '@/lib/nfl'
+import { useCfbPlayerSearch } from '@/lib/useCfbPlayerSearch'
+import { useCfbProps } from '@/lib/useCfbProps'
+import { statToShortLabel, formatEdge, getConference, formatPlayerClass } from '@/lib/cfb'
 
 interface MarketsResponse { player:{ id:string; name:string }; markets:MarketRow[]; best?: any }
 
@@ -29,7 +29,7 @@ function VideoSearchForm({onSearch, loading}:{onSearch:(q:string)=>void; loading
       <input
         value={q}
         onChange={e => setQ(e.target.value)}
-        placeholder='e.g., "injury report", "touchdown highlights"'
+        placeholder='e.g., "quarterback highlights", "rushing touchdowns"'
         className="w-full rounded-lg bg-[var(--card)] text-[var(--fg)]
                    placeholder-[var(--muted)] border border-white/10 px-3 py-2
                    focus:ring-2 focus:ring-[var(--iris)] focus:outline-none"
@@ -63,8 +63,8 @@ export default function HomePage() {
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null)
   const [selectedPropId, setSelectedPropId] = useState<string | null>(null)
   const { loading: loadingClips, clips, search: searchVideos } = useVideoClips()
-  const { q: playerQuery, setQ: setPlayerQuery, loading: loadingPlayers, results: playerResults } = useNflPlayerSearch()
-  const { loading: loadingProps, data: propsData } = useNflProps(selectedPlayerId)
+  const { q: playerQuery, setQ: setPlayerQuery, loading: loadingPlayers, results: playerResults } = useCfbPlayerSearch()
+  const { loading: loadingProps, data: propsData } = useCfbProps(selectedPlayerId)
 
   function handleSearch(_sport:string, q:string){
     if(!q) return
@@ -99,7 +99,7 @@ export default function HomePage() {
             <SearchBar onSearch={handleSearch} />
           </div>
           <p className="px-1 pt-2 text-sm text-[var(--fg-dim)]">
-            Search an NFL player to view <span className="text-[var(--mint)]">market vs fair line</span> edges and
+            Search a college football player to view <span className="text-[var(--mint)]">market vs fair line</span> edges and
             watch <span className="text-[var(--amber)]">video moments</span>.
           </p>
         </div>
@@ -136,9 +136,10 @@ export default function HomePage() {
                   >
                     <div className="font-medium text-[var(--fg)]">{player.name}</div>
                     <div className="text-sm text-[var(--fg-dim)] mt-1">
-                      {player.team && <span>{player.team}</span>}
+                      {player.team && <span style={{color: player.teamColor}}>{player.team}</span>}
                       {player.position && player.team && <span> • </span>}
                       {player.position && <span>{player.position}</span>}
+                      {player.class && <span> • {formatPlayerClass(player.class)}</span>}
                     </div>
                   </div>
                 ))}
@@ -158,7 +159,11 @@ export default function HomePage() {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl font-semibold">{propsData.player.name}</h2>
-                  <div className="text-[var(--fg-dim)]">{propsData.player.team}</div>
+                  <div className="text-[var(--fg-dim)]">
+                    <span style={{color: propsData.player.teamColor}}>{propsData.player.team}</span>
+                    {propsData.player.position && <span> • {propsData.player.position}</span>}
+                    {propsData.player.team && <span> • {getConference(propsData.player.team)}</span>}
+                  </div>
                 </div>
                 <button
                   onClick={() => setSelectedPlayerId(null)}
@@ -238,7 +243,7 @@ export default function HomePage() {
             /* Placeholder content when no player selected */
             <div className="rounded-2xl bg-[var(--surface)]/80 ring-1 ring-[var(--stroke)] p-8 text-center">
               <div className="text-[var(--fg-dim)] mb-4">
-                Search for an NFL player above to see their prop lines vs our fair market analysis
+                Search for a college football player above to see their prop lines vs our fair market analysis
               </div>
               <div className="text-sm text-[var(--fg-dim)]">
                 • Compare market lines to fair value

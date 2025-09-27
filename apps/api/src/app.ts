@@ -13,6 +13,10 @@ import nbaProps from './routes/nba-props.js'
 import nflPlayers from './routes/nfl.players.js'
 import nflProps from './routes/nfl.props.js'
 import nflNews from './routes/nfl.news.js'
+import cfbPlayers from './routes/cfb.players.js'
+import cfbProps from './routes/cfb.props.js'
+import cfbNews from './routes/cfb.news.js'
+import cfbVideo from './routes/cfb.video.js'
 import { timing } from './middleware/timing.js'
 import { config } from './config.js'
 
@@ -42,7 +46,11 @@ export function createApp() {
       videoIntelFML: '/fml/enhanced',
       nflPlayers: '/nfl/players',
       nflProps: '/nfl/props',
-      nflNews: '/nfl/news'
+      nflNews: '/nfl/news',
+      cfbPlayers: '/cfb/players',
+      cfbProps: '/cfb/props',
+      cfbNews: '/cfb/news',
+      cfbVideo: '/cfb/video'
     },
     demo: config.demoMode,
     status: 'running'
@@ -67,5 +75,9 @@ export function createApp() {
   app.use('/nfl/players', nflPlayers)
   app.use('/nfl/props', nflProps)
   app.use('/nfl/news', nflNews)
+  app.use('/cfb/players', cfbPlayers)
+  app.use('/cfb/props', cfbProps)
+  app.use('/cfb/news', cfbNews)
+  app.use('/cfb/video', cfbVideo)
   return app
 }
