@@ -1,7 +1,10 @@
 {
   "name": "propsage",
   "private": true,
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "npm-run-all -p dev:api dev:web",
@@ -15,14 +18,17 @@
     "dev:turbo": "turbo run dev --parallel"
   },
   "devDependencies": {
-    "turbo": "^2.0.6",
-    "prettier": "^3.3.2",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
-    "typescript": "^5.4.0",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.3.2",
+    "tsx": "^4.20.6",
+    "turbo": "^2.0.6",
+    "typescript": "^5.4.0"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,json,md}": ["prettier --write"]
+    "*.{ts,tsx,js,json,md}": [
+      "prettier --write"
+    ]
   }
 }
