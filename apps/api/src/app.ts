@@ -1,0 +1,26 @@
+import express from 'express'
+import cors from 'cors'
+import lines from './routes/lines.js'
+import fairline from './routes/fairline.js'
+import perplexity from './routes/perplexity.js'
+import video from './routes/twelvelabs.js'
+import { timing } from './middleware/timing.js'
+import { config } from './config.js'
+
+export function createApp() {
+  const app = express()
+  app.use(cors({ origin: config.corsOrigin }))
+  app.use(express.json())
+  app.use(timing)
+  app.get('/health', (_req, res) => res.json({
+    demo: config.demoMode,
+    video: config.videoEnabled,
+    provider: process.env.EVIDENCE_PROVIDER || 'perplexity',
+    ok: true,
+  }))
+  app.use('/lines', lines)
+  app.use('/fairline', fairline)
+  app.use('/evidence', perplexity)
+  app.use('/video', video)
+  return app
+}

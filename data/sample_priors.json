@@ -1,0 +1,5 @@
+[
+  {"playerId":"ANT","market":"PTS","mu":26.8,"sigma":5.1,"updatedAt":"2025-09-20"},
+  {"playerId":"LUK","market":"AST","mu":9.2,"sigma":3.4,"updatedAt":"2025-09-20"},
+  {"playerId":"TAT","market":"REB","mu":8.1,"sigma":2.9,"updatedAt":"2025-09-20"}
+]

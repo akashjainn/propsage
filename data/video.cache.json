@@ -1,0 +1,14 @@
+[
+  {
+    "playerId": "ANT",
+    "clips": [
+      {"id":"clip-ant-1","title":"Drive vs drop coverage","url":"https://example.com/videos/ant_drive.mp4","thumbnailUrl":"https://example.com/thumbs/ant1.jpg","relevanceScore":0.86,"duration":12}
+    ]
+  },
+  {
+    "playerId": "LUK",
+    "clips": [
+      {"id":"clip-luk-1","title":"High pick-and-roll assist","url":"https://example.com/videos/luk_pnr.mp4","thumbnailUrl":"https://example.com/thumbs/luk1.jpg","relevanceScore":0.8,"duration":11}
+    ]
+  }
+]
