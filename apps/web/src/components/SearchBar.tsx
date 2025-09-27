@@ -2,7 +2,7 @@
 import React from 'react'
 
 export function SearchBar({ onSearch }: { onSearch: (sport:string, q:string)=>void }) {
-  const [sport, setSport] = React.useState<'NBA'|'NFL'|'MLB'>('NBA');
+  const [sport, setSport] = React.useState<'NBA'|'NFL'|'MLB'>('NFL');
   const [q, setQ] = React.useState('');
   return (
     <div className="flex flex-wrap gap-3 w-full">

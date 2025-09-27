@@ -1,0 +1,222 @@
+[
+  {
+    "propId": "prop_nfl_6786_rec_yds_dk",
+    "playerId": "nfl_6786",
+    "playerName": "CeeDee Lamb",
+    "team": "DAL",
+    "stat": "REC_YDS",
+    "book": "DK",
+    "marketLine": 92.5,
+    "fairLine": 98.7,
+    "updatedAt": "2025-01-27T17:00:00Z"
+  },
+  {
+    "propId": "prop_nfl_6786_rec_dk",
+    "playerId": "nfl_6786",
+    "playerName": "CeeDee Lamb",
+    "team": "DAL",
+    "stat": "REC",
+    "book": "DK",
+    "marketLine": 6.5,
+    "fairLine": 7.2,
+    "updatedAt": "2025-01-27T17:00:00Z"
+  },
+  {
+    "propId": "prop_nfl_6783_rec_yds_fd",
+    "playerId": "nfl_6783",
+    "playerName": "Jerry Jeudy",
+    "team": "CLE",
+    "stat": "REC_YDS",
+    "book": "FD",
+    "marketLine": 68.5,
+    "fairLine": 75.3,
+    "updatedAt": "2025-01-27T16:45:00Z"
+  },
+  {
+    "propId": "prop_nfl_6783_rec_fd",
+    "playerId": "nfl_6783",
+    "playerName": "Jerry Jeudy",
+    "team": "CLE",
+    "stat": "REC",
+    "book": "FD",
+    "marketLine": 4.5,
+    "fairLine": 5.1,
+    "updatedAt": "2025-01-27T16:45:00Z"
+  },
+  {
+    "propId": "prop_nfl_11584_rush_yds_dk",
+    "playerId": "nfl_11584",
+    "playerName": "Bucky Irving",
+    "team": "TB",
+    "stat": "RUSH_YDS",
+    "book": "DK",
+    "marketLine": 78.5,
+    "fairLine": 84.2,
+    "updatedAt": "2025-01-27T17:15:00Z"
+  },
+  {
+    "propId": "prop_nfl_11584_rush_att_fd",
+    "playerId": "nfl_11584",
+    "playerName": "Bucky Irving",
+    "team": "TB",
+    "stat": "RUSH_ATT",
+    "book": "FD",
+    "marketLine": 16.5,
+    "fairLine": 18.1,
+    "updatedAt": "2025-01-27T17:15:00Z"
+  },
+  {
+    "propId": "prop_nfl_1408_rush_yds_dk",
+    "playerId": "nfl_1408",
+    "playerName": "Le'Veon Bell",
+    "team": "TB",
+    "stat": "RUSH_YDS",
+    "book": "DK",
+    "marketLine": 45.5,
+    "fairLine": 52.1,
+    "updatedAt": "2025-01-27T16:30:00Z"
+  },
+  {
+    "propId": "prop_nfl_5038_rec_yds_fd",
+    "playerId": "nfl_5038",
+    "playerName": "Michael Gallup",
+    "team": "FA",
+    "stat": "REC_YDS",
+    "book": "FD",
+    "marketLine": 42.5,
+    "fairLine": 48.8,
+    "updatedAt": "2025-01-27T15:45:00Z"
+  },
+  {
+    "propId": "prop_nfl_5038_rec_fd",
+    "playerId": "nfl_5038",
+    "playerName": "Michael Gallup",
+    "team": "FA",
+    "stat": "REC",
+    "book": "FD",
+    "marketLine": 3.5,
+    "fairLine": 4.2,
+    "updatedAt": "2025-01-27T15:45:00Z"
+  },
+  {
+    "propId": "prop_nfl_3268_tackles_dk",
+    "playerId": "nfl_3268",
+    "playerName": "Eric Murray",
+    "team": "JAX",
+    "stat": "TACKLES",
+    "book": "DK",
+    "marketLine": 7.5,
+    "fairLine": 8.9,
+    "updatedAt": "2025-01-27T16:00:00Z"
+  },
+  {
+    "propId": "prop_nfl_9487_rec_yds_dk",
+    "playerId": "nfl_9487",
+    "playerName": "Parker Washington",
+    "team": "JAX",
+    "stat": "REC_YDS",
+    "book": "DK",
+    "marketLine": 35.5,
+    "fairLine": 41.2,
+    "updatedAt": "2025-01-27T17:30:00Z"
+  },
+  {
+    "propId": "prop_nfl_6918_rush_yds_fd",
+    "playerId": "nfl_6918",
+    "playerName": "Salvon Ahmed",
+    "team": "IND",
+    "stat": "RUSH_YDS",
+    "book": "FD",
+    "marketLine": 28.5,
+    "fairLine": 33.7,
+    "updatedAt": "2025-01-27T16:15:00Z"
+  },
+  {
+    "propId": "prop_nfl_6923_int_dk",
+    "playerId": "nfl_6923",
+    "playerName": "Geno Stone",
+    "team": "CIN",
+    "stat": "INT",
+    "book": "DK",
+    "marketLine": 0.5,
+    "fairLine": 0.7,
+    "updatedAt": "2025-01-27T17:45:00Z"
+  },
+  {
+    "propId": "prop_nfl_11649_rush_yds_fd",
+    "playerId": "nfl_11649",
+    "playerName": "Kendall Milton",
+    "team": "CIN",
+    "stat": "RUSH_YDS",
+    "book": "FD",
+    "marketLine": 55.5,
+    "fairLine": 62.8,
+    "updatedAt": "2025-01-27T16:45:00Z"
+  },
+  {
+    "propId": "prop_nfl_5965_rec_yds_dk",
+    "playerId": "nfl_5965",
+    "playerName": "Miles Boykin",
+    "team": "CHI",
+    "stat": "REC_YDS",
+    "book": "DK",
+    "marketLine": 22.5,
+    "fairLine": 27.3,
+    "updatedAt": "2025-01-27T15:30:00Z"
+  },
+  {
+    "propId": "prop_nfl_9504_rec_yds_fd",
+    "playerId": "nfl_9504",
+    "playerName": "Kayshon Boutte",
+    "team": "NE",
+    "stat": "REC_YDS",
+    "book": "FD",
+    "marketLine": 31.5,
+    "fairLine": 36.9,
+    "updatedAt": "2025-01-27T17:00:00Z"
+  },
+  {
+    "propId": "prop_nfl_10926_tackles_dk",
+    "playerId": "nfl_10926",
+    "playerName": "Marte Mapu",
+    "team": "NE",
+    "stat": "TACKLES",
+    "book": "DK",
+    "marketLine": 6.5,
+    "fairLine": 7.8,
+    "updatedAt": "2025-01-27T16:30:00Z"
+  },
+  {
+    "propId": "prop_nfl_10938_sacks_fd",
+    "playerId": "nfl_10938",
+    "playerName": "DJ Johnson",
+    "team": "CAR",
+    "stat": "SACKS",
+    "book": "FD",
+    "marketLine": 0.5,
+    "fairLine": 0.8,
+    "updatedAt": "2025-01-27T17:15:00Z"
+  },
+  {
+    "propId": "prop_nfl_439_long_snap_dk",
+    "playerId": "nfl_439",
+    "playerName": "JJ Jansen",
+    "team": "CAR",
+    "stat": "LONG_SNAP",
+    "book": "DK",
+    "marketLine": 6.5,
+    "fairLine": 7.1,
+    "updatedAt": "2025-01-27T18:00:00Z"
+  },
+  {
+    "propId": "prop_nfl_11533_fg_made_fd",
+    "playerId": "nfl_11533",
+    "playerName": "Brandon Aubrey",
+    "team": "DAL",
+    "stat": "FG_MADE",
+    "book": "FD",
+    "marketLine": 1.5,
+    "fairLine": 1.9,
+    "updatedAt": "2025-01-27T17:45:00Z"
+  }
+]

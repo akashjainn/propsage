@@ -7,8 +7,9 @@ import { MarketsTable, MarketRow } from '@/components/MarketsTable'
 import { VideoPanel, Clip } from '@/components/VideoPanel'
 import { API_BASE } from '@/lib/api'
 import { useVideoClips } from '@/lib/useVideoClips'
-import { usePlayerSearch } from '@/lib/usePlayerSearch'
-import { useNbaProps, PropData } from '@/lib/useNbaProps'
+import { useNflPlayerSearch } from '@/lib/useNflPlayerSearch'
+import { useNflProps } from '@/lib/useNflProps'
+import { statToShortLabel, formatEdge } from '@/lib/nfl'
 
 interface MarketsResponse { player:{ id:string; name:string }; markets:MarketRow[]; best?: any }
 
@@ -28,7 +29,7 @@ function VideoSearchForm({onSearch, loading}:{onSearch:(q:string)=>void; loading
       <input
         value={q}
         onChange={e => setQ(e.target.value)}
-        placeholder='e.g., "injury scare", "clutch threes"'
+        placeholder='e.g., "injury report", "touchdown highlights"'
         className="w-full rounded-lg bg-[var(--card)] text-[var(--fg)]
                    placeholder-[var(--muted)] border border-white/10 px-3 py-2
                    focus:ring-2 focus:ring-[var(--iris)] focus:outline-none"
@@ -62,8 +63,8 @@ export default function HomePage() {
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null)
   const [selectedPropId, setSelectedPropId] = useState<string | null>(null)
   const { loading: loadingClips, clips, search: searchVideos } = useVideoClips()
-  const { q: playerQuery, setQ: setPlayerQuery, loading: loadingPlayers, results: playerResults } = usePlayerSearch()
-  const { loading: loadingProps, data: propsData } = useNbaProps(selectedPlayerId)
+  const { q: playerQuery, setQ: setPlayerQuery, loading: loadingPlayers, results: playerResults } = useNflPlayerSearch()
+  const { loading: loadingProps, data: propsData } = useNflProps(selectedPlayerId)
 
   function handleSearch(_sport:string, q:string){
     if(!q) return
@@ -98,7 +99,7 @@ export default function HomePage() {
             <SearchBar onSearch={handleSearch} />
           </div>
           <p className="px-1 pt-2 text-sm text-[var(--fg-dim)]">
-            Search a player to view <span className="text-[var(--mint)]">market vs fair line</span> edges and
+            Search an NFL player to view <span className="text-[var(--mint)]">market vs fair line</span> edges and
             watch <span className="text-[var(--amber)]">video moments</span>.
           </p>
         </div>
@@ -177,7 +178,7 @@ export default function HomePage() {
                     <div className="flex items-center gap-2">
                       <div className="text-sm text-[var(--fg-dim)]">Best Edge • {bestProp.book}</div>
                       <span className="text-xs px-2 py-1 rounded-full bg-[var(--amber)]/15 text-[var(--amber)] ring-1 ring-[var(--amber)]/30">
-                        {bestProp.stat}
+                        {statToShortLabel(bestProp.stat)}
                       </span>
                     </div>
                     <div className="mt-2 flex items-end gap-6">
@@ -220,14 +221,12 @@ export default function HomePage() {
                         className="grid grid-cols-5 items-center px-5 py-3 hover:bg-white/5 cursor-pointer transition"
                         onClick={() => setSelectedPropId(prop.propId)}
                       >
-                        <div className="font-medium text-[var(--fg)]">{prop.stat}</div>
+                        <div className="font-medium text-[var(--fg)]">{statToShortLabel(prop.stat)}</div>
                         <div className="text-[var(--fg-dim)]">{prop.book}</div>
                         <div className="tabular-nums">{prop.marketLine}</div>
                         <div className="tabular-nums text-[var(--fg-dim)]">{prop.fairLine}</div>
-                        <div className={`text-right tabular-nums ${
-                          prop.edgePct > 0 ? 'text-[var(--mint)]' : 'text-[var(--rose)]'
-                        }`}>
-                          {prop.edgePct > 0 ? '+' : ''}{prop.edgePct}%
+                        <div className={`text-right tabular-nums ${formatEdge(prop.edgePct).color}`}>
+                          {formatEdge(prop.edgePct).text}
                         </div>
                       </div>
                     ))
@@ -239,7 +238,7 @@ export default function HomePage() {
             /* Placeholder content when no player selected */
             <div className="rounded-2xl bg-[var(--surface)]/80 ring-1 ring-[var(--stroke)] p-8 text-center">
               <div className="text-[var(--fg-dim)] mb-4">
-                Search for a player above to see their prop lines vs our fair market analysis
+                Search for an NFL player above to see their prop lines vs our fair market analysis
               </div>
               <div className="text-sm text-[var(--fg-dim)]">
                 • Compare market lines to fair value

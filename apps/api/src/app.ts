@@ -10,6 +10,9 @@ import videoIntel from './routes/videoIntel.js'
 import fml from './routes/fml.js'
 import videoIntelFML from './routes/videoIntelFML.js'
 import nbaProps from './routes/nba-props.js'
+import nflPlayers from './routes/nfl.players.js'
+import nflProps from './routes/nfl.props.js'
+import nflNews from './routes/nfl.news.js'
 import { timing } from './middleware/timing.js'
 import { config } from './config.js'
 
@@ -36,7 +39,10 @@ export function createApp() {
       price: '/price',
       videoIntel: '/video-intel',
       fml: '/fml',
-      videoIntelFML: '/fml/enhanced'
+      videoIntelFML: '/fml/enhanced',
+      nflPlayers: '/nfl/players',
+      nflProps: '/nfl/props',
+      nflNews: '/nfl/news'
     },
     demo: config.demoMode,
     status: 'running'
@@ -58,5 +64,8 @@ export function createApp() {
   app.use('/fml', fml)
   app.use('/fml', videoIntelFML)
   app.use('/nba', nbaProps)
+  app.use('/nfl/players', nflPlayers)
+  app.use('/nfl/props', nflProps)
+  app.use('/nfl/news', nflNews)
   return app
 }
