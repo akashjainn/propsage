@@ -17,6 +17,12 @@ import cfbPlayers from './routes/cfb.players.js'
 import cfbProps from './routes/cfb.props.js'
 import cfbNews from './routes/cfb.news.js'
 import cfbVideo from './routes/cfb.video.js'
+import cfbClips from './routes/cfb.clips.js'
+import cfbEvidence from './routes/cfb.evidence.js'
+// Demo enterprise routes
+import demoGames from './routes/demo.games.js'
+import demoPlayers from './routes/demo.players.js'
+import demoProps from './routes/demo.props.js'
 import { timing } from './middleware/timing.js'
 import { config } from './config.js'
 
@@ -50,7 +56,13 @@ export function createApp() {
       cfbPlayers: '/cfb/players',
       cfbProps: '/cfb/props',
       cfbNews: '/cfb/news',
-      cfbVideo: '/cfb/video'
+      cfbVideo: '/cfb/video',
+      cfbClips: '/cfb/clips',
+      cfbEvidence: '/cfb/evidence',
+      // Demo enterprise endpoints
+      games: '/games',
+      players: '/players', 
+      props: '/props'
     },
     demo: config.demoMode,
     status: 'running'
@@ -60,6 +72,8 @@ export function createApp() {
     demo: config.demoMode,
     video: config.videoEnabled,
     provider: process.env.EVIDENCE_PROVIDER || 'perplexity',
+    mode: config.demoMode ? 'demo' : 'live',
+    seed: config.demoMode ? '20250927' : undefined,
     ok: true,
   }))
   app.use('/lines', lines)
@@ -79,5 +93,13 @@ export function createApp() {
   app.use('/cfb/props', cfbProps)
   app.use('/cfb/news', cfbNews)
   app.use('/cfb/video', cfbVideo)
+  app.use('/cfb/clips', cfbClips)
+  app.use('/cfb/evidence', cfbEvidence)
+  
+  // Demo enterprise routes
+  app.use('/games', demoGames)
+  app.use('/players', demoPlayers)
+  app.use('/props', demoProps)
+  
   return app
 }

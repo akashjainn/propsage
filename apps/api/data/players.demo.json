@@ -1,0 +1,182 @@
+{
+  "players": {
+    "game_uga_bama": {
+      "georgia": [
+        {
+          "id": "gunner_stockton",
+          "teamId": "georgia",
+          "name": "Gunner Stockton",
+          "pos": "QB",
+          "depth": 1,
+          "jersey": 14,
+          "height": 74,
+          "weight": 205,
+          "headshot": "/assets/headshots/gunner_stockton.jpg",
+          "stats": {
+            "passYdsAvg": 267.4,
+            "passTdAvg": 2.1,
+            "intAvg": 0.6,
+            "rushYdsAvg": 28.3
+          },
+          "form": 0.78,
+          "injuryStatus": "questionable",
+          "injuryNote": "Shoulder (probable)"
+        },
+        {
+          "id": "nate_frazier",
+          "teamId": "georgia",
+          "name": "Nate Frazier",
+          "pos": "RB",
+          "depth": 1,
+          "jersey": 6,
+          "height": 71,
+          "weight": 210,
+          "headshot": "/assets/headshots/nate_frazier.jpg",
+          "stats": {
+            "rushYdsAvg": 89.2,
+            "rushTdAvg": 1.1,
+            "recYdsAvg": 23.4
+          },
+          "form": 0.85
+        },
+        {
+          "id": "colbie_young",
+          "teamId": "georgia",
+          "name": "Colbie Young",
+          "pos": "WR",
+          "depth": 1,
+          "jersey": 2,
+          "height": 75,
+          "weight": 195,
+          "headshot": "/assets/headshots/colbie_young.jpg",
+          "stats": {
+            "recAvg": 5.8,
+            "recYdsAvg": 87.3,
+            "recTdAvg": 0.7
+          },
+          "form": 0.72
+        },
+        {
+          "id": "oscar_delp",
+          "teamId": "georgia",
+          "name": "Oscar Delp",
+          "pos": "TE",
+          "depth": 1,
+          "jersey": 11,
+          "height": 76,
+          "weight": 245,
+          "headshot": "/assets/headshots/oscar_delp.jpg",
+          "stats": {
+            "recAvg": 3.4,
+            "recYdsAvg": 42.7,
+            "recTdAvg": 0.4
+          },
+          "form": 0.69
+        }
+      ],
+      "alabama": [
+        {
+          "id": "jalen_milroe",
+          "teamId": "alabama",
+          "name": "Jalen Milroe",
+          "pos": "QB",
+          "depth": 1,
+          "jersey": 4,
+          "height": 74,
+          "weight": 220,
+          "headshot": "/assets/headshots/jalen_milroe.jpg",
+          "stats": {
+            "passYdsAvg": 189.7,
+            "passTdAvg": 1.6,
+            "intAvg": 0.4,
+            "rushYdsAvg": 67.8,
+            "rushTdAvg": 1.2
+          },
+          "form": 0.91
+        },
+        {
+          "id": "justice_haynes",
+          "teamId": "alabama",
+          "name": "Justice Haynes",
+          "pos": "RB",
+          "depth": 1,
+          "jersey": 22,
+          "height": 69,
+          "weight": 195,
+          "headshot": "/assets/headshots/justice_haynes.jpg",
+          "stats": {
+            "rushYdsAvg": 78.9,
+            "rushTdAvg": 0.8,
+            "recYdsAvg": 18.2
+          },
+          "form": 0.76
+        },
+        {
+          "id": "ryan_williams",
+          "teamId": "alabama",
+          "name": "Ryan Williams",
+          "pos": "WR",
+          "depth": 1,
+          "jersey": 8,
+          "height": 70,
+          "weight": 175,
+          "headshot": "/assets/headshots/ryan_williams.jpg",
+          "stats": {
+            "recAvg": 6.1,
+            "recYdsAvg": 94.2,
+            "recTdAvg": 1.0
+          },
+          "form": 0.88
+        }
+      ]
+    },
+    "game_gt_wf": {
+      "georgia_tech": [
+        {
+          "id": "haynes_king",
+          "teamId": "georgia_tech",
+          "name": "Haynes King",
+          "pos": "QB",
+          "depth": 1,
+          "jersey": 10,
+          "height": 73,
+          "weight": 195,
+          "headshot": "/assets/headshots/haynes_king.jpg",
+          "stats": {
+            "passYdsAvg": 245.6,
+            "passTdAvg": 1.9,
+            "rushYdsAvg": 34.2
+          },
+          "form": 0.74
+        }
+      ],
+      "wake_forest": [
+        {
+          "id": "mitch_griffis",
+          "teamId": "wake_forest",
+          "name": "Mitch Griffis",
+          "pos": "QB",
+          "depth": 1,
+          "jersey": 12,
+          "height": 75,
+          "weight": 210,
+          "headshot": "/assets/headshots/mitch_griffis.jpg",
+          "stats": {
+            "passYdsAvg": 198.3,
+            "passTdAvg": 1.4,
+            "intAvg": 0.8
+          },
+          "form": 0.62
+        }
+      ]
+    }
+  },
+  "opponents": {
+    "georgia": {"unitRating": 0.82, "passDefRank": 15, "rushDefRank": 8},
+    "alabama": {"unitRating": 0.79, "passDefRank": 22, "rushDefRank": 12},
+    "georgia_tech": {"unitRating": 0.65, "passDefRank": 45, "rushDefRank": 38},
+    "wake_forest": {"unitRating": 0.58, "passDefRank": 67, "rushDefRank": 52}
+  },
+  "lastUpdated": "2025-09-27T14:15:00Z",
+  "demoMode": true
+}

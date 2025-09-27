@@ -34,4 +34,7 @@ export const config: AppConfig = {
   oddsApiKey: process.env.ODDS_API_KEY || '',
 }
 
+// Export demo mode for easy access
+export const isDemoMode = demoMode
+
 export type { AppConfig }

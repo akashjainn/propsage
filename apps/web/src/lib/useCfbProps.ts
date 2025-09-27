@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCfbProps, type CfbProp } from "./cfb";
+import { getCfbProps, getCfbPlayerById, type CfbProp } from "./cfb";
 
 export interface CfbPropsData {
   player: {
@@ -41,16 +41,31 @@ export function useCfbProps(playerId: string | null) {
             props: props.sort((a, b) => Math.abs(b.edgePct) - Math.abs(a.edgePct)) // Sort by edge magnitude
           });
         } else {
-          setData({
-            player: {
-              id: playerId,
-              name: "Unknown Player",
-              team: undefined,
-              teamColor: undefined,
-              position: undefined
-            },
-            props: []
-          });
+          // No props found, try to get player info directly
+          const playerInfo = await getCfbPlayerById(playerId);
+          if (playerInfo) {
+            setData({
+              player: {
+                id: playerInfo.id,
+                name: playerInfo.name,
+                team: playerInfo.team,
+                teamColor: playerInfo.teamColor,
+                position: playerInfo.position
+              },
+              props: []
+            });
+          } else {
+            setData({
+              player: {
+                id: playerId,
+                name: "Unknown Player",
+                team: undefined,
+                teamColor: undefined,
+                position: undefined
+              },
+              props: []
+            });
+          }
         }
       } catch (error) {
         console.error("CFB props fetch error:", error);

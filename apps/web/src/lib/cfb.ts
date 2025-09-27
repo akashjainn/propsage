@@ -59,6 +59,21 @@ export const searchCfbPlayers = async (q: string): Promise<CfbPlayer[]> => {
   return response.json();
 };
 
+// Get player by ID
+export const getCfbPlayerById = async (playerId: string): Promise<CfbPlayer | null> => {
+  try {
+    const response = await fetch(`${BASE}/cfb/players/${encodeURIComponent(playerId)}`);
+    if (!response.ok) {
+      if (response.status === 404) return null;
+      throw new Error('Failed to get CFB player details');
+    }
+    return response.json();
+  } catch (error) {
+    console.warn('Failed to fetch player by ID:', error);
+    return null;
+  }
+};
+
 // Props
 export const getCfbProps = async (playerId: string): Promise<CfbProp[]> => {
   const response = await fetch(`${BASE}/cfb/props?playerId=${encodeURIComponent(playerId)}`);

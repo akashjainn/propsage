@@ -10,6 +10,9 @@ import { useVideoClips } from '@/lib/useVideoClips'
 import { useCfbPlayerSearch } from '@/lib/useCfbPlayerSearch'
 import { useCfbProps } from '@/lib/useCfbProps'
 import { statToShortLabel, formatEdge, getConference, formatPlayerClass } from '@/lib/cfb'
+import { SocialClips, useSocialClips } from '@/components/SocialClips'
+import { EvidenceRail, TLMoment } from '@/components/EvidenceRail'
+import { MomentPlayer } from '@/components/MomentPlayer'
 
 interface MarketsResponse { player:{ id:string; name:string }; markets:MarketRow[]; best?: any }
 
@@ -62,9 +65,18 @@ export default function HomePage() {
   const [showResults, setShowResults] = useState(false)
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null)
   const [selectedPropId, setSelectedPropId] = useState<string | null>(null)
+  const [selectedMoment, setSelectedMoment] = useState<TLMoment | null>(null)
   const { loading: loadingClips, clips, search: searchVideos } = useVideoClips()
   const { q: playerQuery, setQ: setPlayerQuery, loading: loadingPlayers, results: playerResults } = useCfbPlayerSearch()
   const { loading: loadingProps, data: propsData } = useCfbProps(selectedPlayerId)
+  const { clips: socialClips, loading: loadingSocialClips } = useSocialClips(
+    'search', 
+    selectedPlayerId && propsData ? {
+      player: propsData.player.name,
+      team: propsData.player.team
+    } : {}, 
+    4
+  )
 
   function handleSearch(_sport:string, q:string){
     if(!q) return
@@ -216,8 +228,21 @@ export default function HomePage() {
                       Loading props...
                     </div>
                   ) : propsData.props.length === 0 ? (
-                    <div className="px-5 py-8 text-center text-[var(--fg-dim)]">
-                      No props available for this player.
+                    <div className="px-5 py-8 text-center">
+                      <div className="text-[var(--fg-dim)] mb-2">
+                        {propsData.player.name !== "Unknown Player" ? (
+                          <>
+                            No prop line data available for <span className="text-[var(--fg)]">{propsData.player.name}</span> yet.
+                          </>
+                        ) : (
+                          "No props available for this player."
+                        )}
+                      </div>
+                      {propsData.player.name !== "Unknown Player" && (
+                        <div className="text-sm text-[var(--fg-dim)]">
+                          Prop lines are typically published on Saturdays for college football games.
+                        </div>
+                      )}
                     </div>
                   ) : (
                     propsData.props.map((prop) => (
@@ -236,6 +261,50 @@ export default function HomePage() {
                       </div>
                     ))
                   )}
+                </div>
+              </div>
+
+              {/* Video Evidence Section */}
+              <div className="rounded-2xl bg-[var(--surface)]/80 ring-1 ring-[var(--stroke)] p-5">
+                {/* Tab Headers */}
+                <div className="flex items-center gap-4 mb-6 border-b border-white/10">
+                  <div className="flex items-center gap-2 pb-3 border-b-2 border-[var(--iris)] text-[var(--iris)]">
+                    <span>📹</span>
+                    <span className="font-medium">Video Evidence</span>
+                  </div>
+                  <div className="text-[var(--fg-dim)] pb-3">
+                    <span>▶️</span>
+                    <span className="font-medium">Highlights</span>
+                  </div>
+                </div>
+                
+                {/* Evidence Content */}
+                <div className="space-y-6">
+                  {/* Evidence Rail for Best Prop */}
+                  {propsData.props.length > 0 && (() => {
+                    const bestProp = propsData.props.reduce((best, prop) => 
+                      Math.abs(prop.edgePct) > Math.abs(best.edgePct) ? prop : best
+                    );
+                    return (
+                      <EvidenceRail 
+                        propId={bestProp.propId}
+                        playerId={selectedPlayerId}
+                        propType={bestProp.stat}
+                        onMomentClick={(moment) => setSelectedMoment(moment)}
+                        className=""
+                      />
+                    );
+                  })()}
+                  
+                  {/* Fallback to Social Clips */}
+                  <div className="border-t border-white/10 pt-6">
+                    <SocialClips 
+                      playerId={selectedPlayerId}
+                      title="📺 YouTube Highlights"
+                      limit={4}
+                      className=""
+                    />
+                  </div>
                 </div>
               </div>
             </>
@@ -268,9 +337,35 @@ export default function HomePage() {
             <VideoSearchForm onSearch={searchVideos} loading={loadingClips} />
 
             <div className="mt-4 space-y-3">
+              {/* Show social media clips first when player is selected */}
+              {selectedPlayerId && socialClips.length > 0 && (
+                <>
+                  <div className="text-xs text-[var(--fg-dim)] font-medium mb-2">Recent Highlights</div>
+                  {socialClips.slice(0, 2).map((clip, i) => (
+                    <div key={`social-${i}`} className="rounded-lg bg-black/20 ring-1 ring-white/10 p-3">
+                      <div className="flex items-start gap-3">
+                        <img 
+                          src={clip.thumbnailUrl} 
+                          alt={clip.title}
+                          className="w-20 h-12 object-cover rounded flex-shrink-0"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-[var(--fg)] font-medium text-sm line-clamp-2">{clip.title}</div>
+                          <div className="text-xs text-[var(--fg-dim)] mt-1">
+                            {clip.author} • {clip.duration ? `${Math.floor((clip.duration || 0) / 60)}:${String((clip.duration || 0) % 60).padStart(2, '0')}` : ''}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {clips.length > 0 && <div className="border-t border-white/5 my-3"></div>}
+                </>
+              )}
+              
+              {/* Existing video search results */}
               {loadingClips ? (
                 <div className="text-[var(--fg-dim)] text-sm animate-pulse">Searching videos...</div>
-              ) : clips.length === 0 ? (
+              ) : clips.length === 0 && socialClips.length === 0 ? (
                 <div className="text-[var(--fg-dim)] text-sm">No clips yet. Try searching for player moments above.</div>
               ) : (
                 clips.map((clip, i) => (
@@ -286,6 +381,15 @@ export default function HomePage() {
           </div>
         </aside>
       </main>
+      
+      {/* Moment Player Modal */}
+      {selectedMoment && (
+        <MomentPlayer
+          moment={selectedMoment}
+          s3Url="https://propsage-clips.s3.amazonaws.com/cfb/sample-clip.mp4" // Mock S3 URL
+          onClose={() => setSelectedMoment(null)}
+        />
+      )}
     </div>
   )
 }

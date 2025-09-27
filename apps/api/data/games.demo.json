@@ -1,0 +1,103 @@
+{
+  "games": [
+    {
+      "id": "game_uga_bama",
+      "date": "2025-09-27",
+      "kickoffET": "19:30",
+      "homeTeam": {
+        "id": "alabama",
+        "name": "Alabama",
+        "short": "BAMA",
+        "logo": "/assets/logos/alabama.svg",
+        "conference": "SEC",
+        "primaryColor": "#9E1B32",
+        "secondaryColor": "#828A8F"
+      },
+      "awayTeam": {
+        "id": "georgia",
+        "name": "Georgia",
+        "short": "UGA",
+        "logo": "/assets/logos/georgia.svg",
+        "conference": "SEC",
+        "primaryColor": "#BA0C2F",
+        "secondaryColor": "#000000"
+      },
+      "spreadHome": -2.5,
+      "total": 52.5,
+      "venue": "Bryant-Denny Stadium",
+      "broadcast": "ESPN",
+      "status": "scheduled",
+      "temperature": 78,
+      "conditions": "Clear"
+    },
+    {
+      "id": "game_gt_wf",
+      "date": "2025-09-27",
+      "kickoffET": "12:00",
+      "homeTeam": {
+        "id": "wake_forest",
+        "name": "Wake Forest",
+        "short": "WAKE",
+        "logo": "/assets/logos/wake_forest.svg",
+        "conference": "ACC",
+        "primaryColor": "#9E7E38",
+        "secondaryColor": "#000000"
+      },
+      "awayTeam": {
+        "id": "georgia_tech",
+        "name": "Georgia Tech",
+        "short": "GT",
+        "logo": "/assets/logos/georgia_tech.svg",
+        "conference": "ACC",
+        "primaryColor": "#B3A369",
+        "secondaryColor": "#003057"
+      },
+      "spreadHome": -7.0,
+      "total": 58.5,
+      "venue": "Truist Field",
+      "broadcast": "ACC Network",
+      "status": "in_progress",
+      "score": {
+        "home": 21,
+        "away": 14,
+        "quarter": 3,
+        "time": "8:42"
+      },
+      "temperature": 72,
+      "conditions": "Partly cloudy"
+    },
+    {
+      "id": "game_clemson_fsu",
+      "date": "2025-09-27",
+      "kickoffET": "15:30",
+      "homeTeam": {
+        "id": "florida_state",
+        "name": "Florida State",
+        "short": "FSU",
+        "logo": "/assets/logos/florida_state.svg",
+        "conference": "ACC",
+        "primaryColor": "#782F40",
+        "secondaryColor": "#CEB888"
+      },
+      "awayTeam": {
+        "id": "clemson",
+        "name": "Clemson",
+        "short": "CLEM",
+        "logo": "/assets/logos/clemson.svg",
+        "conference": "ACC",
+        "primaryColor": "#F56600",
+        "secondaryColor": "#522D80"
+      },
+      "spreadHome": 1.0,
+      "total": 49.5,
+      "venue": "Doak Campbell Stadium",
+      "broadcast": "ABC",
+      "status": "scheduled",
+      "temperature": 82,
+      "conditions": "Clear"
+    }
+  ],
+  "lastUpdated": "2025-09-27T14:15:00Z",
+  "demoMode": true,
+  "seed": "20250927"
+}

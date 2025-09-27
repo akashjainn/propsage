@@ -266,4 +266,50 @@ r.get("/teams", async (req, res) => {
   }
 });
 
+// Get individual player by ID
+r.get("/:playerId", async (req, res) => {
+  try {
+    const playerId = String(req.params.playerId);
+    if (!playerId) return res.status(400).json({ error: "Player ID required" });
+
+    // Try to find in cached data first
+    const allPlayers = await loadAllPlayers();
+    let player = allPlayers.find(p => `cfb_${p.id}` === playerId);
+    
+    if (!player) {
+      // Try live search if not found in cache
+      const idMatch = playerId.match(/^cfb_(.+)$/);
+      if (idMatch) {
+        const cfbdId = idMatch[1];
+        // Try to find by CFBD ID or name in live search
+        const liveResults = await searchPlayerLive(cfbdId);
+        player = liveResults.find(p => p.id.toString() === cfbdId || p.name.toLowerCase().includes(cfbdId.toLowerCase()));
+      }
+    }
+
+    if (!player) {
+      return res.status(404).json({ error: "Player not found" });
+    }
+
+    // Convert to standard format
+    const result: CfbPlayer = {
+      id: `cfb_${player.id || Math.random().toString(36).substr(2, 9)}`,
+      name: player.name || `${player.first_name || ''} ${player.last_name || ''}`.trim() || 'Unknown',
+      team: player.team_name || player.team,
+      teamColor: player.team_color,
+      position: player.position,
+      class: player.year,
+      jersey: player.jersey,
+      height: player.height,
+      weight: player.weight,
+      externalIds: { cfbd: player.id || 0 }
+    };
+
+    res.json(result);
+  } catch (error) {
+    console.error("CFB player detail error:", error);
+    res.status(500).json({ error: "Failed to fetch CFB player details" });
+  }
+});
+
 export default r;

@@ -1,0 +1,158 @@
+{
+  "indexes": {
+    "cfb_highlights_2025": {
+      "id": "idx_cfb_2025_highlights",
+      "name": "College Football 2025 Highlights",
+      "status": "ready",
+      "total_videos": 1847,
+      "last_updated": "2025-09-27T12:00:00Z"
+    }
+  },
+  "players": {
+    "cfb_gunner_stockton": {
+      "name": "Gunner Stockton",
+      "team": "UGA",
+      "videos": [
+        {
+          "id": "vid_stockton_pass_highlights_001",
+          "title": "Gunner Stockton 45-yard TD pass to Colbie Young vs Auburn",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+          "duration": 42,
+          "confidence": 0.94,
+          "tags": ["passing", "touchdown", "deep_ball", "clutch"],
+          "metadata": {
+            "game": "UGA vs Auburn",
+            "date": "2025-09-21",
+            "quarter": 3,
+            "down_distance": "2nd & 8",
+            "field_position": "UGA 35"
+          },
+          "clips": [
+            {
+              "start_time": 15,
+              "end_time": 28,
+              "description": "Stockton drops back, scans field, delivers perfect strike to Young in stride"
+            }
+          ]
+        },
+        {
+          "id": "vid_stockton_scramble_001",
+          "title": "Gunner Stockton 18-yard scramble vs Tennessee",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+          "duration": 25,
+          "confidence": 0.87,
+          "tags": ["rushing", "scramble", "mobility", "first_down"],
+          "metadata": {
+            "game": "UGA vs Tennessee",
+            "date": "2025-09-14",
+            "quarter": 4,
+            "down_distance": "3rd & 12",
+            "field_position": "UGA 28"
+          },
+          "clips": [
+            {
+              "start_time": 8,
+              "end_time": 20,
+              "description": "Pocket collapses, Stockton escapes right, picks up crucial first down"
+            }
+          ]
+        },
+        {
+          "id": "vid_stockton_injury_concern",
+          "title": "Gunner Stockton injury update - questionable for Alabama",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+          "duration": 95,
+          "confidence": 0.91,
+          "tags": ["injury", "news", "status_update", "alabama_prep"],
+          "metadata": {
+            "source": "ESPN College GameDay",
+            "date": "2025-09-26",
+            "reporter": "Pete Thamel"
+          },
+          "clips": [
+            {
+              "start_time": 22,
+              "end_time": 45,
+              "description": "Coach Smart addresses Stockton's shoulder injury from Tennessee game"
+            }
+          ]
+        }
+      ]
+    },
+    "cfb_jalen_milroe": {
+      "name": "Jalen Milroe",
+      "team": "Alabama",
+      "videos": [
+        {
+          "id": "vid_milroe_rush_highlights_001",
+          "title": "Jalen Milroe 67-yard TD run vs Ole Miss",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+          "duration": 38,
+          "confidence": 0.96,
+          "tags": ["rushing", "touchdown", "breakaway", "speed"],
+          "metadata": {
+            "game": "Alabama vs Ole Miss",
+            "date": "2025-09-21",
+            "quarter": 2,
+            "down_distance": "1st & 10",
+            "field_position": "Alabama 33"
+          },
+          "clips": [
+            {
+              "start_time": 12,
+              "end_time": 25,
+              "description": "Milroe breaks through gap, outruns entire Ole Miss secondary"
+            }
+          ]
+        },
+        {
+          "id": "vid_milroe_arm_strength",
+          "title": "Jalen Milroe 52-yard bomb to Ryan Williams",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+          "duration": 31,
+          "confidence": 0.89,
+          "tags": ["passing", "deep_ball", "arm_strength", "touchdown"],
+          "metadata": {
+            "game": "Alabama vs LSU",
+            "date": "2025-09-14",
+            "quarter": 1,
+            "down_distance": "2nd & 6",
+            "field_position": "Alabama 48"
+          },
+          "clips": [
+            {
+              "start_time": 8,
+              "end_time": 22,
+              "description": "Perfect spiral, 52 yards in the air, Williams makes diving catch"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "search_queries": {
+    "gunner stockton passing": {
+      "query": "gunner stockton passing highlights",
+      "total_results": 12,
+      "processing_time_ms": 847,
+      "results": ["vid_stockton_pass_highlights_001"]
+    },
+    "gunner stockton injury": {
+      "query": "gunner stockton injury update",
+      "total_results": 3,
+      "processing_time_ms": 623,
+      "results": ["vid_stockton_injury_concern"]
+    },
+    "jalen milroe rushing": {
+      "query": "jalen milroe rushing highlights",
+      "total_results": 8,
+      "processing_time_ms": 734,
+      "results": ["vid_milroe_rush_highlights_001"]
+    }
+  }
+}

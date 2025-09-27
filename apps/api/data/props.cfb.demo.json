@@ -1,0 +1,27 @@
+{
+  "game": "UGA vs Alabama",
+  "date": "2025-09-27",
+  "players": [
+    {
+      "name": "Gunner Stockton",
+      "playerId": "cfb_gunner_stockton",
+      "team": "UGA",
+      "position": "QB",
+      "props": [
+        {"type": "Passing Yards", "stat": "PASS_YDS", "line": 242.5, "market_odds": "-110", "fairLine": 236.0},
+        {"type": "Passing TDs", "stat": "PASS_TDS", "line": 1.5, "market_odds": "+120", "fairLine": 1.7},
+        {"type": "Interceptions", "stat": "INT", "line": 0.5, "market_odds": "-105", "fairLine": 0.6}
+      ]
+    },
+    {
+      "name": "Jalen Milroe",
+      "playerId": "cfb_jalen_milroe",
+      "team": "Alabama",
+      "position": "QB",
+      "props": [
+        {"type": "Rushing Yards", "stat": "RUSH_YDS", "line": 54.5, "market_odds": "-115", "fairLine": 57.0},
+        {"type": "Passing Yards", "stat": "PASS_YDS", "line": 198.5, "market_odds": "-110", "fairLine": 202.0}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "props": {
+    "game_uga_bama": [
+      {
+        "id": "prop_stockton_pass_yds",
+        "playerId": "gunner_stockton",
+        "gameId": "game_uga_bama",
+        "type": "Passing Yards",
+        "line": 242.5,
+        "marketOdds": "-110",
+        "book": "DK",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_stockton_pass_tds",
+        "playerId": "gunner_stockton",
+        "gameId": "game_uga_bama",
+        "type": "Passing TDs",
+        "line": 1.5,
+        "marketOdds": "+120",
+        "book": "FD",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_stockton_interceptions",
+        "playerId": "gunner_stockton",
+        "gameId": "game_uga_bama",
+        "type": "Interceptions",
+        "line": 0.5,
+        "marketOdds": "-105",
+        "book": "MGM",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_stockton_rush_yds",
+        "playerId": "gunner_stockton",
+        "gameId": "game_uga_bama",
+        "type": "Rushing Yards",
+        "line": 24.5,
+        "marketOdds": "+105",
+        "book": "DK",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_frazier_rush_yds",
+        "playerId": "nate_frazier",
+        "gameId": "game_uga_bama",
+        "type": "Rushing Yards",
+        "line": 78.5,
+        "marketOdds": "-115",
+        "book": "FD",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_frazier_rush_tds",
+        "playerId": "nate_frazier",
+        "gameId": "game_uga_bama",
+        "type": "Rushing TDs",
+        "line": 0.5,
+        "marketOdds": "+110",
+        "book": "DK",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_young_receptions",
+        "playerId": "colbie_young",
+        "gameId": "game_uga_bama",
+        "type": "Receptions",
+        "line": 5.5,
+        "marketOdds": "-105",
+        "book": "MGM",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_young_rec_yds",
+        "playerId": "colbie_young",
+        "gameId": "game_uga_bama",
+        "type": "Receiving Yards",
+        "line": 72.5,
+        "marketOdds": "-110",
+        "book": "FD",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_milroe_pass_yds",
+        "playerId": "jalen_milroe",
+        "gameId": "game_uga_bama",
+        "type": "Passing Yards",
+        "line": 198.5,
+        "marketOdds": "-110",
+        "book": "DK",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_milroe_rush_yds",
+        "playerId": "jalen_milroe",
+        "gameId": "game_uga_bama",
+        "type": "Rushing Yards",
+        "line": 54.5,
+        "marketOdds": "-115",
+        "book": "FD",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_milroe_rush_tds",
+        "playerId": "jalen_milroe",
+        "gameId": "game_uga_bama",
+        "type": "Rushing TDs",
+        "line": 0.5,
+        "marketOdds": "+125",
+        "book": "MGM",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_williams_receptions",
+        "playerId": "ryan_williams",
+        "gameId": "game_uga_bama",
+        "type": "Receptions",
+        "line": 6.5,
+        "marketOdds": "-105",
+        "book": "DK",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_williams_rec_yds",
+        "playerId": "ryan_williams",
+        "gameId": "game_uga_bama",
+        "type": "Receiving Yards",
+        "line": 89.5,
+        "marketOdds": "-110",
+        "book": "FD",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      }
+    ],
+    "game_gt_wf": [
+      {
+        "id": "prop_king_pass_yds",
+        "playerId": "haynes_king",
+        "gameId": "game_gt_wf",
+        "type": "Passing Yards",
+        "line": 245.5,
+        "marketOdds": "-110",
+        "book": "DK",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_king_rush_yds",
+        "playerId": "haynes_king",
+        "gameId": "game_gt_wf",
+        "type": "Rushing Yards",
+        "line": 32.5,
+        "marketOdds": "+105",
+        "book": "FD",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_griffis_pass_yds",
+        "playerId": "mitch_griffis",
+        "gameId": "game_gt_wf",
+        "type": "Passing Yards",
+        "line": 198.5,
+        "marketOdds": "-110",
+        "book": "MGM",
+        "updatedAt": "2025-09-27T14:15:00Z"
+      }
+    ]
+  },
+  "gameContext": {
+    "game_uga_bama": {
+      "pace": 0.72,
+      "weather": "Clear, 78°F",
+      "venue": "Bryant-Denny Stadium",
+      "expectedPoints": 52.5
+    },
+    "game_gt_wf": {
+      "pace": 0.68,
+      "weather": "Partly cloudy, 72°F", 
+      "venue": "Truist Field",
+      "expectedPoints": 58.5
+    }
+  },
+  "lastUpdated": "2025-09-27T14:15:00Z",
+  "demoMode": true,
+  "seed": "20250927"
+}
