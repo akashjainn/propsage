@@ -8,4 +8,4 @@ cmd = 'pnpm install --frozen-lockfile'
 cmd = 'pnpm --filter @propsage/core build && pnpm --filter @propsage/api build'
 
 [start]
-cmd = 'cd apps/api && node dist/index.js'
+cmd = 'node apps/api/dist/index.js'

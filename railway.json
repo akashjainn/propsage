@@ -5,7 +5,7 @@
     "buildCommand": "pnpm install && pnpm --filter @propsage/core build && pnpm --filter @propsage/api build"
   },
   "deploy": {
-    "startCommand": "cd apps/api && pnpm start",
+    "startCommand": "node apps/api/dist/index.js",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }

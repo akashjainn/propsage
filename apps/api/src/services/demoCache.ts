@@ -14,7 +14,12 @@ let evidenceCache: Record<string, EvidenceSnippet[]> | null = null
 let videoCache: Record<string, VideoClip[]> | null = null
 
 function loadJSON<T>(rel: string): T {
-  const file = path.resolve(process.cwd(), 'data', rel)
+  // Try data directory relative to repo root first (deployment)
+  let file = path.resolve(process.cwd(), '..', '..', 'data', rel)
+  if (!fs.existsSync(file)) {
+    // Fallback to data directory relative to current working directory (development)
+    file = path.resolve(process.cwd(), 'data', rel)
+  }
   const raw = fs.readFileSync(file, 'utf-8')
   return JSON.parse(raw) as T
 }
