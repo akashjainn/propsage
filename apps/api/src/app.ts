@@ -11,7 +11,7 @@ import { config } from './config.js'
 export function createApp() {
   const app = express()
   app.use(cors({ 
-    origin: true, // Temporarily allow all origins for demo
+    origin: ['https://propsage-web.vercel.app', 'http://localhost:3000'],
     credentials: true 
   }))
   app.use(express.json())
