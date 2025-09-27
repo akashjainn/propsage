@@ -110,7 +110,7 @@
   }
   
   .glow {
-    @apply shadow-lg shadow-primary/20;
+    @apply shadow-lg shadow-blue-500/20;
   }
   
   .animate-gradient {
