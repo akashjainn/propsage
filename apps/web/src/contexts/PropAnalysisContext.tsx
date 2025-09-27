@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useReducer } from 'react'
+import React, { createContext, useContext, useReducer, useEffect, useRef } from 'react'
 
 export interface PropAnalysis {
   id: string
@@ -91,56 +91,86 @@ const PropAnalysisContext = createContext<{
 
 export function PropAnalysisProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(propAnalysisReducer, initialState)
+  const wsRef = useRef<WebSocket | null>(null)
+
+  useEffect(() => {
+    // Connect to backend websocket if available
+    const url = process.env.NEXT_PUBLIC_API_WS_URL || 'ws://localhost:4000'
+    try {
+      const ws = new WebSocket(url)
+      wsRef.current = ws
+      ws.onmessage = (evt) => {
+        try {
+          const msg = JSON.parse(evt.data)
+          if (msg.type === 'edge_update') {
+            // Update existing analysis if player/market matches
+            const keyId = `${msg.playerId}_${msg.result.marketLine}_${msg.result.simulations}` // ephemeral
+            if (state.currentAnalysis && state.currentAnalysis.playerId === msg.playerId) {
+              dispatch({
+                type: 'UPDATE_ANALYSIS',
+                payload: {
+                  ...state.currentAnalysis,
+                  fairLine: msg.result.fairLine,
+                  edge: +(msg.result.edge * 100).toFixed(2),
+                  confidence: 0.8,
+                  updatedAt: new Date(),
+                },
+              })
+            }
+          }
+        } catch (_) {
+          // ignore
+        }
+      }
+      ws.onerror = () => {
+        ws.close()
+      }
+      return () => ws.close()
+    } catch (_) {
+      // no-op
+    }
+  }, [state.currentAnalysis])
 
   const searchProp = async (query: string) => {
     dispatch({ type: 'SET_LOADING', payload: true })
     dispatch({ type: 'SET_ERROR', payload: null })
 
     try {
-      // Demo data fallback for hackathon
-      await new Promise(resolve => setTimeout(resolve, 2000)) // Simulate API call
-      
-      const demoAnalysis: PropAnalysis = {
-        id: `demo-${Date.now()}`,
-        playerId: 'ANT',
-        playerName: 'Anthony Edwards',
-        market: 'Points',
-        marketLine: 25.5,
-        fairLine: 27.2,
-        edge: 6.7,
-        confidence: 0.82,
-        evidenceSnippets: [
-          {
-            id: '1',
-            text: 'Coach Finch confirms Edwards will have expanded role tonight vs Phoenix defense',
-            source: 'ESPN',
-            url: 'https://espn.com/nba/story',
-            weight: 0.8,
-            timestamp: new Date(),
-          },
-          {
-            id: '2',
-            text: 'Edwards averages 31.2 points vs teams allowing 115+ PPG this season',
-            source: 'Basketball Reference',
-            url: 'https://basketball-reference.com',
-            weight: 0.7,
-            timestamp: new Date(),
-          },
-        ],
-        videoClips: [
-          {
-            id: '1',
-            title: 'Edwards drives vs similar defensive scheme',
-            url: 'https://example.com/clip1',
-            thumbnailUrl: 'https://example.com/thumb1',
-            relevanceScore: 0.85,
-            duration: 12,
-          },
-        ],
+      // Parse simple query pattern: "Anthony Edwards Points 25.5"
+      const parts = query.split(/\s+/)
+      // naive extraction
+      const marketLine = parseFloat(parts.find(p => p.match(/\d+(\.\d+)?/)) || '25.5')
+      const market = parts.find(p => ['Points','PTS','Ast','Assists','Rebounds','REB'].includes(p)) || 'PTS'
+      const playerName = parts.slice(0,2).join(' ') || 'Player'
+      const playerId = playerName.toUpperCase().split(' ').map(s => s[0]).join('').slice(0,3)
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
+      const resp = await fetch(`${apiUrl}/price`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ playerId: playerId, market: 'PTS', marketLine })
+      })
+      let fairLine = marketLine
+      let edgePct = 0
+      if (resp.ok) {
+        const data = await resp.json()
+        fairLine = data.fairLine
+        edgePct = +(data.edge * 100).toFixed(2)
+      }
+      const analysis: PropAnalysis = {
+        id: `ana-${Date.now()}`,
+        playerId,
+        playerName,
+        market: market === 'PTS' ? 'Points' : market,
+        marketLine,
+        fairLine,
+        edge: edgePct,
+        confidence: 0.8,
+        evidenceSnippets: [],
+        videoClips: [],
         createdAt: new Date(),
         updatedAt: new Date(),
       }
-      dispatch({ type: 'ADD_ANALYSIS', payload: demoAnalysis })
+      dispatch({ type: 'ADD_ANALYSIS', payload: analysis })
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: 'Analysis failed. Using demo data.' })
     }
