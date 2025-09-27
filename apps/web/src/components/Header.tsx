@@ -9,31 +9,29 @@ export function Header() {
   const { state } = usePropAnalysis()
 
   return (
-    <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-xl">
-      <div className="container mx-auto px-4 py-4">
+    <header className="border-b border-white/10 bg-[var(--surface)]/60 backdrop-blur-xl">
+      <div className="mx-auto max-w-6xl px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">PS</span>
-              </div>
-              <span className="text-xl font-bold text-white">PropSage</span>
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-xl bg-[var(--iris)]/80 ring-2 ring-[var(--ring)]/40 shadow-[0_0_30px_rgba(108,92,231,.45)] flex items-center justify-center">
+              <span className="text-[var(--fg)] font-bold text-sm">PS</span>
             </div>
-            
-            <div className="hidden md:flex items-center space-x-2 text-sm text-gray-400">
-              <span>Enterprise Sports Intelligence</span>
-              <span className="px-2 py-1 bg-green-900/30 text-green-400 rounded text-xs">
-                LIVE
-              </span>
-            </div>
+            <span className="text-xl font-semibold tracking-tight text-[var(--fg)]">PropSage</span>
+          </div>
+          
+          <div className="hidden md:flex items-center gap-3 text-sm text-[var(--fg-dim)]">
+            <span>Enterprise Sports Intelligence</span>
+            <span className="px-2 py-1 rounded-full bg-[var(--mint)]/15 text-[var(--mint)] ring-1 ring-[var(--mint)]/30 text-xs">
+              Live
+            </span>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-xs text-gray-400">Demo Mode</span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-[var(--mint)] animate-pulse" />
+              <span className="text-xs text-[var(--fg-dim)]">Demo Mode</span>
             </div>
-            <div className="text-xs text-gray-400">
+            <div className="text-xs text-[var(--fg-dim)]">
               Analyses: {state.analyses.length}
             </div>
           </div>

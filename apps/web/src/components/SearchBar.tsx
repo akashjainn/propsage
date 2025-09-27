@@ -10,23 +10,36 @@ export function SearchBar({ onSearch }: { onSearch: (sport:string, q:string)=>vo
         <select
           value={sport}
           onChange={e=>setSport(e.target.value as any)}
-          className="appearance-none rounded-full bg-slate-800 text-slate-100 border border-slate-600 pl-4 pr-10 py-2 text-sm"
+          className="appearance-none rounded-full bg-[var(--card)] text-[var(--fg)]
+                           border border-white/10 pl-4 pr-10 py-2 text-sm focus:outline-none
+                           focus:ring-2 focus:ring-[var(--iris)]"
         >
           <option>NBA</option><option>NFL</option><option>MLB</option>
         </select>
-        <span className="pointer-events-none absolute top-1/2 -right-3 -translate-y-1/2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 ring-1 ring-cyan-600/40 text-[10px] text-slate-300">▼</span>
+        <span className="pointer-events-none absolute top-1/2 -right-3 -translate-y-1/2
+                               inline-flex h-7 w-7 items-center justify-center rounded-full
+                               bg-[var(--card)] ring-1 ring-white/10 text-[10px] text-[var(--fg-dim)]">▾</span>
       </div>
 
       <form
         onSubmit={(e)=>{e.preventDefault(); onSearch(sport, q.trim());}}
-        className="flex-1 min-w-[260px] flex gap-2"
+        className="flex-1 min-w-[280px] flex gap-3"
       >
         <input
           value={q} onChange={e=>setQ(e.target.value)}
-          placeholder='Search player…'
-          className="w-full rounded-xl bg-slate-800 text-slate-100 placeholder-slate-400 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-violet-500 px-4 py-2 text-sm"
+          placeholder='Search a player…'
+          className="w-full rounded-xl bg-[var(--card)] text-[var(--fg)]
+                           placeholder-[var(--muted)] border border-white/10 px-4 py-3 text-sm
+                           focus:outline-none focus:ring-2 focus:ring-[var(--iris)]"
         />
-        <button className="rounded-xl bg-violet-600 hover:bg-violet-500 text-white px-4 py-2 font-medium text-sm">Search</button>
+        <button
+          className="rounded-xl px-5 py-3 font-medium text-sm
+                           bg-gradient-to-tr from-[var(--iris)] to-[#8b76ff]
+                           shadow-[0_10px_30px_rgba(108,92,231,.45)]
+                           hover:brightness-110 transition"
+        >
+          Search
+        </button>
       </form>
     </div>
   );

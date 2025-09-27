@@ -14,7 +14,11 @@ export const metadata: Metadata = {
   description: 'Professional Fair Market Line engine with AI-powered edge detection and video intelligence',
   keywords: ['sports betting', 'fair market line', 'edge detection', 'props', 'analytics'],
   authors: [{ name: 'PropSage Team' }],
-  viewport: 'width=device-width, initial-scale=1',
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
   themeColor: '#0D1321',
 }
 
@@ -27,12 +31,12 @@ export default function RootLayout({
     <html lang="en" className="theme-dark">
       <body className={cn(
         inter.variable,
-        'font-sans antialiased min-h-screen bg-background text-foreground',
-        'selection:bg-positive/20 selection:text-foreground'
+        'font-sans antialiased min-h-screen body-bg text-[var(--fg)]',
+        'selection:bg-[var(--mint)]/20 selection:text-[var(--fg)]'
       )}>
         <div className="relative flex min-h-screen flex-col">
           {/* Background Pattern */}
-          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-5" />
+          <div className="bg-grid" />
           
           {/* Main Content */}
           <div className="relative flex-1">
@@ -40,9 +44,9 @@ export default function RootLayout({
           </div>
           
           {/* Footer */}
-          <footer className="border-t border-border bg-card/50 backdrop-blur-sm">
+          <footer className="border-t border-white/10 bg-[var(--card)]/50 backdrop-blur-sm">
             <div className="container mx-auto px-6 py-4">
-              <div className="flex items-center justify-between text-sm text-secondary">
+              <div className="flex items-center justify-between text-sm text-[var(--fg-dim)]">
                 <div className="flex items-center gap-4">
                   <span>© 2025 PropSage</span>
                   <span>•</span>
@@ -50,7 +54,7 @@ export default function RootLayout({
                 </div>
                 <div className="flex items-center gap-4">
                   <span>Built for HackGT 12</span>
-                  <div className="h-2 w-2 bg-positive rounded-full animate-pulse" />
+                  <div className="h-2 w-2 bg-[var(--mint)] rounded-full animate-pulse" />
                 </div>
               </div>
             </div>

@@ -9,10 +9,9 @@
   }
   
   body {
-    @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     background: var(--bg);
-    color: var(--text-primary);
+    color: var(--fg);
     font-family: var(--font-sans);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
@@ -28,9 +27,9 @@
 @layer components {
   /* Glass effect for cards */
   .glass {
-    background: rgba(16, 21, 34, 0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: color-mix(in oklab, var(--surface) 80%, black 0%);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
   }
   
   /* Enterprise table styles */
@@ -39,40 +38,31 @@
   }
   
   .data-table th {
-    @apply bg-surface border-b border-border px-4 py-3 text-left text-sm font-medium text-text-secondary;
+    @apply px-4 py-3 text-left text-sm font-medium;
+    color: var(--fg-dim);
+    background: var(--surface);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
   
   .data-table td {
-    @apply border-b border-border px-4 py-3 text-sm;
+    @apply px-4 py-3 text-sm;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
   
   .data-table tr:hover td {
-    @apply bg-surface-hover;
+    background: rgba(255,255,255,0.04);
   }
   
   /* Custom scrollbars */
-  .custom-scroll::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  
-  .custom-scroll::-webkit-scrollbar-track {
-    background: var(--bg-subtle);
-  }
-  
-  .custom-scroll::-webkit-scrollbar-thumb {
-    background: var(--border-strong);
-    border-radius: 4px;
-  }
-  
-  .custom-scroll::-webkit-scrollbar-thumb:hover {
-    background: var(--text-tertiary);
-  }
+  .custom-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+  .custom-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+  .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+  .custom-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 }
 
 @layer utilities {
   .text-gradient {
-    background: linear-gradient(135deg, var(--accent-pos), var(--brand));
+    background: linear-gradient(135deg, var(--mint), var(--iris));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -81,46 +71,27 @@
   .border-gradient {
     border: 1px solid transparent;
     background: linear-gradient(var(--card), var(--card)) padding-box,
-                linear-gradient(135deg, var(--accent-pos), var(--brand)) border-box;
+                linear-gradient(135deg, var(--mint), var(--iris)) border-box;
   }
+  
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+  .lining-nums { font-variant-numeric: lining-nums; }
 }
 
-@layer base {
-  :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --primary: 142 86% 45%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --border: 217.2 32.6% 17.5%;
-  }
-  
-  * {
-    @apply border-border;
-  }
-  
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+/* Background grid + radial glow */
+.body-bg {
+  background:
+    radial-gradient(600px at 20% -10%, rgba(108,92,231,0.20), transparent 60%),
+    radial-gradient(800px at 90% 10%, rgba(45,227,197,0.18), transparent 60%),
+    linear-gradient(var(--bg), var(--bg));
 }
-
-@layer utilities {
-  .glass {
-    @apply backdrop-blur-xl bg-white/5 border border-white/10;
-  }
-  
-  .glow {
-    @apply shadow-lg shadow-blue-500/20;
-  }
-  
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient 3s ease infinite;
-  }
-  
-  @keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
+.bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 36px 36px;
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%);
+  pointer-events: none;
 }
