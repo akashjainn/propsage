@@ -1,15 +1,22 @@
 "use client"
 import React from 'react'
 
-export function SearchBar({ onSearch }: { onSearch: (sport:string, q:string)=>void }) {
-  const [sport, setSport] = React.useState<'NBA'|'NFL'|'CFB'|'MLB'>('CFB');
+type Sport = 'NBA' | 'NFL' | 'CFB' | 'MLB'
+
+export function SearchBar({ onSearch }: { onSearch: (sport: string, q: string) => void }) {
+  const [sport, setSport] = React.useState<Sport>('CFB');
   const [q, setQ] = React.useState('');
+  
+  const handleSportChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSport(e.target.value as Sport);
+  };
+  
   return (
     <div className="flex flex-wrap gap-3 w-full">
       <div className="relative inline-block">
         <select
           value={sport}
-          onChange={e=>setSport(e.target.value as any)}
+          onChange={handleSportChange}
           className="appearance-none rounded-full bg-[var(--card)] text-[var(--fg)]
                            border border-white/10 pl-4 pr-10 py-2 text-sm focus:outline-none
                            focus:ring-2 focus:ring-[var(--iris)]"
@@ -24,17 +31,22 @@ export function SearchBar({ onSearch }: { onSearch: (sport:string, q:string)=>vo
       </div>
 
       <form
-        onSubmit={(e)=>{e.preventDefault(); onSearch(sport, q.trim());}}
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSearch(sport, q.trim());
+        }}
         className="flex-1 min-w-[280px] flex gap-3"
       >
         <input
-          value={q} onChange={e=>setQ(e.target.value)}
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
           placeholder='Search a player…'
           className="w-full rounded-xl bg-[var(--card)] text-[var(--fg)]
                            placeholder-[var(--muted)] border border-white/10 px-4 py-3 text-sm
                            focus:outline-none focus:ring-2 focus:ring-[var(--iris)]"
         />
         <button
+          type="submit"
           className="rounded-xl px-5 py-3 font-medium text-sm
                            bg-gradient-to-tr from-[var(--iris)] to-[#8b76ff]
                            shadow-[0_10px_30px_rgba(108,92,231,.45)]
