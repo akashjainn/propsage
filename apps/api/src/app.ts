@@ -6,6 +6,7 @@ import perplexity from './routes/perplexity.js'
 import video from './routes/twelvelabs.js'
 import price from './routes/price.js'
 import videoIntel from './routes/videoIntel.js'
+import fml from './routes/fml.js'
 import { timing } from './middleware/timing.js'
 import { config } from './config.js'
 
@@ -30,7 +31,8 @@ export function createApp() {
       evidence: '/evidence',
       video: '/video',
       price: '/price',
-      videoIntel: '/video-intel'
+      videoIntel: '/video-intel',
+      fml: '/fml'
     },
     demo: config.demoMode,
     status: 'running'
@@ -48,5 +50,6 @@ export function createApp() {
   app.use('/video', video)
   app.use('/price', price)
   app.use('/video-intel', videoIntel)
+  app.use('/fml', fml)
   return app
 }

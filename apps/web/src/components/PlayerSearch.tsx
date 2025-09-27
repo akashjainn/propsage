@@ -16,18 +16,25 @@ export function PlayerSearch({ onSelect }: PlayerSearchProps) {
     async function load() {
       setLoading(true)
       try {
-  const r = await fetch(apiUrl('/lines'))
+        const r = await fetch(apiUrl('/lines'))
         if (!r.ok) throw new Error('fail')
         const data = await r.json()
-        if (!cancelled) setPlayers(data)
-      } catch { /* noop */ }
+        // Handle both array response and object with lines property
+        const linesData = Array.isArray(data) ? data : (data.lines || [])
+        if (!cancelled) setPlayers(Array.isArray(linesData) ? linesData : [])
+      } catch (error) {
+        console.error('Failed to load players:', error)
+        if (!cancelled) setPlayers([])
+      }
       finally { if (!cancelled) setLoading(false) }
     }
     load()
     return () => { cancelled = true }
   }, [])
 
-  const filtered = players.filter(p => !q || p.playerId.toLowerCase().includes(q.toLowerCase()))
+  // Ensure players is always an array before filtering
+  const safePlayersList = Array.isArray(players) ? players : []
+  const filtered = safePlayersList.filter(p => !q || p.playerId?.toLowerCase().includes(q.toLowerCase()))
 
   return (
     <div className="glass p-4 rounded-xl space-y-2">

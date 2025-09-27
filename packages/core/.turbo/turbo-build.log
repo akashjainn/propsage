@@ -1,0 +1,4 @@
+
+> @propsage/core@0.1.0 build C:\Users\akash\Documents\propsage\packages\core
+> tsc -p tsconfig.json
+

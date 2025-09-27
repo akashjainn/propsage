@@ -95,11 +95,18 @@ export function PropAnalysisProvider({ children }: { children: React.ReactNode }
   const wsRef = useRef<WebSocket | null>(null)
 
   useEffect(() => {
-    // Connect to backend websocket if available
-  const url = webConfig.apiWsUrl
+    // Connect to backend websocket if available - only in demo mode
+    if (!webConfig.demoMode) return
+
+    const url = webConfig.apiWsUrl
     try {
       const ws = new WebSocket(url)
       wsRef.current = ws
+      
+      ws.onopen = () => {
+        console.log('WebSocket connected successfully')
+      }
+      
       ws.onmessage = (evt) => {
         try {
           const msg = JSON.parse(evt.data)
@@ -119,16 +126,29 @@ export function PropAnalysisProvider({ children }: { children: React.ReactNode }
               })
             }
           }
-        } catch (_) {
-          // ignore
+        } catch (error) {
+          console.warn('WebSocket message parsing error:', error)
         }
       }
-      ws.onerror = () => {
-        ws.close()
+      
+      ws.onerror = (error) => {
+        console.warn('WebSocket connection error (non-critical):', error)
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.close()
+        }
       }
-      return () => ws.close()
-    } catch (_) {
-      // no-op
+      
+      ws.onclose = () => {
+        console.log('WebSocket connection closed')
+      }
+      
+      return () => {
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.close()
+        }
+      }
+    } catch (error) {
+      console.warn('WebSocket initialization failed (non-critical):', error)
     }
   }, [state.currentAnalysis])
 
