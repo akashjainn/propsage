@@ -8,4 +8,4 @@ cmd = 'pnpm install --frozen-lockfile'
 cmd = 'pnpm --filter @propsage/core build && pnpm --filter @propsage/api build'
 
 [start]
-cmd = 'node apps/api/dist/index.js'
+cmd = 'PORT=${PORT:-8080} node apps/api/dist/index.js'
