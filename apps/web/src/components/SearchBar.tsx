@@ -16,8 +16,6 @@ export function SearchBar({ onSearch }: { onSearch: (sport:string, q:string)=>vo
         >
           <option>CFB</option><option>NFL</option><option>NBA</option><option>MLB</option>
         </select>
-        <span className="pointer-events-none absolute -right-4 top-1/2 -translate-y-1/2
-                               text-[var(--fg-dim)] text-sm">▾</span>
       </div>
 
       <form
