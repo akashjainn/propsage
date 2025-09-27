@@ -38,8 +38,8 @@ export function SearchInterface() {
               disabled={state.isLoading}
             />
             
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-              í´
+            <div className="absolute left-4 top-1/2 transform -translate-y-1/2" aria-hidden="true">
+              ğŸ”
             </div>
             
             <button
@@ -52,10 +52,10 @@ export function SearchInterface() {
           </div>
 
           {state.isLoading && (
-            <div className="text-center space-y-2 text-green-400 text-sm">
-              <div className="animate-pulse">í´ Searching lines...</div>
-              <div className="animate-pulse">í³° Gathering evidence...</div>
-              <div className="animate-pulse">í¾¥ Finding clips...</div>
+            <div className="text-center space-y-2 text-green-400 text-sm" aria-live="polite">
+              <div className="animate-pulse">ğŸ§® Searching lines...</div>
+              <div className="animate-pulse">ğŸ§  Gathering evidence...</div>
+              <div className="animate-pulse">ğŸ¥ Finding clips...</div>
             </div>
           )}
 
