@@ -9,6 +9,7 @@ import { API_BASE } from '@/lib/api'
 import { useVideoClips } from '@/lib/useVideoClips'
 import { useCfbPlayerSearch } from '@/lib/useCfbPlayerSearch'
 import { useCfbProps } from '@/lib/useCfbProps'
+import { useUnifiedPlayerSearch } from '@/lib/useUnifiedPlayerSearch'
 import { statToShortLabel, formatEdge, getConference, formatPlayerClass } from '@/lib/cfb'
 import { SocialClips, useSocialClips } from '@/components/SocialClips'
 import { EvidenceRail, TLMoment } from '@/components/EvidenceRail'
@@ -69,6 +70,7 @@ export default function HomePage() {
   const { loading: loadingClips, clips, search: searchVideos } = useVideoClips()
   const { q: playerQuery, setQ: setPlayerQuery, loading: loadingPlayers, results: playerResults } = useCfbPlayerSearch()
   const { loading: loadingProps, data: propsData } = useCfbProps(selectedPlayerId)
+  const unifiedSearch = useUnifiedPlayerSearch()
   const { clips: socialClips, loading: loadingSocialClips } = useSocialClips(
     'search', 
     selectedPlayerId && propsData ? {
@@ -78,11 +80,13 @@ export default function HomePage() {
     4
   )
 
-  function handleSearch(_sport:string, q:string){
+  function handleSearch(sport: string, q: string){
     if(!q) return
+    unifiedSearch.setQuery(q, sport as any)
     setPlayerQuery(q)
     setSearchQuery(q)
     setShowResults(true)
+    console.log(`Searching for ${q} in ${sport}`)
   }
 
   // If home page after navigation might have state - do nothing else
@@ -108,10 +112,14 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-6 pt-10">
         <div className="rounded-2xl bg-[var(--surface)]/80 backdrop-blur-xl ring-1 ring-[var(--stroke)] p-3 shadow-[0_10px_50px_rgba(0,0,0,.35)]">
           <div className="flex flex-wrap items-center gap-3">
-            <SearchBar onSearch={handleSearch} />
+            <SearchBar 
+              onSearch={handleSearch} 
+              loading={unifiedSearch.loading}
+              className="w-full"
+            />
           </div>
           <p className="px-1 pt-2 text-sm text-[var(--fg-dim)]">
-            Search a college football player to view <span className="text-[var(--mint)]">market vs fair line</span> edges and
+            Search any player to view <span className="text-[var(--mint)]">market vs fair line</span> edges and
             watch <span className="text-[var(--amber)]">video moments</span>.
           </p>
         </div>
@@ -131,23 +139,28 @@ export default function HomePage() {
               </button>
             </div>
             
-            {loadingPlayers ? (
+            {unifiedSearch.loading ? (
               <div className="text-[var(--fg-dim)] text-sm animate-pulse">Searching players...</div>
-            ) : playerResults.length === 0 ? (
+            ) : unifiedSearch.results.length === 0 ? (
               <div className="text-[var(--fg-dim)] text-sm">No players found. Try a different search term.</div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {playerResults.map(player => (
+                {unifiedSearch.results.map(player => (
                   <div 
-                    key={player.id} 
+                    key={`${player.sport}-${player.id}`} 
                     className="rounded-xl bg-[var(--card)] ring-1 ring-white/10 p-4 hover:bg-white/5 cursor-pointer transition"
                     onClick={() => {
                       setSelectedPlayerId(player.id)
                       setShowResults(false)
                     }}
                   >
-                    <div className="font-medium text-[var(--fg)]">{player.name}</div>
-                    <div className="text-sm text-[var(--fg-dim)] mt-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="font-medium text-[var(--fg)]">{player.name}</div>
+                      <span className="text-xs px-2 py-1 rounded-full bg-[var(--iris)]/20 text-[var(--iris)]">
+                        {player.sport}
+                      </span>
+                    </div>
+                    <div className="text-sm text-[var(--fg-dim)]">
                       {player.team && <span style={{color: player.teamColor}}>{player.team}</span>}
                       {player.position && player.team && <span> • </span>}
                       {player.position && <span>{player.position}</span>}
