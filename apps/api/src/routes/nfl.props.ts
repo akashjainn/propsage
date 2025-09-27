@@ -1,7 +1,5 @@
 import { Router } from "express";
-import fs from "node:fs/promises";
 import { LRUCache } from "lru-cache";
-import path from "node:path";
 
 const r = Router();
 
@@ -22,30 +20,64 @@ const listCache = new LRUCache<string, NflProp[]>({ max: 100, ttl: 1000*60*5 });
 const detailCache = new LRUCache<string, NflProp>({ max: 200, ttl: 1000*60*5 }); // 5min
 
 async function loadSeed(): Promise<NflProp[]> {
-  // Try multiple possible paths for the data file
-  const possiblePaths = [
-    path.join(__dirname, "data", "props.nfl.json"), // Next to compiled route file
-    path.join(process.cwd(), "apps", "api", "data", "props.nfl.json"),
-    path.join(process.cwd(), "data", "props.nfl.json"),
-    path.join(__dirname, "..", "data", "props.nfl.json"),
-    path.join(__dirname, "..", "..", "data", "props.nfl.json")
-  ];
-  
-  let raw: string | undefined;
-  for (const dataPath of possiblePaths) {
-    try {
-      raw = await fs.readFile(dataPath, "utf-8");
-      break;
-    } catch (error) {
-      // Continue to next path
-      continue;
+  // Embedded data for reliable deployment
+  const rows: Omit<NflProp, "edgePct">[] = [
+    {
+      "propId": "prop_nfl_6786_rec_yds_dk",
+      "playerId": "nfl_6786",
+      "playerName": "CeeDee Lamb",
+      "team": "DAL",
+      "stat": "REC_YDS",
+      "book": "DK",
+      "marketLine": 92.5,
+      "fairLine": 98.7,
+      "updatedAt": "2025-01-27T17:00:00Z"
+    },
+    {
+      "propId": "prop_nfl_6786_rec_dk",
+      "playerId": "nfl_6786",
+      "playerName": "CeeDee Lamb",
+      "team": "DAL",
+      "stat": "REC",
+      "book": "DK",
+      "marketLine": 6.5,
+      "fairLine": 7.2,
+      "updatedAt": "2025-01-27T17:00:00Z"
+    },
+    {
+      "propId": "prop_nfl_6783_rec_yds_fd",
+      "playerId": "nfl_6783",
+      "playerName": "Jerry Jeudy",
+      "team": "CLE",
+      "stat": "REC_YDS",
+      "book": "FD",
+      "marketLine": 68.5,
+      "fairLine": 75.3,
+      "updatedAt": "2025-01-27T16:45:00Z"
+    },
+    {
+      "propId": "prop_nfl_6783_rec_fd",
+      "playerId": "nfl_6783",
+      "playerName": "Jerry Jeudy",
+      "team": "CLE",
+      "stat": "REC",
+      "book": "FD",
+      "marketLine": 4.5,
+      "fairLine": 5.1,
+      "updatedAt": "2025-01-27T16:45:00Z"
+    },
+    {
+      "propId": "prop_nfl_11584_rush_yds_dk",
+      "playerId": "nfl_11584",
+      "playerName": "Bucky Irving",
+      "team": "TB",
+      "stat": "RUSH_YDS",
+      "book": "DK",
+      "marketLine": 78.5,
+      "fairLine": 84.2,
+      "updatedAt": "2025-01-27T17:15:00Z"
     }
-  }
-  
-  if (!raw) {
-    throw new Error("Could not find props.nfl.json data file");
-  }
-  const rows: Omit<NflProp, "edgePct">[] = JSON.parse(raw);
+  ];
   
   return rows.map(p => {
     // Calculate edge percentage: (fair - market) / market * 100
