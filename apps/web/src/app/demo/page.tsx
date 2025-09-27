@@ -12,7 +12,7 @@ import { useFastSWR, preloadResources, trackWebVitals } from '@/hooks/usePerform
 import { TrendingUp, TrendingDown, Play, Search, Command } from 'lucide-react';
 
 // Default fallback game placeholder (will be replaced by live fetch)
-const FALLBACK_GAME: GameLite = {
+const GT_FALLBACK_GAME: GameLite = {
   id: 'pending',
   start: new Date().toISOString(),
   state: 'pre',
@@ -22,7 +22,19 @@ const FALLBACK_GAME: GameLite = {
   broadcast: { network: '—' }
 };
 
-const DEMO_PROPS = [
+const ILLINOIS_USC_GAME: GameLite = {
+  id: 'illinois-usc-20250927',
+  start: '2025-09-27T16:10:00.000Z',
+  state: 'post',
+  home: { id: 'illinois', name: 'Illinois Fighting Illini', short: 'Illinois', abbrev: 'ILL', logo: 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/fightingillini.com/images/logos/site/site.png', color: 'E84A27' },
+  away: { id: 'usc', name: 'USC Trojans', short: 'USC', abbrev: 'USC', logo: 'https://fightingillini.com/services/logo_handler.ashx?image_path=/images/logos/usc-primary-200x200.png', color: '990000' },
+  venue: { name: 'Gies Memorial Stadium', city: 'Champaign', state: 'Illinois' },
+  broadcast: { network: 'BTN' },
+  homeScore: 34,
+  awayScore: 32
+};
+
+const GT_DEMO_PROPS = [
   {
     id: 'haynes-passing-yards',
     player: 'Haynes King',
@@ -58,8 +70,55 @@ const DEMO_PROPS = [
   }
 ];
 
+const ILLINOIS_DEMO_PROPS = [
+  {
+    id: 'luke-altmyer-passing-yards',
+    player: 'Luke Altmyer',
+    prop: 'Passing Yards',
+    market: 295.2,
+    fair: 328,
+    edge: 11.1,
+    position: 'QB',
+    team: 'ILL',
+    confidence: 94
+  },
+  {
+    id: 'luke-altmyer-passing-tds',
+    player: 'Luke Altmyer',
+    prop: 'Passing Touchdowns',
+    market: 2.5,
+    fair: 3,
+    edge: 20.0,
+    position: 'QB',
+    team: 'ILL',
+    confidence: 91
+  },
+  {
+    id: 'kaden-feagin-receiving-yards',
+    player: 'Kaden Feagin',
+    prop: 'Receiving Yards',
+    market: 56.3,
+    fair: 64,
+    edge: 13.7,
+    position: 'RB',
+    team: 'ILL',
+    confidence: 89
+  },
+  {
+    id: 'justin-bowick-receiving-yards',
+    player: 'Justin Bowick',
+    prop: 'Receiving Yards',
+    market: 22.0,
+    fair: 25,
+    edge: 13.6,
+    position: 'WR',
+    team: 'ILL',
+    confidence: 87
+  }
+];
+
 interface PropRowProps {
-  prop: typeof DEMO_PROPS[0];
+  prop: typeof GT_DEMO_PROPS[0];
   onClick: () => void;
   isSelected?: boolean;
 }
@@ -123,6 +182,26 @@ const INSIGHTS: Record<string,string[]> = {
     'Red zone play-action working; TE seams open',
     'Shot plays generating DPI / chunk gains',
     'High RPO success forcing linebackers to commit'
+  ],
+  'luke-altmyer-passing-yards': [
+    'Altmyer connecting on deep balls vs USC secondary',
+    'Illinois offensive line giving clean pockets',
+    'USC pass rush neutralized by quick game'
+  ],
+  'luke-altmyer-passing-tds': [
+    'Red zone efficiency at 75% with Altmyer at helm',
+    'Trick play TD to Beatty shows creativity',
+    'USC linebackers struggling with RPO reads'
+  ],
+  'kaden-feagin-receiving-yards': [
+    'Feagin creating explosive plays as pass-catcher',
+    '64-yard TD shows breakaway speed vs USC',
+    'Dual-threat ability opening up Illinois offense'
+  ],
+  'justin-bowick-receiving-yards': [
+    'Bowick finding soft spots in USC zone coverage',
+    '25-yard TD showcases precise route running',
+    'Late-game target for Altmyer in clutch situations'
   ]
 };
 
@@ -149,10 +228,11 @@ const TeamInput: React.FC<TeamInputProps> = ({ value, onChange, onSubmit, loadin
 
 export default function DemoPage() {
   const [showPropBoard, setShowPropBoard] = useState(false);
-  const [selectedProp, setSelectedProp] = useState<typeof DEMO_PROPS[0] | null>(null);
+  const [selectedProp, setSelectedProp] = useState<any>(null);
   const search = useSearch();
   const [teamQuery, setTeamQuery] = useState('Georgia Tech');
-  const [game, setGame] = useState<GameLite>(FALLBACK_GAME);
+  const [game, setGame] = useState<GameLite>(GT_FALLBACK_GAME);
+  const [currentGameType, setCurrentGameType] = useState<'GT' | 'ILLINOIS'>('GT');
   const [gamesToday, setGamesToday] = useState<GameLite[]>([]);
   const [loadingGame, setLoadingGame] = useState(true);
   const [loadingTeamSwitch, setLoadingTeamSwitch] = useState(false);
@@ -162,11 +242,21 @@ export default function DemoPage() {
     if (!silent) setLoadingTeamSwitch(true);
     try {
       setError(null);
+      
+      // Check for Illinois first
+      if (team.toLowerCase().includes('illinois') || team.toLowerCase().includes('illini')) {
+        handleTeamSwitch(team);
+        return;
+      }
+      
       const res = await fetch(`/api/cfb/games/for-team?q=${encodeURIComponent(team)}`);
       if (!res.ok) throw new Error('network');
       const json = await res.json();
       const first: GameLite | undefined = json.games?.[0];
-      if (first) setGame(first);
+      if (first) {
+        setGame(first);
+        setCurrentGameType('GT');
+      }
     } catch (e: any) {
       setError('Schedule temporarily unavailable');
     } finally {
@@ -219,8 +309,9 @@ export default function DemoPage() {
 
   const isLive = game?.state === 'in' || countdown === 'LIVE';
 
-  const displayHome = game?.home?.abbrev === 'GT' ? game.home : game?.away;
-  const displayAway = game?.home?.abbrev === 'GT' ? game.away : game?.home;
+  // Always treat game.home / game.away as delivered; remove GT-specific perspective swap
+  const displayHome = game?.home;
+  const displayAway = game?.away;
 
   // Initialize performance tracking
   useEffect(() => {
@@ -231,9 +322,23 @@ export default function DemoPage() {
   // Demo flow: Hero → Prop Board → Video Drawer
   const handleOpenPropBoard = () => {
     setShowPropBoard(true);
+    const props = currentGameType === 'ILLINOIS' ? ILLINOIS_DEMO_PROPS : GT_DEMO_PROPS;
+    if (!selectedProp) setSelectedProp(props[0]);
   };
 
-  const handleSelectProp = (prop: typeof DEMO_PROPS[0]) => {
+  const handleTeamSwitch = (team: string) => {
+    if (team.toLowerCase().includes('illinois') || team.toLowerCase().includes('illini')) {
+      setCurrentGameType('ILLINOIS');
+      setGame(ILLINOIS_USC_GAME);
+      setSelectedProp(null);
+    } else {
+      setCurrentGameType('GT');
+      setGame(GT_FALLBACK_GAME);
+      setSelectedProp(null);
+    }
+  };
+
+  const handleSelectProp = (prop: any) => {
     setSelectedProp(prop);
   };
 
@@ -253,7 +358,7 @@ export default function DemoPage() {
       <ShellWrapper>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-8 space-y-8">
-            <SectionHeader title="Matchup" subtitle="Live narrative + video intelligence overlay" action={<CTAButton onClick={handleOpenPropBoard} disabled={loadingGame || !!error}>{loadingGame? 'Loading…':'Open Prop Board'}</CTAButton>} />
+            <SectionHeader title="Matchup" subtitle="Live narrative + video intelligence overlay" action={<CTAButton onClick={handleOpenPropBoard} disabled={loadingGame}>{loadingGame? 'Loading…':'Open Prop Board'}</CTAButton>} />
             <div className="flex items-center justify-between mb-4">
               <TeamInput value={teamQuery} onChange={setTeamQuery} onSubmit={handleTeamSubmit} loading={loadingTeamSwitch} />
               {error && <span className="text-sm text-red-300">{error}</span>}
@@ -271,7 +376,9 @@ export default function DemoPage() {
                 </div>
                 <div className="px-4 text-center">
                   <div className="text-sm tracking-wide text-white/60 mb-1">{isLive ? 'Score' : 'Kickoff'}</div>
-                  <div className="text-3xl font-bold tabular-nums mb-1">{isLive ? `${game.awayScore ?? 0}` : countdown}</div>
+                  <div className="text-3xl font-bold tabular-nums mb-1">
+                    {isLive ? `${game.awayScore ?? 0} – ${game.homeScore ?? 0}` : countdown}
+                  </div>
                   <div className="text-xs text-white/50">
                     {isLive ? `Q${game.period ?? '?'} • ${game.clock ?? ''}` : new Date(game.start).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
                   </div>
@@ -332,7 +439,7 @@ export default function DemoPage() {
         <Badge color="emerald">LIVE</Badge>
       </div>
       <div className="space-y-3 mb-10">
-        {DEMO_PROPS.map((prop) => (
+        {(currentGameType === 'ILLINOIS' ? ILLINOIS_DEMO_PROPS : GT_DEMO_PROPS).map((prop) => (
           <PropRow
             key={prop.id}
             prop={prop}
@@ -351,11 +458,12 @@ export default function DemoPage() {
         onClose={handleCloseDrawer}
         propId={selectedProp?.id || ''}
         propType={selectedProp?.prop as any}
-        playerId={'haynes-king'}
+        playerId={selectedProp?.id?.split('-').slice(0, -2).join('-') || 'haynes-king'}
+        gameId={currentGameType === 'ILLINOIS' ? 'illinois-usc-20250927' : undefined}
         marketLine={selectedProp?.market || 0}
         fairLine={selectedProp?.fair || 0}
         edgePct={selectedProp?.edge || 0}
-        bullets={selectedProp ? INSIGHTS[selectedProp.id] : []}
+        bullets={selectedProp ? INSIGHTS[selectedProp.id] || [] : []}
         clips={DEMO_CLIPS.filter(c=>c.playerId==='haynes-king')}
       />
       <SearchModal isOpen={search.isOpen} onClose={search.close} onSelect={handleSearchSelect} />

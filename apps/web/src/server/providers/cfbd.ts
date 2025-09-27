@@ -33,3 +33,42 @@ export async function fetchCfbdFbsTeams() {
   setCache(url, json);
   return json as any[];
 }
+
+// Fetch player stats for a specific game
+export async function fetchCfbdGamePlayerStats(gameId: number) {
+  const url = `${CFBD}/games/players?gameId=${gameId}`;
+  const hit = getCache(url);
+  if (hit) return hit;
+  const r = await fetch(url, authHeaders());
+  if (!r.ok) throw new Error(`CFBD ${r.status}`);
+  const json = await r.json();
+  setCache(url, json);
+  return json as any[];
+}
+
+// Fetch team stats for a specific game
+export async function fetchCfbdGameTeamStats(gameId: number) {
+  const url = `${CFBD}/games/teams?gameId=${gameId}`;
+  const hit = getCache(url);
+  if (hit) return hit;
+  const r = await fetch(url, authHeaders());
+  if (!r.ok) throw new Error(`CFBD ${r.status}`);
+  const json = await r.json();
+  setCache(url, json);
+  return json as any[];
+}
+
+// Search for games by team and date range
+export async function fetchCfbdGames(year: number, team?: string, week?: number) {
+  let url = `${CFBD}/games?year=${year}`;
+  if (team) url += `&team=${encodeURIComponent(team)}`;
+  if (week) url += `&week=${week}`;
+  
+  const hit = getCache(url);
+  if (hit) return hit;
+  const r = await fetch(url, authHeaders());
+  if (!r.ok) throw new Error(`CFBD ${r.status}`);
+  const json = await r.json();
+  setCache(url, json);
+  return json as any[];
+}

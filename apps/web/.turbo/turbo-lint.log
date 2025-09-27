@@ -7,6 +7,7 @@
 
 ./src/app/api/cfb/games/for-team/route.ts
 1:1  Warning: There should be at least one empty line between import groups  import/order
+4:1  Warning: `@/server/teamEnrichment` import should occur before import of `@/server/teamResolver`  import/order
 
 ./src/app/api/cfb/games/today/route.ts
 1:1  Warning: There should be at least one empty line between import groups  import/order
@@ -263,6 +264,10 @@
 
 ./src/lib/useVideoClips.ts
 1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/server/teamEnrichment.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+2:1  Warning: `./teamResolver` import should occur before type import of `@/types/cfb`  import/order
 
 ./src/server/teamResolver.ts
 3:1  Warning: There should be at least one empty line between import groups  import/order

@@ -12,6 +12,7 @@ interface DrawerProps {
   propId: string;
   propType: ClipsGridProps['propType'];
   playerId: string;
+  gameId?: string; // e.g., 'illinois-usc-20250927'
   marketLine?: number;
   fairLine?: number;
   edgePct?: number; // optional; prefer insights.edgePct
@@ -44,7 +45,7 @@ function useCountUp(value: number, durationMs = 900) {
   return display;
 }
 
-export function PropDrawer({ propId, propType, playerId, marketLine, fairLine, edgePct, bullets = [], clips = [], isOpen, onClose }: DrawerProps) {
+export function PropDrawer({ propId, propType, playerId, gameId, marketLine, fairLine, edgePct, bullets = [], clips = [], isOpen, onClose }: DrawerProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { insights, isLoading: insightsLoading, error: insightsError } = useInsights(isOpen ? propId : undefined);
   const effectiveMarket = insights?.marketLine ?? marketLine ?? 0;
@@ -76,10 +77,10 @@ export function PropDrawer({ propId, propType, playerId, marketLine, fairLine, e
     if (!isOpen) return;
     setLoadingClips(true);
     const playerName = playerId.replace('-', ' ');
-    const query = `${playerName} ${propType}`; // simple concatenation; can refine later per stat type
-    tlSearch(query).finally(() => setLoadingClips(false));
+    const query = `${playerName} ${propType}`;
+    tlSearch(query, gameId, propType, playerName).finally(() => setLoadingClips(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, propId, playerId, propType]);
+  }, [isOpen, propId, playerId, propType, gameId]);
 
   useEffect(() => {
     if (!isOpen) return;

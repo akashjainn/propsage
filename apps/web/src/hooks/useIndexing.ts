@@ -9,10 +9,10 @@ export function useIndexJobs(playerId?: string) {
   return { jobs: data ?? [], isLoading, refresh: mutate };
 }
 
-export async function enqueueIndex(playerId: string, url?: string) {
+export async function enqueueIndex(playerId: string, url?: string, gameId?: string) {
   await fetch('/api/index/jobs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ playerId, source: url ? 'youtube' : 'manual', url })
+    body: JSON.stringify({ playerId, gameId, source: url ? 'youtube' : 'manual', url })
   });
 }

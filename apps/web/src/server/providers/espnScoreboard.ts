@@ -39,15 +39,19 @@ export function mapEspnEventToGame(e: any): GameLite {
   const comp = e?.competitions?.[0];
   const competitors = comp?.competitors ?? [];
   const [c0, c1] = competitors;
-  const mkTeam = (c: any): TeamLite => ({
-    id: String(c?.team?.id ?? ''),
-    name: c?.team?.displayName ?? '',
-    short: c?.team?.shortDisplayName ?? '',
-    abbrev: c?.team?.abbreviation ?? '',
-    logo: c?.team?.logo,
-    color: c?.team?.color,
-    rank: c?.curatedRank?.current ?? null,
-  });
+  const mkTeam = (c: any): TeamLite => {
+    const t = c?.team ?? {};
+    const logos = t.logos || [];
+    return {
+      id: String(t.id ?? ''),
+      name: t.displayName || t.shortDisplayName || t.abbreviation || 'Unknown',
+      short: t.shortDisplayName || t.abbreviation || t.displayName || 'Team',
+      abbrev: t.abbreviation || '',
+      logo: t.logo || logos?.[0]?.href || null,
+      color: (t.color || t.alternateColor || '')?.replace('#','') || null,
+      rank: c?.curatedRank?.current ?? null,
+    };
+  };
   const homeC = c0?.homeAway === 'home' ? c0 : (c1?.homeAway === 'home' ? c1 : c0);
   const awayC = c0?.homeAway === 'away' ? c0 : (c1?.homeAway === 'away' ? c1 : c1);
   const state = (e?.status?.type?.state ?? 'pre') as GameState;

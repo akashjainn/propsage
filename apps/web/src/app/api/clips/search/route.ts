@@ -7,6 +7,8 @@ import { NextRequest, NextResponse } from 'next/server';
 interface TLSearchRequestBody {
   query?: string;
   player?: string;
+  gameId?: string;
+  propType?: string;
   limit?: number;
 }
 
@@ -20,9 +22,20 @@ interface TLClipResult {
   // Additional fields may be present; we keep only what we map.
 }
 
+// Map prop types to better search queries
+const PROP_QUERY_MAP: Record<string, string> = {
+  'Passing Yards': 'passing touchdown throw',
+  'Passing Touchdowns': 'passing touchdown',
+  'Rushing Yards': 'rushing run carry',
+  'Rushing Touchdowns': 'rushing touchdown run',
+  'Receiving Yards': 'catch reception receiving',
+  'Receiving Touchdowns': 'receiving touchdown catch',
+  'Interceptions': 'interception turnover'
+};
+
 export async function POST(req: NextRequest) {
   const body = (await req.json().catch(() => ({}))) as TLSearchRequestBody;
-  const { query, player, limit = 6 } = body;
+  const { query, player, gameId, propType, limit = 6 } = body;
 
   const indexId = process.env.TWELVELABS_INDEX_ID;
   const apiKey = process.env.TWELVELABS_API_KEY;
@@ -30,7 +43,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Server missing TwelveLabs credentials' }, { status: 500 });
   }
 
-  const query_text = query || player;
+  // Build enhanced query
+  let query_text = query;
+  if (!query_text && player && propType) {
+    const propQuery = PROP_QUERY_MAP[propType] || propType.toLowerCase();
+    query_text = `${player} ${propQuery}`;
+  } else if (!query_text) {
+    query_text = player;
+  }
+
   if (!query_text) {
     return NextResponse.json({ clips: [] });
   }

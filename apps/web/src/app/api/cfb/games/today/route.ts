@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { fetchEspnScoreboard, mapEspnEventToGame } from '@/server/providers/espnScoreboard';
+import { enrichGames } from '@/server/teamEnrichment';
 
 export async function GET() {
   try {
@@ -11,8 +12,9 @@ export async function GET() {
       if (!e?.id) continue;
       if (!dedup.has(e.id)) dedup.set(e.id, e);
     }
-    const games = Array.from(dedup.values()).map(mapEspnEventToGame);
-    return NextResponse.json(games, { status: 200 });
+  const gamesRaw = Array.from(dedup.values()).map(mapEspnEventToGame);
+  const games = await enrichGames(gamesRaw);
+  return NextResponse.json(games, { status: 200 });
   } catch (e: any) {
     return NextResponse.json({ error: e.message || 'failed' }, { status: 500 });
   }
