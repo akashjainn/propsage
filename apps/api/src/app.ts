@@ -13,6 +13,24 @@ export function createApp() {
   app.use(cors({ origin: config.corsOrigin }))
   app.use(express.json())
   app.use(timing)
+  
+  // Root route
+  app.get('/', (_req, res) => res.json({
+    name: 'PropSage API',
+    version: '1.0.0',
+    description: 'HackGT 12 - Sports betting analytics with AI-powered fair value calculations',
+    endpoints: {
+      health: '/health',
+      lines: '/lines',
+      fairline: '/fairline',
+      evidence: '/evidence',
+      video: '/video',
+      price: '/price'
+    },
+    demo: config.demoMode,
+    status: 'running'
+  }))
+  
   app.get('/health', (_req, res) => res.json({
     demo: config.demoMode,
     video: config.videoEnabled,
