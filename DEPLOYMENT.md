@@ -11,6 +11,7 @@ DEMO_MODE=true
 VIDEO_ENABLED=true
 PPLX_API_KEY=[your-perplexity-api-key]
 TL_API_KEY=[your-twelvelabs-api-key]
+ODDS_API_KEY=[your-odds-api-key]
 PORT=8080
 FEATURE_FLAGS=demo_mode:true,video:true
 CORS_ORIGIN=https://propsage.vercel.app

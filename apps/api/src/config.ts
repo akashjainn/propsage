@@ -7,6 +7,7 @@ interface AppConfig {
   twelveLabsKey: string
   videoEnabled: boolean
   corsOrigin: string
+  oddsApiKey: string
 }
 
 function bool(val: string | undefined, fallback: boolean) {
@@ -30,6 +31,7 @@ export const config: AppConfig = {
   twelveLabsKey: requireIfLive('TL_API_KEY', process.env.TL_API_KEY),
   videoEnabled: bool(process.env.VIDEO_ENABLED, true),
   corsOrigin: process.env.CORS_ORIGIN || process.env.WEB_BASE_URL || 'http://localhost:3000',
+  oddsApiKey: process.env.ODDS_API_KEY || '',
 }
 
 export type { AppConfig }
