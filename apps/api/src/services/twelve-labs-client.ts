@@ -7,7 +7,7 @@ import {
   TLVideo,
   TLMoment,
   calculateConfidence
-} from "../types/twelve-labs";
+} from "../types/twelve-labs.js";
 
 // Environment configuration
 const TL_CONFIG: TwelveLabsConfig = {

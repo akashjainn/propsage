@@ -1,5 +1,5 @@
 import { LRUCache } from "lru-cache";
-import { twelveLabsClient, isVideoIntelligenceAvailable } from "./twelve-labs-client";
+import { twelveLabsClient, isVideoIntelligenceAvailable } from "./twelve-labs-client.js";
 import { 
   MomentPack, 
   PropType, 
@@ -8,7 +8,7 @@ import {
   EvidenceFeature,
   PROP_INTENT_LIBRARY,
   buildMomentQuery
-} from "../types/twelve-labs";
+} from "../types/twelve-labs.js";
 
 // Cache for moment packs (1 hour - updated after games)
 const momentPackCache = new LRUCache<string, MomentPack>({ 

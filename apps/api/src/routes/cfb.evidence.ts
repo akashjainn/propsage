@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { evidenceService, getMockVideoForDemo, isEvidenceAvailable } from "../services/evidence-service";
-import { PropType } from "../types/twelve-labs";
+import { evidenceService, getMockVideoForDemo, isEvidenceAvailable } from "../services/evidence-service.js";
+import { PropType } from "../types/twelve-labs.js";
 
 const r = Router();
 

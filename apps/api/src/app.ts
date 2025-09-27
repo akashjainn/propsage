@@ -23,6 +23,7 @@ import cfbEvidence from './routes/cfb.evidence.js'
 import demoGames from './routes/demo.games.js'
 import demoPlayers from './routes/demo.players.js'
 import demoProps from './routes/demo.props.js'
+import demoClips from './routes/demo.clips.js'
 import { timing } from './middleware/timing.js'
 import { config } from './config.js'
 
@@ -62,7 +63,8 @@ export function createApp() {
       // Demo enterprise endpoints
       games: '/games',
       players: '/players', 
-      props: '/props'
+      props: '/props',
+      clips: '/clips'
     },
     demo: config.demoMode,
     status: 'running'
@@ -100,6 +102,7 @@ export function createApp() {
   app.use('/games', demoGames)
   app.use('/players', demoPlayers)
   app.use('/props', demoProps)
+  app.use('/clips', demoClips)
   
   return app
 }

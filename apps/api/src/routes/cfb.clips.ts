@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { LRUCache } from "lru-cache";
-import { youTubeProvider } from "../providers/youtube-provider";
-import { ClipSearchQuery, SocialClip, Platform } from "../types/social-clips";
+import { ClipSearchQuery, SocialClip, Platform } from "../types/social-clips.js";
 import { mockTwelveLabsService } from "../services/twelvelabs.mock.js";
 
 const r = Router();
@@ -144,8 +143,35 @@ r.get("/:clipId", async (req, res) => {
     // Parse platform from clip ID (format: platform_externalId)
     const [platform, externalId] = clipId.split('_', 2);
     
-    if (platform === 'youtube' && externalId) {
-      clip = await youTubeProvider.getClipById(externalId);
+    if (platform === 'twelvelabs' && externalId) {
+      // Mock TwelveLabs clip lookup
+      const searchResult = await mockTwelveLabsService.search(externalId, undefined, undefined);
+      const foundClip = searchResult.results.find(r => r.id === externalId);
+      if (foundClip) {
+        // Convert to SocialClip format
+        clip = {
+          id: clipId,
+          platform: 'twelvelabs' as Platform,
+          externalId: foundClip.id,
+          title: foundClip.title,
+          description: foundClip.clips?.[0]?.description || foundClip.title,
+          url: foundClip.url,
+          thumbnailUrl: foundClip.thumbnail,
+          author: foundClip.metadata?.source || 'CFB Highlights',
+          authorUrl: foundClip.url,
+          duration: foundClip.duration,
+          publishedAt: foundClip.metadata?.date || new Date().toISOString(),
+          viewCount: Math.floor(Math.random() * 100000) + 10000,
+          relevanceScore: foundClip.confidence,
+          tags: foundClip.tags || ['highlights'],
+          gameContext: {
+            opponent: foundClip.metadata?.opponent,
+            date: foundClip.metadata?.date,
+            week: foundClip.metadata?.week,
+            season: 2025
+          }
+        };
+      }
     }
     // TODO: Add other platform lookups here
 
@@ -184,8 +210,21 @@ r.get("/:clipId/embed", async (req, res) => {
     let embedHtml = '';
     
     // Generate platform-specific embed
-    if (clip.platform === 'youtube') {
-      embedHtml = await youTubeProvider.generateEmbedHtml(clip);
+    if (clip.platform === 'twelvelabs') {
+      // Mock TwelveLabs embed HTML
+      embedHtml = `
+        <div class="twelvelabs-embed" style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
+          <iframe 
+            src="${clip.url}?autoplay=1&start=${clip.startTime || 0}&end=${clip.endTime || clip.duration}"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+            allowfullscreen
+            title="${clip.title}"
+          ></iframe>
+          <div class="powered-by" style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+            Powered by TwelveLabs
+          </div>
+        </div>
+      `;
     }
     // TODO: Add other platform embed generation
 
@@ -332,7 +371,31 @@ r.get("/prop/:propId", async (req, res) => {
       limit
     };
 
-    const clips = await youTubeProvider.search(query);
+    // Use TwelveLabs mock service for prop-specific clips
+    const twelveLabsResults = await mockTwelveLabsService.search(query.stat || '', query.player ? `cfb_${query.player.toLowerCase().replace(/\s+/g, '_')}` : undefined, query.stat ? [query.stat.toLowerCase()] : undefined);
+    
+    const clips: SocialClip[] = twelveLabsResults.results.map(result => ({
+      id: `twelvelabs_${result.id}`,
+      platform: 'twelvelabs' as Platform,
+      externalId: result.id,
+      title: result.title,
+      description: result.clips?.[0]?.description || result.title,
+      url: result.url,
+      thumbnailUrl: result.thumbnail,
+      author: result.metadata?.source || `${propData.team || 'CFB'} Highlights`,
+      authorUrl: result.url,
+      duration: result.duration,
+      publishedAt: result.metadata?.date || new Date().toISOString(),
+      viewCount: Math.floor(Math.random() * 100000) + 10000,
+      relevanceScore: result.confidence,
+      tags: result.tags || ['highlights'],
+      gameContext: {
+        opponent: result.metadata?.opponent,
+        date: result.metadata?.date,
+        week: result.metadata?.week,
+        season: 2025
+      }
+    }));
 
     res.json({
       clips,
