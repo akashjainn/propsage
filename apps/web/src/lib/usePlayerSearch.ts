@@ -42,7 +42,7 @@ export function usePlayerSearch() {
       } finally { 
         setLoading(false); 
       }
-    }, 250); // 250ms debounce
+    }, 500); // 500ms debounce - be more conservative with rate limits
     
     return () => clearTimeout(timeout);
   }, [q]);

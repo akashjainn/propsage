@@ -23,8 +23,27 @@ type Player = {
   externalIds: { balldontlie: number }
 }
 
-const cache = new LRUCache<string, Player[]>({ max: 500, ttl: 1000 * 60 * 15 }) // 15 min
-const detailCache = new LRUCache<number, any>({ max: 500, ttl: 1000 * 60 * 60 })
+// Aggressive caching due to 5 req/min rate limit
+const cache = new LRUCache<string, Player[]>({ max: 1000, ttl: 1000 * 60 * 60 * 24 }) // 24 hours
+const detailCache = new LRUCache<number, any>({ max: 1000, ttl: 1000 * 60 * 60 * 24 }) // 24 hours
+
+// Rate limiting: 5 requests per minute
+const rateLimitWindow = 1000 * 60 // 1 minute
+const maxRequestsPerWindow = 4 // Keep 1 request as buffer
+const requestTimes: number[] = []
+
+function canMakeRequest(): boolean {
+  const now = Date.now()
+  // Remove requests older than 1 minute
+  while (requestTimes.length > 0 && requestTimes[0] < now - rateLimitWindow) {
+    requestTimes.shift()
+  }
+  return requestTimes.length < maxRequestsPerWindow
+}
+
+function recordRequest() {
+  requestTimes.push(Date.now())
+}
 
 // Local fallback data
 let localPlayers: any[] | null = null
@@ -53,49 +72,80 @@ function normalize(p: any): Player {
   }
 }
 
-// GET /players?q=luk
+// GET /players?q=luk - RATE LIMIT FRIENDLY
 r.get("/", async (req, res) => {
   try {
     const q = String(req.query.q ?? "").trim()
     if (!q || q.length < 2) {
-      // Return empty for backward compatibility (legacy expected { players: [] })
       return res.json({ players: [] })
     }
 
     const key = q.toLowerCase()
+    
+    // ALWAYS check cache first
     const cached = cache.get(key)
     if (cached) {
       return res.json({ players: cached.slice(0, 25) })
     }
 
+    // ALWAYS try local JSON first (500 players available)
+    console.log('Cache miss, searching local JSON first')
+    const local = await loadLocal()
+    const localResults = local
+      .filter((p: any) => {
+        const playerName = (p.name ?? "").toLowerCase()
+        const firstName = (p.firstName ?? "").toLowerCase()
+        const lastName = (p.lastName ?? "").toLowerCase()
+        const team = (p.team ?? "").toLowerCase()
+        return playerName.includes(key) || 
+               firstName.includes(key) || 
+               lastName.includes(key) ||
+               team.includes(key)
+      })
+      .slice(0, 25)
+
+    // If we found results in local JSON, use them and cache
+    if (localResults.length > 0) {
+      cache.set(key, localResults)
+      return res.json({ players: localResults })
+    }
+
+    // Only hit API if rate limit allows AND no local results
+    if (!canMakeRequest()) {
+      console.warn('Rate limit hit, returning empty results for:', q)
+      return res.json({ players: [], meta: { rateLimited: true } })
+    }
+
+    // Make API request as last resort
+    console.log('No local results, making API request (rate limit OK)')
+    recordRequest()
+    
     const url = `${BALDO_BASE}/players?per_page=25&search=${encodeURIComponent(q)}`
     const resp = await fetch(url, { headers: BALDO_HEADERS })
     
     if (!resp.ok) {
-      console.warn('Balldontlie API failed, using local fallback')
-      // Fallback to local filtered results
-      const local = await loadLocal()
-      const out = local
-        .filter((p: any) => 
-          (p.name ?? "").toLowerCase().includes(key) || 
-          (p.team ?? "").toLowerCase().includes(key)
-        )
-        .slice(0, 25)
-      return res.json({ players: out })
+      console.warn('API failed, no results found')
+      return res.json({ players: [] })
     }
     
     const data = await resp.json() as any
     const mapped: Player[] = (data?.data ?? []).map(normalize)
 
+    // Cache API results for 24 hours
     cache.set(key, mapped)
+    console.log(`API success: found ${mapped.length} players for "${q}"`)
     res.json({ players: mapped })
+    
   } catch (e: any) {
     console.error('Player search error:', e)
-    res.status(500).json({ error: e?.message ?? "search_failed" })
+    // Final fallback
+    const local = await loadLocal()
+    const fallback = local.slice(0, 25) // Return first 25 as emergency fallback
+    res.json({ players: fallback })
   }
 })
 
-// GET /players/:id  (id like nba_237)
+// GET /players/:id  (id like nba_237) - RATE LIMIT FRIENDLY
 r.get("/:id", async (req, res) => {
   try {
     const idStr = String(req.params.id)
@@ -103,9 +153,24 @@ r.get("/:id", async (req, res) => {
     const balId = Number(idStr.replace("nba_", ""))
     if (!balId) return res.status(400).json({ error: "bad_id" })
 
+    // Check cache first
     const cached = detailCache.get(balId)
     if (cached) return res.json(normalize(cached))
 
+    // Try local JSON first
+    const local = await loadLocal()
+    const localPlayer = local.find((p: any) => p.externalIds?.balldontlie === balId)
+    if (localPlayer) {
+      detailCache.set(balId, localPlayer)
+      return res.json(localPlayer)
+    }
+
+    // Only hit API if rate limit allows
+    if (!canMakeRequest()) {
+      return res.status(429).json({ error: "rate_limited" })
+    }
+
+    recordRequest()
     const resp = await fetch(`${BALDO_BASE}/players/${balId}`, { headers: BALDO_HEADERS })
     if (!resp.ok) return res.status(resp.status).json({ error: await resp.text() })
     const data = await resp.json() as any
@@ -136,6 +201,18 @@ r.get('/:id/line-history', async (req, res) => {
     player: { id, name: "Player" }, 
     market, 
     history: [] 
+  })
+})
+
+// Rate limit status endpoint
+r.get('/rate-limit-status', (req, res) => {
+  const now = Date.now()
+  const recentRequests = requestTimes.filter(time => time > now - rateLimitWindow)
+  res.json({
+    requestsInLastMinute: recentRequests.length,
+    maxRequestsPerMinute: maxRequestsPerWindow,
+    canMakeRequest: canMakeRequest(),
+    nextResetIn: recentRequests.length > 0 ? Math.ceil((recentRequests[0] + rateLimitWindow - now) / 1000) : 0
   })
 })
 

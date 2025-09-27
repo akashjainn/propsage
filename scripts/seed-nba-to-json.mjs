@@ -4,9 +4,9 @@ const API_KEY = "f98954c1-4a2b-40c7-a1f3-0d099214aa91";
 
 console.log("Fetching NBA players from Balldontlie API...");
 
-// Fetch multiple pages to get more players
+// Fetch multiple pages to get comprehensive player data
 const allPlayers = [];
-for (let page = 1; page <= 5; page++) {  // Get first 5 pages (500 players)
+for (let page = 1; page <= 10; page++) {  // Get first 10 pages (~1000 players)
   try {
     const resp = await fetch(`https://api.balldontlie.io/v1/players?per_page=100&page=${page}`, {
       headers: {
@@ -35,8 +35,8 @@ for (let page = 1; page <= 5; page++) {  // Get first 5 pages (500 players)
     allPlayers.push(...mapped);
     console.log(`Fetched page ${page}: ${mapped.length} players`);
     
-    // Rate limiting - wait between requests
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // Rate limiting - wait longer between requests (5 req/min limit)
+    await new Promise(resolve => setTimeout(resolve, 15000)); // 15 second delay
   } catch (error) {
     console.error(`Error fetching page ${page}:`, error);
     break;
