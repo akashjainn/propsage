@@ -1,0 +1,166 @@
+/* PropSage Design Tokens - Enterprise-grade visual system */
+
+:root {
+  /* Brand Colors */
+  --brand: #0D1321;
+  --brand-weak: #1F2A44;
+  --brand-50: #f6f7fa;
+  --brand-100: #eceef4;
+  --brand-200: #d4d8e6;
+  --brand-300: #b3bbd2;
+  --brand-400: #8c97ba;
+  --brand-500: #6e7aa4;
+  --brand-600: #5a6490;
+  --brand-700: #4a5376;
+  --brand-800: #3f4663;
+  --brand-900: #363c54;
+  --brand-950: #1F2A44;
+
+  /* Accent Colors */
+  --accent-pos: #0B7A75;
+  --accent-pos-50: #f0fffe;
+  --accent-pos-100: #ccfffe;
+  --accent-pos-200: #99fffc;
+  --accent-pos-300: #5cfef9;
+  --accent-pos-400: #0B7A75;
+  --accent-pos-500: #08c8c8;
+  --accent-pos-600: #06a8a8;
+  --accent-pos-700: #0a8585;
+  --accent-pos-800: #0f6b6b;
+  --accent-pos-900: #135858;
+  --accent-pos-950: #003535;
+
+  --accent-neg: #C0392B;
+  --accent-neg-50: #fef5f2;
+  --accent-neg-100: #fde8e2;
+  --accent-neg-200: #fbd5ca;
+  --accent-neg-300: #f7b8a5;
+  --accent-neg-400: #f18f70;
+  --accent-neg-500: #e8653f;
+  --accent-neg-600: #d64620;
+  --accent-neg-700: #C0392B;
+  --accent-neg-800: #9f3024;
+  --accent-neg-900: #812c23;
+  --accent-neg-950: #46140f;
+
+  /* Background & Surface */
+  --bg: #0B0E14;
+  --bg-subtle: #0F1419;
+  --card: #101522;
+  --card-hover: #151a29;
+  --surface: #1a2030;
+  --surface-hover: #202637;
+
+  /* Text & Borders */
+  --text-primary: #ffffff;
+  --text-secondary: #8EA0B4;
+  --text-tertiary: #5c6b7a;
+  --text-muted: #465058;
+  --border: #1e2532;
+  --border-hover: #2a3441;
+  --border-strong: #394050;
+
+  /* Semantic Colors */
+  --success: var(--accent-pos);
+  --success-bg: #0b2f2e;
+  --success-border: #1a4544;
+  --warning: #f59e0b;
+  --warning-bg: #2d1b0a;
+  --warning-border: #4a2c0f;
+  --error: var(--accent-neg);
+  --error-bg: #2d0f0a;
+  --error-border: #4a1f18;
+  --info: #3b82f6;
+  --info-bg: #0f1629;
+  --info-border: #1e293b;
+
+  /* Layout */
+  --grid-gap: 12px;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+
+  /* Typography */
+  --font-mono: 'IBM Plex Mono', 'Roboto Mono', 'Fira Code', monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Animation */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light Theme (optional override) */
+.theme-light {
+  --bg: #ffffff;
+  --bg-subtle: #f8fafc;
+  --card: #ffffff;
+  --card-hover: #f1f5f9;
+  --surface: #f8fafc;
+  --surface-hover: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --text-muted: #94a3b8;
+  --border: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --border-strong: #94a3b8;
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Dark Theme (default - inherits from :root) */
+
+/* System Preference Detection */
+@media (prefers-color-scheme: light) {
+  :root:not(.theme-dark) {
+    --bg: #ffffff;
+    --bg-subtle: #f8fafc;
+    --card: #ffffff;
+    --card-hover: #f1f5f9;
+    --surface: #f8fafc;
+    --surface-hover: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #64748b;
+    --text-muted: #94a3b8;
+    --border: #e2e8f0;
+    --border-hover: #cbd5e1;
+    --border-strong: #94a3b8;
+    --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+  :root {
+    --border: #ffffff;
+    --border-hover: #ffffff;
+    --text-secondary: #ffffff;
+    --text-tertiary: #ffffff;
+  }
+}
