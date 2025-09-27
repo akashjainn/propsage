@@ -20,8 +20,10 @@ wss.on('connection', (socket) => {
 function broadcast(obj: any) {
   const data = JSON.stringify(obj)
   wss.clients.forEach(c => {
-    // @ts-ignore
-    if (c.readyState === 1) c.send(data)
+      // ws WebSocket clients expose readyState (1 = OPEN)
+      // Casting to any is acceptable here while legacy unsafe rules are relaxed
+      const client: any = c
+      if (client.readyState === 1) client.send(data)
   })
 }
 

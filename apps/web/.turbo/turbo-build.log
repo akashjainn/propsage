@@ -8,23 +8,25 @@
  ✓ Compiled successfully
    Linting and checking validity of types ...
    Collecting page data ...
-   Generating static pages (0/4) ...
-   Generating static pages (1/4) 
-   Generating static pages (2/4) 
-   Generating static pages (3/4) 
- ✓ Generating static pages (4/4) 
+   Generating static pages (0/5) ...
+   Generating static pages (1/5) 
+   Generating static pages (2/5) 
+   Generating static pages (3/5) 
+ ✓ Generating static pages (5/5) 
    Finalizing page optimization ...
    Collecting build traces ...
 
 Route (app)                              Size     First Load JS
 ┌ ○ /                                    11 kB          94.9 kB
 ├ ○ /_not-found                          872 B          84.8 kB
+├ λ /api/clips/player/[playerId]         0 B                0 B
+├ ○ /demo                                10.9 kB        94.8 kB
 └ λ /player/[id]                         3.72 kB        87.6 kB
 + First Load JS shared by all            83.9 kB
-  ├ chunks/741-159dde5c72877f0e.js       28.8 kB
-  ├ chunks/f3c09c60-bcd322f88168d8a7.js  53.3 kB
+  ├ chunks/741-212287d6d5829707.js       28.8 kB
+  ├ chunks/f3c09c60-551e78919dbd68c2.js  53.3 kB
   ├ chunks/main-app-9a8c9425881fa496.js  219 B
-  └ chunks/webpack-a39b0bb13149f0d1.js   1.65 kB
+  └ chunks/webpack-253947f61b3f1c3f.js   1.65 kB
 
 
 ○  (Static)   prerendered as static content

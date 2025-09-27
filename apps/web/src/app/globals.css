@@ -22,6 +22,11 @@
     font-weight: 600;
     letter-spacing: -0.025em;
   }
+
+  :where(button, a, input, select, textarea):focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.2), 0 0 0 4px rgba(99,102,241,0.55);
+  }
 }
 
 @layer components {

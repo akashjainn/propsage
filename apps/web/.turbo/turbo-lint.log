@@ -1,0 +1,278 @@
+
+> @propsage/web@0.1.0 lint C:\Users\akash\Documents\propsage\apps\web
+> next lint
+
+
+ ⚠ The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/basic-features/eslint#migrating-existing-config
+
+./src/app/api/cfb/games/for-team/route.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/app/api/cfb/games/today/route.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/app/api/index/jobs/route.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/app/api/index/jobs/[jobId]/route.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/app/api/insights/[propId]/route.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/app/demo/page.tsx
+3:1  Warning: There should be at least one empty line between import groups  import/order
+4:8  Warning: 'MatchupHero' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+4:8  Warning: 'MatchupHero' is defined but never used.  unused-imports/no-unused-imports
+5:35  Warning: 'Card' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:35  Warning: 'Card' is defined but never used.  unused-imports/no-unused-imports
+6:1  Warning: `@/types/cfb` type import should occur before import of `@/ui`  import/order
+6:25  Warning: 'GameState' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+6:25  Warning: 'GameState' is defined but never used.  unused-imports/no-unused-imports
+7:1  Warning: `@/components/SearchModal` import should occur before import of `@/ui`  import/order
+8:1  Warning: `@/components/PropDrawer` import should occur before import of `@/ui`  import/order
+9:1  Warning: `@/components/WhyCard` import should occur before import of `@/ui`  import/order
+9:8  Warning: 'WhyCard' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+9:8  Warning: 'WhyCard' is defined but never used.  unused-imports/no-unused-imports
+10:1  Warning: `@/components/clip.types` type import should occur before import of `@/ui`  import/order
+11:1  Warning: There should be at least one empty line between import groups  import/order
+11:1  Warning: `@/hooks/usePerformance` import should occur before import of `@/ui`  import/order
+11:10  Warning: 'useFastSWR' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+11:10  Warning: 'useFastSWR' is defined but never used.  unused-imports/no-unused-imports
+12:1  Warning: `lucide-react` import should occur before import of `react`  import/order
+12:10  Warning: 'TrendingUp' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:10  Warning: 'TrendingUp' is defined but never used.  unused-imports/no-unused-imports
+12:22  Warning: 'TrendingDown' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:22  Warning: 'TrendingDown' is defined but never used.  unused-imports/no-unused-imports
+12:42  Warning: 'Search' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:42  Warning: 'Search' is defined but never used.  unused-imports/no-unused-imports
+12:50  Warning: 'Command' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:50  Warning: 'Command' is defined but never used.  unused-imports/no-unused-imports
+
+./src/app/layout.old.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/app/layout.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/app/page.old.tsx
+4:1  Warning: `@/components/PlayerCard` import should occur before import of `@/components/PlayerSearch`  import/order
+5:1  Warning: `@/components/EvidenceTab` import should occur before import of `@/components/Header`  import/order
+6:1  Warning: There should be at least one empty line between import groups  import/order
+7:1  Warning: There should be at least one empty line between import groups  import/order
+7:1  Warning: `react` import should occur before import of `@/components/Header`  import/order
+
+./src/app/page.tsx
+3:1  Warning: There should be at least one empty line between import groups  import/order
+4:8  Warning: Using exported name 'HeroSearch' as identifier for default import.  import/no-named-as-default
+6:1  Warning: `@/lib/useCfbPlayerSearch` import should occur before import of `@/lib/useVideoClips`  import/order
+7:1  Warning: `@/lib/useCfbProps` import should occur before import of `@/lib/useVideoClips`  import/order
+9:1  Warning: `@/lib/cfb` import should occur before import of `@/lib/useVideoClips`  import/order
+10:1  Warning: `@/components/SocialClips` import should occur before import of `@/lib/useVideoClips`  import/order
+11:1  Warning: `@/components/EvidenceRail` import should occur before import of `@/components/HeroSearch`  import/order
+12:1  Warning: `@/components/MomentPlayer` import should occur before import of `@/lib/useVideoClips`  import/order
+61:10  Warning: 'selectedPropId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/player/[id]/page.tsx
+2:1  Warning: `react` import should occur after import of `next/navigation`  import/order
+3:1  Warning: There should be at least one empty line between import groups  import/order
+4:1  Warning: `@/components/SearchBar` import should occur after import of `@/components/MarketsTable`  import/order
+14:9  Warning: 'searchParams' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/providers.tsx
+3:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/components/AnalysisCard.tsx
+3:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/components/charts/ProbCurve.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+3:3  Warning: 'LineChart' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+3:3  Warning: 'LineChart' is defined but never used.  unused-imports/no-unused-imports
+
+./src/components/ClipPlayer.tsx
+3:1  Warning: There should be at least one empty line between import groups  import/order
+3:1  Warning: `lucide-react` import should occur before import of `react`  import/order
+18:10  Warning: 'ready' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/ClipsGrid.tsx
+3:27  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+3:27  Warning: 'useEffect' is defined but never used.  unused-imports/no-unused-imports
+4:1  Warning: There should be at least one empty line between import groups  import/order
+4:1  Warning: `lucide-react` import should occur before import of `react`  import/order
+8:15  Warning: Caution: `React` also has a named export `useRef`. Check if you meant to write `import {useRef} from 'react'` instead.  import/no-named-as-default-member
+9:3  Warning: Caution: `React` also has a named export `useEffect`. Check if you meant to write `import {useEffect} from 'react'` instead.  import/no-named-as-default-member
+13:5  Warning: React Hook React.useEffect has missing dependencies: 'clip.end', 'clip.start', and 'onEnded'. Either include them or remove the dependency array. If 'onEnded' changes too often, find the parent component that defines it and wrap that definition in useCallback.  react-hooks/exhaustive-deps
+
+./src/components/Dashboard.tsx
+3:1  Warning: There should be at least one empty line between import groups  import/order
+4:1  Warning: There should be at least one empty line between import groups  import/order
+4:1  Warning: `@/contexts/PropAnalysisContext` import should occur after import of `./VideoIntelligencePanel`  import/order
+8:1  Warning: `./VideoPanel` import should occur after import of `./VideoIntelligencePanel`  import/order
+
+./src/components/EdgeChart.tsx
+3:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/components/EvidencePanel.tsx
+3:1  Warning: There should be at least one empty line between import groups  import/order
+19:33  Warning: 'index' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/EvidenceRail.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+61:3  Warning: 'playerId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+62:3  Warning: 'propType' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+79:6  Warning: React Hook useEffect has a missing dependency: 'loadEvidence'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+138:9  Warning: 'getConfidenceIcon' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/EvidenceTab.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/components/Header.tsx
+3:1  Warning: There should be at least one empty line between import groups  import/order
+8:18  Warning: 'wsState' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/HeroSearch.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+3:27  Warning: 'Badge' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+3:27  Warning: 'Badge' is defined but never used.  unused-imports/no-unused-imports
+
+./src/components/MarketTape.tsx
+1:1  Warning: There should be at least one empty line between import groups  import/order
+1:27  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+1:27  Warning: 'useEffect' is defined but never used.  unused-imports/no-unused-imports
+2:14  Warning: 'formatEdge' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+2:14  Warning: 'formatEdge' is defined but never used.  unused-imports/no-unused-imports
+26:3  Warning: 'speed' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+182:7  Warning: 'style' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/MatchupHero.tsx
+4:1  Warning: `lucide-react` import should occur before import of `react`  import/order
+
+./src/components/MomentPlayer.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/components/PlayerCard.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+5:1  Warning: `@/lib/api` import should occur before import of `@/lib/config`  import/order
+
+./src/components/PlayerSearch.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/components/PropDrawer.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+4:1  Warning: `./ClipsGrid` import should occur before import of `./WhyCard`  import/order
+4:8  Warning: Using exported name 'ClipsGrid' as identifier for default import.  import/no-named-as-default
+5:1  Warning: There should be at least one empty line between import groups  import/order
+8:1  Warning: `@/hooks/useInsights` import should occur before import of `@/lib/useTlClips`  import/order
+9:15  Warning: 'PropInsights' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+9:15  Warning: 'PropInsights' is defined but never used.  unused-imports/no-unused-imports
+
+./src/components/SearchBar.tsx
+5:29  Warning: Caution: `React` also has a named export `useState`. Check if you meant to write `import {useState} from 'react'` instead.  import/no-named-as-default-member
+6:21  Warning: Caution: `React` also has a named export `useState`. Check if you meant to write `import {useState} from 'react'` instead.  import/no-named-as-default-member
+
+./src/components/SearchInterface.tsx
+3:1  Warning: There should be at least one empty line between import groups  import/order
+3:35  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+3:35  Warning: 'useEffect' is defined but never used.  unused-imports/no-unused-imports
+15:10  Warning: 'isExpanded' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+15:22  Warning: 'setIsExpanded' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/SearchModal.tsx
+4:1  Warning: There should be at least one empty line between import groups  import/order
+4:1  Warning: `lucide-react` import should occur before import of `react`  import/order
+5:10  Warning: 'useFastSWR' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+5:10  Warning: 'useFastSWR' is defined but never used.  unused-imports/no-unused-imports
+
+./src/components/SocialClips.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+34:3  Warning: 'showSearch' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+45:6  Warning: React Hook useEffect has a missing dependency: 'loadClips'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+238:6  Warning: React Hook useEffect has a missing dependency: 'loadEmbed'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/tables/EdgeTable.tsx
+1:1  Warning: `react` import should occur after import of `@tanstack/react-virtual`  import/order
+12:1  Warning: There should be at least one empty line between import groups  import/order
+13:26  Warning: 'formatCurrency' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+13:26  Warning: 'formatCurrency' is defined but never used.  unused-imports/no-unused-imports
+176:21  Warning: Caution: `React` also has a named export `useRef`. Check if you meant to write `import {useRef} from 'react'` instead.  import/no-named-as-default-member
+
+./src/components/tiles/KPI.tsx
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/components/VideoIntelligencePanel.tsx
+1:1  Warning: There should be at least one empty line between import groups  import/order
+47:3  Warning: 'className' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+54:10  Warning: 'enhancedData' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+62:6  Warning: React Hook useEffect has a missing dependency: 'loadEnhancedVideoIntelligence'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+118:9  Warning: 'getSignalIcon' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+129:9  Warning: 'getSignalColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+142:9  Warning: 'formatSignalType' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+146:9  Warning: 'formatEntityId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/components/VideoPanel.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+26:21  Warning: Caution: `React` also has a named export `useState`. Check if you meant to write `import {useState} from 'react'` instead.  import/no-named-as-default-member
+
+./src/components/VideoTab.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/components/WhyCard.tsx
+4:1  Warning: There should be at least one empty line between import groups  import/order
+4:1  Warning: `lucide-react` import should occur before import of `react`  import/order
+26:3  Warning: 'propId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/contexts/PropAnalysisContext.tsx
+3:1  Warning: There should be at least one empty line between import groups  import/order
+115:19  Warning: 'keyId' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/contexts/WebSocketContext.tsx
+3:44  Warning: 'useEffect' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+3:44  Warning: 'useEffect' is defined but never used.  unused-imports/no-unused-imports
+3:55  Warning: 'useRef' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+3:55  Warning: 'useRef' is defined but never used.  unused-imports/no-unused-imports
+23:17  Warning: 'setState' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+33:34  Warning: 'callback' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/hooks/useCountUp.ts
+2:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/hooks/useIndexing.ts
+2:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/hooks/useInsights.ts
+2:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/lib/useCfbPlayerSearch.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/lib/useCfbProps.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/lib/useNbaProps.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/lib/useNflPlayerSearch.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/lib/useNflProps.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/lib/usePlayerSearch.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/lib/useVideoClips.ts
+1:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/server/teamResolver.ts
+3:1  Warning: There should be at least one empty line between import groups  import/order
+4:1  Warning: There should be at least one empty line between import groups  import/order
+5:1  Warning: `./providers/cfbd` import should occur before type import of `@/types/cfb`  import/order
+
+./src/ui/AppShell.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+
+./src/ui/primitives.tsx
+2:1  Warning: There should be at least one empty line between import groups  import/order
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

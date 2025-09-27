@@ -141,6 +141,9 @@
         "line": 245.5,
         "marketOdds": "-110",
         "book": "DK",
+        "fairLine": 252.0,
+        "edgePct": 3.4,
+        "confidence": 88,
         "updatedAt": "2025-09-27T14:15:00Z"
       },
       {
@@ -151,7 +154,23 @@
         "line": 32.5,
         "marketOdds": "+105",
         "book": "FD",
+        "fairLine": 35.0,
+        "edgePct": 3.6,
+        "confidence": 87,
         "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_king_pass_tds",
+        "playerId": "haynes_king",
+        "gameId": "game_gt_wf",
+        "type": "Passing TDs",
+        "line": 1.5,
+        "marketOdds": "+115",
+        "book": "FD",
+        "fairLine": 1.7,
+        "edgePct": 5.2,
+        "confidence": 89,
+        "updatedAt": "2025-09-27T14:20:00Z"
       },
       {
         "id": "prop_griffis_pass_yds",
@@ -162,6 +181,19 @@
         "marketOdds": "-110",
         "book": "MGM",
         "updatedAt": "2025-09-27T14:15:00Z"
+      },
+      {
+        "id": "prop_haines_rush_yds",
+        "playerId": "jamal_haines",
+        "gameId": "game_gt_wf",
+        "type": "Rushing Yards",
+        "line": 58.5,
+        "marketOdds": "-110",
+        "book": "DK",
+        "fairLine": 56.8,
+        "edgePct": -2.9,
+        "confidence": 84,
+        "updatedAt": "2025-09-27T14:20:00Z"
       }
     ]
   },

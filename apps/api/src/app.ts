@@ -24,6 +24,7 @@ import demoGames from './routes/demo.games.js'
 import demoPlayers from './routes/demo.players.js'
 import demoProps from './routes/demo.props.js'
 import demoClips from './routes/demo.clips.js'
+import gamesToday from './routes/games.today.js'
 import { timing } from './middleware/timing.js'
 import { config } from './config.js'
 
@@ -103,6 +104,7 @@ export function createApp() {
   app.use('/players', demoPlayers)
   app.use('/props', demoProps)
   app.use('/clips', demoClips)
+  app.use('/', gamesToday) // exposes /games/today
   
   return app
 }

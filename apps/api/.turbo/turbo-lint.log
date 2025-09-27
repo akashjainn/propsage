@@ -1,0 +1,203 @@
+
+> @propsage/api@0.1.0 lint C:\Users\akash\Documents\propsage\apps\api
+> eslint . --ext .ts,.tsx
+
+Warning: React version was set to "detect" in eslint-plugin-react settings, but the "react" package is not installed. Assuming latest React version for linting.
+
+C:\Users\akash\Documents\propsage\apps\api\src\app.ts
+   2:1   warning  There should be at least one empty line between import groups                                                          import/order
+   2:1   warning  `cors` import should occur before import of `express`                                                                  import/order
+   4:1   warning  `./routes/fairline.js` import should occur before import of `./routes/lines.js`                                        import/order
+   6:1   warning  `./routes/perplexity.js` import should occur before import of `./routes/players.js`                                    import/order
+   8:1   warning  `./routes/price.js` import should occur before import of `./routes/twelvelabs.js`                                      import/order
+  10:1   warning  `./routes/fml.js` import should occur before import of `./routes/lines.js`                                             import/order
+  12:1   warning  `./routes/nba-props.js` import should occur before import of `./routes/players.js`                                     import/order
+  13:1   warning  `./routes/nfl.players.js` import should occur before import of `./routes/players.js`                                   import/order
+  14:1   warning  `./routes/nfl.props.js` import should occur before import of `./routes/players.js`                                     import/order
+  15:1   warning  `./routes/nfl.news.js` import should occur before import of `./routes/players.js`                                      import/order
+  16:1   warning  `./routes/cfb.players.js` import should occur before import of `./routes/lines.js`                                     import/order
+  17:1   warning  `./routes/cfb.props.js` import should occur before import of `./routes/lines.js`                                       import/order
+  18:1   warning  `./routes/cfb.news.js` import should occur before import of `./routes/lines.js`                                        import/order
+  19:1   warning  `./routes/cfb.video.js` import should occur before import of `./routes/lines.js`                                       import/order
+  20:1   warning  `./routes/cfb.clips.js` import should occur before import of `./routes/lines.js`                                       import/order
+  21:1   warning  `./routes/cfb.evidence.js` import should occur before import of `./routes/lines.js`                                    import/order
+  23:1   warning  `./routes/demo.games.js` import should occur before import of `./routes/lines.js`                                      import/order
+  24:1   warning  `./routes/demo.players.js` import should occur before import of `./routes/lines.js`                                    import/order
+  25:1   warning  `./routes/demo.props.js` import should occur before import of `./routes/lines.js`                                      import/order
+  26:1   warning  `./routes/demo.clips.js` import should occur before import of `./routes/lines.js`                                      import/order
+  27:1   warning  `./routes/games.today.js` import should occur before import of `./routes/lines.js`                                     import/order
+  28:1   warning  `./middleware/timing.js` import should occur before import of `./routes/lines.js`                                      import/order
+  29:1   warning  `./config.js` import should occur before import of `./routes/lines.js`                                                 import/order
+  37:11  warning  Caution: `express` also has a named export `json`. Check if you meant to write `import {json} from 'express'` instead  import/no-named-as-default-member
+
+C:\Users\akash\Documents\propsage\apps\api\src\index.ts
+  1:8  warning  Using exported name 'pino' as identifier for default import    import/no-named-as-default
+  2:1  warning  There should be at least one empty line between import groups  import/order
+  3:1  warning  There should be at least one empty line between import groups  import/order
+  3:1  warning  `http` import should occur before import of `pino`             import/order
+  5:1  warning  There should be at least one empty line between import groups  import/order
+  6:1  warning  There should be at least one empty line between import groups  import/order
+  6:1  warning  `@propsage/core` import should occur before import of `pino`   import/order
+  7:1  warning  `./app.js` import should occur before import of `./config.js`  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\providers\youtube-provider.ts
+  1:1  warning  There should be at least one empty line between import groups  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\cfb.clips.ts
+    2:1   warning  There should be at least one empty line between import groups                                     import/order
+    4:1   warning  `../services/twelvelabs.mock.js` import should occur before import of `../types/social-clips.js`  import/order
+  266:11  warning  'limit' is assigned a value but never used. Allowed unused vars must match /^_/u                  @typescript-eslint/no-unused-vars
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\cfb.evidence.ts
+  1:1  warning  There should be at least one empty line between import groups  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\cfb.news.ts
+  3:1  warning  `lru-cache` import should occur before import of `rss-parser`  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\cfb.props.ts
+    2:1   warning  There should be at least one empty line between import groups                                    import/order
+    3:10  warning  'sportsDataIOCFB' is defined but never used. Allowed unused vars must match /^_/u                @typescript-eslint/no-unused-vars
+    3:10  warning  'sportsDataIOCFB' is defined but never used                                                      unused-imports/no-unused-imports
+    4:1   warning  There should be at least one empty line between import groups                                    import/order
+    4:1   warning  `../services/oddsApi.js` import should occur before import of `../services/sportsdataio.cfb.js`  import/order
+    4:10  warning  'oddsApiService' is defined but never used. Allowed unused vars must match /^_/u                 @typescript-eslint/no-unused-vars
+    4:10  warning  'oddsApiService' is defined but never used                                                       unused-imports/no-unused-imports
+    5:1   warning  `fs` import should occur before import of `express`                                              import/order
+    6:1   warning  `path` import should occur before import of `express`                                            import/order
+  215:11  warning  'rows' is never reassigned. Use 'const' instead                                                  prefer-const
+  309:16  warning  'buildTeamMarketFallback' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\demo.games.ts
+   2:1   warning  There should be at least one empty line between import groups                            import/order
+   3:1   warning  `fs` import should occur before import of `express`                                      import/order
+   4:1   warning  There should be at least one empty line between import groups                            import/order
+   4:1   warning  `path` import should occur before import of `express`                                    import/order
+   5:10  warning  'calculateFairLine' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+   5:10  warning  'calculateFairLine' is defined but never used                                            unused-imports/no-unused-imports
+   5:29  warning  'generateWhyCard' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+   5:29  warning  'generateWhyCard' is defined but never used                                              unused-imports/no-unused-imports
+  11:7   warning  'playersCache' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  12:7   warning  'propsCache' is assigned a value but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+  39:9   warning  'cached' is never reassigned. Use 'const' instead                                        prefer-const
+  83:9   warning  'cached' is never reassigned. Use 'const' instead                                        prefer-const
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\demo.players.ts
+   2:1  warning  There should be at least one empty line between import groups  import/order
+   3:1  warning  `fs` import should occur before import of `express`            import/order
+   4:1  warning  `path` import should occur before import of `express`          import/order
+  39:9  warning  'cached' is never reassigned. Use 'const' instead              prefer-const
+  98:9  warning  'cached' is never reassigned. Use 'const' instead              prefer-const
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\demo.props.ts
+    2:1  warning  There should be at least one empty line between import groups  import/order
+    3:1  warning  `fs` import should occur before import of `express`            import/order
+    4:1  warning  There should be at least one empty line between import groups  import/order
+    4:1  warning  `path` import should occur before import of `express`          import/order
+   43:9  warning  'cached' is never reassigned. Use 'const' instead              prefer-const
+  132:9  warning  'cached' is never reassigned. Use 'const' instead              prefer-const
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\fairline.ts
+  1:1  warning  There should be at least one empty line between import groups  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\fml.ts
+    1:1   warning  There should be at least one empty line between import groups                         import/order
+    2:10  warning  'config' is defined but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+    2:10  warning  'config' is defined but never used                                                    unused-imports/no-unused-imports
+   60:13  warning  'overProb' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+   60:23  warning  'underProb' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  178:59  warning  'event_id' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+  231:17  warning  'key' is assigned a value but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\games.today.ts
+   1:1  warning  There should be at least one empty line between import groups  import/order
+   2:1  warning  There should be at least one empty line between import groups  import/order
+   3:1  warning  `path` import should occur before import of `express`          import/order
+   4:1  warning  `fs` import should occur before import of `express`            import/order
+  49:7  warning  'enriched' is never reassigned. Use 'const' instead            prefer-const
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\lines.ts
+   1:1   warning  There should be at least one empty line between import groups                   import/order
+   4:1   warning  `../config.js` import should occur before import of `../services/demoCache.js`  import/order
+  13:35  warning  'next' is defined but never used. Allowed unused args must match /^_/u          @typescript-eslint/no-unused-vars
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\nba-props.ts
+  2:1  warning  There should be at least one empty line between import groups  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\nfl.news.ts
+  3:1  warning  `lru-cache` import should occur before import of `rss-parser`  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\perplexity.ts
+  1:1  warning  There should be at least one empty line between import groups  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\players.ts
+  2:1  warning  There should be at least one empty line between import groups      import/order
+  3:1  warning  There should be at least one empty line between import groups      import/order
+  3:1  warning  `node:fs/promises` import should occur before import of `express`  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\price.ts
+  1:1  warning  There should be at least one empty line between import groups                              import/order
+  3:1  warning  `../services/demoCache.js` import should occur before import of `../services/fairline.js`  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\twelvelabs.ts
+  1:1   warning  There should be at least one empty line between import groups                               import/order
+  2:28  warning  'videoIntelligenceService' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  2:28  warning  'videoIntelligenceService' is defined but never used                                        unused-imports/no-unused-imports
+  3:1   warning  There should be at least one empty line between import groups                               import/order
+  3:1   warning  `../config.js` import should occur before import of `../services/twelvelabs.js`             import/order
+  4:1   warning  `node-fetch` import should occur before import of `../services/twelvelabs.js`               import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\videoIntel.ts
+   1:1   warning  There should be at least one empty line between import groups                    import/order
+   3:1   warning  `../config.js` import should occur before import of `../services/twelvelabs.js`  import/order
+  15:35  warning  'next' is defined but never used. Allowed unused args must match /^_/u           @typescript-eslint/no-unused-vars
+
+C:\Users\akash\Documents\propsage\apps\api\src\routes\videoIntelFML.ts
+    1:1  warning  There should be at least one empty line between import groups  import/order
+  112:9  warning  'results' is never reassigned. Use 'const' instead             prefer-const
+
+C:\Users\akash\Documents\propsage\apps\api\src\services\evidence-service.ts
+    1:1   warning  There should be at least one empty line between import groups                             import/order
+    2:1   warning  There should be at least one empty line between import groups                             import/order
+    3:1   warning  `../types/twelve-labs.js` import should occur before import of `./twelve-labs-client.js`  import/order
+  219:5   warning  'players' is defined but never used. Allowed unused args must match /^_/u                 @typescript-eslint/no-unused-vars
+  392:11  warning  'intent' is assigned a value but never used. Allowed unused vars must match /^_/u         @typescript-eslint/no-unused-vars
+
+C:\Users\akash\Documents\propsage\apps\api\src\services\fairline.ts
+  1:1  warning  There should be at least one empty line between import groups           import/order
+  2:1  warning  `@propsage/core` import should occur before import of `./demoCache.js`  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\services\oddsApi.ts
+  177:63  warning  'awayTeam' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\akash\Documents\propsage\apps\api\src\services\perplexity.ts
+  1:1  warning  There should be at least one empty line between import groups  import/order
+  2:1  warning  There should be at least one empty line between import groups  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\services\sportsdataio.cfb.ts
+  3:10  warning  'config' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  3:10  warning  'config' is defined but never used                                        unused-imports/no-unused-imports
+
+C:\Users\akash\Documents\propsage\apps\api\src\services\twelve-labs-client.ts
+  1:1  warning  There should be at least one empty line between import groups              import/order
+  7:3  warning  'TLVideo' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  7:3  warning  'TLVideo' is defined but never used                                        unused-imports/no-unused-imports
+
+C:\Users\akash\Documents\propsage\apps\api\src\services\twelvelabs.mock.ts
+  117:20  warning  'videoUrl' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  117:38  warning  'metadata' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\Users\akash\Documents\propsage\apps\api\src\services\twelvelabs.ts
+  1:1  warning  There should be at least one empty line between import groups  import/order
+  2:1  warning  There should be at least one empty line between import groups  import/order
+
+C:\Users\akash\Documents\propsage\apps\api\src\services\videoIntelligentFML.ts
+  181:56  warning  'playerId' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  219:61  warning  'market' is defined but never used. Allowed unused args must match /^_/u    @typescript-eslint/no-unused-vars
+
+C:\Users\akash\Documents\propsage\apps\api\test\api.test.ts
+  2:1  warning  There should be at least one empty line between import groups  import/order
+  2:1  warning  `supertest` import should occur before import of `vitest`      import/order
+
+✖ 130 problems (0 errors, 130 warnings)
+  0 errors and 103 warnings potentially fixable with the `--fix` option.
+

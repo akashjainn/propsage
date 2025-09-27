@@ -46,6 +46,18 @@ const generateSearchResults = (query: string): SearchResult[] => {
     });
   }
 
+    // Haynes King matches (LIVE GAME)
+    if (lowerQuery.includes('haynes') || lowerQuery.includes('king')) {
+      results.push({
+        id: 'player-haynes',
+        type: 'player',
+        title: 'Haynes King',
+        subtitle: 'Georgia Tech QB • LIVE',
+        confidence: 0.96,
+        metadata: { position: 'QB', team: 'GT' }
+      });
+    }
+
   // Prop matches
   if (lowerQuery.includes('passing') || lowerQuery.includes('yards')) {
     results.push({
@@ -355,7 +367,7 @@ export default function SearchModal({ isOpen, onClose, onSelect }: SearchModalPr
               <Search className="w-8 h-8 mx-auto mb-3 text-gray-300" />
               <p>Start typing to search...</p>
               <div className="mt-4 flex flex-wrap gap-2 justify-center">
-                {['Gunner Stockton', 'Passing Yards', 'Video Clips', 'UGA vs Alabama'].map((suggestion) => (
+             {['Haynes King', 'Passing Yards', 'Video Clips', 'GT Live Game'].map((suggestion) => (
                   <button
                     key={suggestion}
                     onClick={() => setQuery(suggestion)}

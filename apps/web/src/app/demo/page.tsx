@@ -1,69 +1,60 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import MatchupHero from '@/components/MatchupHero';
+import { AppShell, SectionHeader, Card, CTAButton, Badge, StatCard } from '@/ui';
+import type { GameLite, GameState } from '@/types/cfb';
 import SearchModal, { useSearch } from '@/components/SearchModal';
-import ClipsGrid from '@/components/ClipsGrid';
+import { PropDrawer } from '@/components/PropDrawer';
 import WhyCard from '@/components/WhyCard';
+import type { Clip } from '@/components/clip.types';
 import { useFastSWR, preloadResources, trackWebVitals } from '@/hooks/usePerformance';
 import { TrendingUp, TrendingDown, Play, Search, Command } from 'lucide-react';
 
-// Demo data matching the exact demo flow
-const DEMO_GAME = {
-  homeTeam: {
-    name: 'Alabama Crimson Tide',
-    shortName: 'BAMA',
-    logo: '/images/alabama-logo.png',
-    color: '#9E1B32',
-    record: '11-2',
-    ranking: 5
-  },
-  awayTeam: {
-    name: 'Georgia Bulldogs',
-    shortName: 'UGA',
-    logo: '/images/uga-logo.png',
-    color: '#BA0C2F',
-    record: '12-1',
-    ranking: 2
-  },
-  gameTime: '2024-12-07T20:00:00-05:00', // Tonight 8 PM
-  venue: 'Mercedes-Benz Stadium, Atlanta',
-  network: 'ABC'
+// Default fallback game placeholder (will be replaced by live fetch)
+const FALLBACK_GAME: GameLite = {
+  id: 'pending',
+  start: new Date().toISOString(),
+  state: 'pre',
+  home: { id: 'gt', name: 'Georgia Tech Yellow Jackets', short: 'Georgia Tech', abbrev: 'GT', logo: '/images/gt-logo.png', color: 'B3A369', rank: 24 },
+  away: { id: 'opp', name: 'Opponent', short: 'Opponent', abbrev: 'OPP', logo: '/images/opponent-logo.png', color: '666666', rank: null },
+  venue: { name: 'Loading…' },
+  broadcast: { network: '—' }
 };
 
 const DEMO_PROPS = [
   {
-    id: 'gunner-passing-yards',
-    player: 'Gunner Stockton',
+    id: 'haynes-passing-yards',
+    player: 'Haynes King',
     prop: 'Passing Yards',
-    market: 242.5,
-    fair: 236.5,
-    edge: -3.2,
+    market: 215.5,
+    fair: 225.8,
+    edge: 4.1,
     position: 'QB',
-    team: 'UGA',
-    confidence: 89
+    team: 'GT',
+    confidence: 92
   },
   {
-    id: 'gunner-rushing-yards',
-    player: 'Gunner Stockton',
+    id: 'haynes-rushing-yards',
+    player: 'Haynes King',
     prop: 'Rushing Yards',
-    market: 22.5,
-    fair: 24.8,
-    edge: 2.1,
+    market: 45.5,
+    fair: 41.2,
+    edge: -2.8,
     position: 'QB',
-    team: 'UGA',
-    confidence: 87
+    team: 'GT',
+    confidence: 88
   },
   {
-    id: 'gunner-passing-tds',
-    player: 'Gunner Stockton',
+    id: 'haynes-passing-tds',
+    player: 'Haynes King',
     prop: 'Passing Touchdowns',
-    market: 2.5,
-    fair: 2.65,
-    edge: 1.8,
+    market: 1.5,
+    fair: 1.75,
+    edge: 3.2,
     position: 'QB',
-    team: 'UGA',
-    confidence: 91
+    team: 'GT',
+    confidence: 89
   }
 ];
 
@@ -116,117 +107,120 @@ function PropRow({ prop, onClick, isSelected }: PropRowProps) {
   );
 }
 
-interface VideoDrawerProps {
-  isOpen: boolean;
-  onClose: () => void;
-  selectedProp: typeof DEMO_PROPS[0] | null;
-}
+// Mock precomputed insights bullets (would come from insights.demo.json)
+const INSIGHTS: Record<string,string[]> = {
+  'haynes-passing-yards': [
+    'GT leaning pass early; scripted shots successful',
+    'Opponent allowing explosive passes on play-action',
+    'Tempo elevated first half → extra drive potential'
+  ],
+  'haynes-rushing-yards': [
+    'QB keepers live vs light box looks',
+    'Edge contain breaking down on boot action',
+    'Designed draw success rate high tonight'
+  ],
+  'haynes-passing-tds': [
+    'Red zone play-action working; TE seams open',
+    'Shot plays generating DPI / chunk gains',
+    'High RPO success forcing linebackers to commit'
+  ]
+};
 
-function VideoDrawer({ isOpen, onClose, selectedProp }: VideoDrawerProps) {
-  const [showWhyCard, setShowWhyCard] = useState(false);
-  
-  useEffect(() => {
-    if (isOpen && selectedProp) {
-      // Delay showing Why Card for demo effect
-      const timer = setTimeout(() => setShowWhyCard(true), 800);
-      return () => clearTimeout(timer);
-    } else {
-      setShowWhyCard(false);
-    }
-  }, [isOpen, selectedProp]);
+// Mock clips (would map from backend /clips route)
+const DEMO_CLIPS: Clip[] = [
+  { id: 'c_king_pass_td', playerId:'haynes-king', title:'King threads TD seam', src:'/video/king_pass_td.mp4', start:5, end:17, thumbnail:'/thumbs/king_pass_td.jpg', tags:['TD','Seam','Red Zone'], confidence:0.93 },
+  { id: 'c_king_rush_td', playerId:'haynes-king', title:'Designed QB draw scores', src:'/video/king_rush_td.mp4', start:0, end:12, thumbnail:'/thumbs/king_rush_td.jpg', tags:['Rushing','Score','Red Zone'], confidence:0.9 },
+  { id: 'c_haines_fumble', playerId:'jamal-haines', title:'Haines ball security lapse', src:'/video/haines_fumble.mp4', start:2, end:11, thumbnail:'/thumbs/haines_fumble.jpg', tags:['Turnover','Momentum'], confidence:0.88 }
+];
 
-  if (!isOpen || !selectedProp) return null;
-
-  return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end">
-      <div className="bg-white w-full max-h-[85vh] rounded-t-3xl overflow-hidden animate-slide-up">
-        {/* Header */}
-        <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-slate-50 to-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">
-                {selectedProp.player} - {selectedProp.prop}
-              </h2>
-              <p className="text-gray-600">Video Brain Analysis</p>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            >
-              <svg className="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          
-          {/* Fair vs Market */}
-          <div className="mt-4 grid grid-cols-3 gap-4">
-            <div className="text-center p-3 bg-white rounded-lg border">
-              <div className="text-sm text-gray-500">Market Line</div>
-              <div className="text-2xl font-mono font-bold text-gray-900">
-                {selectedProp.market}
-              </div>
-            </div>
-            <div className="text-center p-3 bg-blue-50 rounded-lg border border-blue-200">
-              <div className="text-sm text-blue-600">Fair Value</div>
-              <div className="text-2xl font-mono font-bold text-blue-600">
-                {selectedProp.fair}
-              </div>
-            </div>
-            <div className="text-center p-3 bg-gradient-to-r from-red-50 to-green-50 rounded-lg border">
-              <div className="text-sm text-gray-500">Edge</div>
-              <div className={`text-2xl font-bold ${selectedProp.edge > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {selectedProp.edge > 0 ? '+' : ''}{selectedProp.edge.toFixed(1)}%
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[60vh] space-y-6">
-          {/* Video Clips */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Video Evidence</h3>
-              <div className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                Powered by TwelveLabs
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <ClipsGrid 
-                playerId="gunner-stockton"
-              />
-            </div>
-          </div>
-
-          {/* Why Card */}
-          {showWhyCard && (
-            <div className="animate-fade-in">
-              <WhyCard
-                marketLine={selectedProp.market}
-                fairLine={selectedProp.fair}
-                edge={selectedProp.edge}
-                propType={selectedProp.prop.toLowerCase().includes('passing') ? 'passing_yards' : 'rushing_yards'}
-                playerName={selectedProp.player}
-                factors={{
-                  form: 'good',
-                  opponent: 'elite',
-                  pace: 'moderate'
-                }}
-              />
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+interface TeamInputProps { value: string; onChange: (v: string)=>void; onSubmit: ()=>void; loading?: boolean; }
+const TeamInput: React.FC<TeamInputProps> = ({ value, onChange, onSubmit, loading }) => (
+  <form onSubmit={(e)=>{e.preventDefault(); onSubmit();}} className="flex items-center gap-2">
+    <input
+      value={value}
+      onChange={e=>onChange(e.target.value)}
+      placeholder="Find team (e.g. GT, Georgia Tech)"
+      className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400/40 placeholder:text-white/40"
+      aria-label="Team search"
+    />
+    <CTAButton type="submit" disabled={loading}>{loading ? '...' : 'Set'}</CTAButton>
+  </form>
+);
 
 export default function DemoPage() {
   const [showPropBoard, setShowPropBoard] = useState(false);
   const [selectedProp, setSelectedProp] = useState<typeof DEMO_PROPS[0] | null>(null);
   const search = useSearch();
+  const [teamQuery, setTeamQuery] = useState('Georgia Tech');
+  const [game, setGame] = useState<GameLite>(FALLBACK_GAME);
+  const [gamesToday, setGamesToday] = useState<GameLite[]>([]);
+  const [loadingGame, setLoadingGame] = useState(true);
+  const [loadingTeamSwitch, setLoadingTeamSwitch] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchGameForTeam = useCallback(async (team: string, silent = false) => {
+    if (!silent) setLoadingTeamSwitch(true);
+    try {
+      setError(null);
+      const res = await fetch(`/api/cfb/games/for-team?q=${encodeURIComponent(team)}`);
+      if (!res.ok) throw new Error('network');
+      const json = await res.json();
+      const first: GameLite | undefined = json.games?.[0];
+      if (first) setGame(first);
+    } catch (e: any) {
+      setError('Schedule temporarily unavailable');
+    } finally {
+      setLoadingGame(false);
+      setLoadingTeamSwitch(false);
+    }
+  }, []);
+
+  const fetchToday = useCallback(async ()=>{
+    try {
+      const r = await fetch('/api/cfb/games/today');
+      if (!r.ok) return;
+      const arr: GameLite[] = await r.json();
+      // Sort: live first, then upcoming by start time
+      const order = (g: GameLite) => g.state === 'in' ? 0 : g.state === 'pre' ? 1 : 2;
+      arr.sort((a,b)=> order(a)-order(b) || a.start.localeCompare(b.start));
+      setGamesToday(arr.slice(0,8));
+    } catch { /* silent */ }
+  }, []);
+
+  // initial load
+  useEffect(()=> { fetchGameForTeam(teamQuery); fetchToday(); }, [fetchGameForTeam, fetchToday, teamQuery]);
+
+  // polling logic for selected game
+  useEffect(()=> {
+    if (!game) return;
+    let interval = 60000; // pre default
+    if (game.state === 'in') interval = 15000; else if (game.state === 'pre') {
+      const startMs = new Date(game.start).getTime();
+      if (startMs - Date.now() < 10*60*1000) interval = 15000; // within 10m
+    } else if (game.state === 'post') return; // stop
+    const id = setInterval(()=> fetchGameForTeam(teamQuery, true), interval);
+    return ()=> clearInterval(id);
+  }, [game, teamQuery, fetchGameForTeam]);
+
+  // poll today list (light)
+  useEffect(()=> { const id = setInterval(fetchToday, 60000); return ()=>clearInterval(id); }, [fetchToday]);
+
+  const handleTeamSubmit = () => fetchGameForTeam(teamQuery);
+
+  const countdown = useMemo(()=>{
+    if (!game) return null;
+    if (game.state === 'in') return 'LIVE';
+    if (game.state === 'post') return 'FINAL';
+    const ms = new Date(game.start).getTime() - Date.now();
+    if (ms <= 0) return 'LIVE';
+    const h = Math.floor(ms/3600000); const m = Math.floor((ms%3600000)/60000); const s = Math.floor((ms%60000)/1000);
+    return `${h>0? h+ 'h ': ''}${m}m ${h===0? s+'s':''}`.trim();
+  }, [game]);
+
+  const isLive = game?.state === 'in' || countdown === 'LIVE';
+
+  const displayHome = game?.home?.abbrev === 'GT' ? game.home : game?.away;
+  const displayAway = game?.home?.abbrev === 'GT' ? game.away : game?.home;
 
   // Initialize performance tracking
   useEffect(() => {
@@ -252,137 +246,120 @@ export default function DemoPage() {
     // Handle search result selection
   };
 
+  const ShellWrapper: React.FC<{children:React.ReactNode}> = ({children}) => <AppShell>{children}</AppShell>;
+
   if (!showPropBoard) {
     return (
-      <>
-        <MatchupHero
-          homeTeam={DEMO_GAME.homeTeam}
-          awayTeam={DEMO_GAME.awayTeam}
-          gameTime={DEMO_GAME.gameTime}
-          venue={DEMO_GAME.venue}
-          network={DEMO_GAME.network}
-          onOpenPropBoard={handleOpenPropBoard}
-        />
-        
-        <SearchModal
-          isOpen={search.isOpen}
-          onClose={search.close}
-          onSelect={handleSearchSelect}
-        />
-        
-        {/* Floating Search Button */}
-        <button
-          onClick={search.open}
-          className="fixed top-6 right-6 bg-white/90 backdrop-blur-sm hover:bg-white text-gray-900 p-3 rounded-2xl shadow-2xl transition-all duration-200 hover:scale-105 z-40"
-          title="Search (⌘K)"
-        >
-          <div className="flex items-center space-x-2">
-            <Search className="w-5 h-5" />
-            <div className="hidden sm:flex items-center space-x-1 text-sm text-gray-500">
-              <Command className="w-3 h-3" />
-              <span>K</span>
+      <ShellWrapper>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          <div className="lg:col-span-8 space-y-8">
+            <SectionHeader title="Matchup" subtitle="Live narrative + video intelligence overlay" action={<CTAButton onClick={handleOpenPropBoard} disabled={loadingGame || !!error}>{loadingGame? 'Loading…':'Open Prop Board'}</CTAButton>} />
+            <div className="flex items-center justify-between mb-4">
+              <TeamInput value={teamQuery} onChange={setTeamQuery} onSubmit={handleTeamSubmit} loading={loadingTeamSwitch} />
+              {error && <span className="text-sm text-red-300">{error}</span>}
+            </div>
+            <div className="p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex-1 text-center">
+                  <div className="mx-auto w-20 h-20 mb-3 rounded-full bg-white/5 flex items-center justify-center overflow-hidden">
+                    {displayAway?.logo && <img src={displayAway.logo} alt={displayAway.short} className="w-16 h-16 object-contain" />}
+                  </div>
+                  <div className="text-lg font-semibold flex items-center justify-center gap-2">
+                    {displayAway?.short}
+                    {displayAway?.rank && <Badge color="sky">#{displayAway.rank}</Badge>}
+                  </div>
+                </div>
+                <div className="px-4 text-center">
+                  <div className="text-sm tracking-wide text-white/60 mb-1">{isLive ? 'Score' : 'Kickoff'}</div>
+                  <div className="text-3xl font-bold tabular-nums mb-1">{isLive ? `${game.awayScore ?? 0}` : countdown}</div>
+                  <div className="text-xs text-white/50">
+                    {isLive ? `Q${game.period ?? '?'} • ${game.clock ?? ''}` : new Date(game.start).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
+                  </div>
+                  {isLive && <Badge color="emerald">LIVE</Badge>}
+                  {game.state==='post' && <Badge>FINAL</Badge>}
+                </div>
+                <div className="flex-1 text-center">
+                  <div className="mx-auto w-20 h-20 mb-3 rounded-full bg-white/5 flex items-center justify-center overflow-hidden">
+                    {displayHome?.logo && <img src={displayHome.logo} alt={displayHome.short} className="w-16 h-16 object-contain" />}
+                  </div>
+                  <div className="text-lg font-semibold flex items-center justify-center gap-2">
+                    {displayHome?.short}
+                    {displayHome?.rank && <Badge color="sky">#{displayHome.rank}</Badge>}
+                  </div>
+                </div>
+              </div>
+              <div className="text-center text-sm text-white/60">
+                {game.venue?.name} {game.venue?.city && `• ${game.venue.city}`}
+                {game.broadcast?.network && <span className="ml-2 text-white/40">{game.broadcast.network}</span>}
+              </div>
             </div>
           </div>
-        </button>
-      </>
+          {/* Today's Games side panel */}
+          <div className="lg:col-span-4 space-y-4">
+            <SectionHeader title="Today's CFB" subtitle="Live + upcoming" />
+            <div className="space-y-3">
+              {gamesToday.slice(0,8).map(g => {
+                const live = g.state === 'in';
+                return (
+                  <button key={g.id} onClick={()=>{ setGame(g); setShowPropBoard(false); }} className="w-full text-left p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium truncate">{g.away.short} @ {g.home.short}</div>
+                        <div className="text-xs text-white/50 truncate">{live ? `Q${g.period} • ${g.clock}` : new Date(g.start).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} {g.broadcast?.network && `• ${g.broadcast.network}`}</div>
+                      </div>
+                      <div className="flex items-center gap-2 text-xs font-mono">
+                        {live && <Badge color="emerald">LIVE</Badge>}
+                        {g.state==='post' && <Badge>F</Badge>}
+                        {live || g.state==='post' ? <span className="tabular-nums text-white/70">{g.awayScore}-{g.homeScore}</span> : null}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+              {gamesToday.length===0 && <div className="text-sm text-white/40">No games loaded.</div>}
+            </div>
+          </div>
+        </div>
+        <SearchModal isOpen={search.isOpen} onClose={search.close} onSelect={handleSearchSelect} />
+      </ShellWrapper>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-30">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {DEMO_GAME.awayTeam.shortName} vs {DEMO_GAME.homeTeam.shortName}
-              </h1>
-              <p className="text-gray-600">Player Props • Live Analysis</p>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={search.open}
-                className="flex items-center space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-              >
-                <Search className="w-4 h-4" />
-                <span className="hidden sm:inline">Search</span>
-                <div className="hidden sm:flex items-center space-x-1 text-sm text-gray-500">
-                  <Command className="w-3 h-3" />
-                  <span>K</span>
-                </div>
-              </button>
-              
-              <button
-                onClick={() => setShowPropBoard(false)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                ← Back to Game
-              </button>
-            </div>
-          </div>
-        </div>
+    <AppShell>
+      <div className="mb-10 flex items-center gap-4">
+        <SectionHeader title="Haynes King Props" subtitle="Tap a line to view fair value, reasoning & video evidence." action={<CTAButton onClick={()=>setShowPropBoard(false)}>← Back</CTAButton>} />
+        <Badge color="emerald">LIVE</Badge>
       </div>
-
-      {/* Prop Board */}
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">
-            Gunner Stockton Props
-          </h2>
-          <p className="text-gray-600">
-            Tap any prop to see video evidence and fair line analysis
-          </p>
-        </div>
-
-        <div className="space-y-3">
-          {DEMO_PROPS.map((prop) => (
-            <PropRow
-              key={prop.id}
-              prop={prop}
-              onClick={() => handleSelectProp(prop)}
-              isSelected={selectedProp?.id === prop.id}
-            />
-          ))}
-        </div>
-
-        {/* Performance Stats */}
-        <div className="mt-12 p-6 bg-white rounded-2xl border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            Demo Performance
-          </h3>
-          <div className="grid grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">&lt; 30s</div>
-              <div className="text-sm text-gray-500">Decision Time</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">+25%</div>
-              <div className="text-sm text-gray-500">Confidence Boost</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600">89%</div>
-              <div className="text-sm text-gray-500">AI Confidence</div>
-            </div>
-          </div>
-        </div>
+      <div className="space-y-3 mb-10">
+        {DEMO_PROPS.map((prop) => (
+          <PropRow
+            key={prop.id}
+            prop={prop}
+            onClick={() => handleSelectProp(prop)}
+            isSelected={selectedProp?.id === prop.id}
+          />
+        ))}
       </div>
-
-      {/* Video Drawer */}
-      <VideoDrawer
+      <div className="grid grid-cols-3 gap-4">
+        <StatCard label="Decision Time" value="<30s" accent="text-emerald-300" />
+        <StatCard label="Confidence Boost" value="+25%" accent="text-sky-300" />
+        <StatCard label="AI Confidence" value="89%" accent="text-purple-300" />
+      </div>
+      <PropDrawer
         isOpen={!!selectedProp}
         onClose={handleCloseDrawer}
-        selectedProp={selectedProp}
+        propId={selectedProp?.id || ''}
+        propType={selectedProp?.prop as any}
+        playerId={'haynes-king'}
+        marketLine={selectedProp?.market || 0}
+        fairLine={selectedProp?.fair || 0}
+        edgePct={selectedProp?.edge || 0}
+        bullets={selectedProp ? INSIGHTS[selectedProp.id] : []}
+        clips={DEMO_CLIPS.filter(c=>c.playerId==='haynes-king')}
       />
-
-      {/* Search Modal */}
-      <SearchModal
-        isOpen={search.isOpen}
-        onClose={search.close}
-        onSelect={handleSearchSelect}
-      />
-    </div>
+      <SearchModal isOpen={search.isOpen} onClose={search.close} onSelect={handleSearchSelect} />
+    </AppShell>
   );
 }
 

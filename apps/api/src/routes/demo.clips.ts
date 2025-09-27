@@ -3,6 +3,55 @@ import { LRUCache } from "lru-cache";
 
 // Inline clips data to avoid file system issues in production
 const clipsData: ClipData[] = [
+  // Narrative spotlight clips (GT vs Wake) – added first for prioritization
+  {
+    "id": "c_king_pass_td",
+    "playerId": "haynes-king",
+    "title": "Haynes King – Passing TD",
+    "src": "/clips/gt_wf_king_pass_td.mp4",
+    "start": 3,
+    "end": 13,
+    "tags": ["passing","touchdown","sideline","explosive","gt","wake"],
+    "thumbnail": "/thumbs/gt_wf_king_pass_td.jpg",
+    "source": "Broadcast",
+    "confidence": 0.92,
+    "gameId": "game_gt_wf",
+    "quarter": 1,
+    "timeRemaining": "10:27",
+    "description": "Explosive strike vs single-high — vertical threat established early."
+  },
+  {
+    "id": "c_king_rush_td",
+    "playerId": "haynes-king",
+    "title": "Haynes King – Rushing TD",
+    "src": "/clips/gt_wf_king_rush_td.mp4",
+    "start": 4,
+    "end": 12,
+    "tags": ["rushing","touchdown","qb-keeper","red-zone","designed","gt","wake"],
+    "thumbnail": "/thumbs/gt_wf_king_rush_td.jpg",
+    "source": "Broadcast",
+    "confidence": 0.90,
+    "gameId": "game_gt_wf",
+    "quarter": 2,
+    "timeRemaining": "4:58",
+    "description": "Designed keeper in tight red-zone lane – scheme-enabled rushing equity."
+  },
+  {
+    "id": "c_haines_fumble",
+    "playerId": "jamal_haines",
+    "title": "Jamal Haines – Fumble",
+    "src": "/clips/gt_wf_haines_fumble.mp4",
+    "start": 2,
+    "end": 11,
+    "tags": ["fumble","turnover","rushing","risk","ball-security","gt","wake"],
+    "thumbnail": "/thumbs/gt_wf_haines_fumble.jpg",
+    "source": "Broadcast",
+    "confidence": 0.88,
+    "gameId": "game_gt_wf",
+    "quarter": 2,
+    "timeRemaining": "1:13",
+    "description": "Costly turnover – potential snap-share volatility introduced."
+  },
   {
    "id": "c_1972001536906777047",
    "playerId": "haynes-king",
