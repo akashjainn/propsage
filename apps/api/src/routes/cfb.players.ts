@@ -63,15 +63,23 @@ async function loadAllPlayers(): Promise<any[]> {
   if (ALL_PLAYERS) return ALL_PLAYERS;
   
   try {
-    // Get current season's roster data for major teams
+    // Priority teams - ensure we get key teams first including Georgia
     const teams = await loadAllTeams();
+    const priorityTeams = ['Georgia', 'Alabama', 'Texas', 'Ohio State', 'Michigan', 'USC', 'Notre Dame', 'Florida State', 'Clemson', 'Oregon'];
     const majorTeams = teams.filter(t => 
       ['SEC', 'Big Ten', 'Big 12', 'ACC', 'Pac-12'].includes(t.conference || '')
-    ).slice(0, 50); // Limit to avoid rate limits
+    );
+    
+    // Sort to put priority teams first
+    majorTeams.sort((a, b) => {
+      const aPriority = priorityTeams.includes(a.school) ? 0 : 1;
+      const bPriority = priorityTeams.includes(b.school) ? 0 : 1;
+      return aPriority - bPriority;
+    });
     
     const allPlayers: any[] = [];
     
-    for (const team of majorTeams.slice(0, 25)) { // Further limit for demo
+    for (const team of majorTeams.slice(0, 35)) { // Increased limit to ensure Georgia is included
       try {
         const response = await fetch(`https://api.collegefootballdata.com/roster?team=${encodeURIComponent(team.school)}&year=2024`, {
           headers: {
@@ -97,12 +105,58 @@ async function loadAllPlayers(): Promise<any[]> {
       }
     }
     
+    // Ensure Georgia is loaded (fallback for Puglisi and other key players)
+    if (!allPlayers.some(p => p.team_name === 'Georgia')) {
+      try {
+        console.log('Loading Georgia roster specifically...');
+        const response = await fetch(`https://api.collegefootballdata.com/roster?team=Georgia&year=2024`, {
+          headers: {
+            'Authorization': `Bearer ${CFBD_API_KEY}`,
+            'accept': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          const roster = await response.json();
+          const georgiaTeam = teams.find(t => t.school === 'Georgia');
+          allPlayers.push(...(roster || []).map((p: any) => ({
+            ...p,
+            team_name: 'Georgia',
+            team_color: georgiaTeam?.color || '#BA0C2F',
+            team_conference: 'SEC'
+          })));
+          console.log(`Loaded ${roster?.length || 0} Georgia players`);
+        }
+      } catch (error) {
+        console.error('Failed to load Georgia roster:', error);
+      }
+    }
+    
     ALL_PLAYERS = allPlayers;
     return ALL_PLAYERS;
   } catch (error) {
     console.error("Failed to load CFB players:", error);
     return [];
   }
+}
+
+// Live search fallback for specific players
+async function searchPlayerLive(query: string): Promise<any[]> {
+  try {
+    const response = await fetch(`https://api.collegefootballdata.com/player/search?searchTerm=${encodeURIComponent(query)}`, {
+      headers: {
+        'Authorization': `Bearer ${CFBD_API_KEY}`,
+        'accept': 'application/json'
+      }
+    });
+    
+    if (response.ok) {
+      return await response.json();
+    }
+  } catch (error) {
+    console.warn('Live player search failed:', error);
+  }
+  return [];
 }
 
 r.get("/", async (req, res) => {
@@ -114,7 +168,7 @@ r.get("/", async (req, res) => {
     if (hit) return res.json(hit);
 
     const allPlayers = await loadAllPlayers();
-    const out: CfbPlayer[] = allPlayers
+    let out: CfbPlayer[] = allPlayers
       .filter(p => p?.first_name || p?.last_name || p?.team_name)
       .map(p => ({
         id: `cfb_${p.id || Math.random().toString(36).substr(2, 9)}`,
@@ -130,7 +184,22 @@ r.get("/", async (req, res) => {
       }))
       .filter(p => {
         const searchText = `${p.name} ${p.team || ''} ${p.position || ''}`.toLowerCase();
-        return searchText.includes(q);
+        const teamAliases = {
+          'uga': 'georgia',
+          'georgia': 'georgia',
+          'bulldogs': 'georgia',
+          'bama': 'alabama',
+          'tide': 'alabama',
+          'fsu': 'florida state',
+          'seminoles': 'florida state'
+        };
+        
+        // Enhanced search with team aliases
+        const queryTerms = q.split(' ');
+        return queryTerms.every(term => {
+          const aliasedTerm = teamAliases[term as keyof typeof teamAliases] || term;
+          return searchText.includes(aliasedTerm);
+        });
       })
       .sort((a, b) => {
         // Prioritize QBs and RBs for props
@@ -146,6 +215,25 @@ r.get("/", async (req, res) => {
         return a.name.localeCompare(b.name);
       })
       .slice(0, 20); // Limit results
+
+    // If no results from cached data, try live search
+    if (out.length === 0) {
+      console.log(`No cached results for "${q}", trying live search...`);
+      const liveResults = await searchPlayerLive(q);
+      
+      out = liveResults.map(p => ({
+        id: `cfb_live_${p.id || Math.random().toString(36).substr(2, 9)}`,
+        name: p.name || `${p.first_name || ''} ${p.last_name || ''}`.trim() || 'Unknown',
+        team: p.team,
+        teamColor: undefined, // Live results don't have team colors
+        position: p.position,
+        class: p.year,
+        jersey: p.jersey,
+        height: p.height,
+        weight: p.weight,
+        externalIds: { cfbd: p.id || 0 }
+      })).slice(0, 10);
+    }
 
     playerCache.set(q, out);
     res.json(out);
