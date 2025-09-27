@@ -9,6 +9,10 @@ import { API_BASE } from '@/lib/api'
 import { useVideoClips } from '@/lib/useVideoClips'
 import { useCfbPlayerSearch } from '@/lib/useCfbPlayerSearch'
 import { useCfbProps } from '@/lib/useCfbProps'
+import { useNflPlayerSearch } from '@/lib/useNflPlayerSearch'
+import { useNflProps } from '@/lib/useNflProps'
+import { usePlayerSearch } from '@/lib/usePlayerSearch'
+import { useNbaProps } from '@/lib/useNbaProps'
 import { statToShortLabel, formatEdge, getConference, formatPlayerClass } from '@/lib/cfb'
 
 interface MarketsResponse { player:{ id:string; name:string }; markets:MarketRow[]; best?: any }
@@ -62,12 +66,37 @@ export default function HomePage() {
   const [showResults, setShowResults] = useState(false)
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null)
   const [selectedPropId, setSelectedPropId] = useState<string | null>(null)
+  const [selectedSport, setSelectedSport] = useState<'NBA'|'NFL'|'CFB'|'MLB'>('CFB')
+  
   const { loading: loadingClips, clips, search: searchVideos } = useVideoClips()
-  const { q: playerQuery, setQ: setPlayerQuery, loading: loadingPlayers, results: playerResults } = useCfbPlayerSearch()
-  const { loading: loadingProps, data: propsData } = useCfbProps(selectedPlayerId)
+  
+  // Use different search hooks based on selected sport
+  const cfbSearch = useCfbPlayerSearch()
+  const nflSearch = useNflPlayerSearch()
+  const nbaSearch = usePlayerSearch()
+  
+  // Get the active search based on selected sport
+  const activeSearch = selectedSport === 'CFB' ? cfbSearch : 
+                      selectedSport === 'NFL' ? nflSearch : 
+                      selectedSport === 'NBA' ? nbaSearch : cfbSearch
+  
+  const { q: playerQuery, setQ: setPlayerQuery, loading: loadingPlayers, results: playerResults } = activeSearch
+  
+  // Use different props hooks based on selected sport
+  const cfbProps = useCfbProps(selectedPlayerId)
+  const nflProps = useNflProps(selectedPlayerId)
+  const nbaProps = useNbaProps(selectedPlayerId)
+  
+  // Get the active props based on selected sport
+  const activeProps = selectedSport === 'CFB' ? cfbProps : 
+                     selectedSport === 'NFL' ? nflProps : 
+                     selectedSport === 'NBA' ? nbaProps : cfbProps
+  
+  const { loading: loadingProps, data: propsData } = activeProps
 
-  function handleSearch(_sport:string, q:string){
+  function handleSearch(sport: string, q: string){
     if(!q) return
+    setSelectedSport(sport as 'NBA'|'NFL'|'CFB'|'MLB')
     setPlayerQuery(q)
     setSearchQuery(q)
     setShowResults(true)
@@ -99,7 +128,7 @@ export default function HomePage() {
             <SearchBar onSearch={handleSearch} />
           </div>
           <p className="px-1 pt-2 text-sm text-[var(--fg-dim)]">
-            Search a college football player to view <span className="text-[var(--mint)]">market vs fair line</span> edges and
+            Search a {selectedSport === 'CFB' ? 'college football' : selectedSport === 'NFL' ? 'NFL' : selectedSport === 'NBA' ? 'NBA' : 'college football'} player to view <span className="text-[var(--mint)]">market vs fair line</span> edges and
             watch <span className="text-[var(--amber)]">video moments</span>.
           </p>
         </div>
