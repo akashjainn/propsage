@@ -9,6 +9,10 @@ import { API_BASE } from '@/lib/api'
 import { useVideoClips } from '@/lib/useVideoClips'
 import { useCfbPlayerSearch } from '@/lib/useCfbPlayerSearch'
 import { useCfbProps } from '@/lib/useCfbProps'
+import { useNflPlayerSearch } from '@/lib/useNflPlayerSearch'
+import { useNflProps } from '@/lib/useNflProps'
+import { usePlayerSearch } from '@/lib/usePlayerSearch'
+import { useNbaProps } from '@/lib/useNbaProps'
 import { statToShortLabel, formatEdge, getConference, formatPlayerClass } from '@/lib/cfb'
 
 interface MarketsResponse { player:{ id:string; name:string }; markets:MarketRow[]; best?: any }
@@ -19,39 +23,19 @@ function Stat({label,value}:{label:string;value:string}) {
       <div className="text-xs text-[var(--fg-dim)]">{label}</div>
       <div className="text-3xl font-semibold tabular-nums lining-nums">{value}</div>
     </div>
-  );
-}
-
-function VideoSearchForm({onSearch, loading}:{onSearch:(q:string)=>void; loading:boolean}) {
-  const [q, setQ] = React.useState('');
-  return (
-    <div className="mt-3 flex gap-2">
-      <input
-        value={q}
-        onChange={e => setQ(e.target.value)}
-        placeholder='e.g., "quarterback highlights", "rushing touchdowns"'
-        className="w-full rounded-lg bg-[var(--card)] text-[var(--fg)]
-                   placeholder-[var(--muted)] border border-white/10 px-3 py-2
-                   focus:ring-2 focus:ring-[var(--iris)] focus:outline-none"
-        onKeyDown={e => e.key === 'Enter' && !loading && onSearch(q)}
-      />
-      <button
-        onClick={() => onSearch(q)}
-        disabled={loading}
-        className="rounded-lg px-3 py-2 bg-[var(--iris)]/90 hover:bg-[var(--iris)] transition disabled:opacity-50"
-      >
-        {loading ? 'Searching...' : 'Go'}
-      </button>
-    </div>
-  );
+  )
 }
 
 function ClipCard({title,time,snippet}:{title:string;time:string;snippet:string}) {
   return (
-    <div className="rounded-xl bg-black/20 ring-1 ring-white/10 p-3">
-      <div className="text-[var(--fg)] font-medium">{title}</div>
-      <div className="text-xs text-[var(--fg-dim)]">{time}</div>
-      <p className="mt-2 text-sm text-[var(--fg)]/90">{snippet}</p>
+    <div className="rounded-xl bg-[var(--card)] ring-1 ring-white/10 p-4">
+      <div className="flex items-center gap-2 text-sm text-[var(--fg-dim)]">
+        <span>🎥</span>
+        <span>{time}</span>
+        <span>•</span>
+        <span className="font-medium">{title}</span>
+      </div>
+<p className="mt-2 text-sm text-[var(--fg)]/90">{snippet}</p>
     </div>
   );
 }
@@ -62,12 +46,37 @@ export default function HomePage() {
   const [showResults, setShowResults] = useState(false)
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null)
   const [selectedPropId, setSelectedPropId] = useState<string | null>(null)
+  const [selectedSport, setSelectedSport] = useState<'NBA'|'NFL'|'CFB'|'MLB'>('CFB')
+  
   const { loading: loadingClips, clips, search: searchVideos } = useVideoClips()
-  const { q: playerQuery, setQ: setPlayerQuery, loading: loadingPlayers, results: playerResults } = useCfbPlayerSearch()
-  const { loading: loadingProps, data: propsData } = useCfbProps(selectedPlayerId)
+  
+  // Use different search hooks based on selected sport
+  const cfbSearch = useCfbPlayerSearch()
+  const nflSearch = useNflPlayerSearch()
+  const nbaSearch = usePlayerSearch()
+  
+  // Get the active search based on selected sport
+  const activeSearch = selectedSport === 'CFB' ? cfbSearch : 
+                      selectedSport === 'NFL' ? nflSearch : 
+                      selectedSport === 'NBA' ? nbaSearch : cfbSearch
+  
+  const { q: playerQuery, setQ: setPlayerQuery, loading: loadingPlayers, results: playerResults } = activeSearch
+  
+  // Use different props hooks based on selected sport
+  const cfbProps = useCfbProps(selectedPlayerId)
+  const nflProps = useNflProps(selectedPlayerId)
+  const nbaProps = useNbaProps(selectedPlayerId)
+  
+  // Get the active props based on selected sport
+  const activeProps = selectedSport === 'CFB' ? cfbProps : 
+                     selectedSport === 'NFL' ? nflProps : 
+                     selectedSport === 'NBA' ? nbaProps : cfbProps
+  
+  const { loading: loadingProps, data: propsData } = activeProps
 
-  function handleSearch(_sport:string, q:string){
+  function handleSearch(sport: string, q: string){
     if(!q) return
+    setSelectedSport(sport as 'NBA'|'NFL'|'CFB'|'MLB')
     setPlayerQuery(q)
     setSearchQuery(q)
     setShowResults(true)
@@ -87,19 +96,29 @@ export default function HomePage() {
       <header className="mx-auto max-w-6xl px-6 pt-8 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-xl bg-[var(--iris)]/80 ring-2 ring-[var(--ring)]/40 shadow-[0_0_30px_rgba(108,92,231,.45)]" />
-          <h1 className="text-2xl font-semibold tracking-tight">PropSage</h1>
+          <div>
+            <h1 className="text-xl font-semibold">PropSage</h1>
+            <p className="text-sm text-[var(--fg-dim)]">AI-powered prop betting analysis</p>
+          </div>
         </div>
-        <span className="text-sm text-[var(--fg-dim)]">Market • Video Intelligence</span>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => router.push('/player/demo')}
+            className="px-4 py-2 rounded-lg bg-[var(--surface)]/50 border border-white/10 text-sm hover:bg-white/5 transition"
+          >
+            Demo Player
+          </button>
+        </div>
       </header>
 
-      {/* Hero Search */}
+      {/* Search Section */}
       <section className="mx-auto max-w-6xl px-6 pt-10">
         <div className="rounded-2xl bg-[var(--surface)]/80 backdrop-blur-xl ring-1 ring-[var(--stroke)] p-3 shadow-[0_10px_50px_rgba(0,0,0,.35)]">
           <div className="flex flex-wrap items-center gap-3">
             <SearchBar onSearch={handleSearch} />
           </div>
           <p className="px-1 pt-2 text-sm text-[var(--fg-dim)]">
-            Search a college football player to view <span className="text-[var(--mint)]">market vs fair line</span> edges and
+            Search a {selectedSport === 'CFB' ? 'college football' : selectedSport === 'NFL' ? 'NFL' : selectedSport === 'NBA' ? 'NBA' : selectedSport === 'MLB' ? 'MLB' : 'college football'} player to view <span className="text-[var(--mint)]">market vs fair line</span> edges and
             watch <span className="text-[var(--amber)]">video moments</span>.
           </p>
         </div>
@@ -107,18 +126,14 @@ export default function HomePage() {
 
       {/* Search Results */}
       {showResults && (
-        <section className="mx-auto max-w-6xl px-6">
-          <div className="rounded-2xl bg-[var(--surface)]/80 ring-1 ring-[var(--stroke)] p-5">
+        <section className="mx-auto max-w-6xl px-6 pt-6">
+          <div className="rounded-2xl bg-[var(--surface)]/80 backdrop-blur-xl ring-1 ring-[var(--stroke)] p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Search Results for "{searchQuery}"</h2>
-              <button 
-                onClick={() => setShowResults(false)}
-                className="text-[var(--fg-dim)] hover:text-[var(--fg)] text-sm"
-              >
-                Clear
-              </button>
-            </div>
-            
+              <h2 className="text-lg font-semibold">
+                {selectedSport} Players
+                {searchQuery && <span className="text-[var(--fg-dim)]"> for "{searchQuery}"</span>}
+              </h2>
+              
             {loadingPlayers ? (
               <div className="text-[var(--fg-dim)] text-sm animate-pulse">Searching players...</div>
             ) : playerResults.length === 0 ? (
@@ -187,104 +202,48 @@ export default function HomePage() {
                       </span>
                     </div>
                     <div className="mt-2 flex items-end gap-6">
-                      <Stat label="Market" value={bestProp.marketLine.toString()} />
-                      <Stat label="Fair" value={bestProp.fairLine.toString()} />
-                      <div className="ml-auto text-right">
+                      <div>
+                        <div className="text-xs text-[var(--fg-dim)]">Market Line</div>
+                        <div className="text-2xl font-semibold">{bestProp.marketLine}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-[var(--fg-dim)]">Fair Line</div>
+                        <div className="text-2xl font-semibold">{bestProp.fairLine}</div>
+                      </div>
+                      <div>
                         <div className="text-xs text-[var(--fg-dim)]">Edge</div>
-                        <div className={`text-3xl font-semibold tabular-nums lining-nums ${
-                          bestProp.edgePct > 0 ? 'text-[var(--mint)]' : 'text-[var(--rose)]'
-                        }`}>
-                          {bestProp.edgePct > 0 ? '+' : ''}{bestProp.edgePct}%
+                        <div className={`text-2xl font-semibold ${formatEdge(bestProp.edgePct).color}`}>
+                          {formatEdge(bestProp.edgePct).text}
                         </div>
                       </div>
-                    </div>
-                    <div className="mt-4 h-20 rounded-md bg-black/20 ring-1 ring-white/5 overflow-hidden">
-                      <div className="h-full w-full animate-pulse bg-gradient-to-r from-transparent via-white/5 to-transparent" />
                     </div>
                   </div>
                 );
               })()}
 
-              {/* Props table */}
-              <div className="rounded-2xl bg-[var(--surface)]/80 ring-1 ring-[var(--stroke)]">
-                <div className="grid grid-cols-5 gap-3 px-5 py-3 text-xs text-[var(--fg-dim)]">
-                  <div>Stat</div><div>Book</div><div>Market</div><div>Fair</div><div className="text-right">Edge</div>
-                </div>
-                <div className="divide-y divide-white/5">
-                  {loadingProps ? (
-                    <div className="px-5 py-8 text-center text-[var(--fg-dim)] animate-pulse">
-                      Loading props...
-                    </div>
-                  ) : propsData.props.length === 0 ? (
-                    <div className="px-5 py-8 text-center text-[var(--fg-dim)]">
-                      No props available for this player.
-                    </div>
-                  ) : (
-                    propsData.props.map((prop) => (
-                      <div 
-                        key={prop.propId} 
-                        className="grid grid-cols-5 items-center px-5 py-3 hover:bg-white/5 cursor-pointer transition"
-                        onClick={() => setSelectedPropId(prop.propId)}
-                      >
-                        <div className="font-medium text-[var(--fg)]">{statToShortLabel(prop.stat)}</div>
-                        <div className="text-[var(--fg-dim)]">{prop.book}</div>
-                        <div className="tabular-nums">{prop.marketLine}</div>
-                        <div className="tabular-nums text-[var(--fg-dim)]">{prop.fairLine}</div>
-                        <div className={`text-right tabular-nums ${formatEdge(prop.edgePct).color}`}>
-                          {formatEdge(prop.edgePct).text}
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
+              {/* Markets table */}
+              <MarketsTable 
+                markets={propsData.props} 
+                onSelectProp={(prop) => setSelectedPropId(prop.propId)}
+                selectedPropId={selectedPropId}
+              />
             </>
           ) : (
-            /* Placeholder content when no player selected */
-            <div className="rounded-2xl bg-[var(--surface)]/80 ring-1 ring-[var(--stroke)] p-8 text-center">
-              <div className="text-[var(--fg-dim)] mb-4">
-                Search for a college football player above to see their prop lines vs our fair market analysis
-              </div>
-              <div className="text-sm text-[var(--fg-dim)]">
-                • Compare market lines to fair value
-              </div>
-              <div className="text-sm text-[var(--fg-dim)]">
-                • See edge percentages for each prop
-              </div>
-              <div className="text-sm text-[var(--fg-dim)]">
-                • Click props to view relevant clips & analysis
-              </div>
+            <div className="text-center py-12">
+              <div className="text-[var(--fg-dim)] text-lg mb-2">No player selected</div>
+              <div className="text-sm text-[var(--fg-dim)]">Search for a player to view their prop betting analysis</div>
             </div>
           )}
         </section>
 
-        {/* Right: video panel */}
-        <aside className="space-y-6">
-          <div className="rounded-2xl bg-[var(--surface)]/80 ring-1 ring-[var(--stroke)] p-5">
-            <div className="flex items-center justify-between">
-              <h3 className="font-medium">Video Intelligence</h3>
-              <span className="text-xs px-2 py-1 rounded-full bg-[var(--mint)]/15 text-[var(--mint)] ring-1 ring-[var(--mint)]/30">Live</span>
-            </div>
-            <VideoSearchForm onSearch={searchVideos} loading={loadingClips} />
-
-            <div className="mt-4 space-y-3">
-              {loadingClips ? (
-                <div className="text-[var(--fg-dim)] text-sm animate-pulse">Searching videos...</div>
-              ) : clips.length === 0 ? (
-                <div className="text-[var(--fg-dim)] text-sm">No clips yet. Try searching for player moments above.</div>
-              ) : (
-                clips.map((clip, i) => (
-                  <ClipCard
-                    key={i}
-                    title={clip.title}
-                    time={`${Math.floor(clip.start/60)}:${String(Math.floor(clip.start%60)).padStart(2,'0')}–${Math.floor(clip.end/60)}:${String(Math.floor(clip.end%60)).padStart(2,'0')}`}
-                    snippet={clip.snippet || 'Video clip found'}
-                  />
-                ))
-              )}
-            </div>
-          </div>
-        </aside>
+        {/* Right: Video panel */}
+        <section className="space-y-6">
+          <VideoPanel 
+            onQuery={searchVideos}
+            clips={clips}
+            loading={loadingClips}
+          />
+        </section>
       </main>
     </div>
   )

@@ -14,7 +14,10 @@ export function SearchBar({ onSearch }: { onSearch: (sport:string, q:string)=>vo
                            border border-white/10 pl-4 pr-10 py-2 text-sm focus:outline-none
                            focus:ring-2 focus:ring-[var(--iris)]"
         >
-          <option>CFB</option><option>NFL</option><option>NBA</option><option>MLB</option>
+          <option value="NBA">NBA</option>
+          <option value="NFL">NFL</option>
+          <option value="CFB">CFB</option>
+          <option value="MLB">MLB</option>
         </select>
         <span className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2
                                text-[var(--fg-dim)] text-sm">▾</span>
