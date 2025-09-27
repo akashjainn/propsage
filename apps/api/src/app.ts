@@ -5,6 +5,7 @@ import fairline from './routes/fairline.js'
 import perplexity from './routes/perplexity.js'
 import video from './routes/twelvelabs.js'
 import price from './routes/price.js'
+import videoIntel from './routes/videoIntel.js'
 import { timing } from './middleware/timing.js'
 import { config } from './config.js'
 
@@ -28,7 +29,8 @@ export function createApp() {
       fairline: '/fairline',
       evidence: '/evidence',
       video: '/video',
-      price: '/price'
+      price: '/price',
+      videoIntel: '/video-intel'
     },
     demo: config.demoMode,
     status: 'running'
@@ -45,5 +47,6 @@ export function createApp() {
   app.use('/evidence', perplexity)
   app.use('/video', video)
   app.use('/price', price)
+  app.use('/video-intel', videoIntel)
   return app
 }

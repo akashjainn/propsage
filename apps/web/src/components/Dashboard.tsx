@@ -6,6 +6,7 @@ import { AnalysisCard } from './AnalysisCard'
 import { EdgeChart } from './EdgeChart'
 import { EvidencePanel } from './EvidencePanel'
 import { VideoPanel } from './VideoPanel'
+import { VideoIntelligencePanel } from './VideoIntelligencePanel'
 
 export function Dashboard() {
   const { state } = usePropAnalysis()
@@ -39,6 +40,9 @@ export function Dashboard() {
 
       {/* Video Panel */}
       <VideoPanel clips={analysis.videoClips} />
+
+      {/* Video Intelligence Panel */}
+      <VideoIntelligencePanel />
 
       {/* Recent Analyses */}
       {state.analyses.length > 1 && (

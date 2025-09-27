@@ -8,6 +8,7 @@ async function testAPI() {
   const endpoints = [
     { name: 'Health', path: '/health' },
     { name: 'Lines (with Odds API)', path: '/lines' },
+    { name: 'Video Intelligence', path: '/video-intel' },
   ];
 
   for (const endpoint of endpoints) {
@@ -24,6 +25,13 @@ async function testAPI() {
           console.log(`   📈 Lines: ${data.lines?.length || data.length} props`);
           if (data.meta?.oddsApiUsage) {
             console.log(`   🔧 API Usage: ${data.meta.oddsApiUsage.used}/${data.meta.oddsApiUsage.limit}`);
+          }
+        } else if (endpoint.path === '/video-intel') {
+          console.log(`✅ ${endpoint.name}: ${response.status}`);
+          console.log(`   🎬 Source: ${data.meta?.source || 'unknown'}`);
+          console.log(`   📹 Signals: ${data.signals?.length || 0} intelligence signals`);
+          if (data.meta?.twelveLabsUsage) {
+            console.log(`   🔧 API Usage: ${data.meta.twelveLabsUsage.requests_used} calls, $${data.meta.twelveLabsUsage.estimated_cost.toFixed(3)}`);
           }
         } else {
           console.log(`✅ ${endpoint.name}: ${response.status}`, data);
