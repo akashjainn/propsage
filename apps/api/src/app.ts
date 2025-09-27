@@ -11,7 +11,7 @@ import { config } from './config.js'
 export function createApp() {
   const app = express()
   app.use(cors({ 
-    origin: config.corsOrigin === 'http://localhost:3000' ? true : config.corsOrigin,
+    origin: true, // Temporarily allow all origins for demo
     credentials: true 
   }))
   app.use(express.json())
