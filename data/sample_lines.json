@@ -1,5 +1,8 @@
 [
-  {"playerId":"ANT","market":"PTS","line":25.5,"source":"demo","ts":"2025-09-26T15:00:00Z"},
-  {"playerId":"LUK","market":"AST","line":8.5,"source":"demo","ts":"2025-09-26T15:00:00Z"},
-  {"playerId":"TAT","market":"REB","line":7.5,"source":"demo","ts":"2025-09-26T15:00:00Z"}
+  {"playerId":"anthony-edwards","market":"PTS","line":25.5,"source":"prizepicks","ts":"2025-09-26T15:00:00Z"},
+  {"playerId":"luka-doncic","market":"AST","line":8.5,"source":"prizepicks","ts":"2025-09-26T15:00:00Z"},
+  {"playerId":"jayson-tatum","market":"REB","line":7.5,"source":"prizepicks","ts":"2025-09-26T15:00:00Z"},
+  {"playerId":"anthony-edwards","market":"AST","line":5.0,"source":"prizepicks","ts":"2025-09-26T15:00:00Z"},
+  {"playerId":"luka-doncic","market":"PTS","line":30.5,"source":"prizepicks","ts":"2025-09-26T15:00:00Z"},
+  {"playerId":"jayson-tatum","market":"PTS","line":27.5,"source":"prizepicks","ts":"2025-09-26T15:00:00Z"}
 ]

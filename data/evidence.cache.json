@@ -1,15 +1,23 @@
 [
   {
-    "playerId": "ANT",
+    "playerId": "anthony-edwards",
     "snippets": [
-      {"id":"ant1","text":"Coach Finch notes Edwards will maintain high usage tonight.","source":"Local Beat","url":"https://example.com/ant1","weight":0.7,"timestamp":"2025-09-26T14:30:00Z"},
-      {"id":"ant2","text":"Opponent allows increased drive frequency to lead guards.","source":"Scouting Report","url":"https://example.com/ant2","weight":0.5,"timestamp":"2025-09-26T14:35:00Z"}
+      {"id":"ae1","text":"Coach Finch confirms Edwards will see increased usage with McDaniels questionable. Ankle check completed, no restrictions.","source":"The Athletic","url":"https://theathletic.com/timberwolves-edwards-usage","weight":0.8,"timestamp":"2025-09-26T14:30:00Z"},
+      {"id":"ae2","text":"Thunder defense allows 28.4 PPG to opposing SGs in last 5 games, vulnerable to drive-heavy offensive schemes.","source":"ESPN Stats","url":"https://espn.com/nba/stats/defense","weight":0.6,"timestamp":"2025-09-26T14:35:00Z"},
+      {"id":"ae3","text":"Edwards averaging 31.2 PPG in back-to-back scenarios this season, historically aggressive in second nights.","source":"StatMuse","url":"https://statmuse.com/edwards-b2b","weight":0.7,"timestamp":"2025-09-26T14:45:00Z"}
     ]
   },
   {
-    "playerId": "LUK",
+    "playerId": "luka-doncic",
     "snippets": [
-      {"id":"luk1","text":"Doncic expected to play full minutes after rest day.","source":"NBA News","url":"https://example.com/luk1","weight":0.6,"timestamp":"2025-09-26T14:20:00Z"}
+      {"id":"ld1","text":"Doncic cleared for full minutes after rest day, expecting heavy assist load with Irving out.","source":"Dallas Morning News","url":"https://dallasnews.com/doncic-status","weight":0.9,"timestamp":"2025-09-26T14:20:00Z"},
+      {"id":"ld2","text":"Opponent allows 9.8 APG to primary ballhandlers, weakness in transition defense creates assist opportunities.","source":"Cleaning the Glass","url":"https://cleaningtheglass.com/defense-stats","weight":0.5,"timestamp":"2025-09-26T14:25:00Z"}
+    ]
+  },
+  {
+    "playerId": "jayson-tatum",
+    "snippets": [
+      {"id":"jt1","text":"Tatum rebounding at career-high 8.9 RPG pace, emphasis on defensive glass with Horford managing minutes.","source":"Boston Globe","url":"https://bostonglobe.com/tatum-rebounding","weight":0.6,"timestamp":"2025-09-26T14:15:00Z"}
     ]
   }
 ]

@@ -8,6 +8,17 @@ interface EvidenceSnippet { id: string; text: string; source: string; url: strin
 interface VideoCache { playerId: string; clips: VideoClip[] }
 interface VideoClip { id: string; title: string; url: string; thumbnailUrl?: string; relevanceScore?: number; duration?: number }
 
+// Player name mapping for demo/display purposes
+const PLAYER_NAMES: Record<string, string> = {
+  'anthony-edwards': 'Anthony Edwards',
+  'luka-doncic': 'Luka Doncic', 
+  'jayson-tatum': 'Jayson Tatum'
+}
+
+export function getPlayerName(playerId: string): string {
+  return PLAYER_NAMES[playerId] || playerId
+}
+
 let propsCache: PlayerProp[] | null = null
 let priorsCache: Prior[] | null = null
 let evidenceCache: Record<string, EvidenceSnippet[]> | null = null

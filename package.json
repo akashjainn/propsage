@@ -11,6 +11,7 @@
     "dev": "npm-run-all -p dev:api dev:web",
     "dev:api": "tsx apps/api/src/index.ts",
     "dev:web": "pnpm --filter @propsage/web dev",
+    "demo": "cross-env DEMO_MODE=true FEATURE_FLAGS=demo_mode:true npm-run-all -p dev:api dev:web",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "format": "prettier --write .",
@@ -31,5 +32,8 @@
     "*.{ts,tsx,js,json,md}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "cross-env": "^10.0.0"
   }
 }
