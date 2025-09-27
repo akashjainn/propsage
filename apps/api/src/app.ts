@@ -4,6 +4,7 @@ import lines from './routes/lines.js'
 import fairline from './routes/fairline.js'
 import perplexity from './routes/perplexity.js'
 import video from './routes/twelvelabs.js'
+import price from './routes/price.js'
 import { timing } from './middleware/timing.js'
 import { config } from './config.js'
 
@@ -22,5 +23,6 @@ export function createApp() {
   app.use('/fairline', fairline)
   app.use('/evidence', perplexity)
   app.use('/video', video)
+  app.use('/price', price)
   return app
 }

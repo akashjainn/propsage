@@ -15,8 +15,39 @@ const PLAYER_NAMES: Record<string, string> = {
   'jayson-tatum': 'Jayson Tatum'
 }
 
+// Reverse mapping for search
+const NAME_TO_ID: Record<string, string> = {
+  'anthony edwards': 'anthony-edwards',
+  'luka doncic': 'luka-doncic',
+  'jayson tatum': 'jayson-tatum',
+  'ant': 'anthony-edwards',
+  'ae': 'anthony-edwards',
+  'luka': 'luka-doncic',
+  'ld': 'luka-doncic',
+  'tatum': 'jayson-tatum',
+  'jt': 'jayson-tatum'
+}
+
 export function getPlayerName(playerId: string): string {
   return PLAYER_NAMES[playerId] || playerId
+}
+
+export function findPlayerId(query: string): string | null {
+  const normalized = query.toLowerCase().trim()
+  
+  // Direct match
+  if (NAME_TO_ID[normalized]) {
+    return NAME_TO_ID[normalized]
+  }
+  
+  // Partial match on first/last name
+  for (const [key, id] of Object.entries(NAME_TO_ID)) {
+    if (key.includes(normalized) || normalized.includes(key)) {
+      return id
+    }
+  }
+  
+  return null
 }
 
 let propsCache: PlayerProp[] | null = null
