@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ['nodejs', 'pnpm']
+
+[phases.install]
+cmd = 'pnpm install --frozen-lockfile'
+
+[phases.build]
+cmd = 'pnpm --filter @propsage/core build && pnpm --filter @propsage/api build'
+
+[start]
+cmd = 'cd apps/api && node dist/index.js'
