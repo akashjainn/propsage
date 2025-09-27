@@ -3,6 +3,7 @@
 import React from 'react'
 import { usePropAnalysis } from '@/contexts/PropAnalysisContext'
 import { useWebSocket } from '@/contexts/WebSocketContext'
+import { Logo } from './Logo'
 
 export function Header() {
   const { state: wsState } = useWebSocket()
@@ -12,12 +13,7 @@ export function Header() {
     <header className="border-b border-white/10 bg-[var(--surface)]/60 backdrop-blur-xl">
       <div className="mx-auto max-w-6xl px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-xl bg-[var(--iris)]/80 ring-2 ring-[var(--ring)]/40 shadow-[0_0_30px_rgba(108,92,231,.45)] flex items-center justify-center">
-              <span className="text-[var(--fg)] font-bold text-sm">PS</span>
-            </div>
-            <span className="text-xl font-semibold tracking-tight text-[var(--fg)]">PropSage</span>
-          </div>
+          <Logo size="md" />
           
           <div className="hidden md:flex items-center gap-3 text-sm text-[var(--fg-dim)]">
             <span>Enterprise Sports Intelligence</span>
