@@ -15,7 +15,7 @@ import { config } from './config.js'
 export function createApp() {
   const app = express()
   app.use(cors({ 
-    origin: ['https://propsage-web.vercel.app', 'http://localhost:3000'],
+    origin: [/\.up\.railway\.app$/, /\.vercel\.app$/, 'http://localhost:3000'],
     credentials: true 
   }))
   app.use(express.json())

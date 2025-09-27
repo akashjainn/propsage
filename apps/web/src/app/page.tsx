@@ -6,6 +6,7 @@ import { LineCompareCard } from '@/components/LineCompareCard'
 import { MarketsTable, MarketRow } from '@/components/MarketsTable'
 import { VideoPanel, Clip } from '@/components/VideoPanel'
 import { API_BASE } from '@/lib/api'
+import { useVideoClips } from '@/lib/useVideoClips'
 
 interface MarketsResponse { player:{ id:string; name:string }; markets:MarketRow[]; best?: any }
 
@@ -14,6 +15,30 @@ function Stat({label,value}:{label:string;value:string}) {
     <div>
       <div className="text-xs text-[var(--fg-dim)]">{label}</div>
       <div className="text-3xl font-semibold tabular-nums lining-nums">{value}</div>
+    </div>
+  );
+}
+
+function VideoSearchForm({onSearch, loading}:{onSearch:(q:string)=>void; loading:boolean}) {
+  const [q, setQ] = React.useState('');
+  return (
+    <div className="mt-3 flex gap-2">
+      <input
+        value={q}
+        onChange={e => setQ(e.target.value)}
+        placeholder='e.g., "injury scare", "clutch threes"'
+        className="w-full rounded-lg bg-[var(--card)] text-[var(--fg)]
+                   placeholder-[var(--muted)] border border-white/10 px-3 py-2
+                   focus:ring-2 focus:ring-[var(--iris)] focus:outline-none"
+        onKeyDown={e => e.key === 'Enter' && !loading && onSearch(q)}
+      />
+      <button
+        onClick={() => onSearch(q)}
+        disabled={loading}
+        className="rounded-lg px-3 py-2 bg-[var(--iris)]/90 hover:bg-[var(--iris)] transition disabled:opacity-50"
+      >
+        {loading ? 'Searching...' : 'Go'}
+      </button>
     </div>
   );
 }
@@ -33,8 +58,7 @@ export default function HomePage() {
   const [player, setPlayer] = useState<{id:string; name:string}|null>(null)
   const [markets, setMarkets] = useState<MarketRow[]>([])
   const [best, setBest] = useState<any>(null)
-  const [clips, setClips] = useState<Clip[]>([])
-  const [loadingClips, setLoadingClips] = useState(false)
+  const { loading: loadingClips, clips, search: searchVideos } = useVideoClips()
 
   function handleSearch(_sport:string, q:string){
     if(!q) return
@@ -85,7 +109,10 @@ export default function HomePage() {
         {/* Left placeholder panel */}
         <section className="lg:col-span-2 space-y-6">
           <div className="rounded-2xl bg-[var(--surface)]/80 ring-1 ring-[var(--stroke)] p-5">
-            <div className="text-sm text-[var(--fg-dim)]">Best Market • DraftKings</div>
+            <div className="flex items-center gap-2">
+              <div className="text-sm text-[var(--fg-dim)]">Best Market • DraftKings</div>
+              <span className="text-xs px-2 py-1 rounded-full bg-[var(--amber)]/15 text-[var(--amber)] ring-1 ring-[var(--amber)]/30">PTS</span>
+            </div>
             <div className="mt-2 flex items-end gap-6">
               <Stat label="Market" value="27.5" />
               <Stat label="Fair" value="25.9" />
@@ -96,7 +123,9 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="mt-4 h-20 rounded-md bg-black/20 ring-1 ring-white/5" />
+            <div className="mt-4 h-20 rounded-md bg-black/20 ring-1 ring-white/5 overflow-hidden">
+              <div className="h-full w-full animate-pulse bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+            </div>
           </div>
 
           <div className="rounded-2xl bg-[var(--surface)]/80 ring-1 ring-[var(--stroke)]">
@@ -105,11 +134,14 @@ export default function HomePage() {
             </div>
             <div className="divide-y divide-white/5">
               {[
-                {book:'DK', m:'27.5', f:'25.9', e:'+6.2%'},
-                {book:'FD', m:'26.5', f:'25.9', e:'+2.3%'},
+                {book:'DK', m:'27.5', f:'25.9', e:'+6.2%', type: 'PTS'},
+                {book:'FD', m:'26.5', f:'25.9', e:'+2.3%', type: 'PTS'},
               ].map((r,i)=>(
                 <div key={i} className="grid grid-cols-4 items-center px-5 py-3 hover:bg-white/5">
-                  <div className="text-[var(--fg)]">{r.book}</div>
+                  <div>
+                    <div className="text-[var(--fg)]">{r.book}</div>
+                    <div className="text-xs text-[var(--fg-dim)]">{r.type}</div>
+                  </div>
                   <div className="tabular-nums">{r.m}</div>
                   <div className="tabular-nums text-[var(--fg-dim)]">{r.f}</div>
                   <div className="text-right tabular-nums text-[var(--mint)]">{r.e}</div>
@@ -126,19 +158,23 @@ export default function HomePage() {
               <h3 className="font-medium">Video Intelligence</h3>
               <span className="text-xs px-2 py-1 rounded-full bg-[var(--mint)]/15 text-[var(--mint)] ring-1 ring-[var(--mint)]/30">Live</span>
             </div>
-            <div className="mt-3 flex gap-2">
-              <input
-                placeholder='e.g., "injury scare", "clutch threes"'
-                className="w-full rounded-lg bg-[var(--card)] text-[var(--fg)]
-                           placeholder-[var(--muted)] border border-white/10 px-3 py-2
-                           focus:ring-2 focus:ring-[var(--iris)]"
-              />
-              <button className="rounded-lg px-3 bg-[var(--iris)]/90 hover:bg-[var(--iris)] transition">Go</button>
-            </div>
+            <VideoSearchForm onSearch={searchVideos} loading={loadingClips} />
 
             <div className="mt-4 space-y-3">
-              <ClipCard title="Injury • Anthony Edwards" time="2:00–2:15"
-                        snippet="Limping after collision; walks off under own power." />
+              {loadingClips ? (
+                <div className="text-[var(--fg-dim)] text-sm animate-pulse">Searching videos...</div>
+              ) : clips.length === 0 ? (
+                <div className="text-[var(--fg-dim)] text-sm">No clips yet. Try searching for player moments above.</div>
+              ) : (
+                clips.map((clip, i) => (
+                  <ClipCard
+                    key={i}
+                    title={clip.title}
+                    time={`${Math.floor(clip.start/60)}:${String(Math.floor(clip.start%60)).padStart(2,'0')}–${Math.floor(clip.end/60)}:${String(Math.floor(clip.end%60)).padStart(2,'0')}`}
+                    snippet={clip.snippet || 'Video clip found'}
+                  />
+                ))
+              )}
             </div>
           </div>
         </aside>

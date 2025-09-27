@@ -6,7 +6,7 @@ export function SearchBar({ onSearch }: { onSearch: (sport:string, q:string)=>vo
   const [q, setQ] = React.useState('');
   return (
     <div className="flex flex-wrap gap-3 w-full">
-      <div className="relative">
+      <div className="relative inline-block">
         <select
           value={sport}
           onChange={e=>setSport(e.target.value as any)}
@@ -16,9 +16,8 @@ export function SearchBar({ onSearch }: { onSearch: (sport:string, q:string)=>vo
         >
           <option>NBA</option><option>NFL</option><option>MLB</option>
         </select>
-        <span className="pointer-events-none absolute top-1/2 -right-3 -translate-y-1/2
-                               inline-flex h-7 w-7 items-center justify-center rounded-full
-                               bg-[var(--card)] ring-1 ring-white/10 text-[10px] text-[var(--fg-dim)]">▾</span>
+        <span className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2
+                               text-[var(--fg-dim)] text-sm">▾</span>
       </div>
 
       <form
