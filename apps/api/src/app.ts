@@ -9,6 +9,7 @@ import price from './routes/price.js'
 import videoIntel from './routes/videoIntel.js'
 import fml from './routes/fml.js'
 import videoIntelFML from './routes/videoIntelFML.js'
+import nbaProps from './routes/nba-props.js'
 import { timing } from './middleware/timing.js'
 import { config } from './config.js'
 
@@ -56,5 +57,6 @@ export function createApp() {
   app.use('/video-intel', videoIntel)
   app.use('/fml', fml)
   app.use('/fml', videoIntelFML)
+  app.use('/nba', nbaProps)
   return app
 }
