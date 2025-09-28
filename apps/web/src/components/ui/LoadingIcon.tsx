@@ -15,12 +15,13 @@ export function LoadingIcon({ size = 32, className = '' }: LoadingIconProps) {
         <div className="absolute inset-0 rounded-full bg-[var(--iris)]/20 animate-ping" />
         <div className="relative h-8 w-8 rounded-full bg-[var(--iris)]/80 ring-2 ring-[var(--ring)]/40 shadow-[0_0_30px_rgba(108,92,231,.45)] flex items-center justify-center overflow-hidden">
           <Image
-            src="/icon.png"
+            src="/favicon-32.png"
             alt="PropSage"
-            width={size * 0.75}
-            height={size * 0.75}
+            width={32}
+            height={32}
             className="object-contain animate-pulse"
             priority
+            unoptimized
           />
         </div>
       </div>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Debug Test</title>
+    <style>
+        body { background: #0b1420; color: white; font-family: Arial, sans-serif; padding: 20px; }
+        .icon-test { margin: 10px; padding: 10px; border: 1px solid #333; display: inline-block; }
+        .icon-test img { display: block; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>Icon Debug Test</h1>
+    <p>Testing if icons from propsage_icon_pack are accessible:</p>
+    
+    <div class="icon-test">
+        <h3>favicon-16.png</h3>
+        <img src="/favicon-16.png" alt="16px icon" width="16" height="16" />
+        <p>Size: 16x16</p>
+    </div>
+    
+    <div class="icon-test">
+        <h3>favicon-32.png</h3>
+        <img src="/favicon-32.png" alt="32px icon" width="32" height="32" />
+        <p>Size: 32x32</p>
+    </div>
+    
+    <div class="icon-test">
+        <h3>icon-192.png</h3>
+        <img src="/icon-192.png" alt="192px icon" width="64" height="64" />
+        <p>Size: 192x192 (scaled to 64x64)</p>
+    </div>
+    
+    <div class="icon-test">
+        <h3>apple-icon-180.png</h3>
+        <img src="/apple-icon-180.png" alt="apple icon" width="64" height="64" />
+        <p>Size: 180x180 (scaled to 64x64)</p>
+    </div>
+
+    <script>
+        // Log when images load or fail
+        document.querySelectorAll('img').forEach(img => {
+            img.onload = () => console.log(`✅ ${img.src} loaded successfully`);
+            img.onerror = () => console.error(`❌ ${img.src} failed to load`);
+        });
+    </script>
+</body>
+</html>

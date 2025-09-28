@@ -16,12 +16,19 @@ export function Header() {
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-xl bg-[var(--iris)]/80 ring-2 ring-[var(--ring)]/40 shadow-[0_0_30px_rgba(108,92,231,.45)] flex items-center justify-center overflow-hidden">
               <Image
-                src="/icon.png"
+                src="/favicon-32.png"
                 alt="PropSage"
-                width={24}
-                height={24}
+                width={32}
+                height={32}
                 className="w-6 h-6 object-contain"
                 priority
+                unoptimized
+                onError={(e) => {
+                  console.error('Next.js Image failed to load favicon-32.png:', e);
+                }}
+                onLoad={() => {
+                  console.log('✅ Next.js Image loaded favicon-32.png successfully');
+                }}
               />
             </div>
             <span className="text-xl font-semibold tracking-tight text-[var(--fg)]">PropSage</span>

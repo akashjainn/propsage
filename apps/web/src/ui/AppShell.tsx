@@ -1,11 +1,22 @@
 "use client";
 import React from 'react';
+import Image from 'next/image';
 import { tokens } from './theme';
 
 function Logo(){
   return (
-    <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 ring-2 ring-blue-400/40 shadow-[0_0_20px_rgba(59,130,246,.3)] flex items-center justify-center">
-      <span className="text-white font-bold text-sm">P</span>
+    <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 ring-2 ring-blue-400/40 shadow-[0_0_20px_rgba(59,130,246,.3)] flex items-center justify-center overflow-hidden">
+      <Image
+        src="/favicon-32.png"
+        alt="PropSage"
+        width={32}
+        height={32}
+        className="w-6 h-6 object-contain"
+        priority
+        unoptimized
+        onError={() => console.error('AppShell Logo failed to load favicon-32.png')}
+        onLoad={() => console.log('✅ AppShell Logo loaded favicon-32.png successfully')}
+      />
     </div>
   );
 }
