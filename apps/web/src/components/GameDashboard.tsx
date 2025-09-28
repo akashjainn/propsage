@@ -38,11 +38,36 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
   } | null>(null);
 
   useEffect(() => {
-    fetch(`/api/games/${gameId}/props`)
+    // Use the insights API instead of the hardcoded games API
+    fetch(`/api/insights/${gameId}`)
       .then(res => res.json())
       .then(data => {
         if (data.players) {
           setPlayers(data.players);
+        } else if (data.props) {
+          // Transform flat props array into players structure
+          const playersMap = new Map();
+          data.props.forEach((prop: any) => {
+            if (!playersMap.has(prop.playerId)) {
+              playersMap.set(prop.playerId, {
+                playerId: prop.playerId,
+                playerName: prop.playerName || prop.player,
+                team: prop.team,
+                position: prop.position,
+                props: []
+              });
+            }
+            playersMap.get(prop.playerId).props.push({
+              propType: prop.propType || prop.stat,
+              propLabel: prop.propLabel || prop.label,
+              marketLine: prop.marketLine || prop.line,
+              fairLine: prop.fairLine,
+              edgePct: prop.edgePct || prop.edge,
+              confidence: prop.confidence || 'med',
+              bullets: prop.bullets || []
+            });
+          });
+          setPlayers(Array.from(playersMap.values()));
         }
         setLoading(false);
       })
