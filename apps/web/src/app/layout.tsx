@@ -33,18 +33,19 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/icon.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icon.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon.png', sizes: '512x512', type: 'image/png' },
+      { url: '/favicon-16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
     ],
-    shortcut: '/icon.png',
+    shortcut: '/favicon.ico',
     apple: [
-      { url: '/icon.png', sizes: '180x180', type: 'image/png' },
+      { url: '/apple-icon-180.png', sizes: '180x180', type: 'image/png' },
     ],
     other: [
       {
         rel: 'apple-touch-icon-precomposed',
-        url: '/icon.png',
+        url: '/apple-icon-180.png',
       },
     ],
   },
@@ -58,9 +59,9 @@ export const metadata: Metadata = {
     siteName: 'PropSage',
     images: [
       {
-        url: '/icon.png',
-        width: 1200,
-        height: 630,
+        url: '/icon-1024.png',
+        width: 1024,
+        height: 1024,
         alt: 'PropSage - Enterprise Sports Betting Intelligence',
       },
     ],
@@ -70,7 +71,7 @@ export const metadata: Metadata = {
     title: 'PropSage - Enterprise Sports Betting Intelligence',
     description: 'Professional Fair Market Line engine with AI-powered edge detection and video intelligence',
     creator: '@propsage',
-    images: ['/icon.png'],
+    images: ['/icon-1024.png'],
   },
   category: 'sports',
 }
@@ -82,8 +83,8 @@ export const viewport = {
   maximumScale: 5,
   userScalable: true,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#0D1321' },
-    { media: '(prefers-color-scheme: dark)', color: '#0D1321' },
+    { media: '(prefers-color-scheme: light)', color: '#0b1420' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b1420' },
   ],
   colorScheme: 'dark light',
 }

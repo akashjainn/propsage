@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { TrendingUp, TrendingDown, Target, Play } from 'lucide-react';
 import { PropDrawer } from './PropDrawer';
 import { AppShell, SectionHeader } from '@/ui';
@@ -30,7 +30,11 @@ interface GameDashboardProps {
   onBack: () => void;
 }
 
-export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboardProps) {
+export interface GameDashboardHandle {
+  focusProp: (propType: string) => void;
+}
+
+const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(function GameDashboard({ gameId, gameTitle, onBack }, ref) {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedProp, setSelectedProp] = useState<{
@@ -39,6 +43,18 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
     prop: GameProp;
   } | null>(null);
 
+  useImperativeHandle(ref, () => ({
+    focusProp: (propType: string) => {
+      // Find the prop and open its drawer
+      for (const player of players) {
+        const prop = player.props.find(p => p.propType === propType);
+        if (prop) {
+          setSelectedProp({ playerId: player.playerId, playerName: player.playerName, prop });
+          break;
+        }
+      }
+    }
+  }));
 
   useEffect(() => {
     // Use the insights API instead of the hardcoded games API
@@ -162,20 +178,20 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
   };
 
   const getEdgeColor = (edgePct: number) => {
-    if (Math.abs(edgePct) < 5) return 'text-gray-600';
-    return edgePct > 0 ? 'text-green-600' : 'text-red-600';
+    if (Math.abs(edgePct) < 5) return 'text-white/60';
+    return edgePct > 0 ? 'text-green-400' : 'text-red-400';
   };
 
   const getEdgeBg = (edgePct: number) => {
-    if (Math.abs(edgePct) < 5) return 'bg-gray-50 border-gray-200';
-    return edgePct > 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200';
+    if (Math.abs(edgePct) < 5) return 'bg-white/5 border-white/10';
+    return edgePct > 0 ? 'bg-green-500/10 border-green-500/20' : 'bg-red-500/10 border-red-500/20';
   };
 
   const getConfidenceBadge = (confidence: string) => {
     const colors = {
-      high: 'bg-green-100 text-green-700 border-green-200',
-      med: 'bg-yellow-100 text-yellow-700 border-yellow-200',
-      low: 'bg-gray-100 text-gray-600 border-gray-200'
+      high: 'bg-green-500/20 text-green-400 border-green-500/30',
+      med: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+      low: 'bg-white/10 text-white/60 border-white/20'
     };
     return colors[confidence as keyof typeof colors] || colors.low;
   };
@@ -252,15 +268,15 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
                   className={`p-4 rounded-lg border-2 transition-all hover:scale-105 ${getEdgeBg(prop.edgePct)} hover:shadow-lg`}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-600">#{i + 1} Edge</span>
+                    <span className="text-sm font-medium text-white/60">#{i + 1} Edge</span>
                     <span className={`text-lg font-bold ${getEdgeColor(prop.edgePct)}`}>
                       {prop.edgePct > 0 ? '+' : ''}{prop.edgePct.toFixed(1)}%
                     </span>
                   </div>
                   <div className="text-left">
-                    <div className="font-semibold text-gray-900">{prop.playerName}</div>
-                    <div className="text-sm text-gray-600">{prop.propLabel}</div>
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="font-semibold text-white">{prop.playerName}</div>
+                    <div className="text-sm text-white/70">{prop.propLabel}</div>
+                    <div className="text-xs text-white/50 mt-1">
                       Market: {prop.marketLine} → Fair: {prop.fairLine}
                     </div>
                   </div>
@@ -315,12 +331,12 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
                     </div>
 
                     <div className="text-left">
-                      <div className="font-semibold text-gray-900 mb-1">{prop.propLabel}</div>
+                      <div className="font-semibold text-white mb-1">{prop.propLabel}</div>
                       <div className="flex items-center justify-between text-sm mb-2">
-                        <span className="text-gray-600">Market: {prop.marketLine}</span>
-                        <span className="text-gray-600">Fair: {prop.fairLine}</span>
+                        <span className="text-white/70">Market: {prop.marketLine}</span>
+                        <span className="text-white/70">Fair: {prop.fairLine}</span>
                       </div>
-                      <div className={`text-center py-1 px-2 rounded font-bold ${getEdgeColor(prop.edgePct)} bg-white/50`}>
+                      <div className={`text-center py-1 px-2 rounded font-bold ${getEdgeColor(prop.edgePct)} bg-white/10`}>
                         {prop.edgePct > 0 ? 'OVER' : 'UNDER'} {Math.abs(prop.edgePct).toFixed(1)}%
                       </div>
                     </div>
@@ -351,4 +367,6 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
       )}
     </AppShell>
   );
-}
+});
+
+export default GameDashboard;
