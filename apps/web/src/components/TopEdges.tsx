@@ -11,8 +11,11 @@ interface TopEdge {
   team: string;
   gameId: string;
 }
+interface TopEdgesProps {
+  onSelect?: (payload: { gameId: string; player?: string; propType?: string }) => void;
+}
 
-const TopEdges: React.FC = () => {
+const TopEdges: React.FC<TopEdgesProps> = ({ onSelect }) => {
   // Start with data immediately visible for debugging
   const [topEdges, setTopEdges] = useState<TopEdge[]>([
     {
@@ -126,6 +129,7 @@ const TopEdges: React.FC = () => {
         {topEdges.map((edge, index) => (
           <div
             key={`${edge.player}-${edge.propType}`}
+            onClick={() => onSelect?.({ gameId: edge.gameId, player: edge.player, propType: edge.propType })}
             className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 hover:bg-opacity-20 transition-all duration-200 cursor-pointer group"
           >
             <div className="flex items-center justify-between">

@@ -7,8 +7,8 @@ const ALL_GAMES: GameLite[] = [
     id: 'gt-wake-forest-20250927',
     start: '2025-09-27T20:00:00.000Z',
     state: 'pre' as const,
-    period: null,
-    clock: null,
+    period: undefined,
+    clock: undefined,
     home: { 
       id: 'gt', 
       name: 'Georgia Tech Yellow Jackets', 
@@ -77,9 +77,9 @@ export async function GET(req: NextRequest) {
       ].some(field => field.toLowerCase().includes(query));
     });
     
-    return NextResponse.json(matchingGames, { status: 200 });
+    return NextResponse.json({ games: matchingGames }, { status: 200 });
   } catch (e: any) {
     console.error('Failed to search games:', e);
-    return NextResponse.json([], { status: 200 });
+    return NextResponse.json({ games: [] }, { status: 200 });
   }
 }

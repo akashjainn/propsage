@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 
+// Keep fallback deterministic across calls (avoid regenerating new Date each request for stability)
+const NOW = new Date().toISOString();
 const FALLBACK_GAMES = [
   {
     id: "gt-wake-forest-20250927",
-    start: new Date().toISOString(),
+    start: NOW,
     state: "pre" as const,
     period: null,
     clock: null,
@@ -32,7 +34,7 @@ const FALLBACK_GAMES = [
   },
   {
     id: "illinois-usc-20250927",
-    start: new Date().toISOString(),
+    start: NOW,
     state: "pre" as const,
     period: null,
     clock: null,
@@ -63,11 +65,10 @@ const FALLBACK_GAMES = [
 
 export async function GET() {
   try {
-    // For now, return fallback data for demo purposes
-    // In production, this would fetch from ESPN API
-    return NextResponse.json(FALLBACK_GAMES, { status: 200 });
+    // In production we'd fetch an upstream source then normalize to { games: GameLite[] }
+    return NextResponse.json({ games: FALLBACK_GAMES }, { status: 200 });
   } catch (e: any) {
     console.error('Failed to fetch games today:', e);
-    return NextResponse.json(FALLBACK_GAMES, { status: 200 });
+    return NextResponse.json({ games: FALLBACK_GAMES }, { status: 200 });
   }
 }

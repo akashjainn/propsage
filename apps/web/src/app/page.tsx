@@ -8,30 +8,20 @@ import GamesRail from '@/components/GamesRail';
 import SearchModal, { useSearch } from '@/components/SearchModal';
 import type { GameLite } from '@/types/cfb';
 import { ENDPOINTS } from '@/lib/api';
+import { useGamesToday } from '@/hooks/useGamesToday';
 
 export default function HomePage() {
-  const [selectedGameId, setSelectedGameId] = useState('illinois-usc-20250927');
-  const [gamesToday, setGamesToday] = useState<GameLite[]>([]);
-  const [loadingGames, setLoadingGames] = useState(true);
+  const { games: gamesToday, loading: loadingGames } = useGamesToday({ pollIntervalMs: 120000 });
+  const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [showGameDashboard, setShowGameDashboard] = useState(false);
   const search = useSearch();
-
-  // Fetch today's games on load
+  
+  // Auto-select first game when games load
   useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const response = await fetch(ENDPOINTS.gamesToday);
-        const games = await response.json();
-        setGamesToday(games || []);
-      } catch (error) {
-        console.error('Failed to fetch games:', error);
-      } finally {
-        setLoadingGames(false);
-      }
-    };
-
-    fetchGames();
-  }, []);
+    if (!selectedGameId && gamesToday.length > 0) {
+      setSelectedGameId(gamesToday[0].id);
+    }
+  }, [gamesToday, selectedGameId]);
 
   const handleGameSelect = (gameId: string) => {
     setSelectedGameId(gameId);
@@ -57,7 +47,7 @@ export default function HomePage() {
   };
 
   // If viewing game dashboard, show that instead
-  if (showGameDashboard) {
+  if (showGameDashboard && selectedGameId) {
     const selectedGame = gamesToday.find(g => g.id === selectedGameId);
     const gameTitle = selectedGame 
       ? `${selectedGame.away.short} @ ${selectedGame.home.short}`
@@ -104,7 +94,11 @@ export default function HomePage() {
           title="Top Edges Today" 
           subtitle="Biggest market vs fair line discrepancies across all games" 
         />
-        <TopEdges />
+        <TopEdges onSelect={({ gameId }) => {
+          if (gameId) {
+            handleGameSelect(gameId);
+          }
+        }} />
       </section>
 
       {/* Games Rail */}
@@ -115,12 +109,12 @@ export default function HomePage() {
         />
         <GamesRail 
           games={gamesToday}
-          selectedGameId={selectedGameId}
+          selectedGameId={selectedGameId || ''}
           onGameSelect={handleGameSelect}
           loading={loadingGames}
         />
         
-        {gamesToday.length > 0 && (
+        {gamesToday.length > 0 && selectedGameId && (
           <div className="mt-6 text-center">
             <button
               onClick={() => setShowGameDashboard(true)}
