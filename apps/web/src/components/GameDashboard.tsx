@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
-import { normalizePropForFocus } from '@/lib/normalize';
+import React, { useState, useEffect } from 'react';
 import { TrendingUp, TrendingDown, Target, Play } from 'lucide-react';
 import { PropDrawer } from './PropDrawer';
 
@@ -28,10 +27,8 @@ interface GameDashboardProps {
   gameTitle: string;
   onBack: () => void;
 }
-export type GameDashboardHandle = { focusProp: (market: string) => void };
 
-const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(function GameDashboard({ gameId, gameTitle, onBack }, ref) {
-  // ALL HOOKS MUST COME FIRST AND IN SAME ORDER EVERY RENDER
+export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboardProps) {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedProp, setSelectedProp] = useState<{
@@ -40,24 +37,6 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
     prop: GameProp;
   } | null>(null);
 
-  // useImperativeHandle MUST be at the same position every render
-  useImperativeHandle(ref, () => ({
-    focusProp: (market: string) => {
-      const key = normalizePropForFocus(market);
-      for (const p of players) {
-        const match = p.props.find(prop => normalizePropForFocus(prop.propType) === key || normalizePropForFocus(prop.propLabel) === key);
-        if (match) {
-          handlePropSelect(p.playerId, p.playerName, match);
-          // attempt smooth scroll to corresponding element
-          requestAnimationFrame(() => {
-            const el = document.querySelector(`[data-prop="${key}"]`);
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          });
-          break;
-        }
-      }
-    }
-  }), [players]);
 
   useEffect(() => {
     // Use the insights API instead of the hardcoded games API
@@ -66,8 +45,49 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
       .then(data => {
         if (data.players) {
           setPlayers(data.players);
+        } else if (data.insights) {
+          // Transform insights array into players structure
+          const playersMap = new Map();
+          data.insights.forEach((prop: any) => {
+            if (!playersMap.has(prop.playerId)) {
+              playersMap.set(prop.playerId, {
+                playerId: prop.playerId,
+                playerName: prop.player,
+                team: prop.team,
+                position: prop.position,
+                props: []
+              });
+            }
+            
+            // Format propType into a readable label
+            const propLabel = prop.propType
+              .split('_')
+              .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ');
+            
+            // Convert confidence number to category
+            let confidenceCategory = 'med';
+            if (prop.confidence >= 90) confidenceCategory = 'high';
+            else if (prop.confidence < 70) confidenceCategory = 'low';
+            
+            // Transform bullets from string array to object array if needed
+            const bulletObjects = prop.bullets.map((bullet: string | { title: string }) => 
+              typeof bullet === 'string' ? { title: bullet } : bullet
+            );
+            
+            playersMap.get(prop.playerId).props.push({
+              propType: prop.propType,
+              propLabel: propLabel,
+              marketLine: prop.marketLine,
+              fairLine: prop.fairLine,
+              edgePct: prop.edge,
+              confidence: confidenceCategory,
+              bullets: bulletObjects
+            });
+          });
+          setPlayers(Array.from(playersMap.values()));
         } else if (data.props) {
-          // Transform flat props array into players structure
+          // Legacy support for old props format
           const playersMap = new Map();
           data.props.forEach((prop: any) => {
             if (!playersMap.has(prop.playerId)) {
@@ -94,8 +114,43 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
         setLoading(false);
       })
       .catch(err => {
-        console.error('Failed to load game props:', err);
-        setLoading(false);
+        console.error('Failed to load from insights API, trying props API:', err);
+        
+        // Fallback to props API if insights fails
+        fetch(`/api/games/${gameId}/props`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.props) {
+              // Legacy support for old props format
+              const playersMap = new Map();
+              data.props.forEach((prop: any) => {
+                if (!playersMap.has(prop.playerId)) {
+                  playersMap.set(prop.playerId, {
+                    playerId: prop.playerId,
+                    playerName: prop.playerName || prop.player,
+                    team: prop.team,
+                    position: prop.position,
+                    props: []
+                  });
+                }
+                playersMap.get(prop.playerId).props.push({
+                  propType: prop.propType || prop.stat,
+                  propLabel: prop.propLabel || prop.label,
+                  marketLine: prop.marketLine || prop.line,
+                  fairLine: prop.fairLine,
+                  edgePct: prop.edgePct || prop.edge,
+                  confidence: prop.confidence || 'med',
+                  bullets: prop.bullets || []
+                });
+              });
+              setPlayers(Array.from(playersMap.values()));
+            }
+            setLoading(false);
+          })
+          .catch(fallbackErr => {
+            console.error('Both APIs failed:', fallbackErr);
+            setLoading(false);
+          });
       });
   }, [gameId]);
 
@@ -230,12 +285,9 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {player.props.map(prop => {
-                  const slug = normalizePropForFocus(prop.propType || prop.propLabel);
-                  return (
+                {player.props.map(prop => (
                   <button
                     key={prop.propType}
-                    data-prop={slug}
                     onClick={() => handlePropSelect(player.playerId, player.playerName, prop)}
                     className={`p-4 rounded-lg border transition-all hover:scale-105 hover:shadow-lg ${getEdgeBg(prop.edgePct)}`}
                   >
@@ -266,7 +318,7 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
                       </div>
                     </div>
                   </button>
-                )})}
+                ))}
               </div>
             </div>
           ))}
@@ -291,6 +343,4 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
       )}
     </div>
   );
-});
-
-export default GameDashboard;
+}

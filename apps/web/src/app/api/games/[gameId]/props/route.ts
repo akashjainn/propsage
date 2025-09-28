@@ -84,7 +84,7 @@ const GAME_PROPS = {
       updatedAt: new Date().toISOString()
     }
   ],
-  'gt-wake-forest-20250927': [
+  'georgia-tech-wake-forest': [
     {
       playerId: 'haynes-king',
       playerName: 'Haynes King',
@@ -141,46 +141,6 @@ const GAME_PROPS = {
         { title: '⚠️ Ball security concerns in key moments' },
         { title: '🎯 Under opportunity vs market expectation' },
         { title: '💰 9.7% under edge' }
-      ],
-      supportingClips: [],
-      updatedAt: new Date().toISOString()
-    },
-    {
-      playerId: 'ryan-puglisi',
-      playerName: 'Ryan Puglisi',
-      team: 'GT',
-      position: 'QB',
-      propType: 'passing_yds',
-      propLabel: 'Passing Yards',
-      marketLine: 195.5,
-      fairLine: 218.7,
-      edgePct: 11.9,
-      confidence: 'med',
-      bullets: [
-        { title: '🔥 Puglisi has exceeded 200 yards in 3 of last 5 games' },
-        { title: '📈 Wake Forest secondary allows 225+ yards/game' },
-        { title: '🎯 Young QB with strong arm talent' },
-        { title: '💰 Solid 11.9% edge vs market line' }
-      ],
-      supportingClips: [],
-      updatedAt: new Date().toISOString()
-    },
-    {
-      playerId: 'ryan-puglisi',
-      playerName: 'Ryan Puglisi',
-      team: 'GT',
-      position: 'QB',
-      propType: 'pass_tds',
-      propLabel: 'Passing Touchdowns',
-      marketLine: 1.5,
-      fairLine: 1.3,
-      edgePct: -13.3,
-      confidence: 'med',
-      bullets: [
-        { title: '⚠️ Wake Forest allows only 1.2 passing TDs/game' },
-        { title: '📉 GT red zone struggles vs strong defenses' },
-        { title: '🎯 Under opportunity available' },
-        { title: '💰 13.3% under edge vs market' }
       ],
       supportingClips: [],
       updatedAt: new Date().toISOString()
