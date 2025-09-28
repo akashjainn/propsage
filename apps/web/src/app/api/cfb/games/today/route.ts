@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server';
-import { fetchEspnScoreboard, mapEspnEventToGame } from '@/server/providers/espnScoreboard';
-import { enrichGames } from '@/server/teamEnrichment';
 
 const FALLBACK_GAMES = [
   {
@@ -65,26 +63,11 @@ const FALLBACK_GAMES = [
 
 export async function GET() {
   try {
-    const iso = new Date().toISOString();
-    const data = await fetchEspnScoreboard(iso);
-    const events = Array.isArray(data?.events) ? data.events : [];
-    
-    if (events.length === 0) {
-      // Return fallback data if no ESPN data
-      return NextResponse.json(FALLBACK_GAMES, { status: 200 });
-    }
-    
-    const dedup = new Map<string, any>();
-    for (const e of events) {
-      if (!e?.id) continue;
-      if (!dedup.has(e.id)) dedup.set(e.id, e);
-    }
-    const gamesRaw = Array.from(dedup.values()).map(mapEspnEventToGame);
-    const games = await enrichGames(gamesRaw);
-    return NextResponse.json(games.length > 0 ? games : FALLBACK_GAMES, { status: 200 });
+    // For now, return fallback data for demo purposes
+    // In production, this would fetch from ESPN API
+    return NextResponse.json(FALLBACK_GAMES, { status: 200 });
   } catch (e: any) {
     console.error('Failed to fetch games today:', e);
-    // Return fallback data on error
     return NextResponse.json(FALLBACK_GAMES, { status: 200 });
   }
 }
