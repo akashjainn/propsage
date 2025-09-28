@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import { usePropAnalysis } from '@/contexts/PropAnalysisContext'
 import { useWebSocket } from '@/contexts/WebSocketContext'
 
@@ -13,8 +14,15 @@ export function Header() {
       <div className="mx-auto max-w-6xl px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-xl bg-[var(--iris)]/80 ring-2 ring-[var(--ring)]/40 shadow-[0_0_30px_rgba(108,92,231,.45)] flex items-center justify-center">
-              <span className="text-[var(--fg)] font-bold text-sm">PS</span>
+            <div className="h-8 w-8 rounded-xl bg-[var(--iris)]/80 ring-2 ring-[var(--ring)]/40 shadow-[0_0_30px_rgba(108,92,231,.45)] flex items-center justify-center overflow-hidden">
+              <Image
+                src="/icon.png"
+                alt="PropSage"
+                width={24}
+                height={24}
+                className="w-6 h-6 object-contain"
+                priority
+              />
             </div>
             <span className="text-xl font-semibold tracking-tight text-[var(--fg)]">PropSage</span>
           </div>

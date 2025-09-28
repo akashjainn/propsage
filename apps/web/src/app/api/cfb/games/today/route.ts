@@ -4,6 +4,35 @@ import { NextResponse } from 'next/server';
 const NOW = new Date().toISOString();
 const FALLBACK_GAMES = [
   {
+    id: "uga-alabama-20250927",
+    start: NOW,
+    state: "pre" as const,
+    period: null,
+    clock: null,
+    away: {
+      id: "61",
+      name: "Georgia Bulldogs",
+      short: "Georgia", 
+      abbrev: "UGA",
+      logo: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/61.png",
+      color: "ba0c2f",
+      rank: 5
+    },
+    home: {
+      id: "333",
+      name: "Alabama Crimson Tide",
+      short: "Alabama",
+      abbrev: "BAMA", 
+      logo: "https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/333.png",
+      color: "9e1b32",
+      rank: 2
+    },
+    awayScore: null,
+    homeScore: null,
+    venue: { name: "Bryant-Denny Stadium", city: "Tuscaloosa" },
+    broadcast: { network: "ABC" }
+  },
+  {
     id: "gt-wake-forest-20250927",
     start: NOW,
     state: "pre" as const,

@@ -24,7 +24,20 @@
                 // Test the TL clips API
                 statusDiv.innerHTML = '<span class="success">Testing TwelveLabs API...</span>';
                 
-                const response = await fetch('/api/tl/clips?player=Gunner%20Stockton&market=passing');
+                // Test both APIs
+                statusDiv.innerHTML = '<span class="success">Testing Direct API...</span>';
+                let response = await fetch('/api/clips?player=Gunner%20Stockton&stat=passing');
+                let data = await response.json();
+                
+                if (data.clips && data.clips.length > 0) {
+                    statusDiv.innerHTML = `<span class="success">Direct API: Found ${data.clips.length} clips</span>`;
+                } else {
+                    statusDiv.innerHTML = '<span class="error">Direct API: No clips found</span><br>';
+                    // Try TL API
+                    statusDiv.innerHTML += '<span class="success">Testing TL API...</span>';
+                    response = await fetch('/api/tl/clips?player=Gunner%20Stockton&market=passing');
+                    data = await response.json();
+                }
                 const data = await response.json();
                 
                 if (data.error) {
@@ -36,17 +49,20 @@
                     statusDiv.innerHTML = `<span class="success">Found ${data.results.length} clips</span>`;
                 }
                 
-                // Display clips
-                if (data.results && data.results.length > 0) {
-                    data.results.forEach((clip, index) => {
+                // Display clips from either API
+                const clipsArray = data.clips || data.results || [];
+                if (clipsArray && clipsArray.length > 0) {
+                    clipsArray.forEach((clip, index) => {
                         const clipDiv = document.createElement('div');
                         clipDiv.className = 'clip';
                         clipDiv.innerHTML = `
-                            <h3>Clip ${index + 1}: ${clip.title || clip.game}</h3>
-                            <p><strong>Player:</strong> ${clip.player}</p>
-                            <p><strong>Market:</strong> ${clip.market}</p>
+                            <h3>Clip ${index + 1}: ${clip.title || clip.game || 'Unknown'}</h3>
+                            <p><strong>Player:</strong> ${clip.player || clip.author || 'Unknown'}</p>
+                            <p><strong>Market:</strong> ${clip.market || clip.tags?.join(', ') || 'Unknown'}</p>
                             <p><strong>URL:</strong> ${clip.url}</p>
                             <p><strong>Description:</strong> ${clip.description || 'N/A'}</p>
+                            <p><strong>Duration:</strong> ${clip.duration || 'Unknown'}s</p>
+                            <p><strong>Confidence:</strong> ${clip.confidence || clip.relevanceScore || 'N/A'}</p>
                             ${clip.url.includes('.mp4') ? 
                                 `<video controls preload="metadata">
                                     <source src="${clip.url}" type="video/mp4">

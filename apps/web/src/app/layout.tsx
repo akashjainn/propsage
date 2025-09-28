@@ -15,12 +15,77 @@ export const metadata: Metadata = {
   description: 'Professional Fair Market Line engine with AI-powered edge detection and video intelligence',
   keywords: ['sports betting', 'fair market line', 'edge detection', 'props', 'analytics'],
   authors: [{ name: 'PropSage Team' }],
+  creator: 'PropSage Team',
+  publisher: 'PropSage',
+  applicationName: 'PropSage',
+  generator: 'Next.js',
+  referrer: 'origin-when-cross-origin',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: '/icon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icon.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon.png', sizes: '512x512', type: 'image/png' },
+    ],
+    shortcut: '/icon.png',
+    apple: [
+      { url: '/icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      {
+        rel: 'apple-touch-icon-precomposed',
+        url: '/icon.png',
+      },
+    ],
+  },
+  manifest: '/manifest.json',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://propsage.app',
+    title: 'PropSage - Enterprise Sports Betting Intelligence',
+    description: 'Professional Fair Market Line engine with AI-powered edge detection and video intelligence',
+    siteName: 'PropSage',
+    images: [
+      {
+        url: '/icon.png',
+        width: 1200,
+        height: 630,
+        alt: 'PropSage - Enterprise Sports Betting Intelligence',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PropSage - Enterprise Sports Betting Intelligence',
+    description: 'Professional Fair Market Line engine with AI-powered edge detection and video intelligence',
+    creator: '@propsage',
+    images: ['/icon.png'],
+  },
+  category: 'sports',
 }
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#0D1321',
+  minimumScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#0D1321' },
+    { media: '(prefers-color-scheme: dark)', color: '#0D1321' },
+  ],
+  colorScheme: 'dark light',
 }
 
 export default function RootLayout({

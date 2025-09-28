@@ -7,14 +7,88 @@ export const dynamic = 'force-dynamic';
 // Load mock data directly
 function loadMockData() {
   try {
-    const mockPath = path.join(process.cwd(), '../../api/data/twelvelabs.mock.json');
-    if (fs.existsSync(mockPath)) {
-      return JSON.parse(fs.readFileSync(mockPath, 'utf8'));
+    // Try multiple possible paths
+    const possiblePaths = [
+      path.join(process.cwd(), '../../api/data/twelvelabs.mock.json'),
+      path.join(process.cwd(), '../api/data/twelvelabs.mock.json'),
+      path.join(process.cwd(), '../../../api/data/twelvelabs.mock.json'),
+      'C:\\Users\\akash\\documents\\propsage\\apps\\api\\data\\twelvelabs.mock.json'
+    ];
+    
+    for (const mockPath of possiblePaths) {
+      if (fs.existsSync(mockPath)) {
+        console.log(`[Direct Clips API] Loading mock data from: ${mockPath}`);
+        return JSON.parse(fs.readFileSync(mockPath, 'utf8'));
+      }
     }
+    console.warn('[Direct Clips API] Mock data file not found in any expected location');
   } catch (error) {
-    console.warn('Could not load mock data:', error);
+    console.warn('[Direct Clips API] Could not load mock data:', error);
   }
-  return { players: {} };
+  
+  // Return fallback test data
+  return {
+    players: {
+      'cfb_gunner_stockton': {
+        name: 'Gunner Stockton',
+        team: 'UGA',
+        videos: [
+          {
+            id: 'vid_stockton_pass_highlights_001',
+            title: 'Gunner Stockton passes to Colbie Young touchdown',
+            url: '/clips/9-27 uga alabama Gunner Stockton passes to Colbie Young touchdown.mp4',
+            thumbnail: '/clips/thumbnails/9-27 uga alabama Gunner Stockton passes to Colbie Young touchdown.jpg',
+            duration: 30,
+            confidence: 0.94,
+            tags: ['passing', 'touchdown', 'deep_ball', 'clutch'],
+            metadata: {
+              game: 'UGA vs Alabama',
+              date: '2025-09-27',
+              quarter: 3,
+              down_distance: '2nd & 8',
+              field_position: 'UGA 35'
+            },
+            clips: [
+              {
+                start_time: 0,
+                end_time: 30,
+                description: 'Stockton drops back, scans field, delivers perfect strike to Young in stride for touchdown'
+              }
+            ]
+          }
+        ]
+      },
+      'cfb_haynes_king': {
+        name: 'Haynes King',
+        team: 'Georgia Tech',
+        videos: [
+          {
+            id: 'vid_king_passing_touchdown_001',
+            title: 'Haynes King passing touchdown from 3rd and 10',
+            url: '/clips/9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.mp4',
+            thumbnail: '/clips/thumbnails/9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.jpg',
+            duration: 35,
+            confidence: 0.92,
+            tags: ['passing', 'touchdown', 'comeback', 'clutch'],
+            metadata: {
+              game: 'Georgia Tech vs Wake Forest',
+              date: '2025-09-27',
+              quarter: 3,
+              down_distance: '3rd & 10',
+              field_position: 'Wake Forest 25'
+            },
+            clips: [
+              {
+                start_time: 0,
+                end_time: 35,
+                description: 'Haynes King delivers crucial touchdown pass on 3rd and 10 to begin comeback'
+              }
+            ]
+          }
+        ]
+      }
+    }
+  };
 }
 
 export async function GET(req: Request) {
@@ -27,13 +101,17 @@ export async function GET(req: Request) {
 
   try {
     const mockData = loadMockData();
+    console.log(`[Direct Clips API] Mock data keys:`, Object.keys(mockData));
+    console.log(`[Direct Clips API] Players in mock data:`, Object.keys(mockData.players || {}));
+    
     const clips: any[] = [];
 
     // Convert player name to ID format
     const playerId = player ? `cfb_${player.toLowerCase().replace(/\s+/g, '_')}` : '';
+    console.log(`[Direct Clips API] Looking for playerId: "${playerId}"`);
 
     // Find clips for the player
-    if (playerId && mockData.players[playerId]) {
+    if (playerId && mockData.players && mockData.players[playerId]) {
       const playerVideos = mockData.players[playerId].videos || [];
       
       for (const video of playerVideos) {

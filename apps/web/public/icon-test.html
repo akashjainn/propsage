@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropSage Icon Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0D1321;
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+        .icon-display {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 10px 0;
+        }
+        h1, h2 { color: #00ffa3; }
+        img { border: 1px solid #666; }
+    </style>
+</head>
+<body>
+    <h1>🎯 PropSage Icon Integration Test</h1>
+    
+    <div class="test-section">
+        <h2>✅ Icon Files</h2>
+        <div class="icon-display">
+            <div>
+                <p><strong>Main Icon (32x32):</strong></p>
+                <img src="/icon.png" alt="PropSage Icon" width="32" height="32">
+            </div>
+            <div>
+                <p><strong>Medium Icon (64x64):</strong></p>
+                <img src="/icon.png" alt="PropSage Icon" width="64" height="64">
+            </div>
+            <div>
+                <p><strong>Large Icon (128x128):</strong></p>
+                <img src="/icon.png" alt="PropSage Icon" width="128" height="128">
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📱 Favicon Test</h2>
+        <p>Check your browser tab - you should see the PropSage icon!</p>
+        <p>Files available:</p>
+        <ul>
+            <li>✅ /icon.png</li>
+            <li>✅ /favicon.png</li>
+            <li>✅ /favicon.ico</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>🌐 Manifest Test</h2>
+        <p>PWA Manifest: <a href="/manifest.json" target="_blank" style="color: #00ffa3;">/manifest.json</a></p>
+        <p>This enables "Add to Home Screen" on mobile devices.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 Integration Checklist</h2>
+        <ul>
+            <li>✅ Icon added to Header component</li>
+            <li>✅ Favicon configured in layout</li>
+            <li>✅ App directory icons (icon.png, apple-icon.png)</li>
+            <li>✅ Web manifest for PWA</li>
+            <li>✅ Open Graph & Twitter meta tags</li>
+            <li>✅ LoadingIcon component created</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>🎮 Next Steps</h2>
+        <p>Your PropSage icon is now integrated! Here's where it appears:</p>
+        <ol>
+            <li><strong>Browser Tab:</strong> Favicon visible</li>
+            <li><strong>App Header:</strong> Icon in top-left corner</li>
+            <li><strong>Mobile Home Screen:</strong> When added as PWA</li>
+            <li><strong>Social Shares:</strong> Open Graph image</li>
+            <li><strong>Loading States:</strong> Available in LoadingIcon component</li>
+        </ol>
+        <p><a href="/" style="color: #00ffa3; text-decoration: none; background: #333; padding: 8px 16px; border-radius: 4px;">← Back to PropSage App</a></p>
+    </div>
+
+    <script>
+        // Test if all icon files are accessible
+        function testIconFiles() {
+            const files = ['/icon.png', '/favicon.png', '/manifest.json'];
+            files.forEach(file => {
+                fetch(file)
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`✅ ${file} is accessible`);
+                        } else {
+                            console.log(`❌ ${file} failed: ${response.status}`);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(`❌ ${file} error:`, error);
+                    });
+            });
+        }
+        
+        testIconFiles();
+    </script>
+</body>
+</html>
