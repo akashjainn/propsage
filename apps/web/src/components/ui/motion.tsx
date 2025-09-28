@@ -241,7 +241,7 @@ export function Spotlight({ isActive, children, className }: SpotlightProps) {
     <motion.div
       animate={{
         boxShadow: isActive 
-          ? "0 0 0 2px rgba(var(--accent-rgb), 0.6), 0 0 20px rgba(var(--accent-rgb), 0.3)"
+          ? "0 0 0 2px rgba(34, 199, 245, 0.6), 0 0 20px rgba(34, 199, 245, 0.3)"
           : "none",
         scale: isActive ? 1.02 : 1,
       }}
@@ -270,7 +270,7 @@ export function GlassOverlay({ isOpen, children, className, onClose }: GlassOver
       animate={{ opacity: 1, backdropFilter: "blur(20px)" }}
       exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
       transition={easeOut}
-      className="fixed inset-0 z-50 bg-black/30"
+      className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm"
       onClick={onClose}
     >
       <motion.div

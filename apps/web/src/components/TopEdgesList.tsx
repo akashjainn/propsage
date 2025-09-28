@@ -15,6 +15,8 @@ interface EdgeItem {
   fairLine: number;
   edgePct: number;
   confidence: number;
+  bullets?: string[];
+  analysis?: string;
 }
 
 interface Props {
@@ -36,7 +38,14 @@ export default function TopEdgesList({ gameId, onSelect }: Props) {
       marketLine: 0.5,
       fairLine: 0.8,
       edgePct: 24.1,
-      confidence: 0.91
+      confidence: 0.91,
+      bullets: [
+        'Maiava has thrown interceptions in 3 of his last 4 starts, averaging 1.2 per game',
+        'Opponent defense ranks #12 nationally in interceptions with 18 picks this season',
+        'USC offensive line allows pressure on 42% of dropbacks, forcing rushed decisions',
+        'Weather conditions show 15+ mph winds which historically increase INT rates by 23%'
+      ],
+      analysis: 'Video analysis shows Maiava struggling with pocket presence under pressure, particularly on third downs where he\'s forced 6 interceptions this season. The opposing secondary has excellent ball skills and creates 2.1 turnover opportunities per game. Combined with USC\'s porous pass protection, we project a 67% chance of 1+ interceptions.'
     },
     {
       id: 'mock_2', 
@@ -47,7 +56,14 @@ export default function TopEdgesList({ gameId, onSelect }: Props) {
       marketLine: 275.5,
       fairLine: 295.0,
       edgePct: -7.2,
-      confidence: 0.83
+      confidence: 0.83,
+      bullets: [
+        'Ewers averages 312.4 passing yards per game over his last 8 starts',
+        'Texas offensive coordinator has called 15% more pass plays in recent weeks',
+        'Opponent defense allows 4th most passing yards per game (289.3)',
+        'Key receiver Adonai Mitchell is healthy after missing 2 games with injury'
+      ],
+      analysis: 'Film study reveals Ewers has exceptional accuracy on intermediate routes (15-25 yard range) where he completes 73% of attempts. The opposing defense struggles with crossing routes and RPOs, which comprise 31% of Texas\' passing offense. Weather conditions are ideal with no wind or precipitation expected.'
     },
     {
       id: 'mock_3',
@@ -58,7 +74,14 @@ export default function TopEdgesList({ gameId, onSelect }: Props) {
       marketLine: 85.5,
       fairLine: 95.0,
       edgePct: 11.1,
-      confidence: 0.76
+      confidence: 0.76,
+      bullets: [
+        'Harris has exceeded 85.5 receiving yards in 6 of 9 games this season',
+        'Opposing defense ranks #23 against slot receivers, allowing 8.4 yards per target',
+        'Ole Miss QB Jaxson Dart has 68% completion rate when targeting Harris',
+        'Harris averages 12.1 targets per game, with 89% coming from slot formation'
+      ],
+      analysis: 'Breakdown of defensive film shows the opponent consistently struggles with pick plays and bunch formations, which are Harris\' specialty routes. He runs 67% of his patterns from the slot where he\'s most effective. The defensive coordinator has shown reluctance to double-team slot receivers, creating favorable 1-on-1 matchups.'
     }
   ];
   

@@ -105,9 +105,7 @@ export async function fetchBoxScore(gameId: string): Promise<BoxScoreData | null
 
 export function generatePropFromBoxScore(player: PlayerStat, propType: string, gameId?: string): any {
   // Generate CFBD-compatible propId using game mapping service
-  const propId = gameId 
-    ? require('../services/gameMapping').createCfbdPropId(gameId, player.name, propType)
-    : `${player.id}-${propType}`;
+  const propId = `${player.id}-${propType}`;
     
   const base = {
     id: propId,
@@ -119,7 +117,7 @@ export function generatePropFromBoxScore(player: PlayerStat, propType: string, g
   };
 
   switch (propType) {
-    case 'Passing Yards':
+    case 'Passing Yards': {
       const passingYards = player.passingYards || 0;
       return {
         ...base,
@@ -127,7 +125,8 @@ export function generatePropFromBoxScore(player: PlayerStat, propType: string, g
         fair: passingYards,
         edge: ((passingYards - (passingYards * 0.9)) / (passingYards * 0.9) * 100).toFixed(1)
       };
-    case 'Passing Touchdowns':
+    }
+    case 'Passing Touchdowns': {
       const passingTDs = player.passingTDs || 0;
       return {
         ...base,
@@ -135,7 +134,8 @@ export function generatePropFromBoxScore(player: PlayerStat, propType: string, g
         fair: passingTDs,
         edge: ((passingTDs - Math.max(0.5, passingTDs - 0.5)) / Math.max(0.5, passingTDs - 0.5) * 100).toFixed(1)
       };
-    case 'Rushing Yards':
+    }
+    case 'Rushing Yards': {
       const rushingYards = player.rushingYards || 0;
       return {
         ...base,
@@ -143,7 +143,8 @@ export function generatePropFromBoxScore(player: PlayerStat, propType: string, g
         fair: rushingYards,
         edge: ((rushingYards - (rushingYards * 0.85)) / (rushingYards * 0.85) * 100).toFixed(1)
       };
-    case 'Receiving Yards':
+    }
+    case 'Receiving Yards': {
       const receivingYards = player.receivingYards || 0;
       return {
         ...base,
@@ -151,6 +152,7 @@ export function generatePropFromBoxScore(player: PlayerStat, propType: string, g
         fair: receivingYards,
         edge: ((receivingYards - (receivingYards * 0.88)) / (receivingYards * 0.88) * 100).toFixed(1)
       };
+    }
     default:
       return null;
   }

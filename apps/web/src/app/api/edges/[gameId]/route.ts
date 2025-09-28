@@ -76,13 +76,13 @@ export async function GET(_req: NextRequest, { params }: { params: { gameId: str
       );
       
       edges = relevantInsights.map(convertInsightToEdge)
-        .sort((a, b) => Math.abs(b.edgePct) - Math.abs(a.edgePct)) // Sort by absolute edge percentage
+        .sort((a: any, b: any) => Math.abs(b.edgePct) - Math.abs(a.edgePct)) // Sort by absolute edge percentage
         .slice(0, 5); // Limit to top 5 edges
     } else {
       // Return top edges from all insights if no specific game mapping
       edges = enhancedData.insights ? enhancedData.insights
         .map(convertInsightToEdge)
-        .sort((a, b) => Math.abs(b.edgePct) - Math.abs(a.edgePct))
+        .sort((a: any, b: any) => Math.abs(b.edgePct) - Math.abs(a.edgePct))
         .slice(0, 5) : [];
     }
     

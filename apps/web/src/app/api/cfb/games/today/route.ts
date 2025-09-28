@@ -1,11 +1,17 @@
 import { NextResponse } from 'next/server';
 
-// Keep fallback deterministic across calls (avoid regenerating new Date each request for stability)
-const NOW = new Date().toISOString();
+// Game times for today (September 28th, 2025)
+const TODAY = new Date('2025-09-28');
+const GAME_TIMES = {
+  GT_WAKE: new Date(TODAY.getTime()).setHours(11, 30, 0, 0), // 11:30 AM
+  USC_ILL: new Date(TODAY.getTime()).setHours(12, 0, 0, 0),  // 12:00 PM  
+  UGA_BAMA: new Date(TODAY.getTime()).setHours(19, 30, 0, 0) // 7:30 PM
+};
+
 const FALLBACK_GAMES = [
   {
     id: "uga-alabama-20250927",
-    start: NOW,
+    start: new Date(GAME_TIMES.UGA_BAMA).toISOString(),
     state: "pre" as const,
     period: null,
     clock: null,
@@ -34,7 +40,7 @@ const FALLBACK_GAMES = [
   },
   {
     id: "gt-wake-forest-20250927",
-    start: NOW,
+    start: new Date(GAME_TIMES.GT_WAKE).toISOString(),
     state: "pre" as const,
     period: null,
     clock: null,
@@ -63,7 +69,7 @@ const FALLBACK_GAMES = [
   },
   {
     id: "illinois-usc-20250927",
-    start: NOW,
+    start: new Date(GAME_TIMES.USC_ILL).toISOString(),
     state: "pre" as const,
     period: null,
     clock: null,

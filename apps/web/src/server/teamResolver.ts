@@ -1,5 +1,4 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error - fuse.js types may not be installed; using runtime import
 import Fuse from 'fuse.js';
 import type { TeamLite } from '@/types/cfb';
 import { fetchCfbdFbsTeams } from './providers/cfbd';

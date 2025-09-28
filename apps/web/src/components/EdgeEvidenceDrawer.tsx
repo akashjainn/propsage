@@ -97,7 +97,7 @@ export default function EdgeEvidenceDrawer({
               className="space-y-4"
             >
               <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                <span className="w-1 h-6 bg-gradient-to-b from-[var(--mint)] to-[var(--iris)] rounded-full" />
+                <span className="w-1 h-6 bg-gradient-primary rounded-full" />
                 Video Evidence
               </h3>
               
@@ -141,7 +141,7 @@ export default function EdgeEvidenceDrawer({
                     >
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-white/70 font-medium">
-                          Match Score: <span className="text-[var(--mint)] font-bold">{r.score?.toFixed?.(2) ?? '—'}</span>
+                          Match Score: <span className="text-primary-400 font-bold">{r.score?.toFixed?.(2) ?? '—'}</span>
                         </span>
                         <span className="text-white/50 font-medium">
                           {Math.round(r.start)}s–{Math.round(r.end)}s
@@ -293,7 +293,7 @@ export default function EdgeEvidenceDrawer({
                   className="space-y-4 glass rounded-2xl p-6"
                 >
                   <h4 className="text-lg font-bold text-white flex items-center gap-2">
-                    <span className="w-1 h-5 bg-gradient-to-b from-[var(--mint)] to-[var(--iris)] rounded-full" />
+                    <span className="w-1 h-5 bg-gradient-primary rounded-full" />
                     Why this edge exists
                   </h4>
                   <motion.div 
@@ -308,7 +308,7 @@ export default function EdgeEvidenceDrawer({
                         variants={staggerItem}
                         className="flex items-start gap-3 text-white/80"
                       >
-                        <div className="w-1.5 h-1.5 rounded-full bg-[var(--mint)] mt-2 flex-shrink-0" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-primary-400 mt-2 flex-shrink-0" />
                         <span className="leading-relaxed">{bullet}</span>
                       </motion.div>
                     ))}
@@ -325,7 +325,7 @@ export default function EdgeEvidenceDrawer({
                   className="space-y-4 glass rounded-2xl p-6"
                 >
                   <h4 className="text-lg font-bold text-white flex items-center gap-2">
-                    <span className="w-1 h-5 bg-gradient-to-b from-[var(--mint)] to-[var(--iris)] rounded-full" />
+                    <span className="w-1 h-5 bg-gradient-primary rounded-full" />
                     Analysis
                   </h4>
                   <p className="text-white/80 leading-relaxed">{edge.analysis}</p>

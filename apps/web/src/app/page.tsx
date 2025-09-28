@@ -49,8 +49,32 @@ export default function HomePage() {
 
   const handleSearchSelect = (result: any) => {
     console.log('Search selected:', result);
+    
+    // Handle player search - find their game and show dashboard
+    if (result.type === 'player') {
+      console.log('Player selected:', result.title, 'Team:', result.metadata?.team);
+      
+      // Find game with this team
+      const matchingGame = gamesToday.find(game => 
+        game.home.short === result.metadata?.team || 
+        game.away.short === result.metadata?.team ||
+        game.home.name.toLowerCase().includes(result.metadata?.team?.toLowerCase() || '') ||
+        game.away.name.toLowerCase().includes(result.metadata?.team?.toLowerCase() || '')
+      );
+      
+      if (matchingGame) {
+        console.log('Found matching game:', matchingGame.id);
+        handleGameSelect(matchingGame.id);
+      } else {
+        console.log('No matching game found, using first available game');
+        if (gamesToday.length > 0) {
+          handleGameSelect(gamesToday[0].id);
+        }
+      }
+    }
+    
     // Handle team search - find matching game
-    if (result.type === 'team' || result.type === 'game') {
+    else if (result.type === 'team' || result.type === 'game') {
       const matchingGame = gamesToday.find(game => 
         game.home.name.toLowerCase().includes(result.title.toLowerCase()) ||
         game.away.name.toLowerCase().includes(result.title.toLowerCase()) ||
@@ -62,6 +86,32 @@ export default function HomePage() {
         handleGameSelect(matchingGame.id);
       }
     }
+    
+    // Handle prop search - show prop analysis in EdgeEvidenceDrawer
+    else if (result.type === 'prop' && result.propData) {
+      console.log('Prop selected:', result.title, 'Prop data:', result.propData);
+      
+      // Create edge object from prop data for EdgeEvidenceDrawer
+      const edge = {
+        id: result.propData.id,
+        player: result.propData.player,
+        team: result.propData.team,
+        market: result.propData.market,
+        marketLine: result.propData.marketLine,
+        fairLine: result.propData.fairLine,
+        edgePct: result.propData.edgePct,
+        confidence: result.propData.confidence,
+        gameId: result.propData.gameId,
+        gameTitle: result.propData.gameTitle,
+        bullets: result.propData.bullets,
+        analysis: result.propData.analysis,
+        normalizedMarket: result.propData.market
+      };
+      
+      // Open the evidence drawer with this prop's analysis
+      handleEdgeSelect(edge);
+    }
+    
     search.close();
   };
 
@@ -103,7 +153,7 @@ export default function HomePage() {
           <div className="flex justify-center">
             <button 
               onClick={search.open}
-              className="group flex items-center gap-3 px-8 py-4 bg-gradient-primary hover:shadow-primary hover:scale-105 rounded-xl font-semibold text-[var(--fg)] transition-all duration-300 hover:-translate-y-1"
+              className="group flex items-center gap-3 px-8 py-4 bg-gradient-primary hover:shadow-primary hover:scale-105 rounded-xl font-semibold text-[var(--fg)] transition-all duration-300 hover:-translate-y-1 focus:ring-2 focus:ring-primary-400/50 focus:outline-none"
             >
               <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
