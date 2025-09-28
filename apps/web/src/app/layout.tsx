@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/lib/utils'
+import ToastBus from '@/components/ToastBus'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -42,6 +43,7 @@ export default function RootLayout({
           <div className="relative flex-1">
             {children}
           </div>
+          <ToastBus />
           
           {/* Footer */}
           <footer className="border-t border-white/10 bg-[var(--card)]/50 backdrop-blur-sm">

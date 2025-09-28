@@ -1,0 +1,112 @@
+import { NextResponse } from 'next/server';
+import type { GameLite } from '@/types/cfb';
+
+// Today's featured games for demo
+const TODAY_GAMES: GameLite[] = [
+  {
+    id: 'uga-alabama-20250927',
+    start: '2025-09-27T23:30:00.000Z',  // 7:30 PM ET
+    state: 'pre' as const,
+    period: undefined,
+    clock: undefined,
+    away: {
+      id: '61',
+      name: 'Georgia Bulldogs',
+      short: 'Georgia',
+      abbrev: 'UGA',
+      logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/61.png',
+      color: 'BA0C2F',
+      rank: 1
+    },
+    home: {
+      id: '333',
+      name: 'Alabama Crimson Tide',
+      short: 'Alabama', 
+      abbrev: 'ALA',
+      logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/333.png',
+      color: '9E1B32',
+      rank: 4
+    },
+    awayScore: undefined,
+    homeScore: undefined,
+    venue: { name: 'Bryant-Denny Stadium', city: 'Tuscaloosa', state: 'Alabama' },
+    broadcast: { network: 'ABC' }
+  },
+  {
+    id: 'gt-wake-forest-20250927',
+    start: '2025-09-27T20:00:00.000Z',
+    state: 'pre' as const,
+    period: undefined,
+    clock: undefined,
+    home: { 
+      id: 'gt', 
+      name: 'Georgia Tech Yellow Jackets', 
+      short: 'Georgia Tech', 
+      abbrev: 'GT', 
+      logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/59.png', 
+      color: 'B3A369', 
+      rank: 24 
+    },
+    away: { 
+      id: 'wf', 
+      name: 'Wake Forest Demon Deacons', 
+      short: 'Wake Forest', 
+      abbrev: 'WF', 
+      logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/154.png', 
+      color: '9E7E38', 
+      rank: null 
+    },
+    venue: { name: 'Bobby Dodd Stadium', city: 'Atlanta', state: 'Georgia' },
+    broadcast: { network: 'ACC Network' },
+    awayScore: undefined,
+    homeScore: undefined
+  },
+  {
+    id: 'illinois-usc-20250927',
+    start: '2025-09-27T22:00:00.000Z',
+    state: 'pre' as const,
+    period: undefined,
+    clock: undefined,
+    away: {
+      id: '356',
+      name: 'Illinois Fighting Illini',
+      short: 'Illinois',
+      abbrev: 'ILL', 
+      logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/356.png',
+      color: 'e84a27',
+      rank: null
+    },
+    home: {
+      id: '30',
+      name: 'USC Trojans',
+      short: 'USC',
+      abbrev: 'USC',
+      logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/30.png', 
+      color: '990000',
+      rank: null
+    },
+    awayScore: undefined,
+    homeScore: undefined,
+    venue: { name: 'Los Angeles Memorial Coliseum', city: 'Los Angeles', state: 'California' },
+    broadcast: { network: 'FOX' }
+  }
+];
+
+export async function GET() {
+  try {
+    // Sort games by start time
+    const sortedGames = TODAY_GAMES.sort((a, b) => a.start.localeCompare(b.start));
+    
+    return NextResponse.json({ 
+      games: sortedGames,
+      count: sortedGames.length,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error fetching today\'s games:', error);
+    return NextResponse.json({ 
+      error: 'Failed to fetch games',
+      games: []
+    }, { status: 500 });
+  }
+}

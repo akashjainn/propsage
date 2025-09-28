@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import { normalizePropForFocus } from '@/lib/normalize';
 import { TrendingUp, TrendingDown, Target, Play } from 'lucide-react';
 import { PropDrawer } from './PropDrawer';
 
@@ -27,8 +28,10 @@ interface GameDashboardProps {
   gameTitle: string;
   onBack: () => void;
 }
+export type GameDashboardHandle = { focusProp: (market: string) => void };
 
-export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboardProps) {
+const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(function GameDashboard({ gameId, gameTitle, onBack }, ref) {
+  // ALL HOOKS MUST COME FIRST AND IN SAME ORDER EVERY RENDER
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedProp, setSelectedProp] = useState<{
@@ -36,6 +39,25 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
     playerName: string;
     prop: GameProp;
   } | null>(null);
+
+  // useImperativeHandle MUST be at the same position every render
+  useImperativeHandle(ref, () => ({
+    focusProp: (market: string) => {
+      const key = normalizePropForFocus(market);
+      for (const p of players) {
+        const match = p.props.find(prop => normalizePropForFocus(prop.propType) === key || normalizePropForFocus(prop.propLabel) === key);
+        if (match) {
+          handlePropSelect(p.playerId, p.playerName, match);
+          // attempt smooth scroll to corresponding element
+          requestAnimationFrame(() => {
+            const el = document.querySelector(`[data-prop="${key}"]`);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          });
+          break;
+        }
+      }
+    }
+  }), [players]);
 
   useEffect(() => {
     // Use the insights API instead of the hardcoded games API
@@ -208,9 +230,12 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {player.props.map(prop => (
+                {player.props.map(prop => {
+                  const slug = normalizePropForFocus(prop.propType || prop.propLabel);
+                  return (
                   <button
                     key={prop.propType}
+                    data-prop={slug}
                     onClick={() => handlePropSelect(player.playerId, player.playerName, prop)}
                     className={`p-4 rounded-lg border transition-all hover:scale-105 hover:shadow-lg ${getEdgeBg(prop.edgePct)}`}
                   >
@@ -241,7 +266,7 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
                       </div>
                     </div>
                   </button>
-                ))}
+                )})}
               </div>
             </div>
           ))}
@@ -266,4 +291,6 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
       )}
     </div>
   );
-}
+});
+
+export default GameDashboard;

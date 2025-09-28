@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TwelveLabs Clips Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        video { width: 100%; max-width: 600px; margin: 10px 0; }
+        .clip { border: 1px solid #ccc; margin: 10px; padding: 10px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>TwelveLabs Football Clips Test</h1>
+    <div id="status">Loading...</div>
+    <div id="clips"></div>
+
+    <script>
+        async function testClipsAPI() {
+            const statusDiv = document.getElementById('status');
+            const clipsDiv = document.getElementById('clips');
+            
+            try {
+                // Test the TL clips API
+                statusDiv.innerHTML = '<span class="success">Testing TwelveLabs API...</span>';
+                
+                const response = await fetch('/api/tl/clips?player=Gunner%20Stockton&market=passing');
+                const data = await response.json();
+                
+                if (data.error) {
+                    statusDiv.innerHTML = `<span class="error">API Error: ${data.error}</span>`;
+                    if (data.fallback) {
+                        statusDiv.innerHTML += '<br><span>Using fallback mode</span>';
+                    }
+                } else {
+                    statusDiv.innerHTML = `<span class="success">Found ${data.results.length} clips</span>`;
+                }
+                
+                // Display clips
+                if (data.results && data.results.length > 0) {
+                    data.results.forEach((clip, index) => {
+                        const clipDiv = document.createElement('div');
+                        clipDiv.className = 'clip';
+                        clipDiv.innerHTML = `
+                            <h3>Clip ${index + 1}: ${clip.title || clip.game}</h3>
+                            <p><strong>Player:</strong> ${clip.player}</p>
+                            <p><strong>Market:</strong> ${clip.market}</p>
+                            <p><strong>URL:</strong> ${clip.url}</p>
+                            <p><strong>Description:</strong> ${clip.description || 'N/A'}</p>
+                            ${clip.url.includes('.mp4') ? 
+                                `<video controls preload="metadata">
+                                    <source src="${clip.url}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>` : 
+                                '<p><em>Not a video file</em></p>'
+                            }
+                        `;
+                        clipsDiv.appendChild(clipDiv);
+                    });
+                } else {
+                    clipsDiv.innerHTML = '<p>No clips found</p>';
+                }
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+                console.error('Test error:', error);
+            }
+        }
+        
+        // Run test when page loads
+        testClipsAPI();
+    </script>
+</body>
+</html>

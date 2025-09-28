@@ -60,6 +60,35 @@ const ALL_GAMES: GameLite[] = [
     homeScore: undefined,
     venue: { name: 'Los Angeles Memorial Coliseum', city: 'Los Angeles', state: 'California' },
     broadcast: { network: 'FOX' }
+  },
+  {
+    id: 'uga-alabama-20250927',
+    start: '2025-09-27T23:30:00.000Z',  // 7:30 PM ET
+    state: 'pre' as const,
+    period: undefined,
+    clock: undefined,
+    away: {
+      id: '61',
+      name: 'Georgia Bulldogs',
+      short: 'Georgia',
+      abbrev: 'UGA',
+      logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/61.png',
+      color: 'BA0C2F',
+      rank: 1
+    },
+    home: {
+      id: '333',
+      name: 'Alabama Crimson Tide',
+      short: 'Alabama', 
+      abbrev: 'ALA',
+      logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/333.png',
+      color: '9E1B32',
+      rank: 4
+    },
+    awayScore: undefined,
+    homeScore: undefined,
+    venue: { name: 'Bryant-Denny Stadium', city: 'Tuscaloosa', state: 'Alabama' },
+    broadcast: { network: 'ABC' }
   }
 ];
 

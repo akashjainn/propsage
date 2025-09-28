@@ -42,11 +42,44 @@ export function mapEspnEventToGame(e: any): GameLite {
   const mkTeam = (c: any): TeamLite => {
     const t = c?.team ?? {};
     const logos = t.logos || [];
+    
+    // Enhanced name normalization
+    let displayName = t.displayName || t.name || '';
+    let shortName = t.shortDisplayName || t.shortName || '';
+    let abbreviation = t.abbreviation || t.abbrev || '';
+    
+    // Handle common ESPN inconsistencies
+    if (!shortName && displayName) {
+      // Extract short name from display name
+      const shortMappings: Record<string, string> = {
+        'Georgia Bulldogs': 'Georgia',
+        'Alabama Crimson Tide': 'Alabama',
+        'Georgia Tech Yellow Jackets': 'Georgia Tech',
+        'Wake Forest Demon Deacons': 'Wake Forest',
+        'Illinois Fighting Illini': 'Illinois',
+        'USC Trojans': 'USC'
+      };
+      shortName = shortMappings[displayName] || displayName.split(' ')[0];
+    }
+    
+    // Handle abbreviation mapping
+    if (!abbreviation && (displayName || shortName)) {
+      const abbrevMappings: Record<string, string> = {
+        'Georgia': 'UGA',
+        'Alabama': 'ALA', 
+        'Georgia Tech': 'GT',
+        'Wake Forest': 'WF',
+        'Illinois': 'ILL',
+        'USC': 'USC'
+      };
+      abbreviation = abbrevMappings[shortName] || abbrevMappings[displayName] || shortName?.substring(0, 3).toUpperCase() || '';
+    }
+    
     return {
       id: String(t.id ?? ''),
-      name: t.displayName || t.shortDisplayName || t.abbreviation || 'Unknown',
-      short: t.shortDisplayName || t.abbreviation || t.displayName || 'Team',
-      abbrev: t.abbreviation || '',
+      name: displayName || shortName || abbreviation || 'Unknown Team',
+      short: shortName || displayName || abbreviation || 'Team',
+      abbrev: abbreviation || shortName?.substring(0, 3).toUpperCase() || '',
       logo: t.logo || logos?.[0]?.href || null,
       color: (t.color || t.alternateColor || '')?.replace('#','') || null,
       rank: c?.curatedRank?.current ?? null,

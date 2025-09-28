@@ -11,8 +11,11 @@ const nextConfig = {
     return config
   },
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
-    NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000/ws'
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000',
+    NEXT_PUBLIC_API_WS_URL: process.env.NEXT_PUBLIC_API_WS_URL || 'ws://localhost:4000',
+    NEXT_PUBLIC_FEATURE_NEW_PLAYER: process.env.NEXT_PUBLIC_FEATURE_NEW_PLAYER || 'true',
+    NEXT_PUBLIC_FEATURE_TL: process.env.NEXT_PUBLIC_FEATURE_TL || 'false',
+    NEXT_PUBLIC_FEATURE_TOP_EDGES: process.env.NEXT_PUBLIC_FEATURE_TOP_EDGES || 'true'
   }
 }
 module.exports = nextConfig

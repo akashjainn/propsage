@@ -1,9 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import { AppShell, SectionHeader } from '@/ui';
-import TopEdges from '@/components/TopEdges';
-import GameDashboard from '@/components/GameDashboard';
+import TopEdgesList from '@/components/TopEdgesList';
+import EdgeEvidenceDrawer from '@/components/EdgeEvidenceDrawer';
+import { FEATURES } from '@/lib/features';
+import GameDashboard, { GameDashboardHandle } from '@/components/GameDashboard';
+import { useRef } from 'react';
 import GamesRail from '@/components/GamesRail';
 import SearchModal, { useSearch } from '@/components/SearchModal';
 import type { GameLite } from '@/types/cfb';
@@ -15,6 +19,9 @@ export default function HomePage() {
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [showGameDashboard, setShowGameDashboard] = useState(false);
   const search = useSearch();
+  const [selectedEdge, setSelectedEdge] = useState<any | null>(null);
+  const [evidenceOpen, setEvidenceOpen] = useState(false);
+  const dashboardRef = useRef<GameDashboardHandle>(null);
   
   // Auto-select first game when games load
   useEffect(() => {
@@ -26,6 +33,16 @@ export default function HomePage() {
   const handleGameSelect = (gameId: string) => {
     setSelectedGameId(gameId);
     setShowGameDashboard(true);
+  };
+
+  const handleEdgeSelect = (edge: any) => {
+    Sentry.addBreadcrumb({ category: 'edge', level: 'info', message: 'edge_selected', data: { player: edge.player, market: edge.market } });
+    setSelectedEdge(edge);
+    if (edge?.gameId && edge.gameId !== selectedGameId) {
+      setSelectedGameId(edge.gameId);
+    }
+    setEvidenceOpen(true);
+    dashboardRef.current?.focusProp(edge?.normalizedMarket ?? edge?.market);
   };
 
   const handleSearchSelect = (result: any) => {
@@ -54,7 +71,8 @@ export default function HomePage() {
       : 'Selected Game';
 
     return (
-      <GameDashboard 
+      <GameDashboard
+        ref={dashboardRef}
         gameId={selectedGameId}
         gameTitle={gameTitle}
         onBack={() => setShowGameDashboard(false)}
@@ -89,16 +107,18 @@ export default function HomePage() {
       </section>
 
       {/* Top Edges */}
-      <section className="mb-12">
-        <SectionHeader 
-          title="Top Edges Today" 
-          subtitle="Biggest market vs fair line discrepancies across all games" 
-        />
-        <TopEdges onSelect={({ gameId }) => {
-          if (gameId) {
-            handleGameSelect(gameId);
-          }
-        }} />
+      <section className="mb-12 space-y-6">
+        <div>
+          <SectionHeader
+            title="Top Edge Opportunities"
+            subtitle="Market vs fair line discrepancies backed by video evidence"
+          />
+          {FEATURES.topEdges ? (
+            <TopEdgesList gameId={selectedGameId} onSelect={handleEdgeSelect} />
+          ) : (
+            <div className="text-sm text-white/60">Top edges feature disabled.</div>
+          )}
+        </div>
       </section>
 
       {/* Games Rail */}
@@ -180,6 +200,16 @@ export default function HomePage() {
         isOpen={search.isOpen} 
         onClose={search.close} 
         onSelect={handleSearchSelect} 
+      />
+
+      <EdgeEvidenceDrawer
+        edge={selectedEdge}
+        gameTitle={(() => {
+          const g = gamesToday.find(g => g.id === selectedGameId);
+          return g ? `${g.away.short} vs ${g.home.short}` : null;
+        })()}
+        open={evidenceOpen}
+        onClose={() => setEvidenceOpen(false)}
       />
     </AppShell>
   );

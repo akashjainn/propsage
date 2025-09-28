@@ -84,7 +84,7 @@ const GAME_PROPS = {
       updatedAt: new Date().toISOString()
     }
   ],
-  'georgia-tech-wake-forest': [
+  'gt-wake-forest-20250927': [
     {
       playerId: 'haynes-king',
       playerName: 'Haynes King',
@@ -141,6 +141,148 @@ const GAME_PROPS = {
         { title: '⚠️ Ball security concerns in key moments' },
         { title: '🎯 Under opportunity vs market expectation' },
         { title: '💰 9.7% under edge' }
+      ],
+      supportingClips: [],
+      updatedAt: new Date().toISOString()
+    },
+    {
+      playerId: 'ryan-puglisi',
+      playerName: 'Ryan Puglisi',
+      team: 'GT',
+      position: 'QB',
+      propType: 'passing_yds',
+      propLabel: 'Passing Yards',
+      marketLine: 195.5,
+      fairLine: 218.7,
+      edgePct: 11.9,
+      confidence: 'med',
+      bullets: [
+        { title: '🔥 Puglisi has exceeded 200 yards in 3 of last 5 games' },
+        { title: '📈 Wake Forest secondary allows 225+ yards/game' },
+        { title: '🎯 Young QB with strong arm talent' },
+        { title: '💰 Solid 11.9% edge vs market line' }
+      ],
+      supportingClips: [],
+      updatedAt: new Date().toISOString()
+    },
+    {
+      playerId: 'ryan-puglisi',
+      playerName: 'Ryan Puglisi',
+      team: 'GT',
+      position: 'QB',
+      propType: 'pass_tds',
+      propLabel: 'Passing Touchdowns',
+      marketLine: 1.5,
+      fairLine: 1.3,
+      edgePct: -13.3,
+      confidence: 'med',
+      bullets: [
+        { title: '⚠️ Wake Forest allows only 1.2 passing TDs/game' },
+        { title: '📉 GT red zone struggles vs strong defenses' },
+        { title: '🎯 Under opportunity available' },
+        { title: '💰 13.3% under edge vs market' }
+      ],
+      supportingClips: [],
+      updatedAt: new Date().toISOString()
+    }
+  ],
+  'uga-alabama-20250927': [
+    {
+      playerId: 'gunner-stockton',
+      playerName: 'Gunner Stockton',
+      team: 'UGA',
+      position: 'QB',
+      propType: 'passing_yds',
+      propLabel: 'Passing Yards',
+      marketLine: 242.5,
+      fairLine: 268.3,
+      edgePct: 10.6,
+      confidence: 'high',
+      bullets: [
+        { title: '🔥 Stockton has thrown for 250+ in 3 of last 4 starts' },
+        { title: '📊 Alabama secondary allows 245 yards/game (ranked 67th)' },
+        { title: '🎯 UGA offensive line gives Stockton time in pocket' },
+        { title: '💰 Strong 10.6% edge over market line' }
+      ],
+      supportingClips: [],
+      updatedAt: new Date().toISOString()
+    },
+    {
+      playerId: 'gunner-stockton',
+      playerName: 'Gunner Stockton',
+      team: 'UGA',
+      position: 'QB',
+      propType: 'pass_tds',
+      propLabel: 'Passing Touchdowns',
+      marketLine: 1.5,
+      fairLine: 2.1,
+      edgePct: 15.2,
+      confidence: 'high',
+      bullets: [
+        { title: '🎯 Stockton averages 2.3 TD passes in SEC games' },
+        { title: '🔥 Red zone efficiency at 87% this season' },
+        { title: '📈 Alabama allows 2.1 passing TDs per game' },
+        { title: '⚖️ Excellent 15.2% edge opportunity' }
+      ],
+      supportingClips: [],
+      updatedAt: new Date().toISOString()
+    },
+    {
+      playerId: 'trevor-etienne',
+      playerName: 'Trevor Etienne',
+      team: 'UGA',
+      position: 'RB',
+      propType: 'rushing_yds',
+      propLabel: 'Rushing Yards',
+      marketLine: 89.5,
+      fairLine: 107.2,
+      edgePct: 19.8,
+      confidence: 'high',
+      bullets: [
+        { title: '💪 Etienne has rushed for 100+ in 5 of last 7 games' },
+        { title: '📊 Alabama run defense allows 127 yards/game' },
+        { title: '🎯 UGA offensive line creates strong running lanes' },
+        { title: '🔥 Outstanding 19.8% edge vs market' }
+      ],
+      supportingClips: [],
+      updatedAt: new Date().toISOString()
+    },
+    {
+      playerId: 'jalen-milroe',
+      playerName: 'Jalen Milroe',
+      team: 'ALA',
+      position: 'QB',
+      propType: 'rush_yds',
+      propLabel: 'Rushing Yards',
+      marketLine: 67.5,
+      fairLine: 82.4,
+      edgePct: 22.1,
+      confidence: 'high',
+      bullets: [
+        { title: '🏃‍♂️ Milroe averages 85+ rushing yards vs ranked teams' },
+        { title: '📈 UGA allows 72 rushing yards/game to QBs' },
+        { title: '💨 Mobile QB with designed run packages' },
+        { title: '⚡ Exceptional 22.1% edge opportunity' }
+      ],
+      supportingClips: [],
+      updatedAt: new Date().toISOString()
+    },
+    {
+      playerId: 'ryan-williams',
+      playerName: 'Ryan Williams',
+      team: 'ALA',
+      position: 'WR',
+      propType: 'receiving_yds',
+      propLabel: 'Receiving Yards',
+      marketLine: 78.5,
+      fairLine: 69.3,
+      edgePct: -11.7,
+      confidence: 'med',
+      bullets: [
+        { title: '⚠️ UGA secondary allows only 185 passing yards/game' },
+        { title: '📉 Williams faces elite CB coverage' },
+        { title: '🎯 Under opportunity vs inflated market' },
+        { title: '💰 11.7% under edge available' }
       ],
       supportingClips: [],
       updatedAt: new Date().toISOString()
