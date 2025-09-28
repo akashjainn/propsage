@@ -1,9 +1,13 @@
 'use client';
 
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
-import { TrendingUp, TrendingDown, Target, Play } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { TrendingUp, TrendingDown, Target, Play, ArrowLeft } from 'lucide-react';
 import { PropDrawer } from './PropDrawer';
+import EdgeEvidenceDrawer from './EdgeEvidenceDrawer';
 import { AppShell, SectionHeader } from '@/ui';
+import { HoverCard, AnimatedList, Skeleton, AnimatedPercentage, PageTransition } from '@/components/ui/motion';
+import { staggerChildren, staggerItem, easeOut, springGentle } from '@/lib/motion';
 
 interface GameProp {
   propType: string;
@@ -37,11 +41,8 @@ export interface GameDashboardHandle {
 const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(function GameDashboard({ gameId, gameTitle, onBack }, ref) {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedProp, setSelectedProp] = useState<{
-    playerId: string;
-    playerName: string;
-    prop: GameProp;
-  } | null>(null);
+  const [selectedEdge, setSelectedEdge] = useState<any | null>(null);
+  const [evidenceOpen, setEvidenceOpen] = useState(false);
 
   useImperativeHandle(ref, () => ({
     focusProp: (propType: string) => {
@@ -49,7 +50,21 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
       for (const player of players) {
         const prop = player.props.find(p => p.propType === propType);
         if (prop) {
-          setSelectedProp({ playerId: player.playerId, playerName: player.playerName, prop });
+          const edge = {
+            id: `${player.playerId}_${prop.propType}`,
+            gameId: gameId,
+            player: player.playerName,
+            team: player.team,
+            market: prop.propLabel,
+            marketLine: prop.marketLine,
+            fairLine: prop.fairLine,
+            edgePct: prop.edgePct,
+            confidence: prop.confidence === 'high' ? 0.9 : prop.confidence === 'med' ? 0.75 : 0.6,
+            bullets: prop.bullets?.map(b => b.title) || [],
+            analysis: prop.analysis
+          };
+          setSelectedEdge(edge);
+          setEvidenceOpen(true);
           break;
         }
       }
@@ -173,8 +188,22 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
       });
   }, [gameId]);
 
-  const handlePropSelect = (playerId: string, playerName: string, prop: GameProp) => {
-    setSelectedProp({ playerId, playerName, prop });
+  const handlePropSelect = (playerId: string, playerName: string, prop: GameProp, team: string) => {
+    const edge = {
+      id: `${playerId}_${prop.propType}`,
+      gameId: gameId,
+      player: playerName,
+      team: team,
+      market: prop.propLabel,
+      marketLine: prop.marketLine,
+      fairLine: prop.fairLine,
+      edgePct: prop.edgePct,
+      confidence: prop.confidence === 'high' ? 0.9 : prop.confidence === 'med' ? 0.75 : 0.6,
+      bullets: prop.bullets?.map(b => b.title) || [],
+      analysis: prop.analysis
+    };
+    setSelectedEdge(edge);
+    setEvidenceOpen(true);
   };
 
   const getEdgeColor = (edgePct: number) => {
@@ -199,172 +228,362 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
   if (loading) {
     return (
       <AppShell>
-        <div className="mb-8 flex items-center gap-4">
-          <button
-            onClick={onBack}
-            className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+        <PageTransition>
+          <motion.div 
+            className="mb-8 flex items-center gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={easeOut}
           >
-            ← Back
-          </button>
-          <SectionHeader
-            title={`${gameTitle} Props`}
-            subtitle="Loading prop insights and video evidence..."
-          />
-        </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="bg-white/5 rounded-xl p-6 animate-pulse">
-              <div className="h-4 bg-white/10 rounded mb-4"></div>
-              <div className="h-8 bg-white/10 rounded mb-4"></div>
-              <div className="h-4 bg-white/10 rounded mb-2"></div>
-              <div className="h-4 bg-white/10 rounded mb-2"></div>
-            </div>
-          ))}
-        </div>
+            <motion.button
+              onClick={onBack}
+              className="p-3 glass rounded-xl hover:bg-white/20 transition-colors flex items-center gap-2"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={springGentle}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back</span>
+            </motion.button>
+            <SectionHeader
+              title={`${gameTitle} Props`}
+              subtitle="Loading prop insights and video evidence..."
+            />
+          </motion.div>
+          
+          <motion.div 
+            variants={staggerChildren(0.1)}
+            initial="initial"
+            animate="animate"
+            className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6"
+          >
+            {Array.from({ length: 6 }).map((_, i) => (
+              <motion.div key={i} variants={staggerItem}>
+                <Skeleton className="h-40 rounded-2xl" />
+              </motion.div>
+            ))}
+          </motion.div>
+        </PageTransition>
       </AppShell>
     );
   }
 
   return (
     <AppShell>
-      {/* Header */}
-      <div className="mb-8 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={onBack}
-            className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+      <PageTransition>
+        {/* Header */}
+        <motion.div 
+          className="mb-8 flex items-center justify-between"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={easeOut}
+        >
+          <div className="flex items-center gap-4">
+            <motion.button
+              onClick={onBack}
+              className="p-3 glass rounded-xl hover:bg-white/20 transition-colors flex items-center gap-2 font-medium"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={springGentle}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back</span>
+            </motion.button>
+            <SectionHeader
+              title={gameTitle}
+              subtitle="Market vs Fair Line Analysis backed by video evidence"
+            />
+          </div>
+          <motion.div 
+            className="text-right glass rounded-2xl p-4"
+            whileHover={{ scale: 1.02 }}
+            transition={springGentle}
           >
-            ← Back
-          </button>
-          <SectionHeader
-            title={gameTitle}
-            subtitle="Market vs Fair Line Analysis backed by video evidence"
-          />
-        </div>
-        <div className="text-right">
-          <div className="text-sm text-white/60">Total Props</div>
-          <div className="text-2xl font-bold">{players.reduce((sum, p) => sum + p.props.length, 0)}</div>
-        </div>
-      </div>
+            <div className="text-sm text-white/60 font-medium">Total Props</div>
+            <div className="text-3xl font-bold tabular-nums accent">
+              {players.reduce((sum, p) => sum + p.props.length, 0)}
+            </div>
+          </motion.div>
+        </motion.div>
 
         {/* Top Edges Section */}
-        <section className="mb-8">
+        <motion.section 
+          className="mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...easeOut, delay: 0.1 }}
+        >
           <SectionHeader
             title="Top Edge Opportunities"
             subtitle="Highest value props based on video analysis and fair line calculation"
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <motion.div 
+            variants={staggerChildren(0.1)}
+            initial="initial"
+            animate="animate"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {players
               .flatMap(player => 
                 player.props.map(prop => ({ ...prop, playerId: player.playerId, playerName: player.playerName, team: player.team, position: player.position }))
               )
               .sort((a, b) => Math.abs(b.edgePct) - Math.abs(a.edgePct))
               .slice(0, 3)
-              .map((prop, i) => (
-                <button
-                  key={`${prop.playerId}-${prop.propType}`}
-                  onClick={() => handlePropSelect(prop.playerId, prop.playerName, prop)}
-                  className={`p-4 rounded-lg border-2 transition-all hover:scale-105 ${getEdgeBg(prop.edgePct)} hover:shadow-lg`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-white/60">#{i + 1} Edge</span>
-                    <span className={`text-lg font-bold ${getEdgeColor(prop.edgePct)}`}>
-                      {prop.edgePct > 0 ? '+' : ''}{prop.edgePct.toFixed(1)}%
-                    </span>
-                  </div>
-                  <div className="text-left">
-                    <div className="font-semibold text-white">{prop.playerName}</div>
-                    <div className="text-sm text-white/70">{prop.propLabel}</div>
-                    <div className="text-xs text-white/50 mt-1">
-                      Market: {prop.marketLine} → Fair: {prop.fairLine}
-                    </div>
-                  </div>
-                </button>
-              ))}
-          </div>
-        </section>
+              .map((prop, i) => {
+                const positive = prop.edgePct >= 0;
+                return (
+                  <motion.div key={`${prop.playerId}-${prop.propType}`} variants={staggerItem}>
+                    <HoverCard
+                      elevated
+                      onClick={() => handlePropSelect(prop.playerId, prop.playerName, prop, prop.team)}
+                      className="p-6 cursor-pointer group overflow-hidden relative"
+                    >
+                      {/* Ranking badge */}
+                      <div className="absolute top-4 left-4 w-8 h-8 rounded-full glass-strong flex items-center justify-center text-sm font-bold text-white">
+                        #{i + 1}
+                      </div>
+                      
+                      {/* Gradient background */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      
+                      <div className="relative z-10 pt-6">
+                        <div className="flex items-start justify-between gap-4 mb-4">
+                          <div className="flex-1 min-w-0">
+                            <motion.div 
+                              className="font-bold text-white text-lg mb-1 truncate"
+                              whileHover={{ x: 2 }}
+                              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                            >
+                              {prop.playerName}
+                            </motion.div>
+                            <div className="text-sm text-white/60 flex items-center gap-2">
+                              <span className="font-medium">{prop.team}</span>
+                              <span className="w-1 h-1 rounded-full bg-white/30" />
+                              <span>{prop.propLabel}</span>
+                            </div>
+                          </div>
+                          
+                          <div className="text-right flex flex-col items-end gap-1">
+                            <AnimatedPercentage 
+                              value={prop.edgePct} 
+                              className="text-xl" 
+                            />
+                            <motion.div 
+                              className="text-[11px] text-white/50 font-medium px-2 py-1 rounded-md glass-subtle"
+                              whileHover={{ scale: 1.05 }}
+                              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                            >
+                              {prop.confidence.toUpperCase()}
+                            </motion.div>
+                          </div>
+                        </div>
+                        
+                        {/* Enhanced prop lines visual */}
+                        <div className="grid grid-cols-3 gap-3">
+                          <motion.div 
+                            className="rounded-xl border border-white/15 px-3 py-2 text-white/70 glass-subtle text-center"
+                            whileHover={{ 
+                              backgroundColor: "rgba(255, 255, 255, 0.08)",
+                              borderColor: "rgba(255, 255, 255, 0.2)"
+                            }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <div className="text-[10px] font-medium text-white/40 mb-1">Market</div>
+                            <div className="font-bold tabular-nums">{prop.marketLine}</div>
+                          </motion.div>
+                          
+                          <motion.div 
+                            className="rounded-xl border border-white/15 px-3 py-2 text-white/70 glass-subtle text-center"
+                            whileHover={{ 
+                              backgroundColor: "rgba(255, 255, 255, 0.08)",
+                              borderColor: "rgba(255, 255, 255, 0.2)"
+                            }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <div className="text-[10px] font-medium text-white/40 mb-1">Fair</div>
+                            <div className="font-bold tabular-nums">{prop.fairLine}</div>
+                          </motion.div>
+                          
+                          <motion.div 
+                            className={`rounded-xl border px-3 py-2 glass-subtle text-center font-bold ${
+                              positive 
+                                ? 'border-green-400/30 text-green-300 bg-green-400/5' 
+                                : 'border-red-400/30 text-red-300 bg-red-400/5'
+                            }`}
+                            whileHover={{ 
+                              scale: 1.05,
+                              backgroundColor: positive 
+                                ? "rgba(34, 197, 94, 0.1)" 
+                                : "rgba(239, 68, 68, 0.1)"
+                            }}
+                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                          >
+                            <div className="text-[10px] font-medium opacity-70 mb-1">Play</div>
+                            <div>{positive ? 'OVER' : 'UNDER'}</div>
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      {/* Click indicator */}
+                      <motion.div 
+                        className="absolute bottom-2 right-2 w-6 h-6 rounded-full glass-subtle flex items-center justify-center opacity-0 group-hover:opacity-100"
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <svg className="w-3 h-3 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </motion.div>
+                    </HoverCard>
+                  </motion.div>
+                );
+              })}
+          </motion.div>
+        </motion.section>
 
         {/* All Players Grid */}
-        <section className="space-y-8">
+        <motion.section 
+          className="space-y-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...easeOut, delay: 0.2 }}
+        >
           <SectionHeader
             title="All Players & Props"
             subtitle="Complete breakdown with video evidence for each prop bet"
           />
-          {players.map(player => (
-            <div key={player.playerId} className="bg-white/5 rounded-xl p-6">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-lg font-bold">
-                  {player.playerName.split(' ').map(n => n[0]).join('')}
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold">{player.playerName}</h3>
-                  <p className="text-white/60">{player.position} • {player.team}</p>
-                </div>
-                <div className="ml-auto text-right">
-                  <div className="text-sm text-white/60">Props Available</div>
-                  <div className="text-lg font-bold">{player.props.length}</div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {player.props.map(prop => (
-                  <button
-                    key={prop.propType}
-                    onClick={() => handlePropSelect(player.playerId, player.playerName, prop)}
-                    className={`p-4 rounded-lg border transition-all hover:scale-105 hover:shadow-lg ${getEdgeBg(prop.edgePct)}`}
+          <motion.div
+            variants={staggerChildren(0.1)}
+            initial="initial"
+            animate="animate"
+            className="space-y-8"
+          >
+            {players.map(player => (
+              <motion.div key={player.playerId} variants={staggerItem}>
+                <div className="glass rounded-3xl p-8">
+                  <motion.div 
+                    className="flex items-center gap-6 mb-8"
+                    whileHover={{ x: 4 }}
+                    transition={springGentle}
                   >
-                    <div className="flex items-center justify-between mb-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getConfidenceBadge(prop.confidence)}`}>
-                        {prop.confidence.toUpperCase()}
-                      </span>
-                      <div className="flex items-center gap-1">
-                        {Math.abs(prop.edgePct) > 10 ? (
-                          <TrendingUp className="w-4 h-4 text-green-500" />
-                        ) : Math.abs(prop.edgePct) > 5 ? (
-                          <Target className="w-4 h-4 text-yellow-500" />
-                        ) : (
-                          <TrendingDown className="w-4 h-4 text-gray-400" />
-                        )}
-                        <Play className="w-3 h-3 text-gray-400" />
-                      </div>
+                    <motion.div 
+                      className="w-16 h-16 bg-gradient-to-br from-[var(--mint)] to-[var(--iris)] rounded-2xl flex items-center justify-center text-xl font-bold shadow-lg"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={springGentle}
+                    >
+                      {player.playerName.split(' ').map(n => n[0]).join('')}
+                    </motion.div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-white">{player.playerName}</h3>
+                      <p className="text-white/60 font-medium">{player.position} • {player.team}</p>
                     </div>
+                    <motion.div 
+                      className="text-right glass-subtle rounded-2xl p-4"
+                      whileHover={{ scale: 1.05 }}
+                      transition={springGentle}
+                    >
+                      <div className="text-sm text-white/60 font-medium">Props Available</div>
+                      <div className="text-2xl font-bold accent tabular-nums">{player.props.length}</div>
+                    </motion.div>
+                  </motion.div>
 
-                    <div className="text-left">
-                      <div className="font-semibold text-white mb-1">{prop.propLabel}</div>
-                      <div className="flex items-center justify-between text-sm mb-2">
-                        <span className="text-white/70">Market: {prop.marketLine}</span>
-                        <span className="text-white/70">Fair: {prop.fairLine}</span>
-                      </div>
-                      <div className={`text-center py-1 px-2 rounded font-bold ${getEdgeColor(prop.edgePct)} bg-white/10`}>
-                        {prop.edgePct > 0 ? 'OVER' : 'UNDER'} {Math.abs(prop.edgePct).toFixed(1)}%
-                      </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
-        </section>
+                  <motion.div 
+                    variants={staggerChildren(0.05)}
+                    initial="initial"
+                    animate="animate"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                  >
+                    {player.props.map(prop => {
+                      const positive = prop.edgePct >= 0;
+                      return (
+                        <motion.div key={prop.propType} variants={staggerItem}>
+                          <HoverCard
+                            elevated
+                            onClick={() => handlePropSelect(player.playerId, player.playerName, prop, player.team)}
+                            className="p-5 cursor-pointer group overflow-hidden relative"
+                          >
+                            {/* Gradient background */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            
+                            <div className="relative z-10">
+                              <div className="flex items-center justify-between mb-4">
+                                <motion.span 
+                                  className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${
+                                    prop.confidence === 'high' 
+                                      ? 'bg-green-500/20 text-green-400 border-green-500/30'
+                                      : prop.confidence === 'med'
+                                      ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+                                      : 'bg-white/10 text-white/60 border-white/20'
+                                  }`}
+                                  whileHover={{ scale: 1.05 }}
+                                  transition={springGentle}
+                                >
+                                  {prop.confidence.toUpperCase()}
+                                </motion.span>
+                                <div className="flex items-center gap-1">
+                                  {Math.abs(prop.edgePct) > 10 ? (
+                                    <TrendingUp className="w-4 h-4 text-green-500" />
+                                  ) : Math.abs(prop.edgePct) > 5 ? (
+                                    <Target className="w-4 h-4 text-yellow-500" />
+                                  ) : (
+                                    <TrendingDown className="w-4 h-4 text-gray-400" />
+                                  )}
+                                </div>
+                              </div>
 
-      {/* PropDrawer */}
-      {selectedProp && (
-        <PropDrawer
-          isOpen={!!selectedProp}
-          onClose={() => setSelectedProp(null)}
-          propId={`${gameId}-${selectedProp.playerId}-${selectedProp.prop.propType}`}
-          propType={selectedProp.prop.propType}
-          playerId={selectedProp.playerId}
-          gameId={gameId}
+                              <div className="text-left mb-4">
+                                <div className="font-bold text-white mb-2 text-lg">{prop.propLabel}</div>
+                                <div className="grid grid-cols-2 gap-3 mb-3">
+                                  <div className="text-center p-2 rounded-lg glass-subtle">
+                                    <div className="text-[10px] text-white/40 mb-1">Market</div>
+                                    <div className="font-bold tabular-nums">{prop.marketLine}</div>
+                                  </div>
+                                  <div className="text-center p-2 rounded-lg glass-subtle">
+                                    <div className="text-[10px] text-white/40 mb-1">Fair</div>
+                                    <div className="font-bold tabular-nums">{prop.fairLine}</div>
+                                  </div>
+                                </div>
+                                <motion.div 
+                                  className={`text-center py-2 px-3 rounded-xl font-bold text-sm ${
+                                    positive 
+                                      ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                                      : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                                  }`}
+                                  whileHover={{ scale: 1.02 }}
+                                  transition={springGentle}
+                                >
+                                  {positive ? 'OVER' : 'UNDER'} {Math.abs(prop.edgePct).toFixed(1)}%
+                                </motion.div>
+                              </div>
+                            </div>
+                            
+                            {/* Click indicator */}
+                            <motion.div 
+                              className="absolute bottom-2 right-2 w-6 h-6 rounded-full glass-subtle flex items-center justify-center opacity-0 group-hover:opacity-100"
+                              whileHover={{ scale: 1.1 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <Play className="w-3 h-3 text-white/50" />
+                            </motion.div>
+                          </HoverCard>
+                        </motion.div>
+                      );
+                    })}
+                  </motion.div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.section>
+
+        {/* EdgeEvidenceDrawer */}
+        <EdgeEvidenceDrawer
+          edge={selectedEdge}
           gameTitle={gameTitle}
-          marketLine={selectedProp.prop.marketLine}
-          fairLine={selectedProp.prop.fairLine}
-          edgePct={selectedProp.prop.edgePct}
-          bullets={selectedProp.prop.bullets.map(b => b.title)}
-          analysis={selectedProp.prop.analysis}
-          clips={[]}
+          open={evidenceOpen}
+          onClose={() => setEvidenceOpen(false)}
         />
-      )}
+      </PageTransition>
     </AppShell>
   );
 });

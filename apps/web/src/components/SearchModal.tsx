@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Clock, TrendingUp, User, Video, X, Command } from 'lucide-react';
+import { GlassOverlay, Spotlight } from './ui/motion';
+import { easeOut, springGentle, staggerChildren, staggerItem } from '@/lib/motion';
 import { useFastSWR } from '../hooks/usePerformance';
 
 interface SearchResult {
@@ -123,6 +126,40 @@ const generateSearchResults = (query: string): SearchResult[] => {
       subtitle: 'SEC Championship • Tonight 8:00 PM',
       confidence: 0.96,
       metadata: { game: 'SEC Championship' }
+    });
+  }
+
+  // More flexible matching for common terms
+  if (lowerQuery.includes('qb') || lowerQuery.includes('quarterback')) {
+    results.push({
+      id: 'player-gunner',
+      type: 'player',
+      title: 'Gunner Stockton',
+      subtitle: 'Georgia Bulldogs QB',
+      confidence: 0.90,
+      metadata: { position: 'QB', team: 'UGA' }
+    });
+  }
+  
+  if (lowerQuery.includes('georgia') || lowerQuery.includes('uga') || lowerQuery.includes('bulldogs')) {
+    results.push({
+      id: 'team-georgia',
+      type: 'game',
+      title: 'Georgia Bulldogs',
+      subtitle: 'Current games and players',
+      confidence: 0.88,
+      metadata: { team: 'UGA' }
+    });
+  }
+  
+  if (lowerQuery.includes('tech') || lowerQuery.includes('gt') || lowerQuery.includes('yellow jackets')) {
+    results.push({
+      id: 'team-gt',
+      type: 'game', 
+      title: 'Georgia Tech',
+      subtitle: 'Yellow Jackets • Live Game',
+      confidence: 0.92,
+      metadata: { team: 'GT' }
     });
   }
 
@@ -257,148 +294,253 @@ export default function SearchModal({ isOpen, onClose, onSelect }: SearchModalPr
   const getResultColor = (type: string) => {
     switch (type) {
       case 'player':
-        return 'text-blue-500';
+        return 'text-blue-400';
       case 'prop':
-        return 'text-green-500';
+        return 'text-[var(--mint)]';
       case 'clip':
-        return 'text-purple-500';
+        return 'text-purple-400';
       case 'game':
-        return 'text-orange-500';
+        return 'text-orange-400';
       default:
-        return 'text-gray-500';
+        return 'text-white/50';
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start justify-center pt-20">
-      <div 
-        ref={modalRef}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 overflow-hidden"
-      >
-        {/* Header */}
-        <div className="border-b border-gray-100 p-4">
-          <div className="flex items-center space-x-3">
-            <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder="Search players, props, clips..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="flex-1 text-lg font-medium text-gray-900 placeholder-gray-400 bg-transparent border-none outline-none"
-            />
-            <div className="flex items-center space-x-2 text-sm text-gray-400">
-              <div className="flex items-center space-x-1">
-                <Command className="w-3 h-3" />
-                <span>K</span>
-              </div>
-              <button
-                onClick={onClose}
-                className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Results */}
-        <div className="max-h-96 overflow-y-auto">
-          {isSearching ? (
-            <div className="p-8 text-center">
-              <div className="inline-flex items-center space-x-3 text-gray-500">
-                <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                <span>Searching with AI...</span>
-              </div>
-            </div>
-          ) : results.length > 0 ? (
-            <div className="py-2">
-              {results.map((result, index) => (
-                <button
-                  key={result.id}
-                  onClick={() => {
-                    if (onSelect) onSelect(result);
-                    onClose();
-                  }}
-                  className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors ${
-                    index === selectedIndex ? 'bg-blue-50 border-r-2 border-blue-500' : ''
-                  }`}
+    <AnimatePresence>
+      {isOpen && (
+        <GlassOverlay isOpen={isOpen} onClose={onClose}>
+          <motion.div 
+            ref={modalRef}
+            className="w-full max-w-2xl mx-4 overflow-hidden glass-strong rounded-3xl"
+            initial={{ opacity: 0, scale: 0.9, y: -20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: -20 }}
+            transition={springGentle}
+          >
+            {/* Header */}
+            <div className="border-b border-white/10 p-6">
+              <div className="flex items-center space-x-4">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ ...springGentle, delay: 0.1 }}
+                  className="p-2 rounded-xl glass-subtle"
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3 flex-1 min-w-0">
-                      <div className={`flex-shrink-0 ${getResultColor(result.type)}`}>
-                        {getResultIcon(result.type)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-2">
-                          <h3 className="font-medium text-gray-900 truncate">
-                            {result.title}
-                          </h3>
-                          {result.confidence && (
-                            <div className="flex-shrink-0">
-                              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
-                                {Math.round(result.confidence * 100)}%
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                        <p className="text-sm text-gray-500 truncate">
-                          {result.subtitle}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    {result.metadata?.edge !== undefined && (
-                      <div className="flex-shrink-0 ml-3">
-                        <span className={`text-sm font-medium ${
-                          result.metadata.edge > 0 ? 'text-green-600' : 'text-red-600'
-                        }`}>
-                          {result.metadata.edge > 0 ? '+' : ''}{result.metadata.edge.toFixed(1)}%
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </button>
-              ))}
-            </div>
-          ) : query.trim() ? (
-            <div className="p-8 text-center text-gray-500">
-              <Search className="w-8 h-8 mx-auto mb-3 text-gray-300" />
-              <p>No results found for "{query}"</p>
-              <p className="text-sm mt-1">Try searching for players, props, or clips</p>
-            </div>
-          ) : (
-            <div className="p-8 text-center text-gray-500">
-              <Search className="w-8 h-8 mx-auto mb-3 text-gray-300" />
-              <p>Start typing to search...</p>
-              <div className="mt-4 flex flex-wrap gap-2 justify-center">
-             {['Haynes King', 'Passing Yards', 'Video Clips', 'GT Live Game'].map((suggestion) => (
-                  <button
-                    key={suggestion}
-                    onClick={() => setQuery(suggestion)}
-                    className="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full transition-colors"
+                  <Search className="w-5 h-5 text-white/70" />
+                </motion.div>
+                
+                <input
+                  ref={inputRef}
+                  type="text"
+                  placeholder="Search players, props, clips..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="flex-1 text-lg font-medium text-white placeholder-white/40 bg-transparent border-none outline-none ring-0 focus:outline-none focus:ring-0"
+                  autoComplete="off"
+                  spellCheck="false"
+                />
+                
+                <div className="flex items-center space-x-3">
+                  <motion.div 
+                    className="flex items-center space-x-1 px-2 py-1 rounded-lg glass-subtle text-xs font-medium text-white/60"
+                    whileHover={{ scale: 1.05 }}
+                    transition={springGentle}
                   >
-                    {suggestion}
-                  </button>
-                ))}
+                    <Command className="w-3 h-3" />
+                    <span>K</span>
+                  </motion.div>
+                  
+                  <motion.button
+                    onClick={onClose}
+                    className="p-2 hover:bg-white/10 rounded-xl transition-colors text-white/60 hover:text-white"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={springGentle}
+                    aria-label="Close search"
+                  >
+                    <X className="w-4 h-4" />
+                  </motion.button>
+                </div>
               </div>
             </div>
-          )}
-        </div>
 
-        {/* Footer */}
-        <div className="border-t border-gray-100 px-4 py-3 bg-gray-50 text-xs text-gray-500">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <span>↑↓ Navigate</span>
-              <span>↵ Select</span>
-              <span>ESC Close</span>
+            {/* Results */}
+            <div className="max-h-96 overflow-y-auto custom-scroll">
+              {isSearching ? (
+                <motion.div 
+                  className="p-8 text-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={easeOut}
+                >
+                  <div className="inline-flex items-center space-x-3 text-white/60">
+                    <div className="w-4 h-4 border-2 border-[var(--mint)] border-t-transparent rounded-full animate-spin"></div>
+                    <span className="font-medium">Searching</span>
+                  </div>
+                </motion.div>
+              ) : results.length > 0 ? (
+                <motion.div 
+                  className="p-4 space-y-2"
+                  variants={staggerChildren(0.05)}
+                  initial="initial"
+                  animate="animate"
+                >
+                  {results.map((result, index) => (
+                    <motion.div key={result.id} variants={staggerItem}>
+                      <Spotlight isActive={index === selectedIndex}>
+                        <motion.button
+                          onClick={() => {
+                            if (onSelect) onSelect(result);
+                            onClose();
+                          }}
+                          className={`w-full p-4 text-left rounded-2xl transition-all glass-subtle hover:glass ${
+                            index === selectedIndex 
+                              ? 'accent-ring ring-2 bg-white/10' 
+                              : 'hover:bg-white/5'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          transition={springGentle}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4 flex-1 min-w-0">
+                              <motion.div 
+                                className={`p-2 rounded-xl glass-subtle ${getResultColor(result.type)}`}
+                                whileHover={{ scale: 1.1 }}
+                                transition={springGentle}
+                              >
+                                {getResultIcon(result.type)}
+                              </motion.div>
+                              
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center space-x-2 mb-1">
+                                  <h3 className="font-semibold text-white truncate">
+                                    {result.title}
+                                  </h3>
+                                  {result.confidence && (
+                                    <motion.div 
+                                      className="flex-shrink-0"
+                                      whileHover={{ scale: 1.1 }}
+                                      transition={springGentle}
+                                    >
+                                      <span className="text-xs glass-subtle text-white/70 px-2 py-1 rounded-lg font-medium">
+                                        {Math.round(result.confidence * 100)}%
+                                      </span>
+                                    </motion.div>
+                                  )}
+                                </div>
+                                <p className="text-sm text-white/60 truncate">
+                                  {result.subtitle}
+                                </p>
+                              </div>
+                            </div>
+                            
+                            {result.metadata?.edge !== undefined && (
+                              <motion.div 
+                                className="flex-shrink-0 ml-4"
+                                whileHover={{ scale: 1.1 }}
+                                transition={springGentle}
+                              >
+                                <span className={`text-sm font-bold px-2 py-1 rounded-lg ${
+                                  result.metadata.edge > 0 
+                                    ? 'text-green-400 bg-green-400/10 border border-green-400/20' 
+                                    : 'text-red-400 bg-red-400/10 border border-red-400/20'
+                                }`}>
+                                  {result.metadata.edge > 0 ? '+' : ''}{result.metadata.edge.toFixed(1)}%
+                                </span>
+                              </motion.div>
+                            )}
+                          </div>
+                        </motion.button>
+                      </Spotlight>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              ) : query.trim() ? (
+                <motion.div 
+                  className="p-8 text-center text-white/50"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={easeOut}
+                >
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ ...springGentle, delay: 0.1 }}
+                  >
+                    <Search className="w-12 h-12 mx-auto mb-4 text-white/20" />
+                  </motion.div>
+                  <p className="font-medium text-white/60 mb-1">No results found for "{query}"</p>
+                  <p className="text-sm text-white/40">Try searching for players, props, or clips</p>
+                </motion.div>
+              ) : (
+                <motion.div 
+                  className="p-8 text-center text-white/50"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={easeOut}
+                >
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ ...springGentle, delay: 0.1 }}
+                  >
+                    <Search className="w-12 h-12 mx-auto mb-4 text-white/20" />
+                  </motion.div>
+                  <p className="font-medium text-white/60 mb-6">Start typing to search...</p>
+                  
+                  <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
+                    {['Haynes King', 'Passing Yards', 'Video Clips', 'GT Live Game'].map((suggestion, index) => (
+                      <motion.button
+                        key={suggestion}
+                        onClick={() => setQuery(suggestion)}
+                        className="text-sm glass-subtle text-white/70 hover:text-white px-4 py-2 rounded-xl transition-all font-medium text-center"
+                        variants={staggerItem}
+                        whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={springGentle}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        style={{ animationDelay: `${index * 0.1}s` }}
+                      >
+                        {suggestion}
+                      </motion.button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
             </div>
-            <span>Powered by TwelveLabs AI</span>
-          </div>
-        </div>
-      </div>
-    </div>
+
+            {/* Footer */}
+            <motion.div 
+              className="border-t border-white/10 px-6 py-4 glass-subtle text-xs text-white/60"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ ...easeOut, delay: 0.2 }}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-6">
+                  <div className="flex items-center space-x-1">
+                    <span className="px-1.5 py-0.5 rounded glass-subtle text-white/50 font-mono">↑↓</span>
+                    <span className="font-medium">Navigate</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="px-1.5 py-0.5 rounded glass-subtle text-white/50 font-mono">↵</span>
+                    <span className="font-medium">Select</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="px-1.5 py-0.5 rounded glass-subtle text-white/50 font-mono text-xs">ESC</span>
+                    <span className="font-medium">Close</span>
+                  </div>
+                </div>
+                <span className="text-white/40 font-medium">Powered by TwelveLabs AI</span>
+              </div>
+            </motion.div>
+          </motion.div>
+        </GlassOverlay>
+      )}
+    </AnimatePresence>
   );
 }
 

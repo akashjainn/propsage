@@ -25,7 +25,9 @@ export default function HomePage() {
   
   // Auto-select first game when games load
   useEffect(() => {
+    console.log('HomePage: Games loaded:', gamesToday.length, 'selectedGameId:', selectedGameId);
     if (!selectedGameId && gamesToday.length > 0) {
+      console.log('HomePage: Auto-selecting first game:', gamesToday[0].id);
       setSelectedGameId(gamesToday[0].id);
     }
   }, [gamesToday, selectedGameId]);

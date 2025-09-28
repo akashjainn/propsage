@@ -1,10 +1,13 @@
 'use client';
 import { useMemo, useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FEATURES, TL_INDEX } from '@/lib/features';
 import { useTlSearch } from '@/hooks/useTlSearch';
 import VideoPlayer from '@/components/VideoPlayer';
 import { pushToast } from '@/components/ToastBus';
 import FallbackClips from '@/components/FallbackClips';
+import { Drawer, AnimatedList, Skeleton } from '@/components/ui/motion';
+import { slideInFromBottom, staggerChildren, staggerItem, easeOut } from '@/lib/motion';
 import * as Sentry from '@sentry/nextjs';
 
 type Edge = { id: string; player: string; team: string; market: string; marketLine?: number; fairLine?: number; edgePct?: number; confidence?: number; bullets?: string[]; analysis?: string; };
@@ -51,117 +54,288 @@ export default function EdgeEvidenceDrawer({
     return () => { alive = false; };
   }, [edge?.player, edge?.market, gameTitle]);
 
-  if (!open || !edge) return null;
-
   return (
-    <div className="fixed inset-0 z-[60] bg-black/50" onClick={onClose}>
-  <div data-testid="evidence-drawer" className="absolute right-0 top-0 h-full w-full sm:w-[520px] bg-background shadow-xl overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-        <div className="p-4 border-b border-border/60 space-y-2">
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="text-sm text-muted-foreground">Evidence for</div>
-              <div className="text-xl font-semibold">{edge.player} — {edge.market}</div>
-              {gameTitle && <div className="text-xs opacity-60">{gameTitle}</div>}
+    <AnimatePresence>
+      {open && edge && (
+        <Drawer
+          isOpen={open}
+          onClose={onClose}
+          className="sm:w-[540px]"
+        >
+          <motion.div
+            data-testid="evidence-drawer"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={easeOut}
+            className="space-y-6"
+          >
+            {/* Header */}
+            <div className="space-y-3">
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...easeOut, delay: 0.1 }}
+              >
+                <div className="text-sm text-white/50 font-medium">Evidence for</div>
+                <div className="text-2xl font-bold text-white">{edge.player}</div>
+                <div className="text-lg text-white/80">{edge.market}</div>
+                {gameTitle && (
+                  <div className="text-sm text-white/50 flex items-center gap-2 mt-2">
+                    <span className="w-1 h-1 rounded-full bg-white/30" />
+                    <span>{gameTitle}</span>
+                  </div>
+                )}
+              </motion.div>
             </div>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white/60 hover:text-white"
-              aria-label="Close drawer"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
 
-        {/* Clips Section - Always visible at top */}
-        <div className="p-4 space-y-4">
-          <h3 className="font-semibold text-white">Video Evidence</h3>
-          {loading && <div className="h-40 rounded-xl bg-muted/20 animate-pulse" />}
-          {error && <div className="text-sm text-destructive">Search failed. Try again.</div>}
-          {(results?.length ? results : undefined)?.slice(0, 3).map((r: any) => (
-            <div key={`${r.videoId ?? r.url}-${r.start}`} className="space-y-2">
-              <div className="text-sm opacity-80">Score {r.score?.toFixed?.(2) ?? '—'} · {Math.round(r.start)}s–{Math.round(r.end)}s</div>
-              <video
-                src={r.url}
-                controls
-                preload="metadata"
-                className="w-full rounded-xl bg-black aspect-video"
-                onLoadedMetadata={(e) => {
-                  if (r.start) e.currentTarget.currentTime = r.start;
-                }}
-              />
-            </div>
-          ))}
-          {/* Fallback if TL disabled OR no results returned */}
-          {!loading && edge && (!tlEnabled || (results?.length ?? 0) === 0) && (
-            prefetch ? (
-              <div className="space-y-4">
-                {prefetch.map((c: any) => (
-                  <div key={`${c.url}-${c.start}`} className="space-y-2">
-                    <div className="text-sm opacity-80">{Math.round(c.start)}s–{Math.round(c.end)}s</div>
-                    <video
-                      src={c.url}
-                      controls
-                      preload="metadata"
-                      className="w-full rounded-xl bg-black aspect-video"
-                      onLoadedMetadata={(e) => {
-                        if (c.start) e.currentTarget.currentTime = c.start;
-                      }}
-                    />
+            {/* Video Evidence Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...easeOut, delay: 0.2 }}
+              className="space-y-4"
+            >
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <span className="w-1 h-6 bg-gradient-to-b from-[var(--mint)] to-[var(--iris)] rounded-full" />
+                Video Evidence
+              </h3>
+              
+              {loading && (
+                <motion.div
+                  variants={staggerChildren(0.1)}
+                  initial="initial"
+                  animate="animate" 
+                  className="space-y-4"
+                >
+                  {Array.from({ length: 2 }).map((_, i) => (
+                    <motion.div key={i} variants={staggerItem}>
+                      <Skeleton className="h-48 aspect-video" />
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+              
+              {error && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-sm text-red-400 p-4 rounded-xl glass border border-red-400/20 text-center"
+                >
+                  Search failed. Try again.
+                </motion.div>
+              )}
+              
+              {results?.length > 0 && (
+                <motion.div
+                  variants={staggerChildren(0.12)}
+                  initial="initial"
+                  animate="animate"
+                  className="space-y-6"
+                >
+                  {results.slice(0, 3).map((r: any) => (
+                    <motion.div 
+                      key={`${r.videoId ?? r.url}-${r.start}`} 
+                      variants={staggerItem}
+                      className="glass rounded-2xl p-4 space-y-3"
+                    >
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-white/70 font-medium">
+                          Match Score: <span className="text-[var(--mint)] font-bold">{r.score?.toFixed?.(2) ?? '—'}</span>
+                        </span>
+                        <span className="text-white/50 font-medium">
+                          {Math.round(r.start)}s–{Math.round(r.end)}s
+                        </span>
+                      </div>
+                      <motion.video
+                        src={r.url}
+                        controls
+                        preload="metadata"
+                        className="w-full rounded-xl bg-black aspect-video shadow-lg"
+                        onLoadedMetadata={(e) => {
+                          if (r.start) e.currentTarget.currentTime = r.start;
+                        }}
+                        whileHover={{ scale: 1.01 }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+              
+              {/* Fallback clips */}
+              {!loading && edge && (!tlEnabled || (results?.length ?? 0) === 0) && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...easeOut, delay: 0.3 }}
+                >
+                  {prefetch ? (
+                    <motion.div 
+                      variants={staggerChildren(0.1)}
+                      initial="initial"
+                      animate="animate"
+                      className="space-y-4"
+                    >
+                      {prefetch.map((c: any) => (
+                        <motion.div 
+                          key={`${c.url}-${c.start}`} 
+                          variants={staggerItem}
+                          className="glass rounded-2xl p-4 space-y-3"
+                        >
+                          <div className="text-sm text-white/50 font-medium">
+                            {Math.round(c.start)}s–{Math.round(c.end)}s
+                          </div>
+                          <motion.video
+                            src={c.url}
+                            controls
+                            preload="metadata"
+                            className="w-full rounded-xl bg-black aspect-video shadow-lg"
+                            onLoadedMetadata={(e) => {
+                              if (c.start) e.currentTarget.currentTime = c.start;
+                            }}
+                            whileHover={{ scale: 1.01 }}
+                            transition={{ duration: 0.2 }}
+                          />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  ) : (
+                    <FallbackClips game={gameTitle ?? ''} edge={edge} />
+                  )}
+                </motion.div>
+              )}
+            </motion.div>
+            {/* Stats Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...easeOut, delay: 0.4 }}
+              className="space-y-6 pt-6 border-t border-white/10"
+            >
+              <motion.div 
+                variants={staggerChildren(0.08)}
+                initial="initial"
+                animate="animate"
+                className="grid grid-cols-2 gap-4"
+              >
+                <motion.div 
+                  variants={staggerItem}
+                  className="p-4 rounded-2xl glass-subtle text-center group"
+                  whileHover={{ 
+                    backgroundColor: "rgba(255, 255, 255, 0.08)",
+                    scale: 1.02
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="text-xs text-white/40 font-medium mb-2">Market Line</div>
+                  <div className="text-2xl font-bold text-white tabular-nums">{edge.marketLine ?? '—'}</div>
+                </motion.div>
+                
+                <motion.div 
+                  variants={staggerItem}
+                  className="p-4 rounded-2xl glass-subtle text-center group"
+                  whileHover={{ 
+                    backgroundColor: "rgba(255, 255, 255, 0.08)",
+                    scale: 1.02
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="text-xs text-white/40 font-medium mb-2">Fair Line</div>
+                  <div className="text-2xl font-bold text-white tabular-nums">{edge.fairLine ?? '—'}</div>
+                </motion.div>
+                
+                <motion.div 
+                  variants={staggerItem}
+                  className={`p-4 rounded-2xl glass-subtle text-center group border ${
+                    (edge.edgePct ?? 0) >= 0 
+                      ? 'border-green-400/20 bg-green-400/5' 
+                      : 'border-red-400/20 bg-red-400/5'
+                  }`}
+                  whileHover={{ 
+                    scale: 1.02,
+                    backgroundColor: (edge.edgePct ?? 0) >= 0 
+                      ? "rgba(34, 197, 94, 0.1)" 
+                      : "rgba(239, 68, 68, 0.1)"
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="text-xs text-white/40 font-medium mb-2">Edge %</div>
+                  <div className={`text-2xl font-bold tabular-nums ${ 
+                    (edge.edgePct ?? 0) >= 0 ? 'text-green-400' : 'text-red-400'
+                  }`}>
+                    {edge.edgePct ? `${edge.edgePct > 0 ? '+' : ''}${edge.edgePct.toFixed(1)}%` : '—'}
                   </div>
-                ))}
-              </div>
-            ) : (
-              <FallbackClips game={gameTitle ?? ''} edge={edge} />
-            )
-          )}
-        </div>
-        
-        {/* Stats Section - Below clips */}
-        <div className="p-4 space-y-4 text-sm border-t border-white/10">
-          <div className="grid grid-cols-2 gap-3">
-            <div className="p-3 rounded-md bg-white/5 border border-white/10">
-              <div className="text-xs opacity-60 mb-1">Market Line</div>
-              <div className="text-base font-semibold">{edge.marketLine ?? '—'}</div>
-            </div>
-            <div className="p-3 rounded-md bg-white/5 border border-white/10">
-              <div className="text-xs opacity-60 mb-1">Fair Line</div>
-              <div className="text-base font-semibold">{edge.fairLine ?? '—'}</div>
-            </div>
-            <div className="p-3 rounded-md bg-white/5 border border-white/10">
-              <div className="text-xs opacity-60 mb-1">Edge %</div>
-              <div className={`text-base font-semibold ${ (edge.edgePct ?? 0) >= 0 ? 'text-green-400' : 'text-red-400'}`}>{edge.edgePct?.toFixed?.(1) ?? '—'}%</div>
-            </div>
-            <div className="p-3 rounded-md bg-white/5 border border-white/10">
-              <div className="text-xs opacity-60 mb-1">Confidence</div>
-              <div className="text-base font-semibold">{edge.confidence != null ? `${Math.round((edge.confidence) * 100)}%` : '—'}</div>
-            </div>
-          </div>
-          
-          {/* Why Section */}
-          {edge.bullets && edge.bullets.length > 0 && (
-            <div className="space-y-3">
-              <h4 className="font-semibold text-white">Why this edge exists</h4>
-              <div className="space-y-2 text-sm text-white/80">
-                {edge.bullets.map((bullet, i) => (
-                  <div key={i} className="flex items-start gap-2">
-                    <div className="w-1 h-1 rounded-full bg-blue-400 mt-2 flex-shrink-0" />
-                    <span>{bullet}</span>
+                </motion.div>
+                
+                <motion.div 
+                  variants={staggerItem}
+                  className="p-4 rounded-2xl glass-subtle text-center group"
+                  whileHover={{ 
+                    backgroundColor: "rgba(255, 255, 255, 0.08)",
+                    scale: 1.02
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="text-xs text-white/40 font-medium mb-2">Confidence</div>
+                  <div className="text-2xl font-bold text-white tabular-nums">
+                    {edge.confidence != null ? `${Math.round(edge.confidence * 100)}%` : '—'}
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          {/* Analysis Section */}
-          {edge.analysis && (
-            <div className="space-y-3">
-              <h4 className="font-semibold text-white">Analysis</h4>
-              <p className="text-sm text-white/80">{edge.analysis}</p>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+                </motion.div>
+              </motion.div>
+              
+              {/* Why Section */}
+              {edge.bullets && edge.bullets.length > 0 && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...easeOut, delay: 0.5 }}
+                  className="space-y-4 glass rounded-2xl p-6"
+                >
+                  <h4 className="text-lg font-bold text-white flex items-center gap-2">
+                    <span className="w-1 h-5 bg-gradient-to-b from-[var(--mint)] to-[var(--iris)] rounded-full" />
+                    Why this edge exists
+                  </h4>
+                  <motion.div 
+                    variants={staggerChildren(0.1)}
+                    initial="initial"
+                    animate="animate"
+                    className="space-y-3"
+                  >
+                    {edge.bullets.map((bullet, i) => (
+                      <motion.div 
+                        key={i} 
+                        variants={staggerItem}
+                        className="flex items-start gap-3 text-white/80"
+                      >
+                        <div className="w-1.5 h-1.5 rounded-full bg-[var(--mint)] mt-2 flex-shrink-0" />
+                        <span className="leading-relaxed">{bullet}</span>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </motion.div>
+              )}
+              
+              {/* Analysis Section */}
+              {edge.analysis && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...easeOut, delay: 0.6 }}
+                  className="space-y-4 glass rounded-2xl p-6"
+                >
+                  <h4 className="text-lg font-bold text-white flex items-center gap-2">
+                    <span className="w-1 h-5 bg-gradient-to-b from-[var(--mint)] to-[var(--iris)] rounded-full" />
+                    Analysis
+                  </h4>
+                  <p className="text-white/80 leading-relaxed">{edge.analysis}</p>
+                </motion.div>
+              )}
+            </motion.div>
+            
+          </motion.div>
+        </Drawer>
+      )}
+    </AnimatePresence>
   );
 }
