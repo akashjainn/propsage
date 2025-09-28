@@ -13,7 +13,8 @@ export function useMC(inputs: MCInputs | null) {
   useEffect(() => {
     if (!inputs) return
     if (!workerRef.current) {
-      workerRef.current = new Worker(new URL('../workers/mcWorker.ts', import.meta.url))
+      // Fix: Use absolute path from public directory
+      workerRef.current = new Worker('/workers/mcWorker.js')
       workerRef.current.onmessage = (e: MessageEvent) => {
         setResult(e.data)
         if (startedAt) setLatencyMs(performance.now() - startedAt)
@@ -23,7 +24,7 @@ export function useMC(inputs: MCInputs | null) {
     setRunning(true)
     setStartedAt(performance.now())
     workerRef.current.postMessage(inputs)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs?.mu, inputs?.sigma, inputs?.marketLine, inputs?.simulations])
 
   return { result, running, latencyMs }

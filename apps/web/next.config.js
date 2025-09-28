@@ -10,6 +10,20 @@ const nextConfig = {
     })
     return config
   },
+  // Add this for Web Worker support
+  async headers() {
+    return [
+      {
+        source: '/workers/:path*',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/javascript',
+          },
+        ],
+      },
+    ]
+  },
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000',
     NEXT_PUBLIC_API_WS_URL: process.env.NEXT_PUBLIC_API_WS_URL || 'ws://localhost:4000',
