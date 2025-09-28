@@ -30,13 +30,63 @@ import { config } from './config.js'
 
 export function createApp() {
   const app = express()
-  app.use(cors({ 
-    origin: [/\.up\.railway\.app$/, /\.vercel\.app$/, 'http://localhost:3000'],
-    credentials: true 
+  app.use(cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true)
+
+      const allowedOrigins = [
+        /\.up\.railway\.app$/,
+        /\.vercel\.app$/,
+        'https://propsage-web.vercel.app',
+        'http://localhost:3000'
+      ]
+
+      const isAllowed = allowedOrigins.some(allowedOrigin => {
+        if (typeof allowedOrigin === 'string') {
+          return origin === allowedOrigin
+        } else {
+          return allowedOrigin.test(origin)
+        }
+      })
+
+      console.log(`CORS Origin Check: ${origin} - Allowed: ${isAllowed}`)
+
+      if (isAllowed) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
   }))
+
+  // Handle preflight requests
+  app.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Origin', req.headers.origin || '*')
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+    res.header('Access-Control-Allow-Credentials', 'true')
+    res.sendStatus(200)
+  })
+
+  // CORS debugging middleware
+  app.use((req, res, next) => {
+    const origin = req.headers.origin
+    console.log(`CORS Debug - Origin: ${origin}, Method: ${req.method}`)
+    if (origin) {
+      console.log(`CORS Debug - Origin matches vercel: ${/\.vercel\.app$/.test(origin)}`)
+      console.log(`CORS Debug - Origin matches railway: ${/\.up\.railway\.app$/.test(origin)}`)
+      console.log(`CORS Debug - Origin exact match: ${origin === 'https://propsage-web.vercel.app'}`)
+    }
+    next()
+  })
+
   app.use(express.json())
   app.use(timing)
-  
+
   // Root route
   app.get('/', (_req, res) => res.json({
     name: 'PropSage API',
@@ -63,14 +113,14 @@ export function createApp() {
       cfbEvidence: '/cfb/evidence',
       // Demo enterprise endpoints
       games: '/games',
-      players: '/players', 
+      players: '/players',
       props: '/props',
       clips: '/clips'
     },
     demo: config.demoMode,
     status: 'running'
   }))
-  
+
   app.get('/health', (_req, res) => res.json({
     demo: config.demoMode,
     video: config.videoEnabled,
@@ -98,13 +148,13 @@ export function createApp() {
   app.use('/cfb/video', cfbVideo)
   app.use('/cfb/clips', cfbClips)
   app.use('/cfb/evidence', cfbEvidence)
-  
+
   // Demo enterprise routes
   app.use('/games', demoGames)
   app.use('/players', demoPlayers)
   app.use('/props', demoProps)
   app.use('/clips', demoClips)
   app.use('/', gamesToday) // exposes /games/today
-  
+
   return app
 }
