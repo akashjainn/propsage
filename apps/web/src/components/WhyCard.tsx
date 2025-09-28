@@ -165,11 +165,11 @@ export default function WhyCard({
             <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
               <div
                 className="h-full bg-blue-500 transition-all duration-700"
-                style={{ width: `${85 + Math.abs(edgePct) * 2}%` }}
+                style={{ width: `${Math.min(85 + Math.abs(edgePct) * 0.5, 99)}%` }}
               />
             </div>
             <span className="text-xs font-medium text-gray-700">
-              {Math.round(85 + Math.abs(edgePct) * 2)}%
+              {Math.min(Math.round(85 + Math.abs(edgePct) * 0.5), 99)}%
             </span>
           </div>
         </div>

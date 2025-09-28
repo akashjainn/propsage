@@ -211,10 +211,15 @@ export default function SearchModal({ isOpen, onClose, onSelect }: SearchModalPr
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, results, selectedIndex, onClose, onSelect]);
 
-  // Focus input when modal opens
+  // Focus input when modal opens, clear query when it closes
   useEffect(() => {
     if (isOpen && inputRef.current) {
       inputRef.current.focus();
+    } else if (!isOpen) {
+      // Clear the query when modal closes to prevent it from persisting
+      setQuery('');
+      setResults([]);
+      setSelectedIndex(0);
     }
   }, [isOpen]);
 

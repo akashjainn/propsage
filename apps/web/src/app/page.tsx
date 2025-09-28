@@ -10,6 +10,7 @@ import { statToShortLabel, formatEdge, getConference } from '@/lib/cfb';
 import { SocialClips, useSocialClips } from '@/components/SocialClips';
 import { EvidenceRail, TLMoment } from '@/components/EvidenceRail';
 import { MomentPlayer } from '@/components/MomentPlayer';
+import TopEdges from '@/components/TopEdges';
 
 // ---------- Presentational helpers ----------
 function Stat({ label, value }: { label: string; value: string }) {
@@ -87,6 +88,11 @@ export default function HomePage() {
         />
         <HeroSearch onSearch={handleSearch} />
       </div>
+
+      {/* Top Edges Spotlight */}
+      <section className="mt-12">
+        <TopEdges />
+      </section>
 
       {/* Search Results Panel */}
       {showResults && (

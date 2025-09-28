@@ -7,17 +7,21 @@ import type { GameLite, GameState } from '@/types/cfb';
 import SearchModal, { useSearch } from '@/components/SearchModal';
 import { PropDrawer } from '@/components/PropDrawer';
 import WhyCard from '@/components/WhyCard';
+import GameDashboard from '@/components/GameDashboard';
+import PropsGrid from '@/components/PropsGrid';
 import type { Clip } from '@/components/clip.types';
 import { useFastSWR, preloadResources, trackWebVitals } from '@/hooks/usePerformance';
 import { TrendingUp, TrendingDown, Play, Search, Command } from 'lucide-react';
+import { TeamLogo } from '@/components/TeamLogo';
+import { safeFetch, ENDPOINTS } from '@/lib/api';
 
 // Default fallback game placeholder (will be replaced by live fetch)
 const GT_FALLBACK_GAME: GameLite = {
   id: 'pending',
   start: new Date().toISOString(),
   state: 'pre',
-  home: { id: 'gt', name: 'Georgia Tech Yellow Jackets', short: 'Georgia Tech', abbrev: 'GT', logo: '/images/gt-logo.png', color: 'B3A369', rank: 24 },
-  away: { id: 'opp', name: 'Opponent', short: 'Opponent', abbrev: 'OPP', logo: '/images/opponent-logo.png', color: '666666', rank: null },
+  home: { id: 'gt', name: 'Georgia Tech Yellow Jackets', short: 'Georgia Tech', abbrev: 'GT', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncf/500/59.png&h=200&w=200', color: 'B3A369', rank: 24 },
+  away: { id: 'wf', name: 'Wake Forest Demon Deacons', short: 'Wake Forest', abbrev: 'WF', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncf/500/154.png&h=200&w=200', color: '9E7E38', rank: null },
   venue: { name: 'Loading…' },
   broadcast: { network: '—' }
 };
@@ -26,8 +30,8 @@ const ILLINOIS_USC_GAME: GameLite = {
   id: 'illinois-usc-20250927',
   start: '2025-09-27T16:10:00.000Z',
   state: 'post',
-  home: { id: 'illinois', name: 'Illinois Fighting Illini', short: 'Illinois', abbrev: 'ILL', logo: 'https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/fightingillini.com/images/logos/site/site.png', color: 'E84A27' },
-  away: { id: 'usc', name: 'USC Trojans', short: 'USC', abbrev: 'USC', logo: 'https://fightingillini.com/services/logo_handler.ashx?image_path=/images/logos/usc-primary-200x200.png', color: '990000' },
+  home: { id: 'illinois', name: 'Illinois Fighting Illini', short: 'Illinois', abbrev: 'ILL', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncf/500/356.png&h=200&w=200', color: 'E84A27' },
+  away: { id: 'usc', name: 'USC Trojans', short: 'USC', abbrev: 'USC', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncf/500/30.png&h=200&w=200', color: '990000' },
   venue: { name: 'Gies Memorial Stadium', city: 'Champaign', state: 'Illinois' },
   broadcast: { network: 'BTN' },
   homeScore: 34,
@@ -36,18 +40,18 @@ const ILLINOIS_USC_GAME: GameLite = {
 
 const GT_DEMO_PROPS = [
   {
-    id: 'haynes-passing-yards',
+    id: 'haynes-king-passing-yards',
     player: 'Haynes King',
     prop: 'Passing Yards',
     market: 215.5,
     fair: 225.8,
-    edge: 4.1,
+    edge: 4.8,
     position: 'QB',
     team: 'GT',
     confidence: 92
   },
   {
-    id: 'haynes-rushing-yards',
+    id: 'haynes-king-rushing-yards',
     player: 'Haynes King',
     prop: 'Rushing Yards',
     market: 45.5,
@@ -205,30 +209,28 @@ const INSIGHTS: Record<string,string[]> = {
   ]
 };
 
-// Mock clips (would map from backend /clips route)
-const DEMO_CLIPS: Clip[] = [
-  { id: 'c_king_pass_td', playerId:'haynes-king', title:'King threads TD seam', src:'/video/king_pass_td.mp4', start:5, end:17, thumbnail:'/thumbs/king_pass_td.jpg', tags:['TD','Seam','Red Zone'], confidence:0.93 },
-  { id: 'c_king_rush_td', playerId:'haynes-king', title:'Designed QB draw scores', src:'/video/king_rush_td.mp4', start:0, end:12, thumbnail:'/thumbs/king_rush_td.jpg', tags:['Rushing','Score','Red Zone'], confidence:0.9 },
-  { id: 'c_haines_fumble', playerId:'jamal-haines', title:'Haines ball security lapse', src:'/video/haines_fumble.mp4', start:2, end:11, thumbnail:'/thumbs/haines_fumble.jpg', tags:['Turnover','Momentum'], confidence:0.88 }
-];
+// TwelveLabs clips will be fetched dynamically via PropDrawer
+// No need for static DEMO_CLIPS - this will be handled by TwelveLabs integration
+const DEMO_CLIPS: Clip[] = []; // Empty - will be populated by TwelveLabs search
 
-interface TeamInputProps { value: string; onChange: (v: string)=>void; onSubmit: ()=>void; loading?: boolean; }
-const TeamInput: React.FC<TeamInputProps> = ({ value, onChange, onSubmit, loading }) => (
-  <form onSubmit={(e)=>{e.preventDefault(); onSubmit();}} className="flex items-center gap-2">
+interface TeamInputProps { value: string; onChange: (v: string)=>void; loading?: boolean; }
+const TeamInput: React.FC<TeamInputProps> = ({ value, onChange, loading }) => (
+  <div className="relative">
     <input
       value={value}
       onChange={e=>onChange(e.target.value)}
-      placeholder="Find team (e.g. GT, Georgia Tech)"
-      className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400/40 placeholder:text-white/40"
+      placeholder="Find team (e.g. GT, Georgia Tech, Illinois)"
+      className="px-3 py-2 pr-8 rounded-lg bg-white/5 border border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400/40 placeholder:text-white/40 w-full"
       aria-label="Team search"
     />
-    <CTAButton type="submit" disabled={loading}>{loading ? '...' : 'Set'}</CTAButton>
-  </form>
+    {loading && (
+      <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white/40 text-xs">...</div>
+    )}
+  </div>
 );
 
 export default function DemoPage() {
-  const [showPropBoard, setShowPropBoard] = useState(false);
-  const [selectedProp, setSelectedProp] = useState<any>(null);
+  const [showGameDashboard, setShowGameDashboard] = useState(false);
   const search = useSearch();
   const [teamQuery, setTeamQuery] = useState('Georgia Tech');
   const [game, setGame] = useState<GameLite>(GT_FALLBACK_GAME);
@@ -237,6 +239,12 @@ export default function DemoPage() {
   const [loadingGame, setLoadingGame] = useState(true);
   const [loadingTeamSwitch, setLoadingTeamSwitch] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Props-related state
+  const [propInsights, setPropInsights] = useState<any[]>([]);
+  const [loadingProps, setLoadingProps] = useState(false);
+  const [selectedProp, setSelectedProp] = useState<any>(null);
+  const [showPropsGrid, setShowPropsGrid] = useState(false);
 
   const fetchGameForTeam = useCallback(async (team: string, silent = false) => {
     if (!silent) setLoadingTeamSwitch(true);
@@ -249,9 +257,8 @@ export default function DemoPage() {
         return;
       }
       
-      const res = await fetch(`/api/cfb/games/for-team?q=${encodeURIComponent(team)}`);
-      if (!res.ok) throw new Error('network');
-      const json = await res.json();
+      const json = await safeFetch<{ games: GameLite[] }>(ENDPOINTS.gamesForTeam(team));
+      if (!json) throw new Error('network');
       const first: GameLite | undefined = json.games?.[0];
       if (first) {
         setGame(first);
@@ -267,9 +274,8 @@ export default function DemoPage() {
 
   const fetchToday = useCallback(async ()=>{
     try {
-      const r = await fetch('/api/cfb/games/today');
-      if (!r.ok) return;
-      const arr: GameLite[] = await r.json();
+      const arr = await safeFetch<GameLite[]>(ENDPOINTS.gamesToday);
+      if (!arr) return;
       // Sort: live first, then upcoming by start time
       const order = (g: GameLite) => g.state === 'in' ? 0 : g.state === 'pre' ? 1 : 2;
       arr.sort((a,b)=> order(a)-order(b) || a.start.localeCompare(b.start));
@@ -277,8 +283,31 @@ export default function DemoPage() {
     } catch { /* silent */ }
   }, []);
 
+  const fetchProps = useCallback(async (gameId: string) => {
+    setLoadingProps(true);
+    try {
+      const data = await safeFetch<{ insights: any[] }>(ENDPOINTS.insightsForGame(gameId));
+      if (!data) throw new Error('Failed to fetch props');
+      setPropInsights(data.insights || []);
+    } catch (error) {
+      console.error('Error fetching props:', error);
+      setPropInsights([]);
+    } finally {
+      setLoadingProps(false);
+    }
+  }, []);
+
   // initial load
-  useEffect(()=> { fetchGameForTeam(teamQuery); fetchToday(); }, [fetchGameForTeam, fetchToday, teamQuery]);
+  useEffect(()=> { fetchGameForTeam('Georgia Tech'); fetchToday(); }, [fetchGameForTeam, fetchToday]);
+  
+  // Auto-search when teamQuery changes (debounced)
+  useEffect(() => {
+    if (!teamQuery.trim() || teamQuery === 'Georgia Tech') return;
+    const searchDelay = setTimeout(() => {
+      fetchGameForTeam(teamQuery, true); // silent = true to avoid loading states
+    }, 800);
+    return () => clearTimeout(searchDelay);
+  }, [teamQuery]); // Removed fetchGameForTeam from deps to prevent re-renders
 
   // polling logic for selected game
   useEffect(()=> {
@@ -295,7 +324,7 @@ export default function DemoPage() {
   // poll today list (light)
   useEffect(()=> { const id = setInterval(fetchToday, 60000); return ()=>clearInterval(id); }, [fetchToday]);
 
-  const handleTeamSubmit = () => fetchGameForTeam(teamQuery);
+
 
   const countdown = useMemo(()=>{
     if (!game) return null;
@@ -319,32 +348,44 @@ export default function DemoPage() {
     trackWebVitals();
   }, []);
 
-  // Demo flow: Hero → Prop Board → Video Drawer
-  const handleOpenPropBoard = () => {
-    setShowPropBoard(true);
-    const props = currentGameType === 'ILLINOIS' ? ILLINOIS_DEMO_PROPS : GT_DEMO_PROPS;
-    if (!selectedProp) setSelectedProp(props[0]);
+  // Fetch props when game changes
+  useEffect(() => {
+    if (game && game.id !== 'pending') {
+      const gameId = currentGameType === 'ILLINOIS' ? 'illinois-usc' : 'gt-wake';
+      fetchProps(gameId);
+    }
+  }, [game, currentGameType, fetchProps]);
+
+  // Demo flow: Hero → Unified Game Dashboard → Video Drawer
+  const handleOpenGameDashboard = () => {
+    setShowGameDashboard(true);
+    setShowPropsGrid(true);
+    // Ensure we have props loaded
+    if (propInsights.length === 0 && game && game.id !== 'pending') {
+      const gameId = currentGameType === 'ILLINOIS' ? 'illinois-usc' : 'gt-wake';
+      fetchProps(gameId);
+    }
   };
 
   const handleTeamSwitch = (team: string) => {
     if (team.toLowerCase().includes('illinois') || team.toLowerCase().includes('illini')) {
       setCurrentGameType('ILLINOIS');
       setGame(ILLINOIS_USC_GAME);
-      setSelectedProp(null);
+      setShowPropsGrid(true);
     } else {
       setCurrentGameType('GT');
       setGame(GT_FALLBACK_GAME);
-      setSelectedProp(null);
+      setShowPropsGrid(true);
     }
   };
 
-  const handleSelectProp = (prop: any) => {
+  const handlePropClick = (prop: any) => {
     setSelectedProp(prop);
+    // Could open PropDrawer here or navigate to detailed analysis
+    console.log('Prop clicked:', prop);
   };
 
-  const handleCloseDrawer = () => {
-    setSelectedProp(null);
-  };
+
 
   const handleSearchSelect = (result: any) => {
     console.log('Search selected:', result);
@@ -353,21 +394,43 @@ export default function DemoPage() {
 
   const ShellWrapper: React.FC<{children:React.ReactNode}> = ({children}) => <AppShell>{children}</AppShell>;
 
-  if (!showPropBoard) {
+  // Show GameDashboard if active
+  if (showGameDashboard) {
+    const gameId = currentGameType === 'ILLINOIS' ? 'illinois-usc-20250927' : 'gt-wake-forest-20250927';
+    const gameTitle = currentGameType === 'ILLINOIS' ? 'Illinois vs USC' : 'Georgia Tech vs Wake Forest';
+    
     return (
-      <ShellWrapper>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-8 space-y-8">
-            <SectionHeader title="Matchup" subtitle="Live narrative + video intelligence overlay" action={<CTAButton onClick={handleOpenPropBoard} disabled={loadingGame}>{loadingGame? 'Loading…':'Open Prop Board'}</CTAButton>} />
-            <div className="flex items-center justify-between mb-4">
-              <TeamInput value={teamQuery} onChange={setTeamQuery} onSubmit={handleTeamSubmit} loading={loadingTeamSwitch} />
-              {error && <span className="text-sm text-red-300">{error}</span>}
-            </div>
+      <GameDashboard
+        gameId={gameId}
+        gameTitle={gameTitle}
+        onBack={() => setShowGameDashboard(false)}
+      />
+    );
+  }
+
+  // Main hero view
+  return (
+    <ShellWrapper>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <div className="lg:col-span-8 space-y-8">
+          <SectionHeader 
+            title="Matchup" 
+            subtitle="Live narrative + video intelligence overlay" 
+            action={
+              <CTAButton onClick={handleOpenGameDashboard}>
+                View Props
+              </CTAButton>
+            } 
+          />
+          <div className="flex items-center justify-between mb-4">
+            <TeamInput value={teamQuery} onChange={setTeamQuery} loading={loadingTeamSwitch} />
+            {error && <span className="text-sm text-red-300">{error}</span>}
+          </div>
             <div className="p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex-1 text-center">
                   <div className="mx-auto w-20 h-20 mb-3 rounded-full bg-white/5 flex items-center justify-center overflow-hidden">
-                    {displayAway?.logo && <img src={displayAway.logo} alt={displayAway.short} className="w-16 h-16 object-contain" />}
+                    <TeamLogo src={displayAway?.logo} alt={displayAway?.short || 'Away Team'} size={64} />
                   </div>
                   <div className="text-lg font-semibold flex items-center justify-center gap-2">
                     {displayAway?.short}
@@ -377,7 +440,11 @@ export default function DemoPage() {
                 <div className="px-4 text-center">
                   <div className="text-sm tracking-wide text-white/60 mb-1">{isLive ? 'Score' : 'Kickoff'}</div>
                   <div className="text-3xl font-bold tabular-nums mb-1">
-                    {isLive ? `${game.awayScore ?? 0} – ${game.homeScore ?? 0}` : countdown}
+                    {isLive || game.state === 'post' ? (
+                      <>
+                        {game.awayScore ?? 0} <span className="text-white/40">–</span> {game.homeScore ?? 0}
+                      </>
+                    ) : countdown}
                   </div>
                   <div className="text-xs text-white/50">
                     {isLive ? `Q${game.period ?? '?'} • ${game.clock ?? ''}` : new Date(game.start).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
@@ -387,7 +454,7 @@ export default function DemoPage() {
                 </div>
                 <div className="flex-1 text-center">
                   <div className="mx-auto w-20 h-20 mb-3 rounded-full bg-white/5 flex items-center justify-center overflow-hidden">
-                    {displayHome?.logo && <img src={displayHome.logo} alt={displayHome.short} className="w-16 h-16 object-contain" />}
+                    <TeamLogo src={displayHome?.logo} alt={displayHome?.short || 'Home Team'} size={64} />
                   </div>
                   <div className="text-lg font-semibold flex items-center justify-center gap-2">
                     {displayHome?.short}
@@ -401,6 +468,34 @@ export default function DemoPage() {
               </div>
             </div>
           </div>
+          
+          {/* Props Grid Section */}
+          {showPropsGrid && (
+            <div className="space-y-6">
+              <SectionHeader 
+                title="Player Props" 
+                subtitle={`${currentGameType === 'ILLINOIS' ? 'Illinois vs USC' : 'Georgia Tech vs Wake Forest'} • Market vs Fair Analysis`}
+              />
+              {loadingProps ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="p-6 rounded-xl border border-white/10 bg-white/5 animate-pulse">
+                      <div className="h-4 bg-white/10 rounded w-3/4 mb-3"></div>
+                      <div className="h-3 bg-white/10 rounded w-1/2 mb-4"></div>
+                      <div className="h-8 bg-white/10 rounded"></div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <PropsGrid
+                  props={propInsights}
+                  onPropClick={handlePropClick}
+                  selectedPropId={selectedProp ? `${selectedProp.playerId}-${selectedProp.propType}` : undefined}
+                />
+              )}
+            </div>
+          )}
+          
           {/* Today's Games side panel */}
           <div className="lg:col-span-4 space-y-4">
             <SectionHeader title="Today's CFB" subtitle="Live + upcoming" />
@@ -408,7 +503,7 @@ export default function DemoPage() {
               {gamesToday.slice(0,8).map(g => {
                 const live = g.state === 'in';
                 return (
-                  <button key={g.id} onClick={()=>{ setGame(g); setShowPropBoard(false); }} className="w-full text-left p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
+                  <button key={g.id} onClick={()=>{ setGame(g); }} className="w-full text-left p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="text-sm font-medium truncate">{g.away.short} @ {g.home.short}</div>
@@ -430,45 +525,6 @@ export default function DemoPage() {
         <SearchModal isOpen={search.isOpen} onClose={search.close} onSelect={handleSearchSelect} />
       </ShellWrapper>
     );
-  }
-
-  return (
-    <AppShell>
-      <div className="mb-10 flex items-center gap-4">
-        <SectionHeader title="Haynes King Props" subtitle="Tap a line to view fair value, reasoning & video evidence." action={<CTAButton onClick={()=>setShowPropBoard(false)}>← Back</CTAButton>} />
-        <Badge color="emerald">LIVE</Badge>
-      </div>
-      <div className="space-y-3 mb-10">
-        {(currentGameType === 'ILLINOIS' ? ILLINOIS_DEMO_PROPS : GT_DEMO_PROPS).map((prop) => (
-          <PropRow
-            key={prop.id}
-            prop={prop}
-            onClick={() => handleSelectProp(prop)}
-            isSelected={selectedProp?.id === prop.id}
-          />
-        ))}
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <StatCard label="Decision Time" value="<30s" accent="text-emerald-300" />
-        <StatCard label="Confidence Boost" value="+25%" accent="text-sky-300" />
-        <StatCard label="AI Confidence" value="89%" accent="text-purple-300" />
-      </div>
-      <PropDrawer
-        isOpen={!!selectedProp}
-        onClose={handleCloseDrawer}
-        propId={selectedProp?.id || ''}
-        propType={selectedProp?.prop as any}
-        playerId={selectedProp?.id?.split('-').slice(0, -2).join('-') || 'haynes-king'}
-        gameId={currentGameType === 'ILLINOIS' ? 'illinois-usc-20250927' : undefined}
-        marketLine={selectedProp?.market || 0}
-        fairLine={selectedProp?.fair || 0}
-        edgePct={selectedProp?.edge || 0}
-        bullets={selectedProp ? INSIGHTS[selectedProp.id] || [] : []}
-        clips={DEMO_CLIPS.filter(c=>c.playerId==='haynes-king')}
-      />
-      <SearchModal isOpen={search.isOpen} onClose={search.close} onSelect={handleSearchSelect} />
-    </AppShell>
-  );
 }
 
 // Add CSS animations

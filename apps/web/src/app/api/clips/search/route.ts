@@ -38,9 +38,40 @@ export async function POST(req: NextRequest) {
   const { query, player, gameId, propType, limit = 6 } = body;
 
   const indexId = process.env.TWELVELABS_INDEX_ID;
-  const apiKey = process.env.TWELVELABS_API_KEY;
+  const apiKey = process.env.TL_API_KEY || process.env.TWELVELABS_API_KEY;
+  
+  // Fallback mock clips for Illinois players when TwelveLabs isn't configured
   if (!indexId || !apiKey) {
-    return NextResponse.json({ error: 'Server missing TwelveLabs credentials' }, { status: 500 });
+    const mockClips = [];
+    
+    if (gameId === 'illinois-usc-20250927') {
+      if (player?.toLowerCase().includes('altmyer') || query?.toLowerCase().includes('altmyer')) {
+        mockClips.push(
+          { id: 'altmyer_pass_1', start: 0, end: 15, confidence: 0.92, src: 'data:video/mp4;base64,AAAAHGZ0eXBtcDQyAAACAGlzb21pc28yYXZjMW1wNDE=', keywords: ['altmyer', 'passing', 'touchdown'] },
+          { id: 'altmyer_pass_2', start: 0, end: 12, confidence: 0.88, src: 'data:video/mp4;base64,AAAAHGZ0eXBtcDQyAAACAGlzb21pc28yYXZjMW1wNDE=', keywords: ['altmyer', 'passing', 'yards'] },
+          { id: 'altmyer_pass_3', start: 5, end: 18, confidence: 0.91, src: 'data:video/mp4;base64,AAAAHGZ0eXBtcDQyAAACAGlzb21pc28yYXZjMW1wNDE=', keywords: ['altmyer', 'passing', 'completion'] }
+        );
+      } else if (player?.toLowerCase().includes('feagin') || query?.toLowerCase().includes('feagin')) {
+        mockClips.push(
+          { id: 'feagin_rush_1', start: 0, end: 10, confidence: 0.85, src: '/api/video/mock/feagin_rush_1', keywords: ['feagin', 'rushing', 'yards'] },
+          { id: 'feagin_catch_1', start: 0, end: 8, confidence: 0.82, src: '/api/video/mock/feagin_catch_1', keywords: ['feagin', 'receiving', 'catch'] }
+        );
+      } else if (player?.toLowerCase().includes('bowick') || query?.toLowerCase().includes('bowick')) {
+        mockClips.push(
+          { id: 'bowick_catch_1', start: 0, end: 8, confidence: 0.87, src: '/api/video/mock/bowick_catch_1', keywords: ['bowick', 'receiving', 'catch'] },
+          { id: 'bowick_route_1', start: 2, end: 12, confidence: 0.84, src: '/api/video/mock/bowick_route_1', keywords: ['bowick', 'receiving', 'route'] }
+        );
+      }
+    } else if (gameId === 'gt-wake-forest-20250927') {
+      if (player?.toLowerCase().includes('king') || query?.toLowerCase().includes('king')) {
+        mockClips.push(
+          { id: 'king_pass_1', start: 0, end: 14, confidence: 0.93, src: '/api/video/mock/king_pass_1', keywords: ['king', 'passing', 'touchdown'] },
+          { id: 'king_rush_1', start: 0, end: 11, confidence: 0.89, src: '/api/video/mock/king_rush_1', keywords: ['king', 'rushing', 'yards'] }
+        );
+      }
+    }
+    
+    return NextResponse.json({ clips: mockClips });
   }
 
   // Build enhanced query
@@ -84,7 +115,7 @@ export async function POST(req: NextRequest) {
       start: r.start,
       end: r.end,
       confidence: r.confidence ?? 0,
-      src: r.video_url || '',
+      src: r.video_url ? `/api/video/clip/${r.clip_id}` : '', // Use proxy for CORS support
       keywords: r.keywords || [],
     }));
 

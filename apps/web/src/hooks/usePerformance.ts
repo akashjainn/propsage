@@ -181,11 +181,11 @@ export function useOptimizedImage(src: string, fallback?: string) {
 export function preloadResources() {
   if (typeof window === 'undefined') return;
 
-  // Preload critical API endpoints
+  // Preload critical API endpoints only (no images to avoid CORS issues)
   const criticalEndpoints = [
-    '/api/games',
-    '/api/players/gunner-stockton',
-    '/api/props?gameId=uga-bama-2024'
+    '/api/cfb/games/today',
+    '/api/cfb/games/for-team?q=Georgia%20Tech',
+    '/api/insights/illinois-usc-20250927'
   ];
 
   criticalEndpoints.forEach(endpoint => {
@@ -195,19 +195,7 @@ export function preloadResources() {
     document.head.appendChild(link);
   });
 
-  // Preload critical images
-  const criticalImages = [
-    '/images/uga-logo.png',
-    '/images/alabama-logo.png'
-  ];
-
-  criticalImages.forEach(src => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = src;
-    document.head.appendChild(link);
-  });
+  // Skip image preloading to avoid CORS issues - let TeamLogo component handle fallbacks
 }
 
 // Lazy loading hook with intersection observer

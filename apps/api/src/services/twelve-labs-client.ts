@@ -11,7 +11,7 @@ import {
 
 // Environment configuration
 const TL_CONFIG: TwelveLabsConfig = {
-  apiKey: process.env.TWELVELABS_API_KEY || '',
+  apiKey: process.env.TL_API_KEY || process.env.TWELVELABS_API_KEY || '',
   indexId: process.env.TWELVELABS_INDEX_ID || 'default_cfb_index',
   baseUrl: process.env.TWELVELABS_BASE_URL || 'https://api.twelvelabs.io/v1.2'
 };
