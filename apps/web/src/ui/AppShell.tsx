@@ -3,7 +3,11 @@ import React from 'react';
 import { tokens } from './theme';
 
 function Logo(){
-  return <div className="h-8 w-8 rounded-xl bg-[var(--iris)]/80 ring-2 ring-[var(--ring)]/40 shadow-[0_0_30px_rgba(108,92,231,.45)]" />;
+  return (
+    <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 ring-2 ring-blue-400/40 shadow-[0_0_20px_rgba(59,130,246,.3)] flex items-center justify-center">
+      <span className="text-white font-bold text-sm">P</span>
+    </div>
+  );
 }
 
 export default function AppShell({ children }: { children: React.ReactNode }) {

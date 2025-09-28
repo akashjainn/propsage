@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,38 +14,85 @@ interface EdgeRecord {
   fairLine: number;
   edgePct: number; // positive means OVER value edge
   confidence: number; // 0-1
+  bullets?: string[];
+  analysis?: string;
 }
 
-// Basic mock edges keyed by gameId for demo reliability
-const MOCK_EDGES: Record<string, EdgeRecord[]> = {
-  'gt-wake-forest-20250927': [
-    { id: 'e-gt-1', gameId: 'gt-wake-forest-20250927', player: 'Haynes King', team: 'Georgia Tech', market: 'Passing TDs', marketLine: 1.5, fairLine: 1.82, edgePct: 12.5, confidence: 0.91 },
-    { id: 'e-gt-2', gameId: 'gt-wake-forest-20250927', player: 'Eric Singleton Jr.', team: 'Georgia Tech', market: 'Receiving Yards', marketLine: 58.5, fairLine: 66.3, edgePct: 13.3, confidence: 0.88 },
-    { id: 'e-gt-3', gameId: 'gt-wake-forest-20250927', player: 'Wake QB', team: 'Wake Forest', market: 'Interceptions Thrown', marketLine: 0.5, fairLine: 0.73, edgePct: 9.8, confidence: 0.79 }
-  ],
-  'illinois-usc-20250927': [
-    { id: 'e-ill-1', gameId: 'illinois-usc-20250927', player: 'Luke Altmyer', team: 'Illinois', market: 'Passing Yards', marketLine: 215.5, fairLine: 238.2, edgePct: 10.5, confidence: 0.94 },
-    { id: 'e-ill-2', gameId: 'illinois-usc-20250927', player: 'Kaden Feagin', team: 'Illinois', market: 'Receiving Yards', marketLine: 19.5, fairLine: 24.1, edgePct: 7.5, confidence: 0.82 },
-    { id: 'e-ill-3', gameId: 'illinois-usc-20250927', player: 'USC RB', team: 'USC', market: 'Rushing Attempts', marketLine: 13.5, fairLine: 11.8, edgePct: -6.0, confidence: 0.76 }
-  ]
+// Load enhanced insights data
+function loadEnhancedInsights(): any {
+  try {
+    const dataPath = path.join(process.cwd(), '..', 'api', 'data', 'insights.enhanced.json');
+    const data = fs.readFileSync(dataPath, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Failed to load enhanced insights:', error);
+    return { insights: [] };
+  }
+}
+
+// Game mapping to filter insights
+const GAME_MAPPINGS: { [key: string]: string[] } = {
+  'game_uga_bama': ['Georgia', 'Alabama'],
+  'georgia-vs-alabama': ['Georgia', 'Alabama'],
+  'game_gt_wf': ['Georgia Tech', 'Wake Forest'],
+  'georgia-tech-vs-wake-forest': ['Georgia Tech', 'Wake Forest'],
+  'illinois-vs-usc': ['Illinois', 'USC'],
+  'ole-miss-vs-lsu': ['Ole Miss', 'LSU']
 };
 
-async function fetchRealEdges(_gameId: string): Promise<EdgeRecord[]> {
-  // Placeholder: integrate real pricing / model service here.
-  return [];
+function convertInsightToEdge(insight: any): EdgeRecord {
+  return {
+    id: insight.id,
+    gameId: insight.gameId || 'unknown',
+    player: insight.player,
+    team: insight.team,
+    market: insight.propType.split('_').map((word: string) => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' '),
+    marketLine: insight.marketLine,
+    fairLine: insight.fairLine,
+    edgePct: insight.edge,
+    confidence: insight.confidence / 100, // Convert from 0-100 to 0-1
+    bullets: insight.bullets || [],
+    analysis: insight.analysis
+  };
 }
 
 export async function GET(_req: NextRequest, { params }: { params: { gameId: string } }) {
   const { gameId } = params;
+  
   try {
-    const real = await fetchRealEdges(gameId);
-    if (real.length) {
-      return NextResponse.json({ edges: real });
+    const enhancedData = loadEnhancedInsights();
+    let edges: EdgeRecord[] = [];
+    
+    // Map gameId to team filter
+    const normalizedGameId = gameId.toLowerCase().replace(/-20250927$/, ''); // Remove date suffix if present
+    const teams = GAME_MAPPINGS[normalizedGameId];
+    
+    if (teams && enhancedData.insights) {
+      // Filter insights by teams in this game and convert to edges
+      const relevantInsights = enhancedData.insights.filter((insight: any) => 
+        teams.includes(insight.team)
+      );
+      
+      edges = relevantInsights.map(convertInsightToEdge)
+        .sort((a, b) => Math.abs(b.edgePct) - Math.abs(a.edgePct)) // Sort by absolute edge percentage
+        .slice(0, 5); // Limit to top 5 edges
+    } else {
+      // Return top edges from all insights if no specific game mapping
+      edges = enhancedData.insights ? enhancedData.insights
+        .map(convertInsightToEdge)
+        .sort((a, b) => Math.abs(b.edgePct) - Math.abs(a.edgePct))
+        .slice(0, 5) : [];
     }
-  } catch (e) {
-    console.warn('[edges] real fetch failed, using fallback:', (e as Error).message);
+    
+    return NextResponse.json({ edges });
+    
+  } catch (error) {
+    console.error('Error fetching edges:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch edges', edges: [] },
+      { status: 500 }
+    );
   }
-
-  const fallback = MOCK_EDGES[gameId] || Object.values(MOCK_EDGES).flat().slice(0, 3);
-  return NextResponse.json({ edges: fallback });
 }

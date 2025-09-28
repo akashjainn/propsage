@@ -133,66 +133,6 @@ export default function HomePage() {
           onGameSelect={handleGameSelect}
           loading={loadingGames}
         />
-        
-        {gamesToday.length > 0 && selectedGameId && (
-          <div className="mt-6 text-center">
-            <button
-              onClick={() => setShowGameDashboard(true)}
-              className="px-8 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-semibold transition-colors"
-            >
-              Analyze {gamesToday.find(g => g.id === selectedGameId)?.away.short} @ {gamesToday.find(g => g.id === selectedGameId)?.home.short} Props
-            </button>
-          </div>
-        )}
-      </section>
-
-      {/* Quick Stats */}
-      <section className="mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-xl bg-white/5 border border-white/10 text-center">
-            <div className="text-3xl font-bold text-green-400 mb-2">94.2%</div>
-            <div className="text-sm text-white/70">Model Accuracy</div>
-          </div>
-          <div className="p-6 rounded-xl bg-white/5 border border-white/10 text-center">
-            <div className="text-3xl font-bold text-blue-400 mb-2">15.7%</div>
-            <div className="text-sm text-white/70">Average Edge</div>
-          </div>
-          <div className="p-6 rounded-xl bg-white/5 border border-white/10 text-center">
-            <div className="text-3xl font-bold text-purple-400 mb-2">1,200+</div>
-            <div className="text-sm text-white/70">Video Clips Analyzed</div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="mb-12">
-        <SectionHeader 
-          title="How It Works" 
-          subtitle="Our three-step process to find profitable prop bets" 
-        />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl font-bold text-blue-400">1</span>
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Analyze Market Lines</h3>
-            <p className="text-white/70">We pull real-time odds from major sportsbooks and identify pricing inefficiencies.</p>
-          </div>
-          <div className="text-center">
-            <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl font-bold text-green-400">2</span>
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Calculate Fair Value</h3>
-            <p className="text-white/70">Our models compute true probability based on player stats, matchups, and game conditions.</p>
-          </div>
-          <div className="text-center">
-            <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl font-bold text-purple-400">3</span>
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Show Video Proof</h3>
-            <p className="text-white/70">Watch actual game footage that supports our analysis and edge recommendations.</p>
-          </div>
-        </div>
       </section>
 
       {/* Search Modal */}

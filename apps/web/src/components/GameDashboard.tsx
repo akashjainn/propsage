@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, TrendingDown, Target, Play } from 'lucide-react';
 import { PropDrawer } from './PropDrawer';
+import { AppShell, SectionHeader } from '@/ui';
 
 interface GameProp {
   propType: string;
@@ -12,6 +13,7 @@ interface GameProp {
   edgePct: number;
   confidence: 'high' | 'med' | 'low';
   bullets: Array<{ title: string }>;
+  analysis?: string;
 }
 
 interface Player {
@@ -82,7 +84,8 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
               fairLine: prop.fairLine,
               edgePct: prop.edge,
               confidence: confidenceCategory,
-              bullets: bulletObjects
+              bullets: bulletObjects,
+              analysis: prop.analysis
             });
           });
           setPlayers(Array.from(playersMap.values()));
@@ -179,62 +182,62 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white p-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-8 flex items-center gap-4">
-            <button
-              onClick={onBack}
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
-            >
-              ← Back
-            </button>
-            <h1 className="text-3xl font-bold">{gameTitle} Props</h1>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-white/5 rounded-xl p-6 animate-pulse">
-                <div className="h-4 bg-white/10 rounded mb-4"></div>
-                <div className="h-8 bg-white/10 rounded mb-4"></div>
-                <div className="h-4 bg-white/10 rounded mb-2"></div>
-                <div className="h-4 bg-white/10 rounded mb-2"></div>
-              </div>
-            ))}
-          </div>
+      <AppShell>
+        <div className="mb-8 flex items-center gap-4">
+          <button
+            onClick={onBack}
+            className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+          >
+            ← Back
+          </button>
+          <SectionHeader
+            title={`${gameTitle} Props`}
+            subtitle="Loading prop insights and video evidence..."
+          />
         </div>
-      </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="bg-white/5 rounded-xl p-6 animate-pulse">
+              <div className="h-4 bg-white/10 rounded mb-4"></div>
+              <div className="h-8 bg-white/10 rounded mb-4"></div>
+              <div className="h-4 bg-white/10 rounded mb-2"></div>
+              <div className="h-4 bg-white/10 rounded mb-2"></div>
+            </div>
+          ))}
+        </div>
+      </AppShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={onBack}
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
-            >
-              ← Back
-            </button>
-            <div>
-              <h1 className="text-3xl font-bold">{gameTitle}</h1>
-              <p className="text-white/60">Market vs Fair Line Analysis</p>
-            </div>
-          </div>
-          <div className="text-right">
-            <div className="text-sm text-white/60">Total Props</div>
-            <div className="text-2xl font-bold">{players.reduce((sum, p) => sum + p.props.length, 0)}</div>
-          </div>
+    <AppShell>
+      {/* Header */}
+      <div className="mb-8 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={onBack}
+            className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+          >
+            ← Back
+          </button>
+          <SectionHeader
+            title={gameTitle}
+            subtitle="Market vs Fair Line Analysis backed by video evidence"
+          />
         </div>
+        <div className="text-right">
+          <div className="text-sm text-white/60">Total Props</div>
+          <div className="text-2xl font-bold">{players.reduce((sum, p) => sum + p.props.length, 0)}</div>
+        </div>
+      </div>
 
         {/* Top Edges Section */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5" />
-            Top Edge Opportunities
-          </h2>
+        <section className="mb-8">
+          <SectionHeader
+            title="Top Edge Opportunities"
+            subtitle="Highest value props based on video analysis and fair line calculation"
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {players
               .flatMap(player => 
@@ -264,10 +267,14 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
                 </button>
               ))}
           </div>
-        </div>
+        </section>
 
         {/* All Players Grid */}
-        <div className="space-y-8">
+        <section className="space-y-8">
+          <SectionHeader
+            title="All Players & Props"
+            subtitle="Complete breakdown with video evidence for each prop bet"
+          />
           {players.map(player => (
             <div key={player.playerId} className="bg-white/5 rounded-xl p-6">
               <div className="flex items-center gap-4 mb-6">
@@ -322,8 +329,7 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
               </div>
             </div>
           ))}
-        </div>
-      </div>
+        </section>
 
       {/* PropDrawer */}
       {selectedProp && (
@@ -331,16 +337,18 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
           isOpen={!!selectedProp}
           onClose={() => setSelectedProp(null)}
           propId={`${gameId}-${selectedProp.playerId}-${selectedProp.prop.propType}`}
-          propType={selectedProp.prop.propLabel as any}
+          propType={selectedProp.prop.propType}
           playerId={selectedProp.playerId}
           gameId={gameId}
+          gameTitle={gameTitle}
           marketLine={selectedProp.prop.marketLine}
           fairLine={selectedProp.prop.fairLine}
           edgePct={selectedProp.prop.edgePct}
           bullets={selectedProp.prop.bullets.map(b => b.title)}
+          analysis={selectedProp.prop.analysis}
           clips={[]}
         />
       )}
-    </div>
+    </AppShell>
   );
 }

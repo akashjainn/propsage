@@ -7,7 +7,7 @@ import { pushToast } from '@/components/ToastBus';
 import FallbackClips from '@/components/FallbackClips';
 import * as Sentry from '@sentry/nextjs';
 
-type Edge = { id: string; player: string; team: string; market: string; marketLine?: number; fairLine?: number; edgePct?: number; confidence?: number };
+type Edge = { id: string; player: string; team: string; market: string; marketLine?: number; fairLine?: number; edgePct?: number; confidence?: number; bullets?: string[]; analysis?: string; };
 
 export default function EdgeEvidenceDrawer({
   edge, gameTitle, open, onClose,
@@ -145,7 +145,29 @@ export default function EdgeEvidenceDrawer({
                 <div className="text-base font-semibold">{edge.confidence != null ? `${Math.round((edge.confidence) * 100)}%` : '—'}</div>
               </div>
             </div>
-            <div className="text-xs text-white/50">Stats tab is placeholder; extend with recent performance, opponent splits, model rationale, etc.</div>
+            
+            {/* Why Section */}
+            {edge.bullets && edge.bullets.length > 0 && (
+              <div className="space-y-3">
+                <h4 className="font-semibold text-white">Why this edge exists</h4>
+                <div className="space-y-2 text-sm text-white/80">
+                  {edge.bullets.map((bullet, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <div className="w-1 h-1 rounded-full bg-blue-400 mt-2 flex-shrink-0" />
+                      <span>{bullet}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {/* Analysis Section */}
+            {edge.analysis && (
+              <div className="space-y-3">
+                <h4 className="font-semibold text-white">Analysis</h4>
+                <p className="text-sm text-white/80">{edge.analysis}</p>
+              </div>
+            )}
           </div>
         )}
       </div>
