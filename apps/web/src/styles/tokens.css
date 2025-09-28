@@ -1,33 +1,102 @@
-/* PropSage Design Tokens - Nocturne theme with neon accents */
+/* PropSage Design Tokens - Logo-derived brand palette */
 
 :root {
-  /* Nocturne base */
-  --bg: #0b1220;        /* page background */
-  --surface: #0f1630;   /* panels */
-  --card: #121c3b;      /* cards */
-  --muted: #8aa2c9;     /* secondary text */
+  /* === CORE BRAND COLORS (from logo gradient) === */
+  
+  /* Primary - Cyan Blue */
+  --color-primary-50: #f0fafe;
+  --color-primary-100: #ddf4fd;
+  --color-primary-200: #c1e9fb;
+  --color-primary-300: #96d8f7;
+  --color-primary-400: #64c0f1;
+  --color-primary-500: #22c7f5;  /* Main cyan from logo */
+  --color-primary-600: #1598c3;
+  --color-primary-700: #0f7a9e;
+  --color-primary-800: #135e7a;
+  --color-primary-900: #164f66;
+  --color-primary-950: #0b2f42;
 
-  /* Accents */
-  --iris: #6c5ce7;      /* primary (buttons, focus) */
-  --mint: #2de3c5;      /* positive/edge */
-  --amber: #f5a524;     /* highlights */
-  --rose: #ff6b81;      /* negative */
+  /* Secondary - Hot Pink */
+  --color-secondary-50: #fef2f7;
+  --color-secondary-100: #fee7f0;
+  --color-secondary-200: #fecfe3;
+  --color-secondary-300: #ffa7cb;
+  --color-secondary-400: #fd70a7;
+  --color-secondary-500: #f63d83;  /* Main hot pink from logo */
+  --color-secondary-600: #e6226a;
+  --color-secondary-700: #c21654;
+  --color-secondary-800: #a01548;
+  --color-secondary-900: #86153f;
+  --color-secondary-950: #520820;
 
-  /* Text */
-  --fg: #eaf2ff;
-  --fg-dim: #c6d3f1;
+  /* Tertiary - Purple */
+  --color-tertiary-50: #f4f1ff;
+  --color-tertiary-100: #ece6ff;
+  --color-tertiary-200: #dbd0ff;
+  --color-tertiary-300: #c0abff;
+  --color-tertiary-400: #a078ff;
+  --color-tertiary-500: #7e3dff;  /* Main purple from logo */
+  --color-tertiary-600: #7318f7;
+  --color-tertiary-700: #650ce3;
+  --color-tertiary-800: #530bbf;
+  --color-tertiary-900: #46099c;
+  --color-tertiary-950: #2a0069;
 
-  /* Rings & borders */
-  --ring: #5b7cff;
+  /* Accent - Coral Orange */
+  --color-accent-50: #fff4ed;
+  --color-accent-100: #ffe6d5;
+  --color-accent-200: #feccaa;
+  --color-accent-300: #fdab74;
+  --color-accent-400: #fb803c;
+  --color-accent-500: #f96316;  /* Main coral from logo */
+  --color-accent-600: #ea470c;
+  --color-accent-700: #c2350c;
+  --color-accent-800: #9a2c12;
+  --color-accent-900: #7c2612;
+  --color-accent-950: #431007;
+
+  /* === APP SURFACES === */
+  --bg: #0a0e16;                    /* Deep dark background */
+  --surface: #0f1724;               /* Elevated panels */
+  --card: #0f1724;                  /* Cards (same as surface) */
+  --surface-hover: #1a2332;         /* Interactive surfaces */
+  
+  /* === TEXT COLORS === */
+  --fg: #f1f5f9;                    /* Primary text */
+  --fg-dim: #94a3b8;                /* Secondary text */
+  --muted: #64748b;                 /* Muted text */
+  
+  /* === SEMANTIC COLORS === */
+  --mint: #14b8a6;                  /* Success/positive (teal) */
+  --amber: #f59e0b;                 /* Warning */
+  --rose: #ef4444;                  /* Error/negative */
+  --iris: var(--color-primary-500); /* Primary actions (cyan) */
+  
+  /* === BORDERS === */
+  --border: #1e293b;                /* Subtle borders */
+  --border-hover: #334155;          /* Hover borders */
+  --border-strong: #475569;         /* Strong borders */
+  --ring: var(--color-primary-400); /* Focus rings */
   --stroke: 0 0% 100% / 0.06;
-
-  /* Legacy vars mapped for compatibility */
-  --brand: #0D1321;
+  
+  /* === BRAND GRADIENTS === */
+  --gradient-brand: linear-gradient(135deg, 
+    var(--color-secondary-500) 0%,     /* Hot Pink */
+    var(--color-accent-500) 25%,       /* Coral */
+    var(--color-tertiary-500) 60%,     /* Purple */
+    var(--color-primary-500) 100%      /* Cyan */
+  );
+  --gradient-primary: linear-gradient(135deg, var(--color-primary-400) 0%, var(--color-primary-600) 100%);
+  --gradient-surface: radial-gradient(600px circle at 50% 50%, 
+    rgba(34, 199, 245, 0.03) 0%,       /* Subtle cyan glow */
+    rgba(126, 61, 255, 0.02) 40%,      /* Subtle purple */
+    transparent 100%
+  );
+  
+  /* Legacy compatibility mappings */
+  --brand: var(--color-primary-500);
   --text-primary: var(--fg);
   --text-secondary: var(--fg-dim);
-  --border: #1e2532;
-  --border-hover: #2a3441;
-  --border-strong: #394050;
 
   /* Layout */
   --grid-gap: 12px;

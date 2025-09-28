@@ -84,8 +84,8 @@ export const viewport = {
   maximumScale: 5,
   userScalable: true,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#0b1420' },
-    { media: '(prefers-color-scheme: dark)', color: '#0b1420' },
+    { media: '(prefers-color-scheme: light)', color: '#0a0e16' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0e16' },
   ],
   colorScheme: 'dark light',
 }
@@ -100,7 +100,7 @@ export default function RootLayout({
       <body className={cn(
         inter.variable,
         'font-sans antialiased min-h-screen body-bg text-[var(--fg)]',
-        'selection:bg-[var(--mint)]/20 selection:text-[var(--fg)]'
+        'selection:bg-primary-500/20 selection:text-[var(--fg)]'
       )}>
         <div className="relative flex min-h-screen flex-col">
           {/* Background Pattern */}
@@ -124,7 +124,7 @@ export default function RootLayout({
                 </div>
                 <div className="flex items-center gap-4">
                   <span>Built for HackGT 12</span>
-                  <div className="h-2 w-2 bg-[var(--mint)] rounded-full animate-pulse" />
+                  <div className="h-2 w-2 bg-primary-500 rounded-full animate-brand-pulse shadow-primary" />
                 </div>
               </div>
             </div>

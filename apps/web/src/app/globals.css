@@ -96,40 +96,63 @@
 }
 
 @layer utilities {
-  /* Theme accent system */
-  :root {
-    --accent-rgb: 53, 224, 161; /* Default mint green */
-    --accent-electric-rgb: 58, 161, 255; /* Electric blue */
-  }
+  /* Brand color utilities */
+  .accent { color: var(--color-primary-500); }
+  .accent-bg { background-color: rgba(34, 199, 245, 0.1); }
+  .accent-border { border-color: rgba(34, 199, 245, 0.3); }
+  .accent-ring { box-shadow: 0 0 0 2px rgba(34, 199, 245, 0.3); }
+  .accent-glow { box-shadow: 0 0 20px rgba(34, 199, 245, 0.3), 0 0 40px rgba(126, 61, 255, 0.2); }
   
-  .accent { color: rgb(var(--accent-rgb)); }
-  .accent-bg { background-color: rgba(var(--accent-rgb), 0.14); }
-  .accent-border { border-color: rgba(var(--accent-rgb), 0.3); }
-  .accent-ring { box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.6); }
-  .accent-glow { box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.4); }
-  
+  /* Brand gradient text */
   .text-gradient {
-    background: linear-gradient(135deg, var(--mint), var(--iris));
+    background: var(--gradient-brand);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   
-  .border-gradient {
-    border: 1px solid transparent;
-    background: linear-gradient(var(--card), var(--card)) padding-box,
-                linear-gradient(135deg, var(--mint), var(--iris)) border-box;
+  .text-gradient-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
+  /* Brand gradient borders */
+  .border-gradient {
+    border: 1px solid transparent;
+    background: linear-gradient(var(--surface), var(--surface)) padding-box,
+                var(--gradient-brand) border-box;
+  }
+  
+  .border-gradient-primary {
+    border: 2px solid transparent;
+    background: linear-gradient(var(--surface), var(--surface)) padding-box,
+                var(--gradient-primary) border-box;
+  }
+  
+  /* Typography utilities */
   .tabular-nums { font-variant-numeric: tabular-nums; }
   .lining-nums { font-variant-numeric: lining-nums; }
+  
+  /* Brand animation utilities */
+  .animate-gradient-shift {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+  }
+  
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
 }
 
-/* Background grid + radial glow */
+/* Background grid + radial glow - Using brand colors */
 .body-bg {
   background:
-    radial-gradient(600px at 20% -10%, rgba(108,92,231,0.20), transparent 60%),
-    radial-gradient(800px at 90% 10%, rgba(45,227,197,0.18), transparent 60%),
+    radial-gradient(600px at 20% -10%, rgba(126, 61, 255, 0.08), transparent 60%),  /* Purple from logo */
+    radial-gradient(800px at 90% 10%, rgba(34, 199, 245, 0.06), transparent 60%),    /* Cyan from logo */
+    radial-gradient(1000px at 50% 100%, rgba(246, 61, 131, 0.04), transparent 70%), /* Pink accent */
     linear-gradient(var(--bg), var(--bg));
 }
 .bg-grid {

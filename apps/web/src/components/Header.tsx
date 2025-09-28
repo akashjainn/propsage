@@ -26,10 +26,10 @@ export function Header() {
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
           >
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-[var(--mint)] to-[var(--iris)] p-[1px] shadow-[0_0_20px_rgba(53,224,161,.3)]">
+            <div className="h-8 w-8 rounded-xl bg-gradient-brand p-[1px] shadow-brand-glow animate-brand-pulse">
               <div className="h-full w-full rounded-[11px] bg-[var(--card)] flex items-center justify-center">
                 <Image
-                  src="/favicon-32.png"
+                  src="/icon-512.png"
                   alt="PropSage"
                   width={32}
                   height={32}
@@ -37,15 +37,16 @@ export function Header() {
                   priority
                   unoptimized
                   onError={(e) => {
-                    console.error('Next.js Image failed to load favicon-32.png:', e);
+                    console.error('Failed to load new logo, falling back to favicon:', e);
+                    e.currentTarget.src = '/favicon-32.png';
                   }}
                   onLoad={() => {
-                    console.log('✅ Next.js Image loaded favicon-32.png successfully');
+                    console.log('✅ New brand logo loaded successfully');
                   }}
                 />
               </div>
             </div>
-            <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+            <span className="text-xl font-bold tracking-tight text-gradient">
               PropSage
             </span>
           </motion.div>

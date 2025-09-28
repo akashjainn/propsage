@@ -1,0 +1,277 @@
+/* 
+ * Propsage Brand Color Palette
+ * Derived from the gradient P logo: Hot Pink → Coral → Purple → Cyan
+ * 
+ * Usage: Import this file in your main CSS or use the design tokens
+ */
+
+:root {
+  /* === CORE BRAND COLORS === */
+  
+  /* Primary - Cyan Blue (from logo) */
+  --color-primary-50: #f0fafe;
+  --color-primary-100: #ddf4fd;
+  --color-primary-200: #c1e9fb;
+  --color-primary-300: #96d8f7;
+  --color-primary-400: #64c0f1;
+  --color-primary-500: #22c7f5;  /* Main cyan from logo */
+  --color-primary-600: #1598c3;
+  --color-primary-700: #0f7a9e;
+  --color-primary-800: #135e7a;
+  --color-primary-900: #164f66;
+  --color-primary-950: #0b2f42;
+
+  /* Secondary - Hot Pink (from logo) */
+  --color-secondary-50: #fef2f7;
+  --color-secondary-100: #fee7f0;
+  --color-secondary-200: #fecfe3;
+  --color-secondary-300: #ffa7cb;
+  --color-secondary-400: #fd70a7;
+  --color-secondary-500: #f63d83;  /* Main hot pink from logo */
+  --color-secondary-600: #e6226a;
+  --color-secondary-700: #c21654;
+  --color-secondary-800: #a01548;
+  --color-secondary-900: #86153f;
+  --color-secondary-950: #520820;
+
+  /* Tertiary - Purple (from logo) */
+  --color-tertiary-50: #f4f1ff;
+  --color-tertiary-100: #ece6ff;
+  --color-tertiary-200: #dbd0ff;
+  --color-tertiary-300: #c0abff;
+  --color-tertiary-400: #a078ff;
+  --color-tertiary-500: #7e3dff;  /* Main purple from logo */
+  --color-tertiary-600: #7318f7;
+  --color-tertiary-700: #650ce3;
+  --color-tertiary-800: #530bbf;
+  --color-tertiary-900: #46099c;
+  --color-tertiary-950: #2a0069;
+
+  /* Accent - Coral Orange (from logo transition) */
+  --color-accent-50: #fff4ed;
+  --color-accent-100: #ffe6d5;
+  --color-accent-200: #feccaa;
+  --color-accent-300: #fdab74;
+  --color-accent-400: #fb803c;
+  --color-accent-500: #f96316;  /* Main coral from logo */
+  --color-accent-600: #ea470c;
+  --color-accent-700: #c2350c;
+  --color-accent-800: #9a2c12;
+  --color-accent-900: #7c2612;
+  --color-accent-950: #431007;
+
+  /* === NEUTRAL COLORS === */
+  /* Dark-first design optimized for modern apps */
+  
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  --color-neutral-950: #020617;
+
+  /* App Background & Surface Colors (for dark theme) */
+  --color-background: #0a0e16;       /* Deep dark background */
+  --color-surface: #0f1724;          /* Elevated panels */
+  --color-surface-hover: #1a2332;    /* Interactive surfaces */
+  --color-border: #1e293b;           /* Subtle borders */
+  --color-border-strong: #334155;    /* Prominent borders */
+
+  /* Text Colors */
+  --color-text-primary: #f1f5f9;     /* Primary text */
+  --color-text-secondary: #94a3b8;   /* Secondary text */
+  --color-text-muted: #64748b;       /* Muted text */
+  --color-text-inverse: #0f172a;     /* Text on colored backgrounds */
+
+  /* === SEMANTIC COLORS === */
+  
+  /* Success - Teal (harmonizes with cyan) */
+  --color-success-50: #f0fdfa;
+  --color-success-100: #ccfbf1;
+  --color-success-200: #99f6e4;
+  --color-success-300: #5eead4;
+  --color-success-400: #2dd4bf;
+  --color-success-500: #14b8a6;  /* Main success */
+  --color-success-600: #0d9488;
+  --color-success-700: #0f766e;
+  --color-success-800: #115e59;
+  --color-success-900: #134e4a;
+
+  /* Warning - Amber */
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-300: #fcd34d;
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;  /* Main warning */
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+  --color-warning-800: #92400e;
+  --color-warning-900: #78350f;
+
+  /* Error - Red (harmonizes with hot pink) */
+  --color-error-50: #fef2f2;
+  --color-error-100: #fee2e2;
+  --color-error-200: #fecaca;
+  --color-error-300: #fca5a5;
+  --color-error-400: #f87171;
+  --color-error-500: #ef4444;  /* Main error */
+  --color-error-600: #dc2626;
+  --color-error-700: #b91c1c;
+  --color-error-800: #991b1b;
+  --color-error-900: #7f1d1d;
+
+  /* Info - Use primary cyan */
+  --color-info-50: var(--color-primary-50);
+  --color-info-100: var(--color-primary-100);
+  --color-info-200: var(--color-primary-200);
+  --color-info-300: var(--color-primary-300);
+  --color-info-400: var(--color-primary-400);
+  --color-info-500: var(--color-primary-500);
+  --color-info-600: var(--color-primary-600);
+  --color-info-700: var(--color-primary-700);
+  --color-info-800: var(--color-primary-800);
+  --color-info-900: var(--color-primary-900);
+
+  /* === BRAND GRADIENTS === */
+  
+  /* Main logo gradient - Hot Pink → Coral → Purple → Cyan */
+  --gradient-brand: linear-gradient(135deg, 
+    var(--color-secondary-500) 0%,     /* Hot Pink */
+    var(--color-accent-500) 25%,       /* Coral */
+    var(--color-tertiary-500) 60%,     /* Purple */
+    var(--color-primary-500) 100%      /* Cyan */
+  );
+
+  /* Simplified gradients for specific use cases */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary-400) 0%, var(--color-primary-600) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--color-secondary-400) 0%, var(--color-secondary-600) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-accent-400) 0%, var(--color-accent-600) 100%);
+
+  /* Subtle background gradients */
+  --gradient-surface: radial-gradient(600px circle at 50% 50%, 
+    rgba(34, 199, 245, 0.03) 0%,       /* Subtle cyan glow */
+    rgba(126, 61, 255, 0.02) 40%,      /* Subtle purple */
+    transparent 100%
+  );
+
+  /* === SHADOWS === */
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+  /* Colored shadows for brand elements */
+  --shadow-primary: 0 10px 15px -3px rgba(34, 199, 245, 0.2), 0 4px 6px -2px rgba(34, 199, 245, 0.1);
+  --shadow-secondary: 0 10px 15px -3px rgba(246, 61, 131, 0.2), 0 4px 6px -2px rgba(246, 61, 131, 0.1);
+}
+
+/* === UTILITY CLASSES === */
+
+/* Background utilities */
+.bg-brand-gradient { background: var(--gradient-brand); }
+.bg-primary-gradient { background: var(--gradient-primary); }
+.bg-surface-gradient { background: var(--gradient-surface); }
+
+/* Text utilities */
+.text-brand-gradient {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Border utilities */
+.border-brand-gradient {
+  border: 2px solid transparent;
+  background: linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+              var(--gradient-brand) border-box;
+}
+
+/* Shadow utilities */
+.shadow-brand-glow {
+  box-shadow: 0 0 20px rgba(34, 199, 245, 0.3),
+              0 0 40px rgba(126, 61, 255, 0.2);
+}
+
+/* Animation utilities */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* === COMPONENT PRESETS === */
+
+/* Button styles using the palette */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: var(--color-text-inverse);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-primary);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg), var(--shadow-primary);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-secondary-400);
+  border: 2px solid var(--color-secondary-400);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--color-secondary-400);
+  color: var(--color-text-inverse);
+}
+
+/* Card styles */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.card-elevated {
+  background: var(--color-surface-hover);
+  box-shadow: var(--shadow-md);
+}
+
+/* Input styles */
+.input {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: var(--color-text-primary);
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary-400);
+  box-shadow: 0 0 0 3px rgba(34, 199, 245, 0.1);
+}

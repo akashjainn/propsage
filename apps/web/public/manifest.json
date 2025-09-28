@@ -1,12 +1,10 @@
 {
-  "name": "PropSage - Enterprise Sports Betting Intelligence",
-  "short_name": "PropSage",
-  "description": "Professional Fair Market Line engine with AI-powered edge detection and video intelligence",
+  "name": "Propsage",
+  "short_name": "Propsage",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0b1420",
-  "theme_color": "#0b1420",
-  "orientation": "portrait-primary",
+  "background_color": "#0a0e16",
+  "theme_color": "#22c7f5",
   "icons": [
     {
       "src": "/icon-192.png",
@@ -26,8 +24,5 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ],
-  "categories": ["sports", "finance", "analytics"],
-  "lang": "en-US",
-  "dir": "ltr"
+  ]
 }

@@ -85,26 +85,33 @@ export default function HomePage() {
   return (
     <AppShell>
       {/* Hero Section */}
-      <section className="mb-12 text-center">
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
-          We analyze game film to show where the market is wrong.
-        </h1>
-        <p className="text-xl text-white/70 mb-8">
-          Compare market lines with our fair lines, then watch the plays that justify it.
-        </p>
+      <section className="mb-12 text-center relative">
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-surface opacity-60 rounded-3xl" />
         
-        {/* Search CTA */}
-        <div className="flex justify-center">
-          <button 
-            onClick={search.open}
-            className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl border border-white/20 transition-colors"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <span>Search teams, players, or props</span>
-            <kbd className="px-2 py-1 text-xs bg-white/20 rounded">⌘K</kbd>
-          </button>
+        <div className="relative z-10 py-12">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+            We analyze 
+            <span className="text-gradient animate-gradient-shift bg-gradient-brand bg-[length:200%_200%]"> game film </span>
+            to show where the market is wrong.
+          </h1>
+          <p className="text-xl text-[var(--fg-dim)] mb-8 max-w-3xl mx-auto">
+            Compare market lines with our fair lines, then watch the plays that justify it.
+          </p>
+          
+          {/* Search CTA */}
+          <div className="flex justify-center">
+            <button 
+              onClick={search.open}
+              className="group flex items-center gap-3 px-8 py-4 bg-gradient-primary hover:shadow-primary hover:scale-105 rounded-xl font-semibold text-[var(--fg)] transition-all duration-300 hover:-translate-y-1"
+            >
+              <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <span>Search teams, players, or props</span>
+              <kbd className="px-2 py-1 text-xs bg-black/20 rounded font-mono">⌘K</kbd>
+            </button>
+          </div>
         </div>
       </section>
 
