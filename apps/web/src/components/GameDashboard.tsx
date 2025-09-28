@@ -44,8 +44,49 @@ export default function GameDashboard({ gameId, gameTitle, onBack }: GameDashboa
       .then(data => {
         if (data.players) {
           setPlayers(data.players);
+        } else if (data.insights) {
+          // Transform insights array into players structure
+          const playersMap = new Map();
+          data.insights.forEach((prop: any) => {
+            if (!playersMap.has(prop.playerId)) {
+              playersMap.set(prop.playerId, {
+                playerId: prop.playerId,
+                playerName: prop.player,
+                team: prop.team,
+                position: prop.position,
+                props: []
+              });
+            }
+            
+            // Format propType into a readable label
+            const propLabel = prop.propType
+              .split('_')
+              .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ');
+            
+            // Convert confidence number to category
+            let confidenceCategory = 'med';
+            if (prop.confidence >= 90) confidenceCategory = 'high';
+            else if (prop.confidence < 70) confidenceCategory = 'low';
+            
+            // Transform bullets from string array to object array if needed
+            const bulletObjects = prop.bullets.map((bullet: string | { title: string }) => 
+              typeof bullet === 'string' ? { title: bullet } : bullet
+            );
+            
+            playersMap.get(prop.playerId).props.push({
+              propType: prop.propType,
+              propLabel: propLabel,
+              marketLine: prop.marketLine,
+              fairLine: prop.fairLine,
+              edgePct: prop.edge,
+              confidence: confidenceCategory,
+              bullets: bulletObjects
+            });
+          });
+          setPlayers(Array.from(playersMap.values()));
         } else if (data.props) {
-          // Transform flat props array into players structure
+          // Legacy support for old props format
           const playersMap = new Map();
           data.props.forEach((prop: any) => {
             if (!playersMap.has(prop.playerId)) {
