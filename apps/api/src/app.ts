@@ -30,13 +30,19 @@ import { config } from './config.js'
 
 export function createApp() {
   const app = express()
-  app.use(cors({ 
-    origin: [/\.up\.railway\.app$/, /\.vercel\.app$/, 'http://localhost:3000'],
-    credentials: true 
+  app.use(cors({
+    origin: [
+      /\.up\.railway\.app$/,
+      /\.vercel\.app$/,
+      'http://localhost:3000',
+      'https://propsage-web.vercel.app',
+      config.corsOrigin
+    ].filter(Boolean),
+    credentials: true
   }))
   app.use(express.json())
   app.use(timing)
-  
+
   // Root route
   app.get('/', (_req, res) => res.json({
     name: 'PropSage API',
@@ -63,14 +69,14 @@ export function createApp() {
       cfbEvidence: '/cfb/evidence',
       // Demo enterprise endpoints
       games: '/games',
-      players: '/players', 
+      players: '/players',
       props: '/props',
       clips: '/clips'
     },
     demo: config.demoMode,
     status: 'running'
   }))
-  
+
   app.get('/health', (_req, res) => res.json({
     demo: config.demoMode,
     video: config.videoEnabled,
@@ -98,13 +104,13 @@ export function createApp() {
   app.use('/cfb/video', cfbVideo)
   app.use('/cfb/clips', cfbClips)
   app.use('/cfb/evidence', cfbEvidence)
-  
+
   // Demo enterprise routes
   app.use('/games', demoGames)
   app.use('/players', demoPlayers)
   app.use('/props', demoProps)
   app.use('/clips', demoClips)
   app.use('/', gamesToday) // exposes /games/today
-  
+
   return app
 }
