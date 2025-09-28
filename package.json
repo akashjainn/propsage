@@ -11,6 +11,7 @@
     "dev": "npm-run-all -p dev:api dev:web",
     "dev:api": "tsx apps/api/src/index.ts",
     "dev:web": "pnpm --filter @propsage/web dev",
+    "test:e2e": "playwright test",
     "demo": "cross-env DEMO_MODE=true FEATURE_FLAGS=demo_mode:true npm-run-all -p dev:api dev:web",
     "lint": "turbo run lint",
     "test": "turbo run test",
@@ -20,6 +21,7 @@
     "dev:turbo": "turbo run dev --parallel"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.1",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^8.57.0",

@@ -1,0 +1,98 @@
+name: E2E
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - mode: dev
+            tl: 'false'
+          - mode: dev
+            tl: 'true'
+          - mode: prod
+            tl: 'false'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Build (prod mode only)
+        if: matrix.mode == 'prod'
+        run: pnpm build
+        env:
+          NEXT_PUBLIC_FEATURE_TOP_EDGES: 'true'
+          NEXT_PUBLIC_FEATURE_TL: ${{ matrix.tl }}
+          NEXT_PUBLIC_VIDEO_ENABLED: 'true'
+
+      - name: Start app (dev)
+        if: matrix.mode == 'dev'
+        run: |
+          pnpm run dev &
+          npx wait-on http://localhost:3000
+        env:
+          NEXT_PUBLIC_FEATURE_TOP_EDGES: 'true'
+          NEXT_PUBLIC_FEATURE_TL: ${{ matrix.tl }}
+          NEXT_PUBLIC_VIDEO_ENABLED: 'true'
+          PLAYWRIGHT_BASE_URL: http://localhost:3000
+          CI_TL_STUB: 'true'
+
+      - name: Start app (prod)
+        if: matrix.mode == 'prod'
+        run: |
+          pnpm start &
+          npx wait-on http://localhost:3000
+        env:
+          NEXT_PUBLIC_FEATURE_TOP_EDGES: 'true'
+          NEXT_PUBLIC_FEATURE_TL: ${{ matrix.tl }}
+          NEXT_PUBLIC_VIDEO_ENABLED: 'true'
+          PLAYWRIGHT_BASE_URL: http://localhost:3000
+          CI_TL_STUB: 'true'
+
+      - name: Run Playwright tests
+        run: pnpm run test:e2e
+        env:
+          PLAYWRIGHT_BASE_URL: http://localhost:3000
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.mode }}-tl-${{ matrix.tl }}
+          path: playwright-report
+
+      - name: Upload Playwright traces (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces-${{ matrix.mode }}-tl-${{ matrix.tl }}
+          path: test-results

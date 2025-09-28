@@ -8,7 +8,7 @@
     "skipLibCheck": true,
     "strict": true,
     "resolveJsonModule": true,
-    "types": ["node"],
+  "types": ["node", "@playwright/test"],
     "baseUrl": ".",
     "paths": {
       "@propsage/core/*": ["packages/core/src/*"]

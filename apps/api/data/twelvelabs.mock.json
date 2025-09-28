@@ -15,120 +15,273 @@
       "videos": [
         {
           "id": "vid_stockton_pass_highlights_001",
-          "title": "Gunner Stockton 45-yard TD pass to Colbie Young vs Auburn",
-          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-          "duration": 42,
+          "title": "Gunner Stockton passes to Colbie Young touchdown",
+          "url": "/clips/9-27 uga alabama Gunner Stockton passes to Colbie Young touchdown.mp4",
+          "thumbnail": "/clips/thumbnails/9-27 uga alabama Gunner Stockton passes to Colbie Young touchdown.jpg",
+          "duration": 30,
           "confidence": 0.94,
           "tags": ["passing", "touchdown", "deep_ball", "clutch"],
           "metadata": {
-            "game": "UGA vs Auburn",
-            "date": "2025-09-21",
+            "game": "UGA vs Alabama",
+            "date": "2025-09-27",
             "quarter": 3,
             "down_distance": "2nd & 8",
             "field_position": "UGA 35"
           },
           "clips": [
             {
-              "start_time": 15,
-              "end_time": 28,
-              "description": "Stockton drops back, scans field, delivers perfect strike to Young in stride"
-            }
-          ]
-        },
-        {
-          "id": "vid_stockton_scramble_001",
-          "title": "Gunner Stockton 18-yard scramble vs Tennessee",
-          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-          "duration": 25,
-          "confidence": 0.87,
-          "tags": ["rushing", "scramble", "mobility", "first_down"],
-          "metadata": {
-            "game": "UGA vs Tennessee",
-            "date": "2025-09-14",
-            "quarter": 4,
-            "down_distance": "3rd & 12",
-            "field_position": "UGA 28"
-          },
-          "clips": [
-            {
-              "start_time": 8,
-              "end_time": 20,
-              "description": "Pocket collapses, Stockton escapes right, picks up crucial first down"
-            }
-          ]
-        },
-        {
-          "id": "vid_stockton_injury_concern",
-          "title": "Gunner Stockton injury update - questionable for Alabama",
-          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-          "duration": 95,
-          "confidence": 0.91,
-          "tags": ["injury", "news", "status_update", "alabama_prep"],
-          "metadata": {
-            "source": "ESPN College GameDay",
-            "date": "2025-09-26",
-            "reporter": "Pete Thamel"
-          },
-          "clips": [
-            {
-              "start_time": 22,
-              "end_time": 45,
-              "description": "Coach Smart addresses Stockton's shoulder injury from Tennessee game"
+              "start_time": 0,
+              "end_time": 30,
+              "description": "Stockton drops back, scans field, delivers perfect strike to Young in stride for touchdown"
             }
           ]
         }
       ]
     },
-    "cfb_jalen_milroe": {
-      "name": "Jalen Milroe",
+    "cfb_ryan_williams": {
+      "name": "Ryan Williams",
       "team": "Alabama",
       "videos": [
         {
-          "id": "vid_milroe_rush_highlights_001",
-          "title": "Jalen Milroe 67-yard TD run vs Ole Miss",
-          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-          "duration": 38,
-          "confidence": 0.96,
-          "tags": ["rushing", "touchdown", "breakaway", "speed"],
+          "id": "vid_williams_drop_001",
+          "title": "Ryan Williams drops wide open pass",
+          "url": "/clips/9-27 uga alabama Ryan Williams drops wide open pass.mp4",
+          "thumbnail": "/clips/thumbnails/9-27 uga alabama Ryan Williams drops wide open pass.jpg",
+          "duration": 25,
+          "confidence": 0.87,
+          "tags": ["passing", "incompletion", "drop", "missed_opportunity"],
           "metadata": {
-            "game": "Alabama vs Ole Miss",
-            "date": "2025-09-21",
+            "game": "UGA vs Alabama",
+            "date": "2025-09-27",
             "quarter": 2,
             "down_distance": "1st & 10",
-            "field_position": "Alabama 33"
+            "field_position": "Alabama 45"
           },
           "clips": [
             {
-              "start_time": 12,
+              "start_time": 0,
               "end_time": 25,
-              "description": "Milroe breaks through gap, outruns entire Ole Miss secondary"
+              "description": "Ryan Williams in perfect position but drops a wide open pass"
+            }
+          ]
+        }
+      ]
+    },
+    "cfb_ty_simpson": {
+      "name": "Ty Simpson",
+      "team": "Alabama",
+      "videos": [
+        {
+          "id": "vid_simpson_touchdown_001",
+          "title": "Ty Simpson passes to Isaiah Horton for touchdown",
+          "url": "/clips/9-27 uga alabama Ty Simpson passes to Isaiah Horton for touchdown .mp4",
+          "thumbnail": "/clips/thumbnails/9-27 uga alabama Ty Simpson passes to Isaiah Horton for touchdown .jpg",
+          "duration": 32,
+          "confidence": 0.91,
+          "tags": ["passing", "touchdown", "alabama", "horton"],
+          "metadata": {
+            "game": "UGA vs Alabama",
+            "date": "2025-09-27",
+            "quarter": 4,
+            "down_distance": "2nd & 5",
+            "field_position": "UGA 15"
+          },
+          "clips": [
+            {
+              "start_time": 0,
+              "end_time": 32,
+              "description": "Ty Simpson finds Isaiah Horton in the end zone for Alabama touchdown"
+            }
+          ]
+        }
+      ]
+    },
+    "cfb_haynes_king": {
+      "name": "Haynes King",
+      "team": "Georgia Tech",
+      "videos": [
+        {
+          "id": "vid_king_passing_touchdown_001",
+          "title": "Haynes King passing touchdown from 3rd and 10",
+          "url": "/clips/9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.mp4",
+          "thumbnail": "/clips/thumbnails/9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.jpg",
+          "duration": 35,
+          "confidence": 0.92,
+          "tags": ["passing", "touchdown", "comeback", "clutch"],
+          "metadata": {
+            "game": "Georgia Tech vs Wake Forest",
+            "date": "2025-09-27",
+            "quarter": 3,
+            "down_distance": "3rd & 10",
+            "field_position": "Wake Forest 25"
+          },
+          "clips": [
+            {
+              "start_time": 0,
+              "end_time": 35,
+              "description": "Haynes King delivers crucial touchdown pass on 3rd and 10 to begin comeback"
             }
           ]
         },
         {
-          "id": "vid_milroe_arm_strength",
-          "title": "Jalen Milroe 52-yard bomb to Ryan Williams",
-          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-          "duration": 31,
+          "id": "vid_king_rushing_touchdown_001",
+          "title": "Haynes King running touchdown bringing game to 17-20",
+          "url": "/clips/9-27 georgia tech wake forest haynes king running touchdown bringing game to 17-20.mp4",
+          "thumbnail": "/clips/thumbnails/9-27 georgia tech wake forest haynes king running touchdown bringing game to 17-20.jpg",
+          "duration": 28,
           "confidence": 0.89,
-          "tags": ["passing", "deep_ball", "arm_strength", "touchdown"],
+          "tags": ["rushing", "touchdown", "comeback", "mobility"],
           "metadata": {
-            "game": "Alabama vs LSU",
-            "date": "2025-09-14",
-            "quarter": 1,
-            "down_distance": "2nd & 6",
-            "field_position": "Alabama 48"
+            "game": "Georgia Tech vs Wake Forest",
+            "date": "2025-09-27",
+            "quarter": 4,
+            "down_distance": "2nd & 3",
+            "field_position": "Wake Forest 8"
           },
           "clips": [
             {
-              "start_time": 8,
+              "start_time": 0,
+              "end_time": 28,
+              "description": "Haynes King scrambles for touchdown, bringing Georgia Tech within 3 points"
+            }
+          ]
+        }
+      ]
+    },
+    "cfb_luke_altmyer": {
+      "name": "Luke Altmyer",
+      "team": "Illinois",
+      "videos": [
+        {
+          "id": "vid_altmyer_touchdown_001",
+          "title": "Luke Altmyer throws touchdown",
+          "url": "/clips/9-27 illinois usc luke altmyer throws touchdown.mp4",
+          "thumbnail": "/clips/thumbnails/9-27 illinois usc luke altmyer throws touchdown.jpg",
+          "duration": 24,
+          "confidence": 0.88,
+          "tags": ["passing", "touchdown", "illinois"],
+          "metadata": {
+            "game": "Illinois vs USC",
+            "date": "2025-09-27",
+            "quarter": 2,
+            "down_distance": "1st & 10",
+            "field_position": "USC 22"
+          },
+          "clips": [
+            {
+              "start_time": 0,
+              "end_time": 24,
+              "description": "Luke Altmyer finds the end zone with a touchdown pass"
+            }
+          ]
+        },
+        {
+          "id": "vid_altmyer_feagin_touchdown_001",
+          "title": "Altmyer throws a pass to Feagin 64 yard touchdown",
+          "url": "/clips/9-27 illinois usc altmyer throws a pass to feagin 64 yard touchdown.mp4",
+          "thumbnail": "/clips/thumbnails/9-27 illinois usc altmyer throws a pass to feagin 64 yard touchdown.jpg",
+          "duration": 40,
+          "confidence": 0.95,
+          "tags": ["passing", "touchdown", "long_pass", "big_play"],
+          "metadata": {
+            "game": "Illinois vs USC",
+            "date": "2025-09-27",
+            "quarter": 1,
+            "down_distance": "2nd & 7",
+            "field_position": "Illinois 36"
+          },
+          "clips": [
+            {
+              "start_time": 0,
+              "end_time": 40,
+              "description": "Altmyer launches deep ball to Feagin who takes it 64 yards for touchdown"
+            }
+          ]
+        }
+      ]
+    },
+    "cfb_nic_anderson": {
+      "name": "Nic Anderson",
+      "team": "Ole Miss",
+      "videos": [
+        {
+          "id": "vid_anderson_touchdown_001",
+          "title": "Nic Anderson touchdown",
+          "url": "/clips/9-27 ole miss lsu nic anderson touchdown.mp4",
+          "thumbnail": "/clips/thumbnails/9-27 ole miss lsu nic anderson touchdown.jpg",
+          "duration": 28,
+          "confidence": 0.92,
+          "tags": ["receiving", "touchdown", "ole_miss"],
+          "metadata": {
+            "game": "Ole Miss vs LSU",
+            "date": "2025-09-27",
+            "quarter": 2,
+            "down_distance": "2nd & 5",
+            "field_position": "LSU 18"
+          },
+          "clips": [
+            {
+              "start_time": 0,
+              "end_time": 28,
+              "description": "Nic Anderson makes great catch for Ole Miss touchdown"
+            }
+          ]
+        }
+      ]
+    },
+    "cfb_jayden_maiava": {
+      "name": "Jayden Maiava",
+      "team": "USC",
+      "videos": [
+        {
+          "id": "vid_maiava_interception_001",
+          "title": "Jayden Maiava throws interception to Dylan Rosiek",
+          "url": "/clips/9-27 illinois usc jayden maiava throws interception to dylan rosiek.mp4",
+          "thumbnail": "/clips/thumbnails/9-27 illinois usc jayden maiava throws interception to dylan rosiek.jpg",
+          "duration": 22,
+          "confidence": 0.85,
+          "tags": ["passing", "interception", "turnover", "defense"],
+          "metadata": {
+            "game": "Illinois vs USC",
+            "date": "2025-09-27",
+            "quarter": 3,
+            "down_distance": "2nd & 8",
+            "field_position": "USC 42"
+          },
+          "clips": [
+            {
+              "start_time": 0,
               "end_time": 22,
-              "description": "Perfect spiral, 52 yards in the air, Williams makes diving catch"
+              "description": "Maiava's pass is intercepted by Illinois defender Dylan Rosiek"
+            }
+          ]
+        }
+      ]
+    },
+    "cfb_makai_lemon": {
+      "name": "Makai Lemon",
+      "team": "USC",
+      "videos": [
+        {
+          "id": "vid_lemon_touchdown_001",
+          "title": "Makai Lemon scores 75 yard touchdown",
+          "url": "/clips/9-27 illinois usc makai lemon scores 75 yd touchdown.mp4",
+          "thumbnail": "/clips/thumbnails/9-27 illinois usc makai lemon scores 75 yd touchdown.jpg",
+          "duration": 45,
+          "confidence": 0.96,
+          "tags": ["rushing", "touchdown", "long_run", "breakaway"],
+          "metadata": {
+            "game": "Illinois vs USC",
+            "date": "2025-09-27",
+            "quarter": 1,
+            "down_distance": "1st & 10",
+            "field_position": "USC 25"
+          },
+          "clips": [
+            {
+              "start_time": 0,
+              "end_time": 45,
+              "description": "Makai Lemon breaks free for spectacular 75-yard touchdown run"
             }
           ]
         }

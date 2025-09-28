@@ -37,4 +37,36 @@ setInterval(() => {
   broadcast({ type: 'edge_update', playerId: prior.playerId, market: prior.market, result: mc })
 }, 6000)
 
-server.listen(config.port, () => logger.info(`API listening on :${config.port} (demo=${config.demoMode})`))
+/**
+ * Start server with simple incremental port retry if port is occupied.
+ * If user explicitly set PORT env, we fail fast (so CI/config issues are visible).
+ */
+function start(port: number, attemptsLeft = 5) {
+  server.listen(port, () => {
+    if (port !== config.port) {
+      logger.warn({ original: config.port, actual: port }, 'API port reassigned due to conflict')
+    }
+    logger.info(`API listening on :${port} (demo=${config.demoMode})`)
+  }).on('error', (err: any) => {
+    if (err.code === 'EADDRINUSE') {
+      const explicit = !!process.env.PORT
+      if (explicit) {
+        logger.error(`Configured PORT ${port} in use. Please free it or change PORT.`)
+        process.exit(1)
+      }
+      if (attemptsLeft > 0) {
+        const next = port + 1
+        logger.warn(`Port ${port} in use, retrying on ${next} (attempts left: ${attemptsLeft - 1})`)
+        setTimeout(() => start(next, attemptsLeft - 1), 300)
+      } else {
+        logger.error('Unable to bind any port after retries')
+        process.exit(1)
+      }
+    } else {
+      logger.error({ err }, 'Server error')
+      process.exit(1)
+    }
+  })
+}
+
+start(config.port)
