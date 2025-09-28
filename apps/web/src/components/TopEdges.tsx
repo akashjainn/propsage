@@ -13,13 +13,40 @@ interface TopEdge {
 }
 
 const TopEdges: React.FC = () => {
-  const [topEdges, setTopEdges] = useState<TopEdge[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Start with data immediately visible for debugging
+  const [topEdges, setTopEdges] = useState<TopEdge[]>([
+    {
+      player: 'Haynes King',
+      propType: 'Passing Touchdowns',
+      edge: 12.5,
+      confidence: 91,
+      team: 'Georgia Tech',
+      gameId: 'gt-wake'
+    },
+    {
+      player: 'Luke Altmyer',
+      propType: 'Passing Yards',
+      edge: 11.8,
+      confidence: 94,
+      team: 'Illinois',
+      gameId: 'illinois-usc'
+    },
+    {
+      player: 'Kaden Feagin',
+      propType: 'Receiving Yards',
+      edge: 6.2,
+      confidence: 82,
+      team: 'Illinois',
+      gameId: 'illinois-usc'
+    }
+  ]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Simulate fetching top edges across all games
     const fetchTopEdges = async () => {
       try {
+        console.log('TopEdges: Starting to fetch data...');
         // In a real app, this would aggregate across all games
         const mockTopEdges: TopEdge[] = [
           {
@@ -48,10 +75,12 @@ const TopEdges: React.FC = () => {
           }
         ];
         
+        console.log('TopEdges: Setting mock data:', mockTopEdges);
         setTopEdges(mockTopEdges);
       } catch (error) {
         console.error('Error fetching top edges:', error);
       } finally {
+        console.log('TopEdges: Setting loading to false');
         setLoading(false);
       }
     };
@@ -59,7 +88,10 @@ const TopEdges: React.FC = () => {
     fetchTopEdges();
   }, []);
 
+  console.log('TopEdges render - loading:', loading, 'topEdges count:', topEdges.length);
+
   if (loading) {
+    console.log('TopEdges: Rendering loading state');
     return (
       <div className="bg-gradient-to-r from-green-500 to-blue-600 rounded-xl p-6">
         <div className="flex items-center mb-4">
@@ -78,6 +110,8 @@ const TopEdges: React.FC = () => {
     );
   }
 
+  console.log('TopEdges: Rendering main content with', topEdges.length, 'edges');
+  
   return (
     <div className="bg-gradient-to-r from-green-500 to-blue-600 rounded-xl p-6 text-white">
       <div className="flex items-center justify-between mb-6">
