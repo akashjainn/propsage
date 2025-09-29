@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { TWELVE_LABS_MOCK } from '@/data/twelvelabs.mock';
 export const dynamic = 'force-dynamic';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`) || 'http://localhost:4000';
@@ -60,10 +61,62 @@ async function fallbackDirect(req: Request, player: string, market: string) {
     const fallbackData = JSON.parse(fallbackText);
     const results = (fallbackData.clips || []).map((clip: any) => formatClip(clip, player, market));
     console.log(`[TL Clips API] Fallback found ${results.length} clips`);
-    return NextResponse.json({ results, fallback: true, source: 'direct' });
+    if (results.length > 0) return NextResponse.json({ results, fallback: true, source: 'direct' });
+    // If still empty, attempt embedded dataset directly
+    const embedded = embeddedFallback(player, market);
+    console.log(`[TL Clips API] Embedded fallback produced ${embedded.length} clips`);
+    return NextResponse.json({ results: embedded, fallback: true, source: 'embedded' });
   } catch (fallbackError) {
     console.error('[TL Clips API] Fallback failed:', fallbackError);
-    return NextResponse.json({ results: [], error: String(fallbackError), fallback: true }, { status: 502 });
+    const embedded = embeddedFallback(player, market);
+    if (embedded.length) {
+      return NextResponse.json({ results: embedded, fallback: true, source: 'embedded', error: String(fallbackError) });
+    }
+    // Last resort: return empty but do NOT surface 502 to client UI (avoid hard errors)
+    return NextResponse.json({ results: [], error: String(fallbackError), fallback: true, source: 'none' });
+  }
+}
+
+interface EmbeddedPlayerVideos { team: string; videos: any[] }
+function embeddedFallback(player: string, market: string) {
+  try {
+    const results: any[] = [];
+    const wantPlayerId = player ? `cfb_${player.toLowerCase().replace(/\s+/g, '_')}` : undefined;
+    const stat = market.toLowerCase();
+  const players = TWELVE_LABS_MOCK.players as Record<string, EmbeddedPlayerVideos> || {} as Record<string, EmbeddedPlayerVideos>;
+    const pushVideo = (video: any, team: string) => {
+      // Basic stat/tag heuristic
+      if (stat) {
+        const tags: string[] = video.tags || [];
+        const normalized = (t: string) => t.replace(/ing$/,'');
+        if (!tags.some(t => stat.includes(t) || t.includes(stat) || normalized(stat).includes(normalized(t)))) return;
+      }
+      results.push({
+        game: video.metadata?.game || 'College Football',
+        player: player || video.title.split(' ')[0],
+        market: market || 'Highlights',
+        url: video.url,
+        start: video.clips?.[0]?.start_time || 0,
+        end: video.clips?.[0]?.end_time || video.duration || 30,
+        title: video.title,
+        description: video.clips?.[0]?.description || video.title,
+        thumbnailUrl: video.thumbnail,
+        confidence: video.confidence || 0.8
+      });
+    };
+    if (wantPlayerId && Object.prototype.hasOwnProperty.call(players, wantPlayerId)) {
+      for (const v of (players[wantPlayerId].videos || [])) pushVideo(v, players[wantPlayerId].team);
+    }
+    if (results.length === 0) {
+      for (const pid of Object.keys(players)) {
+        const pv = players[pid];
+        for (const v of (pv.videos || [])) pushVideo(v, pv.team);
+      }
+    }
+    return results.slice(0,6);
+  } catch (e) {
+    console.warn('[TL Clips API] Embedded fallback error', e);
+    return [];
   }
 }
 
