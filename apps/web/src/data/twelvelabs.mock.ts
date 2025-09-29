@@ -9,9 +9,11 @@ export const TWELVE_LABS_MOCK = {
         {
           id: 'vid_stockton_pass_highlights_001',
           title: 'Gunner Stockton passes to Colbie Young touchdown',
-          url: 'https://example.com/videos/stockton_touchdown.mp4',
-            // In production replace with a real CDN URL or a /public asset
-          thumbnail: 'https://example.com/thumbs/stockton_td.jpg',
+          // Using existing local clip asset (spaces encoded) from /public/clips
+          // Original filename: 9-27 uga alabama Gunner Stockton passes to Colbie Young touchdown.mp4
+          url: '/clips/9-27%20uga%20alabama%20Gunner%20Stockton%20passes%20to%20Colbie%20Young%20touchdown.mp4',
+          // Optional: add a thumbnail still at /public/clips/stockton_td.jpg
+          thumbnail: '/clips/stockton_td.jpg',
           duration: 30,
           confidence: 0.94,
           tags: ['passing','touchdown','deep_ball','clutch'],
@@ -27,8 +29,10 @@ export const TWELVE_LABS_MOCK = {
         {
           id: 'vid_king_passing_touchdown_001',
           title: 'Haynes King passing touchdown from 3rd and 10',
-          url: 'https://example.com/videos/king_td.mp4',
-          thumbnail: 'https://example.com/thumbs/king_td.jpg',
+          // Existing Haynes King passing TD clip (spaces encoded)
+          // Original filename: 9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.mp4
+          url: '/clips/9-27%20georgia%20tech%20wake%20forest%20haynes%20king%20passing%20touchdown%20from%203rd%20and%2010%20to%20begin%20comeback.mp4',
+          thumbnail: '/clips/haynes_king_td.jpg',
           duration: 35,
           confidence: 0.92,
           tags: ['passing','touchdown','comeback','clutch'],

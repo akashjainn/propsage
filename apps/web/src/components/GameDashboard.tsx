@@ -74,7 +74,13 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
   useEffect(() => {
     // Use the insights API instead of the hardcoded games API
     fetch(`/api/insights/${gameId}`)
-      .then(res => res.json())
+      .then(async res => {
+        const json = await res.json();
+        if (typeof window !== 'undefined') {
+          console.debug('[GameDashboard] /api/insights response', { gameId, json });
+        }
+        return json;
+      })
       .then(data => {
         if (data.players) {
           setPlayers(data.players);
@@ -152,7 +158,13 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
         
         // Fallback to props API if insights fails
         fetch(`/api/games/${gameId}/props`)
-          .then(res => res.json())
+          .then(async res => {
+            const json = await res.json();
+            if (typeof window !== 'undefined') {
+              console.debug('[GameDashboard] fallback /api/games/[gameId]/props response', { gameId, json });
+            }
+            return json;
+          })
           .then(data => {
             if (data.props) {
               // Legacy support for old props format
