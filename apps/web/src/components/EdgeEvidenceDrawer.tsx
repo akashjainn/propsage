@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FEATURES, TL_INDEX } from '@/lib/features';
 import { useTlSearch } from '@/hooks/useTlSearch';
 import VideoPlayer from '@/components/VideoPlayer';
+import LazyVideo from '@/components/LazyVideo';
 import { pushToast } from '@/components/ToastBus';
 import FallbackClips from '@/components/FallbackClips';
 import { Drawer, AnimatedList, Skeleton } from '@/components/ui/motion';
@@ -133,7 +134,7 @@ export default function EdgeEvidenceDrawer({
                   animate="animate"
                   className="space-y-6"
                 >
-                  {results.slice(0, 3).map((r: any) => (
+                  {results.slice(0, 3).map((r: any, idx: number) => (
                     <motion.div 
                       key={`${r.videoId ?? r.url}-${r.start}`} 
                       variants={staggerItem}
@@ -147,16 +148,12 @@ export default function EdgeEvidenceDrawer({
                           {Math.round(r.start)}s–{Math.round(r.end)}s
                         </span>
                       </div>
-                      <motion.video
-                        src={r.url}
-                        controls
-                        preload="metadata"
-                        className="w-full rounded-xl bg-black aspect-video shadow-lg"
-                        onLoadedMetadata={(e) => {
-                          if (r.start) e.currentTarget.currentTime = r.start;
-                        }}
-                        whileHover={{ scale: 1.01 }}
-                        transition={{ duration: 0.2 }}
+                      <LazyVideo 
+                        src={r.url} 
+                        type={r.url.endsWith('.m3u8') ? 'hls' : 'mp4'}
+                        startTime={r.start}
+                        eager={idx === 0}
+                        className="shadow-lg"
                       />
                     </motion.div>
                   ))}
@@ -177,7 +174,7 @@ export default function EdgeEvidenceDrawer({
                       animate="animate"
                       className="space-y-4"
                     >
-                      {prefetch.map((c: any) => (
+                      {prefetch.map((c: any, idx: number) => (
                         <motion.div 
                           key={`${c.url}-${c.start}`} 
                           variants={staggerItem}
@@ -186,16 +183,12 @@ export default function EdgeEvidenceDrawer({
                           <div className="text-sm text-white/50 font-medium">
                             {Math.round(c.start)}s–{Math.round(c.end)}s
                           </div>
-                          <motion.video
+                          <LazyVideo
                             src={c.url}
-                            controls
-                            preload="metadata"
-                            className="w-full rounded-xl bg-black aspect-video shadow-lg"
-                            onLoadedMetadata={(e) => {
-                              if (c.start) e.currentTarget.currentTime = c.start;
-                            }}
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ duration: 0.2 }}
+                            type={c.url.endsWith('.m3u8') ? 'hls' : 'mp4'}
+                            startTime={c.start}
+                            eager={idx === 0}
+                            className="shadow-lg"
                           />
                         </motion.div>
                       ))}

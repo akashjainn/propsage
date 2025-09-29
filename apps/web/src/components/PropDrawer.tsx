@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import WhyCard from './WhyCard';
 import ClipsGrid from './ClipsGrid';
+import LazyVideo from './LazyVideo';
 import type { Clip } from './clip.types';
 
 interface DrawerProps {
@@ -126,17 +127,12 @@ export function PropDrawer({
                     <div className="text-sm text-white/60">
                       {clip.title || clip.description}
                     </div>
-                    <video
+                    <LazyVideo
                       src={clip.url}
-                      controls
-                      preload="metadata"
-                      className="w-full rounded-xl bg-black"
-                      style={{ height: '400px' }}
-                      onLoadedMetadata={(e) => {
-                        if (clip.start || clip.startTime) {
-                          e.currentTarget.currentTime = clip.start || clip.startTime;
-                        }
-                      }}
+                      type={clip.url.endsWith('.m3u8') ? 'hls' : 'mp4'}
+                      startTime={clip.start || clip.startTime}
+                      eager
+                      className="max-h-[400px]"
                     />
                   </div>
                 ))
