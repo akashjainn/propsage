@@ -1,7 +1,5 @@
 import { Router } from "express";
 import { LRUCache } from "lru-cache";
-import { sportsDataIOCFB } from "../services/sportsdataio.cfb.js";
-import { oddsApiService } from "../services/oddsApi.js";
 import fs from "fs";
 import path from "path";
 

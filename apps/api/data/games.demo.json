@@ -95,6 +95,72 @@
       "status": "scheduled",
       "temperature": 82,
       "conditions": "Clear"
+    },
+    {
+      "id": "illinois-vs-usc",
+      "date": "2025-09-27",
+      "kickoffET": "16:00",
+      "homeTeam": {
+        "id": "usc",
+        "name": "USC",
+        "short": "USC",
+        "logo": "/assets/logos/usc.svg",
+        "conference": "Big Ten",
+        "primaryColor": "#990000",
+        "secondaryColor": "#FFCC00"
+      },
+      "awayTeam": {
+        "id": "illinois",
+        "name": "Illinois",
+        "short": "ILL",
+        "logo": "/assets/logos/illinois.svg",
+        "conference": "Big Ten",
+        "primaryColor": "#13294B",
+        "secondaryColor": "#E84A27"
+      },
+      "spreadHome": -3.5,
+      "total": 61.5,
+      "venue": "Los Angeles Memorial Coliseum",
+      "broadcast": "FOX",
+      "status": "final",
+      "score": {
+        "home": 28,
+        "away": 35,
+        "quarter": 4,
+        "time": "Final"
+      },
+      "temperature": 75,
+      "conditions": "Clear"
+    },
+    {
+      "id": "ole-miss-vs-lsu",
+      "date": "2025-09-27",
+      "kickoffET": "20:00",
+      "homeTeam": {
+        "id": "lsu",
+        "name": "LSU",
+        "short": "LSU",
+        "logo": "/assets/logos/lsu.svg",
+        "conference": "SEC",
+        "primaryColor": "#461D7C",
+        "secondaryColor": "#FDD023"
+      },
+      "awayTeam": {
+        "id": "ole_miss",
+        "name": "Ole Miss",
+        "short": "MISS",
+        "logo": "/assets/logos/ole_miss.svg",
+        "conference": "SEC",
+        "primaryColor": "#CE1126",
+        "secondaryColor": "#14213D"
+      },
+      "spreadHome": -6.0,
+      "total": 56.0,
+      "venue": "Tiger Stadium",
+      "broadcast": "ESPN",
+      "status": "scheduled",
+      "temperature": 79,
+      "conditions": "Clear"
     }
   ],
   "lastUpdated": "2025-09-27T14:15:00Z",

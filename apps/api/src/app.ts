@@ -1,22 +1,8 @@
 import express from 'express'
 import cors from 'cors'
-import lines from './routes/lines.js'
-import fairline from './routes/fairline.js'
-import players from './routes/players.js'
-import perplexity from './routes/perplexity.js'
-import video from './routes/twelvelabs.js'
-import price from './routes/price.js'
-import videoIntel from './routes/videoIntel.js'
 import fml from './routes/fml.js'
-import videoIntelFML from './routes/videoIntelFML.js'
-import nbaProps from './routes/nba-props.js'
-import nflPlayers from './routes/nfl.players.js'
-import nflProps from './routes/nfl.props.js'
-import nflNews from './routes/nfl.news.js'
 import cfbPlayers from './routes/cfb.players.js'
 import cfbProps from './routes/cfb.props.js'
-import cfbNews from './routes/cfb.news.js'
-import cfbVideo from './routes/cfb.video.js'
 import cfbClips from './routes/cfb.clips.js'
 import cfbEvidence from './routes/cfb.evidence.js'
 // Demo enterprise routes
@@ -50,21 +36,9 @@ export function createApp() {
     description: 'HackGT 12 - Sports betting analytics with AI-powered fair value calculations',
     endpoints: {
       health: '/health',
-      lines: '/lines',
-      fairline: '/fairline',
-      evidence: '/evidence',
-      video: '/video',
-      price: '/price',
-      videoIntel: '/video-intel',
       fml: '/fml',
-      videoIntelFML: '/fml/enhanced',
-      nflPlayers: '/nfl/players',
-      nflProps: '/nfl/props',
-      nflNews: '/nfl/news',
       cfbPlayers: '/cfb/players',
       cfbProps: '/cfb/props',
-      cfbNews: '/cfb/news',
-      cfbVideo: '/cfb/video',
       cfbClips: '/cfb/clips',
       cfbEvidence: '/cfb/evidence',
       // Demo enterprise endpoints
@@ -85,23 +59,9 @@ export function createApp() {
     seed: config.demoMode ? '20250927' : undefined,
     ok: true,
   }))
-  app.use('/lines', lines)
-  app.use('/players', players)
-  app.use('/fairline', fairline)
-  app.use('/evidence', perplexity)
-  app.use('/video', video)
-  app.use('/price', price)
-  app.use('/video-intel', videoIntel)
   app.use('/fml', fml)
-  app.use('/fml', videoIntelFML)
-  app.use('/nba', nbaProps)
-  app.use('/nfl/players', nflPlayers)
-  app.use('/nfl/props', nflProps)
-  app.use('/nfl/news', nflNews)
   app.use('/cfb/players', cfbPlayers)
   app.use('/cfb/props', cfbProps)
-  app.use('/cfb/news', cfbNews)
-  app.use('/cfb/video', cfbVideo)
   app.use('/cfb/clips', cfbClips)
   app.use('/cfb/evidence', cfbEvidence)
 

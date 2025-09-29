@@ -1,0 +1,232 @@
+{
+  "insights": [
+    {
+      "id": "gunner_stockton_passing_tds",
+      "playerId": "cfb_gunner_stockton",
+      "player": "Gunner Stockton",
+      "team": "Georgia",
+      "position": "QB",
+      "propType": "passing_tds",
+      "marketLine": 1.5,
+      "fairLine": 2.1,
+      "edge": 8.3,
+      "confidence": 87,
+      "bullets": [
+        "Delivered clutch TD pass to Colbie Young in Q3 vs Alabama",
+        "Georgia's passing attack more aggressive with Stockton under center",
+        "Alabama's secondary has allowed 2+ passing TDs in 4 of last 6 games",
+        "Stockton shows excellent pocket presence and accuracy on intermediate routes"
+      ],
+      "analysis": "Our fair value model suggests Stockton is underpriced at 1.5 TDs. The clip analysis shows his ability to deliver precise strikes under pressure, particularly the touchdown pass to Young that showcased his arm talent and decision-making. Against Alabama's defense, his mobility and quick release create additional scoring opportunities."
+    },
+    {
+      "id": "gunner_stockton_passing_yards",
+      "playerId": "cfb_gunner_stockton", 
+      "player": "Gunner Stockton",
+      "team": "Georgia",
+      "position": "QB",
+      "propType": "passing_yards",
+      "marketLine": 265.5,
+      "fairLine": 287.2,
+      "edge": 12.1,
+      "confidence": 91,
+      "bullets": [
+        "Averaging 298 yards per game since taking over as starter",
+        "Alabama allows 312 passing yards per game to opposing QBs",
+        "Georgia's receiving corps healthy and creating separation",
+        "Game script likely favors passing in potential shootout scenario"
+      ],
+      "analysis": "Video evidence shows Stockton's ability to push the ball downfield effectively. His completion to Young demonstrates his range and accuracy on intermediate routes. With Alabama's aggressive pass rush, quick game and RPOs should generate consistent yardage accumulation."
+    },
+    {
+      "id": "ryan_williams_receptions", 
+      "playerId": "cfb_ryan_williams",
+      "player": "Ryan Williams",
+      "team": "Alabama", 
+      "position": "WR",
+      "propType": "receptions",
+      "marketLine": 6.5,
+      "fairLine": 5.8,
+      "edge": -9.7,
+      "confidence": 83,
+      "bullets": [
+        "Dropped wide open pass in critical Q2 drive vs Georgia",
+        "Georgia's secondary has been vulnerable but Williams showing inconsistent hands",
+        "Alabama may target other receivers more frequently after drop issues",
+        "Wind conditions could affect passing game timing"
+      ],
+      "analysis": "The drop against Georgia raises concerns about Williams' reliability in high-pressure moments. Our model adjusts his fair value downward based on this evidence of inconsistent hands. The market hasn't fully accounted for this risk factor, creating value on the under."
+    },
+    {
+      "id": "ty_simpson_passing_tds",
+      "playerId": "cfb_ty_simpson",
+      "player": "Ty Simpson", 
+      "team": "Alabama",
+      "position": "QB",
+      "propType": "passing_tds", 
+      "marketLine": 1.5,
+      "fairLine": 2.3,
+      "edge": 15.2,
+      "confidence": 89,
+      "bullets": [
+        "Perfect TD strike to Isaiah Horton in Q4 crunch time vs Georgia",
+        "Red zone efficiency has improved dramatically with Simpson",
+        "Georgia's defense vulnerable to quick slants and pick plays",
+        "Alabama's offensive line providing excellent protection"
+      ],
+      "analysis": "Simpson's touchdown pass to Horton showcased his poise and accuracy in high-leverage situations. The throw demonstrates his ability to deliver strikes in tight windows. Against Georgia's defense, his mobility and arm talent create multiple scoring opportunities, especially in the red zone."
+    },
+    {
+      "id": "haynes_king_passing_tds",
+      "playerId": "cfb_haynes_king",
+      "player": "Haynes King",
+      "team": "Georgia Tech", 
+      "position": "QB",
+      "propType": "passing_tds",
+      "marketLine": 1.5,
+      "fairLine": 2.4,
+      "edge": 18.7,
+      "confidence": 94,
+      "bullets": [
+        "Crucial 3rd & 10 TD pass sparked comeback vs Wake Forest",
+        "Dual-threat ability creates additional red zone opportunities", 
+        "Wake Forest's defense allows 2.1 passing TDs per game",
+        "King's mobility extends plays and creates throwing lanes"
+      ],
+      "analysis": "King's clutch touchdown pass on 3rd & 10 demonstrates his ability to deliver under pressure. The play shows excellent pocket presence and arm strength. His dual-threat capability forces defenses to account for both run and pass, creating favorable matchups for receivers."
+    },
+    {
+      "id": "haynes_king_rushing_yards",
+      "playerId": "cfb_haynes_king",
+      "player": "Haynes King", 
+      "team": "Georgia Tech",
+      "position": "QB",
+      "propType": "rushing_yards",
+      "marketLine": 45.5,
+      "fairLine": 62.8,
+      "edge": 21.3,
+      "confidence": 92,
+      "bullets": [
+        "Scored crucial rushing TD bringing game within 3 points",
+        "Averaging 58 rushing yards per game over last 4 contests",
+        "Wake Forest allows 4.8 yards per carry to opposing QBs",
+        "Georgia Tech's RPO offense maximizes King's mobility"
+      ],
+      "analysis": "King's rushing touchdown showcases his explosiveness in short-yardage situations. His ability to scramble and create yards after the pocket breaks down adds significant value. The market is undervaluing his rushing production based on recent performance trends."
+    },
+    {
+      "id": "luke_altmyer_passing_tds",
+      "playerId": "cfb_luke_altmyer",
+      "player": "Luke Altmyer",
+      "team": "Illinois",
+      "position": "QB", 
+      "propType": "passing_tds",
+      "marketLine": 2.5,
+      "fairLine": 3.1,
+      "edge": 11.4,
+      "confidence": 86,
+      "bullets": [
+        "Two touchdown passes vs USC including 64-yard bomb to Feagin",
+        "Illinois receivers creating excellent separation vs USC secondary",
+        "Altmyer showing improved deep ball accuracy and timing",
+        "USC's defense vulnerable to big plays through the air"
+      ],
+      "analysis": "Altmyer's two touchdown performance against USC demonstrates his upside in favorable matchups. The 64-yard strike to Feagin shows his ability to connect on deep balls when given time. Illinois' offensive system creates high-percentage looks that should lead to multiple scoring opportunities."
+    },
+    {
+      "id": "luke_altmyer_passing_yards",
+      "playerId": "cfb_luke_altmyer",
+      "player": "Luke Altmyer",
+      "team": "Illinois", 
+      "position": "QB",
+      "propType": "passing_yards",
+      "marketLine": 285.5,
+      "fairLine": 321.7,
+      "edge": 16.8,
+      "confidence": 89,
+      "bullets": [
+        "64-yard touchdown bomb shows deep ball accuracy and arm strength",
+        "Illinois offensive line providing excellent pass protection",
+        "USC secondary has struggled with vertical passing concepts", 
+        "Weather conditions favorable for passing attack"
+      ],
+      "analysis": "The deep touchdown pass to Feagin highlights Altmyer's ability to generate explosive plays. Video shows excellent footwork and ball placement on vertical routes. Against USC's vulnerable secondary, multiple opportunities exist for chunk yardage plays."
+    },
+    {
+      "id": "jayden_maiava_interceptions",
+      "playerId": "cfb_jayden_maiava", 
+      "player": "Jayden Maiava",
+      "team": "USC",
+      "position": "QB",
+      "propType": "interceptions",
+      "marketLine": 0.5,
+      "fairLine": 0.8,
+      "edge": 24.1,
+      "confidence": 91,
+      "bullets": [
+        "Threw costly interception to Dylan Rosiek in Q3 vs Illinois",
+        "Illinois defense has forced 1.4 interceptions per game",
+        "Maiava showing tendency for risky throws under pressure",
+        "USC's offensive line struggles creating consistent protection"
+      ],
+      "analysis": "Maiava's interception against Illinois demonstrates concerning decision-making under pressure. The throw shows poor ball placement and failure to read defensive coverage. With Illinois' aggressive defense, multiple turnover opportunities are likely to present themselves."
+    },
+    {
+      "id": "makai_lemon_rushing_yards",
+      "playerId": "cfb_makai_lemon",
+      "player": "Makai Lemon",
+      "team": "USC",
+      "position": "RB", 
+      "propType": "rushing_yards",
+      "marketLine": 85.5,
+      "fairLine": 112.3,
+      "edge": 19.7,
+      "confidence": 93,
+      "bullets": [
+        "Explosive 75-yard touchdown run showcases elite breakaway speed",
+        "Illinois defense allows 5.2 yards per carry to opposing RBs",
+        "Lemon's vision and cutting ability create big play potential",
+        "USC's offensive line providing improved run blocking"
+      ],
+      "analysis": "Lemon's 75-yard touchdown demonstrates elite breakaway ability and vision. The run shows excellent patience behind blocks and explosive acceleration through the hole. Against Illinois' defense, his big-play capability creates significant upside potential."
+    },
+    {
+      "id": "nic_anderson_receptions",
+      "playerId": "cfb_nic_anderson",
+      "player": "Nic Anderson", 
+      "team": "Ole Miss",
+      "position": "WR",
+      "propType": "receptions",
+      "marketLine": 4.5,
+      "fairLine": 5.8,
+      "edge": 14.6,
+      "confidence": 88,
+      "bullets": [
+        "Scored crucial touchdown catch vs LSU showing excellent hands",
+        "LSU secondary has struggled covering slot receivers",
+        "Anderson's route running creates consistent separation",
+        "Ole Miss passing offense targets slot position frequently"
+      ],
+      "analysis": "Anderson's touchdown catch demonstrates reliable hands and precise route running. The play shows his ability to create separation in tight coverage and make contested catches. LSU's defensive struggles in coverage create multiple target opportunities."
+    },
+    {
+      "id": "nic_anderson_receiving_yards", 
+      "playerId": "cfb_nic_anderson",
+      "player": "Nic Anderson",
+      "team": "Ole Miss", 
+      "position": "WR",
+      "propType": "receiving_yards",
+      "marketLine": 65.5,
+      "fairLine": 78.9,
+      "edge": 13.2,
+      "confidence": 85,
+      "bullets": [
+        "Touchdown reception showcases ability to win in red zone",
+        "Averaging 12.8 yards per reception over last 6 games",
+        "LSU allows 8.4 yards per target to slot receivers",
+        "Ole Miss offense designed to create YAC opportunities"
+      ],
+      "analysis": "Anderson's touchdown catch highlights his ability to create yards after contact. His route running precision and hands create consistent production opportunities. The market is undervaluing his role in Ole Miss' high-powered passing attack."
+    }
+  ]
+}
