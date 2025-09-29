@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Game-specific prop insights for multiple players
-const GAME_PROPS = {
+// Game-specific prop insights for multiple players (kept internal to satisfy Next.js route type expectations)
+const GAME_PROPS: Record<string, any[]> = {
   'illinois-usc-20250927': [
     {
       playerId: 'luke-altmyer',
@@ -84,7 +84,8 @@ const GAME_PROPS = {
       updatedAt: new Date().toISOString()
     }
   ],
-  'georgia-tech-wake-forest': [
+  // Canonical ID updated to include date and match front-end usage
+  'gt-wake-forest-20250927': [
     {
       playerId: 'haynes-king',
       playerName: 'Haynes King',
@@ -250,6 +251,28 @@ const GAME_PROPS = {
   ]
 };
 
+// Legacy / alternate identifiers mapping to canonical IDs
+const LEGACY_GAME_ID_MAP: Record<string, string> = {
+  'georgia-tech-wake-forest': 'gt-wake-forest-20250927',
+  'gatech-wake-20250927': 'gt-wake-forest-20250927',
+  'georgia-tech-wake-forest-20250927': 'gt-wake-forest-20250927'
+};
+
+function resolveGameId(rawId: string): string | null {
+  if (GAME_PROPS[rawId]) return rawId;
+  if (LEGACY_GAME_ID_MAP[rawId]) {
+    const mapped = LEGACY_GAME_ID_MAP[rawId];
+    if (GAME_PROPS[mapped]) return mapped;
+  }
+  // Try stripping date
+  const noDate = rawId.replace(/-20\d{6}$/,'');
+  if (noDate !== rawId && LEGACY_GAME_ID_MAP[noDate]) {
+    const mapped = LEGACY_GAME_ID_MAP[noDate];
+    if (GAME_PROPS[mapped]) return mapped;
+  }
+  return null;
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { gameId: string } }
@@ -257,11 +280,13 @@ export async function GET(
   const { gameId } = params;
   
   try {
-    const gameProps = GAME_PROPS[gameId as keyof typeof GAME_PROPS];
+  const resolvedId = resolveGameId(gameId);
+  const gameProps = resolvedId ? GAME_PROPS[resolvedId] : undefined;
     
     if (!gameProps) {
       return NextResponse.json({ 
         error: 'Game not found',
+        requested: gameId,
         availableGames: Object.keys(GAME_PROPS)
       }, { status: 404 });
     }
@@ -290,7 +315,7 @@ export async function GET(
     }, {} as any);
 
     return NextResponse.json({
-      gameId,
+  gameId: resolvedId || gameId,
       players: Object.values(playerProps),
       totalProps: gameProps.length,
       timestamp: new Date().toISOString()

@@ -44,88 +44,67 @@ interface SearchModalProps {
   onSelect?: (result: SearchResult) => void;
 }
 
-// Comprehensive prop database for search
+// Comprehensive prop database for search (restricted to players with available clips)
 const PROP_DATABASE: PropLine[] = [
-  // Jayden Maiava props
+  // Gunner Stockton props
   {
-    id: 'maiava-interceptions',
-    player: 'Jayden Maiava',
-    team: 'USC',
-    market: 'Interceptions',
-    marketLine: 0.5,
-    fairLine: 0.8,
-    edgePct: 24.1,
-    confidence: 0.91,
-    gameId: 'illinois-usc-20250927',
-    gameTitle: 'Illinois @ USC',
+    id: 'stockton-passing-tds',
+    player: 'Gunner Stockton',
+    team: 'UGA',
+    market: 'Passing TDs',
+    marketLine: 1.5,
+    fairLine: 1.9,
+    edgePct: 21.3,
+    confidence: 0.88,
+    gameId: 'uga-alabama-20250927',
+    gameTitle: 'Georgia vs Alabama',
     bullets: [
-      'Maiava has thrown interceptions in 3 of his last 4 starts, averaging 1.2 per game',
-      'Illinois defense ranks #12 nationally in interceptions with 18 picks this season',
-      'USC offensive line allows pressure on 42% of dropbacks, forcing rushed decisions',
-      'Weather conditions show 15+ mph winds which historically increase INT rates by 23%'
+      'Red‑zone TD rate on Stockton drives: 42% (team baseline 34%)',
+      'Alabama has allowed 1.7 passing TDs per game over last 4 weeks',
+      'UGA increasing tempo packages (+9% pace) raising play volume',
+      'Film: Stockton consistently wins on layered seam / play‑action concepts'
     ],
-    analysis: 'Video analysis shows Maiava struggling with pocket presence under pressure, particularly on third downs where he\'s forced 6 interceptions this season. The Illinois secondary has excellent ball skills and creates 2.1 turnover opportunities per game. Combined with USC\'s porous pass protection, we project a 67% chance of 1+ interceptions.'
+    analysis: 'Video shows Stockton manipulating linebackers with eye discipline on play‑action, opening intermediate windows. Matchup factors elevate projection from 1.4 to 1.9 TD passes with >57% probability of 2+.'
   },
   {
-    id: 'maiava-passing-yards',
-    player: 'Jayden Maiava',
-    team: 'USC',
+    id: 'stockton-longest-completion',
+    player: 'Gunner Stockton',
+    team: 'UGA',
+    market: 'Longest Completion',
+    marketLine: 37.5,
+    fairLine: 42.0,
+    edgePct: 12.0,
+    confidence: 0.74,
+    gameId: 'uga-alabama-20250927',
+    gameTitle: 'Georgia vs Alabama',
+    bullets: [
+      'Averages 2.6 deep attempts (20+ air yds) per half',
+      'Shot rate off play‑action on 2nd & short: 46% (top 10 nationally)',
+      'Alabama surrendered five 35+ yard completions past 3 games',
+      'Primary deep target usage trending up (target share 28% → 34%)'
+    ],
+    analysis: 'Georgia self‑scout shows early scripted vertical shot. Defensive rotation in Cover 6 leaves post window vulnerable; model gives 57% ≥38 yd completion vs implied 47%.'
+  },
+  {
+    id: 'stockton-passing-yards',
+    player: 'Gunner Stockton',
+    team: 'UGA',
     market: 'Passing Yards',
-    marketLine: 285.5,
-    fairLine: 295.8,
-    edgePct: 3.6,
-    confidence: 0.78,
-    gameId: 'illinois-usc-20250927',
-    gameTitle: 'Illinois @ USC',
+    marketLine: 248.5,
+    fairLine: 262.0,
+    edgePct: 5.4,
+    confidence: 0.73,
+    gameId: 'uga-alabama-20250927',
+    gameTitle: 'Georgia vs Alabama',
     bullets: [
-      'Maiava averages 298.4 passing yards per game in home starts this season',
-      'Illinois allows 4.2 yards per attempt more than USC\'s season average',
-      'USC\'s receiving corps is fully healthy for first time in 4 weeks',
-      'Home field advantage at Coliseum adds 18.7 passing yards per game historically'
+      'Median projection lift due to pace + matchup: +13.5 yards',
+      'Explosive pass rate for UGA last 3 weeks: 18% (season 13%)',
+      'Alabama pressure rate dip (32% → 26%) without consistent interior push',
+      'Stockton completion % in intermediate band (10–19 air yds): 71%'
     ],
-    analysis: 'Film breakdown reveals Illinois struggles with USC\'s bunch formations and crossing routes, which comprise 38% of Maiava\'s completions. The Trojans should establish tempo early with quick game concepts that have been effective against similar defensive schemes.'
+    analysis: 'Intermediate efficiency plus stabilized pocket time boosts Stockton’s yardage floor. Alabama conceding more in‑breaking routes; model fair line 262 vs market 248.5.'
   },
-  
-  // Luke Altmyer props (Illinois)
-  {
-    id: 'altmyer-passing-yards',
-    player: 'Luke Altmyer',
-    team: 'Illinois',
-    market: 'Passing Yards',
-    marketLine: 275.5,
-    fairLine: 295.0,
-    edgePct: 7.1,
-    confidence: 0.83,
-    gameId: 'illinois-usc-20250927',
-    gameTitle: 'Illinois vs USC',
-    bullets: [
-      'Altmyer averages 298.4 passing yards per game in his last 6 starts',
-      'Illinois has increased pass attempts by 12% in recent games',
-      'USC defense allows 4th most passing yards per game in Pac-12 (284.7)',
-      'Altmyer has exceeded 275.5 yards in 4 of his last 5 games'
-    ],
-    analysis: 'Film study shows Altmyer excels in play-action situations where he completes 78% of attempts. USC\'s defense struggles with misdirection plays and RPOs, which are staples of Illinois\' offense. The Fighting Illini should have success attacking the middle of the field.'
-  },
-  {
-    id: 'altmyer-rushing-touchdowns',
-    player: 'Luke Altmyer',
-    team: 'Illinois',
-    market: 'Rushing Touchdowns',
-    marketLine: 0.5,
-    fairLine: 0.8,
-    edgePct: 18.4,
-    confidence: 0.79,
-    gameId: 'illinois-usc-20250927',
-    gameTitle: 'Illinois vs USC',
-    bullets: [
-      'Altmyer has scored rushing TDs in 3 of his last 4 games',
-      'Illinois runs designed QB runs inside the red zone 34% of the time',
-      'USC allows 0.8 rushing TDs per game to QBs this season',
-      'Altmyer has 6 rushing TDs on the season, tied for team lead'
-    ],
-    analysis: 'Illinois frequently uses Altmyer in short-yardage and goal-line situations. His mobility creates problems for USC\'s defense, and the Illini coaching staff has shown confidence in his ability to punch in scores with his legs.'
-  },
-  
+
   // Haynes King props
   {
     id: 'king-passing-yards',
@@ -140,11 +119,11 @@ const PROP_DATABASE: PropLine[] = [
     gameTitle: 'Georgia Tech @ Wake Forest',
     bullets: [
       'King averages 268.7 passing yards per game in road starts this season',
-      'Wake Forest secondary allows 8.2 yards per attempt, worst in ACC',
-      'Georgia Tech\'s tempo offense runs 78.4 plays per game, 5th highest nationally',
-      'King has exceeded 245.5 yards in 6 of 8 games against ACC opponents'
+      'Wake Forest secondary allows 8.2 yards per attempt (bottom ACC)',
+      'Tempo offense runs 78.4 plays per game (pace drives raw volume)',
+      'Exceeded 245.5 yards in 6 of 8 ACC matchups'
     ],
-    analysis: 'Wake Forest\'s defensive film reveals consistent breakdowns in coverage communication, particularly against RPO concepts that comprise 45% of GT\'s offense. King\'s mobility creates additional passing windows when initial reads are covered.'
+    analysis: 'Wake Forest communication lapses vs RPO glance / seam tags expand throwing lanes. King’s scramble‑to‑throw tendency raises yards vs static pressure looks.'
   },
   {
     id: 'king-rushing-yards',
@@ -158,75 +137,12 @@ const PROP_DATABASE: PropLine[] = [
     gameId: 'gt-wake-forest-20250927',
     gameTitle: 'Georgia Tech @ Wake Forest',
     bullets: [
-      'King averages 42.3 rushing yards per game this season',
-      'Wake Forest allows only 3.8 yards per carry to mobile QBs',
-      'GT offensive line struggles in short-yardage situations (58% success rate)',
-      'Wake\'s defensive coordinator emphasizes QB spy coverage (72% of snaps)'
+      'Baseline rushing output 42.3 yds (design + scramble) per game',
+      'Wake Forest uses dedicated spy on 72% of mobile QB snaps',
+      'Lane discipline limits explosive scramble chunk gains',
+      'Negative edge indicates potential under value vs posted line'
     ],
-    analysis: 'Wake Forest has effectively contained mobile quarterbacks this season by using a dedicated spy and forcing King to beat them with his arm rather than legs. Their disciplined rush lane integrity limits scramble opportunities.'
-  },
-  
-  // Makai Lemon props (USC)
-  {
-    id: 'lemon-receiving-yards',
-    player: 'Makai Lemon',
-    team: 'USC',
-    market: 'Receiving Yards',
-    marketLine: 85.5,
-    fairLine: 95.0,
-    edgePct: 11.1,
-    confidence: 0.76,
-    gameId: 'illinois-usc-20250927',
-    gameTitle: 'Illinois vs USC',
-    bullets: [
-      'Lemon has exceeded 85.5 receiving yards in 4 of his last 6 games',
-      'Illinois defense ranks #28 against slot receivers, allowing 9.1 yards per target',
-      'USC QB Jayden Maiava has 72% completion rate when targeting Lemon',
-      'Lemon averages 8.7 targets per game and leads USC in receptions'
-    ],
-    analysis: 'Film breakdown shows Lemon excels on crossing routes and slants, which Illinois struggles to defend. He has developed strong chemistry with Maiava, particularly on intermediate routes. The Trojans should target the middle of the field where Illinois is most vulnerable.'
-  },
-  
-  // Nico Iamaleava props (Tennessee)
-  {
-    id: 'nico-passing-yards',
-    player: 'Nico Iamaleava', 
-    team: 'Tennessee',
-    market: 'Passing Yards',
-    marketLine: 268.5,
-    fairLine: 285.2,
-    edgePct: 6.2,
-    confidence: 0.81,
-    gameId: 'tennessee-georgia-20250927',
-    gameTitle: 'Tennessee @ Georgia',
-    bullets: [
-      'Iamaleava averages 281.7 passing yards per game this season',
-      'Tennessee\'s tempo offense ranks 8th nationally in plays per game',
-      'Georgia allows 245.3 passing yards per game, but struggles vs mobile QBs',
-      'Iamaleava has exceeded 268.5 yards in 5 of his last 7 starts'
-    ],
-    analysis: 'Iamaleava\'s dual-threat ability creates problems for Georgia\'s defense. His accuracy on rollouts and bootlegs is exceptional (79% completion rate). Tennessee should find success with play-action concepts that take advantage of their strong running game.'
-  },
-  
-  // Ryan Williams props (Alabama)
-  {
-    id: 'williams-receiving-yards',
-    player: 'Ryan Williams',
-    team: 'Alabama',
-    market: 'Receiving Yards', 
-    marketLine: 92.5,
-    fairLine: 105.8,
-    edgePct: 14.4,
-    confidence: 0.88,
-    gameId: 'alabama-auburn-20250927',
-    gameTitle: 'Alabama vs Auburn',
-    bullets: [
-      'Williams averages 106.2 receiving yards per game over his last 8 games',
-      'Auburn defense allows 4th most receiving yards to WR1s (118.7 per game)',
-      'Alabama QB Jalen Milroe targets Williams 11.4 times per game on average',
-      'Williams has exceeded 92.5 yards in 7 of his last 9 games'
-    ],
-    analysis: 'Williams is Alabama\'s primary receiving threat and Auburn has struggled to contain elite WR1s this season. His route-running precision and speed make him a mismatch for Auburn\'s secondary. Expect heavy target share in this rivalry game.'
+    analysis: 'Scheme + spy usage suppress high‑end rushing outcomes. Retained to demonstrate negative edge surfacing in search results.'
   }
 ];
 
@@ -597,7 +513,7 @@ export default function SearchModal({ isOpen, onClose, onSelect }: SearchModalPr
               ) : (
                 <div className="p-8 text-center text-white/50">
                   <div className="text-white/60 mb-4">Start typing to search...</div>
-                  <div className="text-sm text-white/40">Try: "Jayden Maiava", "Georgia Tech", "Passing Yards"</div>
+                  <div className="text-sm text-white/40">Try: "Gunner Stockton", "Haynes King", "Passing Yards"</div>
                 </div>
               )}
             </div>

@@ -30,58 +30,58 @@ export default function TopEdgesList({ gameId, onSelect }: Props) {
   // Mock data
   const edges: EdgeItem[] = [
     {
-      id: 'mock_1',
-      gameId: gameId || 'mock_game',
-      player: 'Jayden Maiava',
-      team: 'USC',
-      market: 'Interceptions',
-      marketLine: 0.5,
-      fairLine: 0.8,
-      edgePct: 24.1,
-      confidence: 0.91,
+      id: 'edge_stockton_passing_td',
+      gameId: gameId || 'uga-alabama-20250927',
+      player: 'Gunner Stockton',
+      team: 'UGA',
+      market: 'Passing TDs',
+      marketLine: 1.5,
+      fairLine: 1.9,
+      edgePct: 21.3,
+      confidence: 0.88,
       bullets: [
-        'Maiava has thrown interceptions in 3 of his last 4 starts, averaging 1.2 per game',
-        'Opponent defense ranks #12 nationally in interceptions with 18 picks this season',
-        'USC offensive line allows pressure on 42% of dropbacks, forcing rushed decisions',
-        'Weather conditions show 15+ mph winds which historically increase INT rates by 23%'
+        'Stockton red‑zone TD rate 42% of drives (team avg 34%)',
+        'Alabama defense allows 1.7 passing TDs per game last 4 weeks',
+        'UGA using more tempo packages ( +9% pace) boosting total plays',
+        'Film: Stockton attacking seams vs split safety looks with success'
       ],
-      analysis: 'Video analysis shows Maiava struggling with pocket presence under pressure, particularly on third downs where he\'s forced 6 interceptions this season. The opposing secondary has excellent ball skills and creates 2.1 turnover opportunities per game. Combined with USC\'s porous pass protection, we project a 67% chance of 1+ interceptions.'
+      analysis: 'Video shows Stockton consistently winning on layered seam concepts and leveraging play‑action to freeze linebackers. Alabama has recently conceded intermediate window throws inside the 25. Projection model lifts his median TD passes from 1.4 to 1.9 given matchup and pace uptick.'
     },
     {
-      id: 'mock_2', 
-      gameId: gameId || 'mock_game',
-      player: 'Quinn Ewers',
-      team: 'Texas',
+      id: 'edge_stockton_deep_ball',
+      gameId: gameId || 'uga-alabama-20250927',
+      player: 'Gunner Stockton',
+      team: 'UGA',
+      market: 'Longest Completion',
+      marketLine: 37.5,
+      fairLine: 42.0,
+      edgePct: 12.0,
+      confidence: 0.74,
+      bullets: [
+        'Stockton averages 2.6 deep attempts (20+ air yds) per half',
+        'Colbie Young target share on deep posts rising (28% → 34%)',
+        'Alabama has surrendered 5 completions 35+ yds past 3 games',
+        'Play‑action shot rate for UGA on 2nd & short at 46% (top 10)' 
+      ],
+      analysis: 'Tendency self‑scout suggests early scripted shot off counter look. Alabama boundary corner rotating late in Cover 6 has produced exposure on deep post window. Probability model gives 57% for a completion ≥38 yds vs implied 47%.'
+    },
+    {
+      id: 'edge_haynes_king_passing',
+      gameId: gameId || 'gt-wake-forest-20250927',
+      player: 'Haynes King',
+      team: 'Georgia Tech',
       market: 'Passing Yards',
-      marketLine: 275.5,
-      fairLine: 295.0,
-      edgePct: -7.2,
-      confidence: 0.83,
+      marketLine: 235.5,
+      fairLine: 252.0,
+      edgePct: 7.0,
+      confidence: 0.72,
       bullets: [
-        'Ewers averages 312.4 passing yards per game over his last 8 starts',
-        'Texas offensive coordinator has called 15% more pass plays in recent weeks',
-        'Opponent defense allows 4th most passing yards per game (289.3)',
-        'Key receiver Adonai Mitchell is healthy after missing 2 games with injury'
+        'Wake Forest pressure rate 27% (ACC median 31%) gives cleaner pockets',
+        'GT RPO usage up 11% last 3 games increasing YAC opportunity',
+        'King averaging 8.4 aDOT vs two‑high; Wake sits in two‑high 62%',
+        'Tempo splits: +6.5 plays per game when GT favored by <4 points' 
       ],
-      analysis: 'Film study reveals Ewers has exceptional accuracy on intermediate routes (15-25 yard range) where he completes 73% of attempts. The opposing defense struggles with crossing routes and RPOs, which comprise 31% of Texas\' passing offense. Weather conditions are ideal with no wind or precipitation expected.'
-    },
-    {
-      id: 'mock_3',
-      gameId: gameId || 'mock_game', 
-      player: 'Tre Harris',
-      team: 'Ole Miss',
-      market: 'Receiving Yards',
-      marketLine: 85.5,
-      fairLine: 95.0,
-      edgePct: 11.1,
-      confidence: 0.76,
-      bullets: [
-        'Harris has exceeded 85.5 receiving yards in 6 of 9 games this season',
-        'Opposing defense ranks #23 against slot receivers, allowing 8.4 yards per target',
-        'Ole Miss QB Jaxson Dart has 68% completion rate when targeting Harris',
-        'Harris averages 12.1 targets per game, with 89% coming from slot formation'
-      ],
-      analysis: 'Breakdown of defensive film shows the opponent consistently struggles with pick plays and bunch formations, which are Harris\' specialty routes. He runs 67% of his patterns from the slot where he\'s most effective. The defensive coordinator has shown reluctance to double-team slot receivers, creating favorable 1-on-1 matchups.'
+      analysis: 'Film: King’s mechanical consistency improved on intermediate glance routes; Wake’s lighter boxes invite RPO glance digs. Projection model lifts mean yardage to 252 given expected play volume and efficiency bump vs sub‑average pressure.'
     }
   ];
   
