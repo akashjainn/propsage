@@ -5,6 +5,8 @@ import { FEATURES, TL_INDEX } from '@/lib/features';
 import { useTlSearch } from '@/hooks/useTlSearch';
 import VideoPlayer from '@/components/VideoPlayer';
 import LazyVideo from '@/components/LazyVideo';
+import ClipCarousel from '@/components/ClipCarousel';
+import useIsMobile from '@/hooks/useIsMobile';
 import { pushToast } from '@/components/ToastBus';
 import FallbackClips from '@/components/FallbackClips';
 import { Drawer, AnimatedList, Skeleton } from '@/components/ui/motion';
@@ -41,6 +43,7 @@ export default function EdgeEvidenceDrawer({
   }, [error, edge, gameTitle, query]);
 
   const [prefetch, setPrefetch] = useState<any[] | null>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     let alive = true;
@@ -128,38 +131,56 @@ export default function EdgeEvidenceDrawer({
               )}
               
               {results?.length > 0 && (
-                <motion.div
-                  variants={staggerChildren(0.12)}
-                  initial="initial"
-                  animate="animate"
-                  className="space-y-6"
-                >
-                  {results.slice(0, 3).map((r: any, idx: number) => (
-                    <motion.div 
-                      key={`${r.videoId ?? r.url}-${r.start}`} 
-                      variants={staggerItem}
-                      className="glass rounded-2xl p-4 space-y-3"
-                    >
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-white/70 font-medium">
-                          Match Score: <span className="text-primary-400 font-bold">{r.score?.toFixed?.(2) ?? '—'}</span>
-                        </span>
-                        <span className="text-white/50 font-medium">
-                          {Math.round(r.start)}s–{Math.round(r.end)}s
-                        </span>
-                      </div>
-                      <LazyVideo 
-                        src={r.url} 
-                        type={r.url.endsWith('.m3u8') ? 'hls' : 'mp4'}
-                        startTime={r.start}
-                        eager={idx === 0}
-                        poster={r.thumbnailUrl}
-                        title={r.title}
-                        className="shadow-lg"
-                      />
-                    </motion.div>
-                  ))}
-                </motion.div>
+                isMobile ? (
+                  <ClipCarousel
+                    clips={results.slice(0, 6).map((r: any, idx: number) => ({
+                      id: `${r.videoId ?? r.url}-${r.start}`,
+                      url: r.url,
+                      start: r.start,
+                      end: r.end,
+                      title: r.title,
+                      description: r.description,
+                      thumbnailUrl: r.thumbnailUrl,
+                      relevance: typeof r.score === 'number' ? r.score : undefined,
+                      type: r.url.endsWith('.m3u8') ? 'hls' : 'mp4'
+                    }))}
+                    eagerFirst
+                    className="mt-1"
+                  />
+                ) : (
+                  <motion.div
+                    variants={staggerChildren(0.12)}
+                    initial="initial"
+                    animate="animate"
+                    className="space-y-6"
+                  >
+                    {results.slice(0, 3).map((r: any, idx: number) => (
+                      <motion.div 
+                        key={`${r.videoId ?? r.url}-${r.start}`} 
+                        variants={staggerItem}
+                        className="glass rounded-2xl p-4 space-y-3"
+                      >
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-white/70 font-medium">
+                            Match Score: <span className="text-primary-400 font-bold">{r.score?.toFixed?.(2) ?? '—'}</span>
+                          </span>
+                          <span className="text-white/50 font-medium">
+                            {Math.round(r.start)}s–{Math.round(r.end)}s
+                          </span>
+                        </div>
+                        <LazyVideo 
+                          src={r.url} 
+                          type={r.url.endsWith('.m3u8') ? 'hls' : 'mp4'}
+                          startTime={r.start}
+                          eager={idx === 0}
+                          poster={r.thumbnailUrl}
+                          title={r.title}
+                          className="shadow-lg"
+                        />
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )
               )}
               
               {/* Fallback clips */}
@@ -170,33 +191,51 @@ export default function EdgeEvidenceDrawer({
                   transition={{ ...easeOut, delay: 0.3 }}
                 >
                   {prefetch ? (
-                    <motion.div 
-                      variants={staggerChildren(0.1)}
-                      initial="initial"
-                      animate="animate"
-                      className="space-y-4"
-                    >
-                      {prefetch.map((c: any, idx: number) => (
-                        <motion.div 
-                          key={`${c.url}-${c.start}`} 
-                          variants={staggerItem}
-                          className="glass rounded-2xl p-4 space-y-3"
-                        >
-                          <div className="text-sm text-white/50 font-medium">
-                            {Math.round(c.start)}s–{Math.round(c.end)}s
-                          </div>
-                          <LazyVideo
-                            src={c.url}
-                            type={c.url.endsWith('.m3u8') ? 'hls' : 'mp4'}
-                            startTime={c.start}
-                            eager={idx === 0}
-                            poster={c.thumbnailUrl}
-                            title={c.title}
-                            className="shadow-lg"
-                          />
-                        </motion.div>
-                      ))}
-                    </motion.div>
+                    isMobile ? (
+                      <ClipCarousel
+                        clips={prefetch.slice(0, 6).map((c: any, idx: number) => ({
+                          id: `${c.url}-${c.start}`,
+                          url: c.url,
+                          start: c.start,
+                          end: c.end,
+                          title: c.title,
+                          description: c.description,
+                          thumbnailUrl: c.thumbnailUrl,
+                          relevance: typeof c.score === 'number' ? c.score : undefined,
+                          type: c.url.endsWith('.m3u8') ? 'hls' : 'mp4'
+                        }))}
+                        eagerFirst
+                        className="mt-1"
+                      />
+                    ) : (
+                      <motion.div 
+                        variants={staggerChildren(0.1)}
+                        initial="initial"
+                        animate="animate"
+                        className="space-y-4"
+                      >
+                        {prefetch.map((c: any, idx: number) => (
+                          <motion.div 
+                            key={`${c.url}-${c.start}`} 
+                            variants={staggerItem}
+                            className="glass rounded-2xl p-4 space-y-3"
+                          >
+                            <div className="text-sm text-white/50 font-medium">
+                              {Math.round(c.start)}s–{Math.round(c.end)}s
+                            </div>
+                            <LazyVideo
+                              src={c.url}
+                              type={c.url.endsWith('.m3u8') ? 'hls' : 'mp4'}
+                              startTime={c.start}
+                              eager={idx === 0}
+                              poster={c.thumbnailUrl}
+                              title={c.title}
+                              className="shadow-lg"
+                            />
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    )
                   ) : (
                     <FallbackClips game={gameTitle ?? ''} edge={edge} />
                   )}
