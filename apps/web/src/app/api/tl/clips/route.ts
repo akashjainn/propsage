@@ -38,9 +38,17 @@ export async function GET(req: Request) {
     let data: any;
     try { data = JSON.parse(text); } catch (e) { throw new Error('Invalid JSON from backend'); }
 
-    const results = (data.clips || []).map((clip: any) => formatClip(clip, player, market));
+    let results = (data.clips || []).map((clip: any) => formatClip(clip, player, market));
+    if (results.length === 0) {
+      console.log('[TL Clips API] Backend returned 0 clips – attempting embedded fallback merge');
+      const embedded = embeddedFallback(player, market);
+      if (embedded.length) {
+        results = embedded;
+        return NextResponse.json({ results, source: 'embedded-after-backend-empty' });
+      }
+    }
     console.log(`[TL Clips API] Found ${results.length} clips from backend`);
-    return NextResponse.json({ results });
+    return NextResponse.json({ results, source: 'backend' });
   } catch (error) {
     console.error('[TL Clips API] Backend error:', error);
     return await fallbackDirect(req, player, market);
