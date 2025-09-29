@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getScheduleForDate, NormalizedGame } from '../services/cfbd.schedule';
+import { getScheduleForDate, NormalizedGame } from '../services/cfbd.schedule.js';
 import path from 'path';
 import fs from 'fs';
 
