@@ -328,7 +328,7 @@ const generateSearchResults = (query: string): SearchResult[] => {
         subtitle,
         confidence,
         propData: prop,
-        metadata: { edge: prop.edgePct, team: prop.team, matchType }
+        metadata: { edge: prop.edgePct, team: prop.team }
       });
     }
   });
@@ -355,7 +355,7 @@ const generateSearchResults = (query: string): SearchResult[] => {
           subtitle: `${prop.team} | Partial match | Edge: ${prop.edgePct > 0 ? '+' : ''}${prop.edgePct.toFixed(1)}%`,
           confidence: 0.5, // Lower confidence for fuzzy matches
           propData: prop,
-          metadata: { edge: prop.edgePct, team: prop.team, matchType: 'fuzzy' }
+          metadata: { edge: prop.edgePct, team: prop.team }
         });
       }
     });
