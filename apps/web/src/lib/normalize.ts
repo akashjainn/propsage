@@ -13,6 +13,7 @@ const ALIASES: Record<string, string> = {
   rushing_yards: 'rush_yds',
   receiving_yards: 'rec_yds',
   passing_tds: 'pass_tds',
+  longest_completion: 'longest_completion'
 };
 export function normalizePropForFocus(label: string) {
   const slug = normalizePropLabel(label);

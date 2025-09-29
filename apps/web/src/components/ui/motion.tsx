@@ -145,10 +145,15 @@ export function Drawer({ isOpen, onClose, children, title, className }: DrawerPr
         }}
         className={cn(
           "absolute right-0 top-0 h-full w-full sm:w-[520px] glass-strong shadow-[0_-12px_64px_rgba(0,0,0,.5)] overflow-y-auto",
+          "rounded-t-2xl sm:rounded-none",
           className
         )}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Mobile grab handle */}
+        <div className="sm:hidden flex justify-center pt-3">
+          <div className="h-1.5 w-14 rounded-full bg-white/20" />
+        </div>
         {title && (
           <div className="sticky top-0 z-10 glass-strong border-b border-white/10 p-4">
             <div className="flex items-center justify-between">
@@ -161,6 +166,14 @@ export function Drawer({ isOpen, onClose, children, title, className }: DrawerPr
                 ✕
               </button>
             </div>
+          </div>
+        )}
+        {!title && (
+          <div className="flex justify-end p-2 sm:hidden">
+            <button
+              onClick={onClose}
+              className="px-3 py-1.5 text-sm rounded-md bg-white/10 text-white/70 hover:bg-white/20"
+            >Close</button>
           </div>
         )}
         <div className="p-4">

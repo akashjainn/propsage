@@ -39,7 +39,9 @@ export default function HomePage() {
 
   const handleEdgeSelect = (edge: any) => {
     Sentry.addBreadcrumb({ category: 'edge', level: 'info', message: 'edge_selected', data: { player: edge.player, market: edge.market } });
-    setSelectedEdge(edge);
+    // Persist normalized market for deterministic clip lookup
+    const normalizedMarket = edge.normalizedMarket || edge.market;
+    setSelectedEdge({ ...edge, normalizedMarket });
     if (edge?.gameId && edge.gameId !== selectedGameId) {
       setSelectedGameId(edge.gameId);
     }
@@ -101,7 +103,7 @@ export default function HomePage() {
         fairLine: result.propData.fairLine,
         edgePct: result.propData.edgePct,
         confidence: result.propData.confidence,
-        gameId: result.propData.gameId,
+        gameId: result.propData.gameId || selectedGameId,
         gameTitle: result.propData.gameTitle,
         bullets: result.propData.bullets,
         analysis: result.propData.analysis,
@@ -204,8 +206,10 @@ export default function HomePage() {
       <EdgeEvidenceDrawer
         edge={selectedEdge}
         gameTitle={(() => {
-          const g = gamesToday.find(g => g.id === selectedGameId);
-          return g ? `${g.away.short} vs ${g.home.short}` : null;
+          // Prefer edge.gameId if present (prop from different game than currently selected)
+          const targetGameId = selectedEdge?.gameId || selectedGameId;
+            const g = gamesToday.find(g => g.id === targetGameId);
+            return g ? `${g.away.short} @ ${g.home.short}` : null;
         })()}
         open={evidenceOpen}
         onClose={() => setEvidenceOpen(false)}

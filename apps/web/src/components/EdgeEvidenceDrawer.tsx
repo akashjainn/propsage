@@ -64,6 +64,7 @@ export default function EdgeEvidenceDrawer({
         <Drawer
           isOpen={open}
           onClose={onClose}
+          title={edge.player}
           className="sm:w-[540px]"
         >
           <motion.div
@@ -75,22 +76,14 @@ export default function EdgeEvidenceDrawer({
             className="space-y-6"
           >
             {/* Header */}
-            <div className="space-y-3">
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ ...easeOut, delay: 0.1 }}
-              >
-                <div className="text-sm text-white/50 font-medium">Evidence for</div>
-                <div className="text-2xl font-bold text-white">{edge.player}</div>
-                <div className="text-lg text-white/80">{edge.market}</div>
-                {gameTitle && (
-                  <div className="text-sm text-white/50 flex items-center gap-2 mt-2">
-                    <span className="w-1 h-1 rounded-full bg-white/30" />
-                    <span>{gameTitle}</span>
-                  </div>
-                )}
-              </motion.div>
+            <div className="space-y-2 -mt-2">
+              <div className="text-sm text-white/50 font-medium">{edge.market}</div>
+              {gameTitle && (
+                <div className="text-sm text-white/50 flex items-center gap-2">
+                  <span className="w-1 h-1 rounded-full bg-white/30" />
+                  <span>{gameTitle}</span>
+                </div>
+              )}
             </div>
 
             {/* Video Evidence Section */}
