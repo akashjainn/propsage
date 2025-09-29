@@ -153,6 +153,8 @@ export default function EdgeEvidenceDrawer({
                         type={r.url.endsWith('.m3u8') ? 'hls' : 'mp4'}
                         startTime={r.start}
                         eager={idx === 0}
+                        poster={r.thumbnailUrl}
+                        title={r.title}
                         className="shadow-lg"
                       />
                     </motion.div>
@@ -188,6 +190,8 @@ export default function EdgeEvidenceDrawer({
                             type={c.url.endsWith('.m3u8') ? 'hls' : 'mp4'}
                             startTime={c.start}
                             eager={idx === 0}
+                            poster={c.thumbnailUrl}
+                            title={c.title}
                             className="shadow-lg"
                           />
                         </motion.div>

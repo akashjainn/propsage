@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
 import * as Sentry from '@sentry/nextjs';
+import { emitVideoPlay, onVideoPlay } from '@/lib/videoEvents';
 
 export type VideoSource = { type: 'hls' | 'mp4'; src: string };
 
@@ -29,9 +30,10 @@ export default function VideoPlayer({
 }: Props) {
   const ref = useRef<HTMLVideoElement | null>(null);
   const hlsRef = useRef<any>(null);
+  const idRef = useRef<string>(`${Date.now()}_${Math.random().toString(36).slice(2)}`);
 
   useEffect(() => {
-    const video = ref.current;
+  const video = ref.current;
     if (!video) return;
 
     video.muted = muted ?? autoPlay;
@@ -58,6 +60,18 @@ export default function VideoPlayer({
     video.addEventListener('canplay', handleCanPlay);
     video.addEventListener('error', handleError);
     video.addEventListener('stalled', handleStalled);
+    const off = onVideoPlay(({ id }) => {
+      if (id !== idRef.current && !video.paused && !video.ended) {
+        try { video.pause(); } catch {}
+      }
+    });
+
+    const handlePlay = () => {
+      emitVideoPlay(idRef.current);
+      Sentry.addBreadcrumb({ category: 'video', level: 'info', message: 'video_play', data: { src: source.src, id: idRef.current } });
+    };
+    video.addEventListener('play', handlePlay);
+    Sentry.addBreadcrumb({ category: 'video', level: 'debug', message: 'video_component_mount', data: { src: source.src, autoPlay } });
 
     (async () => {
       if (source.type === 'hls') {
@@ -89,6 +103,8 @@ export default function VideoPlayer({
       video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('error', handleError);
       video.removeEventListener('stalled', handleStalled);
+      video.removeEventListener('play', handlePlay);
+      off();
       try { hlsRef.current?.destroy(); } catch {}
       hlsRef.current = null;
     };

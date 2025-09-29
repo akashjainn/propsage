@@ -132,6 +132,8 @@ export function PropDrawer({
                       type={clip.url.endsWith('.m3u8') ? 'hls' : 'mp4'}
                       startTime={clip.start || clip.startTime}
                       eager
+                      poster={clip.thumbnailUrl || clip.thumbnail}
+                      title={clip.title || clip.description}
                       className="max-h-[400px]"
                     />
                   </div>
