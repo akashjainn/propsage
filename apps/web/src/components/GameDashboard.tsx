@@ -333,7 +333,7 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
             variants={staggerChildren(0.1)}
             initial="initial"
             animate="animate"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6"
           >
             {players
               .flatMap(player => 
@@ -348,7 +348,7 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
                     <HoverCard
                       elevated
                       onClick={() => handlePropSelect(prop.playerId, prop.playerName, prop, prop.team)}
-                      className="p-6 cursor-pointer group overflow-hidden relative"
+                      className="p-5 md:p-6 cursor-pointer group overflow-hidden relative min-h-[148px] flex flex-col justify-between"
                     >
                       {/* Ranking badge */}
                       <div className="absolute top-4 left-4 w-8 h-8 rounded-full glass-strong flex items-center justify-center text-sm font-bold text-white">
@@ -359,10 +359,10 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       
                       <div className="relative z-10 pt-6">
-                        <div className="flex items-start justify-between gap-4 mb-4">
+                        <div className="flex items-start justify-between gap-3 mb-4">
                           <div className="flex-1 min-w-0">
                             <motion.div 
-                              className="font-bold text-white text-lg mb-1 truncate"
+                              className="font-bold text-white text-base md:text-lg mb-1 truncate"
                               whileHover={{ x: 2 }}
                               transition={{ type: "spring", stiffness: 400, damping: 25 }}
                             >
@@ -378,7 +378,7 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
                           <div className="text-right flex flex-col items-end gap-1">
                             <AnimatedPercentage 
                               value={prop.edgePct} 
-                              className="text-xl" 
+                              className="text-lg md:text-xl" 
                             />
                             <motion.div 
                               className="text-[11px] text-white/50 font-medium px-2 py-1 rounded-md glass-subtle"
@@ -391,48 +391,18 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
                         </div>
                         
                         {/* Enhanced prop lines visual */}
-                        <div className="grid grid-cols-3 gap-3">
-                          <motion.div 
-                            className="rounded-xl border border-white/15 px-3 py-2 text-white/70 glass-subtle text-center"
-                            whileHover={{ 
-                              backgroundColor: "rgba(255, 255, 255, 0.08)",
-                              borderColor: "rgba(255, 255, 255, 0.2)"
-                            }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <div className="text-[10px] font-medium text-white/40 mb-1">Market</div>
-                            <div className="font-bold tabular-nums">{prop.marketLine}</div>
-                          </motion.div>
-                          
-                          <motion.div 
-                            className="rounded-xl border border-white/15 px-3 py-2 text-white/70 glass-subtle text-center"
-                            whileHover={{ 
-                              backgroundColor: "rgba(255, 255, 255, 0.08)",
-                              borderColor: "rgba(255, 255, 255, 0.2)"
-                            }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <div className="text-[10px] font-medium text-white/40 mb-1">Fair</div>
-                            <div className="font-bold tabular-nums">{prop.fairLine}</div>
-                          </motion.div>
-                          
-                          <motion.div 
-                            className={`rounded-xl border px-3 py-2 glass-subtle text-center font-bold ${
-                              positive 
-                                ? 'border-green-400/30 text-green-300 bg-green-400/5' 
-                                : 'border-red-400/30 text-red-300 bg-red-400/5'
-                            }`}
-                            whileHover={{ 
-                              scale: 1.05,
-                              backgroundColor: positive 
-                                ? "rgba(34, 197, 94, 0.1)" 
-                                : "rgba(239, 68, 68, 0.1)"
-                            }}
-                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                          >
-                            <div className="text-[10px] font-medium opacity-70 mb-1">Play</div>
-                            <div>{positive ? 'OVER' : 'UNDER'}</div>
-                          </motion.div>
+                        <div className="flex items-stretch gap-2">
+                          <div className="flex-1 flex items-center justify-center rounded-lg border border-white/15 glass-subtle px-2 py-1.5">
+                            <span className="text-[10px] text-white/40 mr-1">M</span>
+                            <span className="font-semibold tabular-nums text-sm">{prop.marketLine}</span>
+                          </div>
+                          <div className="flex-1 flex items-center justify-center rounded-lg border border-white/15 glass-subtle px-2 py-1.5">
+                            <span className="text-[10px] text-white/40 mr-1">F</span>
+                            <span className="font-semibold tabular-nums text-sm">{prop.fairLine}</span>
+                          </div>
+                          <div className={`flex-1 flex items-center justify-center rounded-lg border px-2 py-1.5 font-bold text-sm ${positive ? 'border-green-400/30 text-green-300 bg-green-400/5' : 'border-red-400/30 text-red-300 bg-red-400/5'}`}> 
+                            {positive ? 'OVR' : 'UND'}
+                          </div>
                         </div>
                       </div>
                       
@@ -503,7 +473,7 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
                     variants={staggerChildren(0.05)}
                     initial="initial"
                     animate="animate"
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                    className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"
                   >
                     {player.props.map(prop => {
                       const positive = prop.edgePct >= 0;

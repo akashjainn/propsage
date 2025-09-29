@@ -135,7 +135,7 @@ export default function HomePage() {
   return (
     <AppShell>
       {/* Hero Section */}
-      <section className="mb-12 text-center relative">
+  <section className="mb-12 text-center relative">
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-surface opacity-60 rounded-3xl" />
         
@@ -166,7 +166,7 @@ export default function HomePage() {
       </section>
 
       {/* Top Edges */}
-      <section className="mb-12 space-y-6">
+  <section className="mb-12 space-y-6" id="insights">
         <div>
           <SectionHeader
             title="Top Edge Opportunities"
@@ -181,7 +181,7 @@ export default function HomePage() {
       </section>
 
       {/* Games Rail */}
-      <section className="mb-8">
+  <section className="mb-8" id="players">
         <SectionHeader 
           title="Today's Games" 
           subtitle="Select a game to analyze props and watch video evidence" 

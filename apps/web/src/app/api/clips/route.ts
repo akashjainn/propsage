@@ -46,7 +46,19 @@ export async function GET(req: Request) {
     const playerId = player ? `cfb_${player.toLowerCase().replace(/\s+/g, '_')}` : '';
     console.log(`[Direct Clips API] Derived playerId: "${playerId}"`);
 
-    if (playerId && mockData.players && mockData.players[playerId]) {
+    // Deterministic mapping first
+    const propKey = playerId && stat ? `${playerId}:${stat.toLowerCase()}` : '';
+    const mappedIds: string[] | undefined = (TWELVE_LABS_MOCK as any).propClipMap?.[propKey];
+
+    if (mappedIds && mappedIds.length && mockData.players?.[playerId]) {
+      const vids = mockData.players[playerId].videos || [];
+      for (const desiredId of mappedIds) {
+        const match = vids.find((v: any) => v.id === desiredId);
+        if (match) clips.push(formatClip(match, mockData.players[playerId].team));
+      }
+    }
+
+    if (playerId && mockData.players && mockData.players[playerId] && clips.length === 0) {
       const playerVideos = mockData.players[playerId].videos || [];
       for (const video of playerVideos) {
         if (stat) {
