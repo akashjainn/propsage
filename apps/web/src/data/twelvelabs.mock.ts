@@ -64,6 +64,23 @@ export const TWELVE_LABS_MOCK = {
           clips: [{ start_time: 0, end_time: 22, description: 'Haynes interior zone – illustrates rushing style & risk' }]
         }
       ]
+    },
+    'cfb_luke_altmyer': {
+      name: 'Luke Altmyer',
+      team: 'Illinois',
+      videos: [
+        {
+          id: 'vid_altmyer_pass_tds_001',
+          title: 'Luke Altmyer 3 TD passes vs USC highlights',
+          url: '/clips/sample-illinois-usc-altmyer-passing.mp4',
+          thumbnail: '/clips/thumbnails/sample-illinois-usc-altmyer-passing.jpg',
+          duration: 45,
+          confidence: 0.91,
+          tags: ['passing','pass_tds','touchdown','red_zone','passing_yds'],
+          metadata: { game: 'Illinois vs USC', date: '2025-09-21', quarter: 'Multiple', field_position: 'Various' },
+          clips: [{ start_time: 0, end_time: 45, description: 'Altmyer 3 TD compilation - red zone efficiency' }]
+        }
+      ]
     }
   }
   ,
@@ -76,6 +93,8 @@ export const TWELVE_LABS_MOCK = {
     'cfb_haynes_king:pass_tds': ['vid_king_passing_touchdown_001'],
     'cfb_haynes_king:rush_tds': ['vid_king_rushing_touchdown_001'],
     'cfb_haynes_king:rushing_yds': ['vid_king_rushing_touchdown_001'],
-    'cfb_jamal_haynes:rushing_yds': ['vid_jamal_haynes_run_001']
+    'cfb_jamal_haynes:rushing_yds': ['vid_jamal_haynes_run_001'],
+    'cfb_luke_altmyer:passing_yds': ['vid_altmyer_pass_tds_001'],
+    'cfb_luke_altmyer:pass_tds': ['vid_altmyer_pass_tds_001']
   }
 };

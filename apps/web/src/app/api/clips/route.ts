@@ -49,12 +49,16 @@ export async function GET(req: Request) {
     // Deterministic mapping first
     const propKey = playerId && stat ? `${playerId}:${stat.toLowerCase()}` : '';
     const mappedIds: string[] | undefined = (TWELVE_LABS_MOCK as any).propClipMap?.[propKey];
+    console.log(`[Direct Clips API] PropKey: "${propKey}", MappedIds:`, mappedIds);
 
     if (mappedIds && mappedIds.length && mockData.players?.[playerId]) {
       const vids = mockData.players[playerId].videos || [];
       for (const desiredId of mappedIds) {
         const match = vids.find((v: any) => v.id === desiredId);
-        if (match) clips.push(formatClip(match, mockData.players[playerId].team));
+        if (match) {
+          console.log(`[Direct Clips API] Found deterministic match: ${desiredId}`);
+          clips.push(formatClip(match, mockData.players[playerId].team));
+        }
       }
     }
 
@@ -75,7 +79,9 @@ export async function GET(req: Request) {
       }
     }
 
-    if (clips.length === 0 && stat) {
+    // Only do generic fallback if player is not in our dataset (prevents cross-team contamination)
+    if (clips.length === 0 && stat && !mockData.players?.[playerId]) {
+      console.log(`[Direct Clips API] Player not in dataset, doing generic search for stat: ${stat}`);
       outer: for (const [pid, playerData] of Object.entries(mockData.players || {})) {
         for (const video of (playerData as any).videos || []) {
           const statLower = stat.toLowerCase();
@@ -86,6 +92,8 @@ export async function GET(req: Request) {
           }
         }
       }
+    } else if (clips.length === 0 && mockData.players?.[playerId]) {
+      console.log(`[Direct Clips API] Player ${playerId} exists but no clips found for stat: ${stat}`);
     }
 
     clips.sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
