@@ -2,6 +2,11 @@
 // Simulates the TwelveLabs API workflow for demo purposes
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from 'url';
+
+// ESM-safe __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 interface TwelveLabsSearchResult {
   id: string;
@@ -40,13 +45,22 @@ class MockTwelveLabsService {
   private mockData: any = null;
   private loadMockData() {
     if (!this.mockData) {
-      const mockPath = path.join(__dirname, "../../data/twelvelabs.mock.json");
-      if (fs.existsSync(mockPath)) {
-        this.mockData = JSON.parse(fs.readFileSync(mockPath, "utf8"));
-      } else {
-        console.warn("TwelveLabs mock data not found, using empty fallback");
-        this.mockData = { players: {}, search_queries: {} };
+      const candidatePaths = [
+        path.join(__dirname, '../../data/twelvelabs.mock.json'),
+        path.join(process.cwd(), 'apps/api/data/twelvelabs.mock.json'),
+        path.join(process.cwd(), 'data/twelvelabs.mock.json'),
+        '/app/apps/api/data/twelvelabs.mock.json'
+      ];
+      for (const p of candidatePaths) {
+        try {
+          if (fs.existsSync(p)) {
+            this.mockData = JSON.parse(fs.readFileSync(p, 'utf8'));
+            return this.mockData;
+          }
+        } catch {}
       }
+      console.warn('TwelveLabs mock data not found in candidates, using empty fallback');
+      this.mockData = { players: {}, search_queries: {} };
     }
     return this.mockData;
   }
