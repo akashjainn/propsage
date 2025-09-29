@@ -9,14 +9,14 @@ function Logo(){
       <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-600 to-blue-600 ring-2 ring-indigo-400/50 shadow-[0_0_25px_rgba(99,102,241,.4)] flex items-center justify-center overflow-hidden relative group hover:scale-105 transition-all duration-200">
         <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
         <Image
-          src="/favicon.svg"
+          src="/favicon-32.png"
           alt="PropSage"
           width={40}
           height={40}
           className="w-8 h-8 object-contain relative z-10 drop-shadow-sm"
           priority
-          onError={() => console.error('AppShell Logo failed to load favicon.svg')}
-          onLoad={() => console.log('✅ AppShell Logo loaded favicon.svg successfully')}
+          onError={() => console.error('AppShell Logo failed to load favicon-32.png')}
+          onLoad={() => console.log('✅ AppShell Logo loaded favicon-32.png successfully')}
         />
       </div>
       <div className="flex flex-col">
