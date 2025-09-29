@@ -107,9 +107,6 @@ interface DrawerProps {
 }
 
 export function Drawer({ isOpen, onClose, children, title, className }: DrawerProps) {
-  const [dragY, setDragY] = React.useState(0);
-  const [isDragging, setIsDragging] = React.useState(false);
-
   React.useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -139,30 +136,12 @@ export function Drawer({ isOpen, onClose, children, title, className }: DrawerPr
     >
       <motion.div
         initial={{ y: "100%", opacity: 0.6 }}
-        animate={{ y: dragY, opacity: 1 }}
+        animate={{ y: 0, opacity: 1 }}
         exit={{ y: "100%", opacity: 0.6 }}
         transition={{
-          type: isDragging ? "tween" : "spring",
+          type: "spring",
           stiffness: 380,
-          damping: 32,
-          duration: isDragging ? 0 : undefined
-        }}
-        drag="y"
-        dragConstraints={{ top: 0, bottom: 0 }}
-        dragElastic={{ top: 0, bottom: 0.2 }}
-        onDragStart={() => setIsDragging(true)}
-        onDragEnd={(_, info) => {
-          setIsDragging(false);
-          if (info.velocity.y > 500 || info.offset.y > 150) {
-            onClose();
-          } else {
-            setDragY(0);
-          }
-        }}
-        onDrag={(_, info) => {
-          if (info.offset.y > 0) {
-            setDragY(info.offset.y);
-          }
+          damping: 32
         }}
         className={cn(
           "absolute right-0 top-0 h-full w-full sm:w-[520px] shadow-[0_-12px_64px_rgba(0,0,0,.5)] overflow-y-auto",
@@ -174,7 +153,7 @@ export function Drawer({ isOpen, onClose, children, title, className }: DrawerPr
       >
         {/* Mobile grab handle */}
         <div className="sm:hidden flex justify-center pt-3 pb-2">
-          <div className="h-1.5 w-14 rounded-full bg-white/30 cursor-grab active:cursor-grabbing" />
+          <div className="h-1.5 w-14 rounded-full bg-white/30" />
         </div>
         {title && (
           <div className="sticky top-0 z-10 bg-gray-900/95 backdrop-blur-xl border-b border-white/10 p-4">

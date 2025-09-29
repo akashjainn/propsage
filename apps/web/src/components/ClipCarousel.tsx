@@ -56,13 +56,13 @@ export function ClipCarousel({ clips, eagerFirst = true, className = '', onSelec
       {/* Scroll container */}
       <div
         ref={containerRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 -mx-2 px-2"
+        className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 -mx-4 px-4"
         style={{ scrollbarWidth: 'none' }}
       >
         {clips.map((clip, i) => (
           <div
             key={clip.id || clip.url + i}
-            className="snap-center shrink-0 w-[82%] sm:w-[360px] max-w-[420px]"
+            className="snap-center shrink-0 w-[calc(100vw-2rem)] sm:w-[360px] max-w-[420px]"
             aria-label={clip.title || `Clip ${i + 1}`}
           >
             <div className={`rounded-2xl border border-white/10 glass-subtle overflow-hidden relative group ${i === active ? 'ring-2 ring-indigo-400/70' : ''}`}
