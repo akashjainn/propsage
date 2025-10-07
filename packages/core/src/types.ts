@@ -39,7 +39,7 @@ export interface PropOffer {
   playerName: string;
   team: string;
   position: string;
-  market: PropMarket;
+  market: PropMarketType;
   book: Sportsbook;
   line: number;
   overPrice: number; // American odds
@@ -90,7 +90,7 @@ export interface ConsensusMetrics {
   agreement: number; // 0-1 scale
 }
 
-export type PropMarket = 
+export type PropMarketType = 
   | 'passing_yards' | 'rushing_yards' | 'receiving_yards' 
   | 'passing_tds' | 'rushing_tds' | 'receptions'
   | 'points' | 'rebounds' | 'assists' // NBA
