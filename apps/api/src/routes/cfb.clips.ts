@@ -287,30 +287,75 @@ r.get("/player/:playerId", async (req, res) => {
 
     // Search TwelveLabs Video Brain for player clips
     const searchQuery = `${playerName} highlights`;
-    const twelveLabsResults = await mockTwelveLabsService.search(searchQuery, playerId);
+    // Try real TwelveLabs first, fallback to mock
+    let clips: SocialClip[] = [];
     
-    const clips: SocialClip[] = twelveLabsResults.results.map(result => ({
-      id: `twelvelabs_${result.id}`,
-      platform: 'twelvelabs' as Platform,
-      externalId: result.id,
-      title: result.title,
-      description: result.clips?.[0]?.description || result.title,
-      url: result.url,
-      thumbnailUrl: result.thumbnail,
-      author: result.metadata?.source || `${team || 'CFB'} Highlights`,
-      authorUrl: result.url,
-      duration: result.duration,
-      publishedAt: result.metadata?.date || new Date().toISOString(),
-      viewCount: Math.floor(Math.random() * 100000) + 10000,
-      relevanceScore: result.confidence,
-      tags: result.tags || ['highlights'],
-      gameContext: {
-        opponent: result.metadata?.opponent,
-        date: result.metadata?.date,
-        week: result.metadata?.week,
-        season: 2025
+    if (process.env.TL_API_KEY && process.env.TWELVELABS_INDEX_ID) {
+      try {
+        console.log(`[CFB Clips] Using TwelveLabs search for: ${searchQuery}`);
+        
+        // Use the enhanced search service
+        const { tlSearchService } = await import('../services/twelvelabs-search.js');
+        const result = await tlSearchService.searchClips({
+          player: playerName,
+          stat: 'highlights',
+          limit: limit
+        });
+        
+        clips = result.clips.map((clip: any) => ({
+          id: clip.id,
+          platform: 'twelvelabs' as Platform,
+          externalId: clip.externalId,
+          title: clip.title,
+          description: clip.description,
+          url: clip.url,
+          thumbnailUrl: clip.thumbnailUrl,
+          author: clip.author || 'TwelveLabs Highlights',
+          authorUrl: clip.url,
+          duration: clip.duration,
+          publishedAt: clip.publishedAt,
+          viewCount: Math.floor(Math.random() * 100000) + 10000,
+          relevanceScore: clip.relevanceScore,
+          tags: clip.tags || ['highlights'],
+          gameContext: clip.gameContext || {}
+        }));
+        
+        console.log(`[CFB Clips] TwelveLabs returned ${clips.length} clips`);
+        
+      } catch (error) {
+        console.error(`[CFB Clips] TwelveLabs error:`, error);
+        console.log(`[CFB Clips] Falling back to mock service`);
       }
-    }));
+    }
+    
+    // Fallback to mock if no TwelveLabs results
+    if (clips.length === 0) {
+      console.log(`[CFB Clips] Using mock TwelveLabs service`);
+      const twelveLabsResults = await mockTwelveLabsService.search(searchQuery, playerId);
+      
+      clips = twelveLabsResults.results.map(result => ({
+        id: `mock_${result.id}`,
+        platform: 'twelvelabs' as Platform,
+        externalId: result.id,
+        title: result.title,
+        description: result.clips?.[0]?.description || result.title,
+        url: result.url,
+        thumbnailUrl: result.thumbnail,
+        author: result.metadata?.source || `${team || 'CFB'} Highlights`,
+        authorUrl: result.url,
+        duration: result.duration,
+        publishedAt: result.metadata?.date || new Date().toISOString(),
+        viewCount: Math.floor(Math.random() * 100000) + 10000,
+        relevanceScore: result.confidence,
+        tags: result.tags || ['highlights'],
+        gameContext: {
+          opponent: result.metadata?.opponent,
+          date: result.metadata?.date,
+          week: result.metadata?.week,
+          season: 2025
+        }
+      }));
+    }
 
     res.json({
       clips,

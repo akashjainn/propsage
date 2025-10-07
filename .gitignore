@@ -1,14 +1,2 @@
 node_modules
-.env
-.env.local
-.env.production
-.env.development
-# Next.js build output
-.next
-# TypeScript build output
-dist
-# Test coverage
-coverage
-.turbo
-turbo
-*.tar.zst
+node_modules

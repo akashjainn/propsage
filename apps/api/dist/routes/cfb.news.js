@@ -1,0 +1,103 @@
+import { Router } from "express";
+import Parser from "rss-parser";
+import { LRUCache } from "lru-cache";
+const r = Router();
+const parser = new Parser();
+const cache = new LRUCache({ max: 100, ttl: 1000 * 60 * 15 }); // 15min
+const CFB_RSS_FEEDS = [
+    "https://www.espn.com/espn/rss/college-football/news",
+    "https://rss.cnn.com/rss/edition_sport.rss",
+    "https://feeds.content.si.com/rss/college-football.xml",
+    // Conference-specific feeds
+    "https://www.espn.com/espn/rss/college-football/conferences/sec/news",
+    "https://www.espn.com/espn/rss/college-football/conferences/big-ten/news",
+    "https://www.espn.com/espn/rss/college-football/conferences/acc/news",
+    "https://www.espn.com/espn/rss/college-football/conferences/big-12/news"
+];
+r.get("/", async (req, res) => {
+    try {
+        const playerName = String(req.query.playerName ?? req.query.player ?? "").trim();
+        const team = String(req.query.team ?? "").trim();
+        if (!playerName && !team) {
+            return res.json([]);
+        }
+        // Create cache key based on search params
+        const cacheKey = `${playerName}|${team}`.toLowerCase();
+        const hit = cache.get(cacheKey);
+        if (hit)
+            return res.json(hit);
+        const items = [];
+        // Fetch from all RSS feeds
+        for (const feedUrl of CFB_RSS_FEEDS) {
+            try {
+                const feed = await parser.parseURL(feedUrl);
+                if (feed.items) {
+                    items.push(...feed.items);
+                }
+            }
+            catch (feedError) {
+                console.warn(`Failed to fetch RSS feed ${feedUrl}:`, feedError);
+                // Continue with other feeds
+            }
+        }
+        // Filter items based on player name and team
+        const searchTerms = [];
+        if (playerName) {
+            searchTerms.push(playerName.toLowerCase());
+            // Also search for just first/last name parts
+            const nameParts = playerName.toLowerCase().split(' ');
+            searchTerms.push(...nameParts.filter(part => part.length > 2));
+        }
+        if (team) {
+            searchTerms.push(team.toLowerCase());
+            // Add common team name variations
+            if (team.toLowerCase() === 'georgia') {
+                searchTerms.push('bulldogs', 'uga');
+            }
+            if (team.toLowerCase() === 'florida state') {
+                searchTerms.push('seminoles', 'fsu');
+            }
+            if (team.toLowerCase() === 'ohio state') {
+                searchTerms.push('buckeyes', 'osu');
+            }
+            if (team.toLowerCase() === 'notre dame') {
+                searchTerms.push('fighting irish', 'irish');
+            }
+        }
+        const filtered = items
+            .filter(item => {
+            const title = (item.title ?? "").toLowerCase();
+            const content = (item.contentSnippet ?? item.content ?? "").toLowerCase();
+            const searchText = `${title} ${content}`;
+            return searchTerms.some(term => searchText.includes(term));
+        })
+            .slice(0, 12) // Limit results
+            .map(item => ({
+            title: item.title ?? "No title",
+            source: extractDomain(item.link),
+            url: item.link,
+            publishedAt: item.isoDate ?? item.pubDate ?? undefined,
+            snippet: truncateSnippet(item.contentSnippet ?? item.content)
+        }));
+        cache.set(cacheKey, filtered);
+        res.json(filtered);
+    }
+    catch (error) {
+        console.error("CFB news fetch error:", error);
+        res.status(500).json({ error: "Failed to fetch CFB news" });
+    }
+});
+function extractDomain(url) {
+    try {
+        return new URL(url).hostname.replace('www.', '');
+    }
+    catch {
+        return "Unknown";
+    }
+}
+function truncateSnippet(text) {
+    if (!text)
+        return undefined;
+    return text.length > 200 ? text.slice(0, 197) + "..." : text;
+}
+export default r;

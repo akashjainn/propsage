@@ -30,21 +30,81 @@ function loadMockData() {
   return TWELVE_LABS_MOCK; // embedded fallback
 }
 
+// TwelveLabs search function
+async function searchTwelveLabs(params: {
+  player?: string;
+  stat?: string;
+  limit?: number;
+}): Promise<{ clips: any[]; total: number; source: string }> {
+  
+  const { player, stat, limit = 10 } = params;
+  
+  // Call your backend API service
+  const apiUrl = new URL('/cfb/clips', process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000');
+  if (player) apiUrl.searchParams.set('player', player);
+  if (stat) apiUrl.searchParams.set('stat', stat);
+  apiUrl.searchParams.set('limit', String(limit));
+
+  const response = await fetch(apiUrl.toString(), {
+    headers: { 'Accept': 'application/json' },
+    signal: AbortSignal.timeout(10000)
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Backend API error: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  
+  return {
+    clips: data.clips || [],
+    total: data.total || 0,
+    source: 'twelvelabs'
+  };
+}
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const player = searchParams.get('player') || '';
   const stat = searchParams.get('stat') || '';
   const limit = parseInt(searchParams.get('limit') || '6');
 
-  console.log(`[Direct Clips API] Looking for: player="${player}", stat="${stat}"`);
+  console.log(`[Clips API] Looking for: player="${player}", stat="${stat}"`);
 
+  // Try TwelveLabs first if enabled
+  if (process.env.TL_API_KEY && process.env.TWELVELABS_INDEX_ID) {
+    try {
+      console.log(`[Clips API] Using TwelveLabs search`);
+      
+      const result = await searchTwelveLabs({ player, stat, limit });
+      
+      if (result.clips.length > 0) {
+        return NextResponse.json({
+          clips: result.clips,
+          total: result.total,
+          cached: false,
+          source: 'twelvelabs',
+          indexStatus: 'ready',
+          poweredBy: 'TwelveLabs Video Intelligence'
+        });
+      }
+      
+      console.log(`[Clips API] TwelveLabs returned no results, falling back to mock`);
+      
+    } catch (error) {
+      console.error(`[Clips API] TwelveLabs error:`, error);
+      console.log(`[Clips API] Falling back to mock data`);
+    }
+  }
+
+  // Fallback to mock data
   try {
     const mockData = loadMockData();
-    console.log(`[Direct Clips API] Mock data players:`, Object.keys(mockData.players || {}));
+    console.log(`[Clips API] Using mock data: ${Object.keys(mockData.players || {}).length} players`);
 
     const clips: any[] = [];
     const playerId = player ? `cfb_${player.toLowerCase().replace(/\s+/g, '_')}` : '';
-    console.log(`[Direct Clips API] Derived playerId: "${playerId}"`);
+    console.log(`[Clips API] Derived playerId: "${playerId}"`);
 
     // Deterministic mapping first
     const propKey = playerId && stat ? `${playerId}:${stat.toLowerCase()}` : '';

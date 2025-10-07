@@ -33,11 +33,12 @@ export default function VideoPlayer({
   const idRef = useRef<string>(`${Date.now()}_${Math.random().toString(36).slice(2)}`);
 
   useEffect(() => {
-  const video = ref.current;
+    const video = ref.current;
     if (!video) return;
 
     video.muted = muted ?? autoPlay;
     video.playsInline = true;
+    video.preload = autoPlay ? 'auto' : 'metadata'; // Reduce initial loading
 
     const handleCanPlay = () => {
       if (startTime > 0) {
@@ -79,7 +80,13 @@ export default function VideoPlayer({
         if ((window as any).MediaSource && !isSafari) {
           const { default: Hls } = await import('hls.js');
           if (Hls.isSupported()) {
-            const hls = new Hls({ enableWorker: true, lowLatencyMode: true });
+            const hls = new Hls({ 
+              enableWorker: true, 
+              startLevel: -1,
+              capLevelToPlayerSize: true,
+              maxBufferLength: 10,
+              maxMaxBufferLength: 15
+            });
             hls.on(Hls.Events.ERROR, (_e: any, data: any) => {
               const code = `HLS_${data.details || data.type}`;
               onError?.({ code, detail: data });

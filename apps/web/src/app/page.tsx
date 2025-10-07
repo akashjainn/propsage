@@ -3,19 +3,26 @@
 import React, { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/nextjs';
 import { AppShell, SectionHeader } from '@/ui';
-import TopEdgesList from '@/components/TopEdgesList';
-import EdgeEvidenceDrawer from '@/components/EdgeEvidenceDrawer';
 import { FEATURES } from '@/lib/features';
-import GameDashboard, { GameDashboardHandle } from '@/components/GameDashboard';
-import { useRef } from 'react';
-import GamesRail from '@/components/GamesRail';
-import SearchModal, { useSearch } from '@/components/SearchModal';
+import { useRef, lazy, Suspense } from 'react';
+import { useSearch } from '@/components/SearchModal';
+import type { GameDashboardHandle } from '@/components/GameDashboard';
+
+// Lazy load heavy components
+const TopEdgesList = lazy(() => import('@/components/TopEdgesList'));
+const EdgeEvidenceDrawer = lazy(() => import('@/components/EdgeEvidenceDrawer'));
+const GameDashboard = lazy(() => import('@/components/GameDashboard').then(mod => ({ default: mod.default })));
+const GamesRail = lazy(() => import('@/components/GamesRail'));
+const SearchModal = lazy(() => import('@/components/SearchModal').then(mod => ({ default: mod.default })));
 import type { GameLite } from '@/types/cfb';
 import { ENDPOINTS } from '@/lib/api';
 import { useGamesToday } from '@/hooks/useGamesToday';
 
 export default function HomePage() {
-  const { games: gamesToday, loading: loadingGames } = useGamesToday({ pollIntervalMs: 120000 });
+  const { games: gamesToday, loading: loadingGames } = useGamesToday({ 
+    pollIntervalMs: 300000, // Reduce from 2min to 5min
+    immediate: false // Don't fetch immediately, let user trigger
+  });
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [showGameDashboard, setShowGameDashboard] = useState(false);
   const search = useSearch();
@@ -125,12 +132,14 @@ export default function HomePage() {
       : 'Selected Game';
 
     return (
-      <GameDashboard
-        ref={dashboardRef}
-        gameId={selectedGameId}
-        gameTitle={gameTitle}
-        onBack={() => setShowGameDashboard(false)}
-      />
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div></div>}>
+        <GameDashboard
+          ref={dashboardRef}
+          gameId={selectedGameId}
+          gameTitle={gameTitle}
+          onBack={() => setShowGameDashboard(false)}
+        />
+      </Suspense>
     );
   }
 
@@ -175,7 +184,9 @@ export default function HomePage() {
             subtitle="Market vs fair line discrepancies backed by video evidence"
           />
           {FEATURES.topEdges ? (
-            <TopEdgesList gameId={selectedGameId} onSelect={handleEdgeSelect} />
+            <Suspense fallback={<div className="animate-pulse bg-white/5 rounded-xl h-32" />}>
+              <TopEdgesList gameId={selectedGameId} onSelect={handleEdgeSelect} />
+            </Suspense>
           ) : (
             <div className="text-sm text-white/60">Top edges feature disabled.</div>
           )}
@@ -188,32 +199,38 @@ export default function HomePage() {
           title="Today's Games" 
           subtitle="Select a game to analyze props and watch video evidence" 
         />
-        <GamesRail 
-          games={gamesToday}
-          selectedGameId={selectedGameId || ''}
-          onGameSelect={handleGameSelect}
-          loading={loadingGames}
-        />
+        <Suspense fallback={<div className="animate-pulse bg-white/5 rounded-xl h-20" />}>
+          <GamesRail 
+            games={gamesToday}
+            selectedGameId={selectedGameId || ''}
+            onGameSelect={handleGameSelect}
+            loading={loadingGames}
+          />
+        </Suspense>
       </section>
 
       {/* Search Modal */}
-      <SearchModal 
-        isOpen={search.isOpen} 
-        onClose={search.close} 
-        onSelect={handleSearchSelect} 
-      />
+      <Suspense fallback={null}>
+        <SearchModal 
+          isOpen={search.isOpen} 
+          onClose={search.close} 
+          onSelect={handleSearchSelect} 
+        />
+      </Suspense>
 
-      <EdgeEvidenceDrawer
-        edge={selectedEdge}
-        gameTitle={(() => {
-          // Prefer edge.gameId if present (prop from different game than currently selected)
-          const targetGameId = selectedEdge?.gameId || selectedGameId;
-            const g = gamesToday.find(g => g.id === targetGameId);
-            return g ? `${g.away.short} @ ${g.home.short}` : null;
-        })()}
-        open={evidenceOpen}
-        onClose={() => setEvidenceOpen(false)}
-      />
+      <Suspense fallback={null}>
+        <EdgeEvidenceDrawer
+          edge={selectedEdge}
+          gameTitle={(() => {
+            // Prefer edge.gameId if present (prop from different game than currently selected)
+            const targetGameId = selectedEdge?.gameId || selectedGameId;
+              const g = gamesToday.find(g => g.id === targetGameId);
+              return g ? `${g.away.short} @ ${g.home.short}` : null;
+          })()}
+          open={evidenceOpen}
+          onClose={() => setEvidenceOpen(false)}
+        />
+      </Suspense>
     </AppShell>
   );
 }

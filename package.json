@@ -18,7 +18,17 @@
     "format": "prettier --write .",
     "typecheck": "tsc -b apps/api packages/core",
     "prepare": "husky install",
-    "dev:turbo": "turbo run dev --parallel"
+    "dev:turbo": "turbo run dev --parallel",
+    "tl:setup": "node scripts/setup-tl-index.js",
+    "tl:index": "node scripts/index-videos.js",
+    "tl:status": "node scripts/check-tl-status.js",
+    "tl:health": "node scripts/check-tl-status.js --health",
+    "tl:search": "node scripts/check-tl-status.js --search",
+    "tl:test": "node scripts/check-tl-status.js --test-queries",
+    "setup:storage": "cd apps/api && node ../../scripts/setup-cloud-storage.js",
+    "setup:storage:aws": "cd apps/api && node ../../scripts/setup-cloud-storage.js --provider=aws",
+    "setup:storage:r2": "cd apps/api && node ../../scripts/setup-cloud-storage.js --provider=r2",
+    "test:storage": "cd apps/api && node ../../scripts/setup-cloud-storage.js --test"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.1",
@@ -43,6 +53,7 @@
     ]
   },
   "dependencies": {
-    "cross-env": "^10.0.0"
+    "cross-env": "^10.0.0",
+    "dotenv": "^16.6.1"
   }
 }
