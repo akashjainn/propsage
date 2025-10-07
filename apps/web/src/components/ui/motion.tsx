@@ -280,11 +280,12 @@ export function GlassOverlay({ isOpen, children, className, onClose }: GlassOver
 
   return (
     <motion.div
-      initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-      animate={{ opacity: 1, backdropFilter: "blur(20px)" }}
-      exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-      transition={easeOut}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={isReducedMotion() ? { duration: 0.1 } : easeOut}
       className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm"
+      style={{ willChange: 'opacity' }}
       onClick={onClose}
     >
       <motion.div

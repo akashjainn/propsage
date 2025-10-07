@@ -19,6 +19,18 @@ export function useDebounce<T extends (...args: any[]) => any>(
   }, [callback, delay]) as T;
 }
 
+// Debounced value hook for search inputs
+export function useDebouncedValue<T>(value: T, delay: number = 300): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  
+  return debouncedValue;
+}
+
 // Intersection Observer hook for lazy loading
 export function useIntersectionObserver(
   elementRef: React.RefObject<Element>,

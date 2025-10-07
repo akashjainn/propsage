@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Clock, TrendingUp, User, Video, X, Command } from 'lucide-react';
 import { GlassOverlay, Spotlight } from './ui/motion';
 import { easeOut, springGentle, staggerChildren, staggerItem } from '@/lib/motion';
 import { useFastSWR } from '../hooks/usePerformance';
+import { useDebouncedValue } from '../hooks/useOptimization';
 
 interface PropLine {
   id: string;
@@ -291,30 +292,41 @@ export default function SearchModal({ isOpen, onClose, onSelect }: SearchModalPr
   const [isSearching, setIsSearching] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  
+  // Debounce search query to improve performance
+  const debouncedQuery = useDebouncedValue(query, 150);
 
-  // Simulate search delay for realism
+  // Memoize search results generation to avoid recalculation
+  const searchResults = useMemo(() => {
+    if (!debouncedQuery.trim()) return [];
+    return generateSearchResults(debouncedQuery);
+  }, [debouncedQuery]);
+
+  // Update results when debounced query or search results change
   useEffect(() => {
-    console.log('SearchModal: Query changed:', query);
-    
-    if (!query.trim()) {
-      console.log('SearchModal: Empty query, clearing results');
+    if (!debouncedQuery.trim()) {
       setResults([]);
       setIsSearching(false);
       return;
     }
 
-    console.log('SearchModal: Starting search for:', query);
     setIsSearching(true);
-    const searchDelay = setTimeout(() => {
-      const searchResults = generateSearchResults(query);
-      console.log('SearchModal: Search results generated:', searchResults);
+    
+    // Use requestIdleCallback for non-blocking search if available
+    const scheduleSearch = () => {
       setResults(searchResults);
       setSelectedIndex(0);
       setIsSearching(false);
-    }, 200 + Math.random() * 300); // 200-500ms delay
+    };
 
-    return () => clearTimeout(searchDelay);
-  }, [query]);
+    if ('requestIdleCallback' in window) {
+      const idleCallback = window.requestIdleCallback(scheduleSearch, { timeout: 100 });
+      return () => window.cancelIdleCallback(idleCallback);
+    } else {
+      const timeoutId = setTimeout(scheduleSearch, 0);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [searchResults, debouncedQuery]);
 
   // Keyboard navigation
   useEffect(() => {

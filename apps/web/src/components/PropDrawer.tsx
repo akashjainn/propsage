@@ -56,32 +56,65 @@ export function PropDrawer({
     return () => document.removeEventListener('keydown', handleKey);
   }, [isOpen, onClose]);
 
-  // Fetch clips when drawer opens
+  // Fetch clips when drawer opens (debounced and optimized)
   useEffect(() => {
-    if (isOpen && playerId && propType) {
-      setClipsLoading(true);
-      setLoadedClips([]);
-      
-      const playerName = playerId.replace('cfb_', '').replace(/_/g, ' ');
-      const market = propType.replace(/_/g, ' ');
-      
-      const params = new URLSearchParams();
-      if (playerName) params.set('player', playerName);
-      if (market) params.set('market', market);
-      if (gameTitle) params.set('game', gameTitle);
-      
-      fetch(`/api/tl/clips?${params.toString()}`)
-        .then(res => res.json())
+    if (!isOpen || !playerId || !propType) return;
+    
+    let cancelled = false;
+    const controller = new AbortController();
+    
+    setClipsLoading(true);
+    setLoadedClips([]);
+    
+    const playerName = playerId.replace('cfb_', '').replace(/_/g, ' ');
+    const market = propType.replace(/_/g, ' ');
+    
+    const params = new URLSearchParams();
+    if (playerName) params.set('player', playerName);
+    if (market) params.set('market', market);
+    if (gameTitle) params.set('game', gameTitle);
+    
+    // Use requestIdleCallback to fetch clips during idle time
+    const fetchClips = () => {
+      fetch(`/api/tl/clips?${params.toString()}`, {
+        signal: controller.signal,
+        headers: { 'Cache-Control': 'public, max-age=60' } // 1min cache
+      })
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.json();
+        })
         .then(data => {
-          setLoadedClips(data.results || []);
+          if (!cancelled) {
+            setLoadedClips(data.results || []);
+          }
         })
         .catch(err => {
-          console.error('Failed to fetch clips:', err);
-          setLoadedClips([]);
+          if (!cancelled && err.name !== 'AbortError') {
+            console.error('Failed to fetch clips:', err);
+            setLoadedClips([]);
+          }
         })
         .finally(() => {
-          setClipsLoading(false);
+          if (!cancelled) setClipsLoading(false);
         });
+    };
+
+    // Schedule fetch during idle time or after a small delay
+    if ('requestIdleCallback' in window) {
+      const idleCallback = window.requestIdleCallback(fetchClips, { timeout: 500 });
+      return () => {
+        cancelled = true;
+        controller.abort();
+        window.cancelIdleCallback(idleCallback);
+      };
+    } else {
+      const timeoutId = setTimeout(fetchClips, 100);
+      return () => {
+        cancelled = true;
+        controller.abort();
+        clearTimeout(timeoutId);
+      };
     }
   }, [isOpen, playerId, propType, gameTitle]);
 
