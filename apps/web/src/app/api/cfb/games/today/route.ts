@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-// Game times for today (September 28th, 2025)
-const TODAY = new Date('2025-09-28');
+// Game times for today (October 6, 2025)
+const TODAY = new Date('2025-10-06');
 const GAME_TIMES = {
   GT_WAKE: new Date(TODAY.getTime()).setHours(11, 30, 0, 0), // 11:30 AM
   USC_ILL: new Date(TODAY.getTime()).setHours(12, 0, 0, 0),  // 12:00 PM  
@@ -10,7 +10,7 @@ const GAME_TIMES = {
 
 const FALLBACK_GAMES = [
   {
-    id: "uga-alabama-20250927",
+    id: "uga-alabama-20251006",
     start: new Date(GAME_TIMES.UGA_BAMA).toISOString(),
     state: "pre" as const,
     period: null,
@@ -39,7 +39,7 @@ const FALLBACK_GAMES = [
     broadcast: { network: "ABC" }
   },
   {
-    id: "gt-wake-forest-20250927",
+    id: "gt-wake-forest-20251006",
     start: new Date(GAME_TIMES.GT_WAKE).toISOString(),
     state: "pre" as const,
     period: null,
@@ -68,7 +68,7 @@ const FALLBACK_GAMES = [
     broadcast: { network: "ACC Network" }
   },
   {
-    id: "illinois-usc-20250927",
+    id: "illinois-usc-20251006",
     start: new Date(GAME_TIMES.USC_ILL).toISOString(),
     state: "pre" as const,
     period: null,

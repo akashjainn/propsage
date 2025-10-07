@@ -38,7 +38,7 @@ export interface GameDashboardHandle {
   focusProp: (propType: string) => void;
 }
 
-const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(function GameDashboard({ gameId, gameTitle, onBack }, ref) {
+const GameDashboard = React.memo(forwardRef<GameDashboardHandle, GameDashboardProps>(function GameDashboard({ gameId, gameTitle, onBack }, ref) {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedEdge, setSelectedEdge] = useState<any | null>(null);
@@ -568,6 +568,6 @@ const GameDashboard = forwardRef<GameDashboardHandle, GameDashboardProps>(functi
       </PageTransition>
     </AppShell>
   );
-});
+}));
 
 export default GameDashboard;

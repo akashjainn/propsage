@@ -21,7 +21,7 @@ import { useGamesToday } from '@/hooks/useGamesToday';
 export default function HomePage() {
   const { games: gamesToday, loading: loadingGames } = useGamesToday({ 
     pollIntervalMs: 300000, // Reduce from 2min to 5min
-    immediate: false // Don't fetch immediately, let user trigger
+    immediate: true // Enable immediate loading to show games
   });
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [showGameDashboard, setShowGameDashboard] = useState(false);

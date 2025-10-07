@@ -3,7 +3,7 @@ import cors from 'cors'
 import fml from './routes/fml.js'
 import cfbPlayers from './routes/cfb.players.js'
 import cfbProps from './routes/cfb.props.js'
-import cfbClips from './routes/cfb.clips.js'
+// import cfbClips from './routes/cfb.clips.js' // Temporarily disabled
 import cfbEvidence from './routes/cfb.evidence.js'
 // Demo enterprise routes
 import demoGames from './routes/demo.games.js'
@@ -62,7 +62,7 @@ export function createApp() {
   app.use('/fml', fml)
   app.use('/cfb/players', cfbPlayers)
   app.use('/cfb/props', cfbProps)
-  app.use('/cfb/clips', cfbClips)
+  // app.use('/cfb/clips', cfbClips) // Temporarily disabled
   app.use('/cfb/evidence', cfbEvidence)
 
   // Demo enterprise routes
