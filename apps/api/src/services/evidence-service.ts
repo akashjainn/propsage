@@ -1,5 +1,6 @@
 import { LRUCache } from "lru-cache";
 import { twelveLabsClient, isVideoIntelligenceAvailable } from "./twelve-labs-client.js";
+import { twelveLabsMockService } from "./twelve-labs-mock.js";
 import { 
   MomentPack, 
   PropType, 
@@ -75,9 +76,11 @@ export class EvidenceService {
   ): Promise<MomentPack | null> {
     
     if (!isVideoIntelligenceAvailable()) {
-      console.warn('TwelveLabs not available - returning empty moment pack');
+      console.log('🎥 DATA SOURCE: Using local storage/demo data (TwelveLabs not available)');
       return null;
     }
+    
+    console.log('🔍 DATA SOURCE: Using TwelveLabs API for video intelligence');
 
     const cacheKey = `momentpack_${playerId}_${propType}_${gameId || 'all'}`;
     const cached = momentPackCache.get(cacheKey);
@@ -103,7 +106,11 @@ export class EvidenceService {
       const videoIds = videos.map(v => v.tlVideoId).filter(Boolean) as string[];
 
       // Search TwelveLabs for moments
-      const moments = await twelveLabsClient.searchMoments(queries, videoIds, 8);
+      // Use mock service for demo, live API for production
+      const isDemoMode = process.env.DEMO_MODE === 'true';
+      const moments = isDemoMode 
+        ? await twelveLabsMockService.searchMoments(queries, videoIds, 8)
+        : await twelveLabsClient.searchMoments(queries, videoIds, 8);
 
       // Create moment pack
       const momentPack: MomentPack = {
@@ -200,7 +207,10 @@ export class EvidenceService {
         ? [expandedQuery.replace('{player}', playerName)]
         : [expandedQuery];
 
-      return await twelveLabsClient.searchMoments(queries, videoIds, limit);
+      const isDemoMode = process.env.DEMO_MODE === 'true';
+      return isDemoMode
+        ? await twelveLabsMockService.searchMoments(queries, videoIds, limit)
+        : await twelveLabsClient.searchMoments(queries, videoIds, limit);
 
     } catch (error) {
       console.error('Free-form search error:', error);

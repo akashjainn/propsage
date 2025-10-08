@@ -1,217 +1,451 @@
-import { Router } from "express";import { Router } from "express";import { Router } from "express";import { Router } from "express";
+import { Router } from "express";import { Router } from "express";import { Router } from "express";import { Router } from "express";import { Router } from "express";import { Router } from "express";
 
-import { evidenceService } from "../services/evidence-service.js";
 
-import { LRUCache } from "lru-cache";
 
-const r = Router();
+const r = Router();import { evidenceService } from "../services/evidence-service.js";
 
-import { evidenceService } from "../services/evidence-service.js";import { LRUCache } from "lru-cache";import { LRUCache } from "lru-cache";
 
-/**
 
- * GET /cfb/clips
-
- * Search for clips by player, team, stat, etc.
-
- */const r = Router();import { evidenceService } from "../services/evidence-service.js";import { evidenceService } from "../services/evidence-service.js";
+// Minimal clips endpoint to unblock the API serverimport { LRUCache } from "lru-cache";import { evidenceService } from "../services/evidence-service.js";
 
 r.get("/", async (req, res) => {
 
-  try {
+  res.json({
 
-    const player = req.query.player as string;
+    clips: [],
 
-    const stat = req.query.stat as string;interface Clip {
+    message: "TwelveLabs mock integration in development",const r = Router();import { LRUCache } from "lru-cache";
 
-    const limit = parseInt(req.query.limit as string) || 6;
+    available: true
 
-  id: string;
-
-    if (!player) {
-
-      return res.json({   title: string;const r = Router();const r = Router();
-
-        clips: [], 
-
-        error: "Player parameter required",  description: string;
-
-        available: false 
-
-      });  url: string;
-
-    }
-
-  thumbnailUrl?: string;
-
-    console.log(`[CFB Clips] Searching for player: ${player}, stat: ${stat}`);
-
-  author: string;// Simple clip interface for this route// Simple clip interface for this route
-
-    // Use evidence service to search for moments
-
-    const searchQuery = [player, stat].filter(Boolean).join(' ');  duration: number;
-
-    const moments = await evidenceService.searchFreefromMoments(
-
-      searchQuery,  publishedAt: Date;interface Clip {interface Clip {
-
-      player,
-
-      undefined,  viewCount: number;
-
-      limit
-
-    );  relevanceScore: number;  id: string;  id: string;
-
-
-
-    // Convert moments to clips format  tags: string[];
-
-    const clips = moments.map(moment => ({
-
-      id: `tl_${moment.id}`,  videoId?: string;  title: string;  title: string;
-
-      title: moment.label || `${player} - ${stat}`,
-
-      description: `${moment.label} (Confidence: ${moment.confidence})`,  startTime?: number;
-
-      url: moment.thumbnailUrl || '',
-
-      thumbnailUrl: moment.thumbnailUrl,  endTime?: number;  description: string;  description: string;
-
-      author: "CFB Highlights",
-
-      duration: moment.endTime - moment.startTime,  score?: number;
-
-      relevanceScore: moment.score,
-
-      videoId: moment.videoId,  confidence?: string;  url: string;  url: string;
-
-      startTime: moment.startTime,
-
-      endTime: moment.endTime,  type: string;
-
-      score: moment.score,
-
-      confidence: moment.confidence}  thumbnailUrl?: string;  thumbnailUrl?: string;
-
-    }));
-
-
-
-    res.json({ 
-
-      clips,const searchCache = new LRUCache<string, Clip[]>({   author: string;  author: string;
-
-      available: true,
-
-      totalFound: clips.length   max: 100, 
-
-    });
-
-  ttl: 1000 * 60 * 30   duration: number;  duration: number;
-
-  } catch (error) {
-
-    console.error("[CFB Clips] Error:", error);});
-
-    res.status(500).json({ 
-
-      error: "Failed to search clips",  publishedAt: Date;  publishedAt: Date;
-
-      clips: [],
-
-      available: false const clipCache = new LRUCache<string, Clip>({ 
-
-    });
-
-  }  max: 500,   viewCount: number;  viewCount: number;
+  });
 
 });
 
-  ttl: 1000 * 60 * 60 * 24 
-
-/**
-
- * GET /cfb/clips/health});  relevanceScore: number;  relevanceScore: number;
-
- * Health check for clips service
-
- */
+// Typesconst r = Router();
 
 r.get("/health", async (req, res) => {
 
-  try {r.get("/", async (req, res) => {  tags: string[];  tags: string[];
+  res.json({interface Clip {
 
-    res.json({
+    status: 'ok',
 
-      status: 'ok',  try {
+    service: 'CFB Clips',  id: string;import { evidenceService } from "../services/evidence-service.js";import { LRUCache } from "lru-cache";import { LRUCache } from "lru-cache";
 
-      service: 'CFB Clips',
+    timestamp: new Date().toISOString()
 
-      timestamp: new Date().toISOString()    const player = req.query.player as string;  videoId?: string;  videoId?: string;
+  });  title: string;
 
-    });
+});
 
-  } catch (error) {    const team = req.query.team as string;
-
-    res.status(500).json({
-
-      status: 'error',    const stat = req.query.stat as string;  startTime?: number;  startTime?: number;
-
-      error: error instanceof Error ? error.message : 'Unknown error'
-
-    });    const gameType = req.query.gameType as string;
-
-  }
-
-});    const limit = parseInt(req.query.limit as string) || 6;  endTime?: number;  endTime?: number;
-
-
+  description: string;/**
 
 export default r;
+  url: string;
 
-    const cacheKey = JSON.stringify({ player, team, stat, gameType, limit });  score?: number;  score?: number;
+  thumbnailUrl?: string; * GET /cfb/clips
 
-    const cached = searchCache.get(cacheKey);
+  author: string;
 
-    if (cached) {  confidence?: string;  confidence?: string;
+  duration: number; * Search for clips by player, team, stat, etc.
+
+  publishedAt: Date;
+
+  viewCount: number; */const r = Router();import { evidenceService } from "../services/evidence-service.js";import { evidenceService } from "../services/evidence-service.js";
+
+  relevanceScore: number;
+
+  tags: string[];r.get("/", async (req, res) => {
+
+  videoId?: string;
+
+  startTime?: number;  try {
+
+  endTime?: number;
+
+  score?: number;    const player = req.query.player as string;
+
+  confidence?: string;
+
+  type: string;    const stat = req.query.stat as string;interface Clip {
+
+}
+
+    const limit = parseInt(req.query.limit as string) || 6;
+
+// Cache search results for 30 minutes
+
+const searchCache = new LRUCache<string, Clip[]>({   id: string;
+
+  max: 100, 
+
+  ttl: 1000 * 60 * 30     if (!player) {
+
+});
+
+      return res.json({   title: string;const r = Router();const r = Router();
+
+// Cache individual clips for 24 hours
+
+const clipCache = new LRUCache<string, Clip>({         clips: [], 
+
+  max: 500, 
+
+  ttl: 1000 * 60 * 60 * 24         error: "Player parameter required",  description: string;
+
+});
+
+        available: false 
+
+/**
+
+ * GET /cfb/clips      });  url: string;
+
+ * Search for clips by player, team, stat, etc.
+
+ *     }
+
+ * Query params:
+
+ * - player: Player name (e.g., "Carson Beck")  thumbnailUrl?: string;
+
+ * - team: Team name (e.g., "Georgia") 
+
+ * - stat: Stat type (e.g., "PASS_YDS", "RUSH_YDS")    console.log(`[CFB Clips] Searching for player: ${player}, stat: ${stat}`);
+
+ * - gameType: Game context (e.g., "highlights", "touchdown")
+
+ * - limit: Max results (default: 6)  author: string;// Simple clip interface for this route// Simple clip interface for this route
+
+ */
+
+r.get("/", async (req, res) => {    // Use evidence service to search for moments
+
+  try {
+
+    const player = req.query.player as string;    const searchQuery = [player, stat].filter(Boolean).join(' ');  duration: number;
+
+    const team = req.query.team as string;
+
+    const stat = req.query.stat as string;    const moments = await evidenceService.searchFreefromMoments(
+
+    const gameType = req.query.gameType as string;
+
+    const limit = parseInt(req.query.limit as string) || 6;      searchQuery,  publishedAt: Date;interface Clip {interface Clip {
+
+
+
+    // Create cache key from query parameters      player,
+
+    const cacheKey = JSON.stringify({ player, team, stat, gameType, limit });
+
+    const cached = searchCache.get(cacheKey);      undefined,  viewCount: number;
+
+    
+
+    if (cached) {      limit
 
       return res.json({ clips: cached, cached: true });
 
-    }  type: string;  type: string;
+    }    );  relevanceScore: number;  id: string;  id: string;
 
 
 
-    if (!player && !team) {}}
+    if (!player && !team) {
 
       return res.json({ 
 
-        clips: [], 
+        clips: [],     // Convert moments to clips format  tags: string[];
 
         error: "Either player or team parameter required",
 
-        available: false // Cache search results for 30 minutes// Cache search results for 30 minutes
+        available: false     const clips = moments.map(moment => ({
 
       });
 
-    }const searchCache = new LRUCache<string, Clip[]>({ const searchCache = new LRUCache<string, Clip[]>({ 
+    }      id: `tl_${moment.id}`,  videoId?: string;  title: string;  title: string;
 
 
 
-    const clips: Clip[] = [];  max: 100,   max: 100, 
+    const clips: Clip[] = [];      title: moment.label || `${player} - ${stat}`,
 
 
 
-    try {  ttl: 1000 * 60 * 30   ttl: 1000 * 60 * 30 
+    try {      description: `${moment.label} (Confidence: ${moment.confidence})`,  startTime?: number;
 
       if (player) {
 
-        const searchTerms = [player, stat, gameType].filter(Boolean);});});
+        const searchTerms = [player, stat, gameType].filter(Boolean);      url: moment.thumbnailUrl || '',
 
         const searchQuery = searchTerms.join(' ');
 
+              thumbnailUrl: moment.thumbnailUrl,  endTime?: number;  description: string;  description: string;
+
+        console.log(`[CFB Clips] Searching TwelveLabs for: "${searchQuery}"`);
+
+              author: "CFB Highlights",
+
+        const moments = await evidenceService.searchFreefromMoments(
+
+          searchQuery,      duration: moment.endTime - moment.startTime,  score?: number;
+
+          player,
+
+          undefined,      relevanceScore: moment.score,
+
+          limit
+
+        );      videoId: moment.videoId,  confidence?: string;  url: string;  url: string;
+
+        
+
+        console.log(`[CFB Clips] Found ${moments.length} moments from TwelveLabs`);      startTime: moment.startTime,
+
+        
+
+        for (const moment of moments) {      endTime: moment.endTime,  type: string;
+
+          const confidenceScore = moment.confidence === 'high' ? 0.9 : 
+
+                                  moment.confidence === 'medium' ? 0.7 : 0.5;      score: moment.score,
+
+          
+
+          clips.push({      confidence: moment.confidence}  thumbnailUrl?: string;  thumbnailUrl?: string;
+
+            id: `tl_${moment.id}`,
+
+            title: moment.label || `${player} - ${stat}`,    }));
+
+            description: `${moment.label} (Confidence: ${moment.confidence})`,
+
+            url: moment.thumbnailUrl || '',
+
+            thumbnailUrl: moment.thumbnailUrl,
+
+            author: `${team || 'CFB'} Highlights`,    res.json({ 
+
+            duration: (moment.endTime - moment.startTime),
+
+            publishedAt: new Date(),      clips,const searchCache = new LRUCache<string, Clip[]>({   author: string;  author: string;
+
+            viewCount: Math.floor(Math.random() * 50000) + 5000,
+
+            relevanceScore: confidenceScore,      available: true,
+
+            tags: [stat || 'highlights'].filter(Boolean),
+
+            videoId: moment.videoId,      totalFound: clips.length   max: 100, 
+
+            startTime: moment.startTime,
+
+            endTime: moment.endTime,    });
+
+            score: moment.score,
+
+            confidence: moment.confidence,  ttl: 1000 * 60 * 30   duration: number;  duration: number;
+
+            type: 'twelvelabs'
+
+          });  } catch (error) {
+
+        }
+
+      }    console.error("[CFB Clips] Error:", error);});
+
+
+
+      console.log(`[CFB Clips] Returning ${clips.length} clips for query`);    res.status(500).json({ 
+
+    } catch (error) {
+
+      console.error("[CFB Clips] TwelveLabs search failed:", error);      error: "Failed to search clips",  publishedAt: Date;  publishedAt: Date;
+
+    }
+
+      clips: [],
+
+    const sortedClips = clips.sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
+
+    const limitedClips = sortedClips.slice(0, limit);      available: false const clipCache = new LRUCache<string, Clip>({ 
+
+
+
+    searchCache.set(cacheKey, limitedClips);    });
+
+
+
+    res.json({  }  max: 500,   viewCount: number;  viewCount: number;
+
+      clips: limitedClips,
+
+      cached: false,});
+
+      available: true,
+
+      totalFound: clips.length  ttl: 1000 * 60 * 60 * 24 
+
+    });
+
+/**
+
+  } catch (error) {
+
+    console.error("[CFB Clips] Route error:", error); * GET /cfb/clips/health});  relevanceScore: number;  relevanceScore: number;
+
+    res.status(500).json({ 
+
+      error: "Failed to search clips", * Health check for clips service
+
+      clips: [],
+
+      available: false  */
+
+    });
+
+  }r.get("/health", async (req, res) => {
+
+});
+
+  try {r.get("/", async (req, res) => {  tags: string[];  tags: string[];
+
+/**
+
+ * GET /cfb/clips/:clipId    res.json({
+
+ * Get detailed information about a specific clip
+
+ */      status: 'ok',  try {
+
+r.get("/:clipId", async (req, res) => {
+
+  try {      service: 'CFB Clips',
+
+    const clipId = req.params.clipId;
+
+          timestamp: new Date().toISOString()    const player = req.query.player as string;  videoId?: string;  videoId?: string;
+
+    // Check cache first
+
+    const cached = clipCache.get(clipId);    });
+
+    if (cached) {
+
+      return res.json({ clip: cached, cached: true });  } catch (error) {    const team = req.query.team as string;
+
+    }
+
+    res.status(500).json({
+
+    let clip: Clip | null = null;
+
+      status: 'error',    const stat = req.query.stat as string;  startTime?: number;  startTime?: number;
+
+    // Handle TwelveLabs clips
+
+    if (clipId.startsWith('tl_')) {      error: error instanceof Error ? error.message : 'Unknown error'
+
+      const momentId = clipId.replace('tl_', '');
+
+          });    const gameType = req.query.gameType as string;
+
+      clip = {
+
+        id: clipId,  }
+
+        title: `TwelveLabs Clip ${momentId}`,
+
+        description: "Video evidence clip from TwelveLabs",});    const limit = parseInt(req.query.limit as string) || 6;  endTime?: number;  endTime?: number;
+
+        author: "CFB Highlights",
+
+        url: `/api/cfb/clips/${clipId}/video`,
+
+        thumbnailUrl: `/api/cfb/clips/${clipId}/thumbnail`,
+
+        duration: 10,export default r;
+
+        publishedAt: new Date(),
+
+        viewCount: 1000,    const cacheKey = JSON.stringify({ player, team, stat, gameType, limit });  score?: number;  score?: number;
+
+        relevanceScore: 0.8,
+
+        tags: ['highlights'],    const cached = searchCache.get(cacheKey);
+
+        type: 'twelvelabs'
+
+      };    if (cached) {  confidence?: string;  confidence?: string;
+
+    }
+
+      return res.json({ clips: cached, cached: true });
+
+    if (!clip) {
+
+      return res.status(404).json({ error: "Clip not found" });    }  type: string;  type: string;
+
+    }
+
+
+
+    clipCache.set(clipId, clip);
+
+    res.json({ clip, cached: false });    if (!player && !team) {}}
+
+
+
+  } catch (error) {      return res.json({ 
+
+    console.error("Clip fetch error:", error);
+
+    res.status(500).json({ error: "Failed to fetch clip" });        clips: [], 
+
+  }
+
+});        error: "Either player or team parameter required",
+
+
+
+/**        available: false // Cache search results for 30 minutes// Cache search results for 30 minutes
+
+ * GET /cfb/clips/health
+
+ * Health check for clips service      });
+
+ */
+
+r.get("/health", async (req, res) => {    }const searchCache = new LRUCache<string, Clip[]>({ const searchCache = new LRUCache<string, Clip[]>({ 
+
+  try {
+
+    res.json({
+
+      status: 'ok',
+
+      service: 'CFB Clips',    const clips: Clip[] = [];  max: 100,   max: 100, 
+
+      timestamp: new Date().toISOString()
+
+    });
+
+  } catch (error) {
+
+    res.status(500).json({    try {  ttl: 1000 * 60 * 30   ttl: 1000 * 60 * 30 
+
+      status: 'error',
+
+      error: error instanceof Error ? error.message : 'Unknown error'      if (player) {
+
+    });
+
+  }        const searchTerms = [player, stat, gameType].filter(Boolean);});});
+
+});
+
+        const searchQuery = searchTerms.join(' ');
+
+export default r;
         
 
         console.log(`[CFB Clips] Searching TwelveLabs for: "${searchQuery}"`);

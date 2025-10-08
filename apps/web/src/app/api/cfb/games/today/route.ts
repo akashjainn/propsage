@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-// Game times for today (October 6, 2025)
-const TODAY = new Date('2025-10-06');
+// Game times for today (October 7, 2025) - Updated date
+const TODAY = new Date('2025-10-07');
 const GAME_TIMES = {
   GT_WAKE: new Date(TODAY.getTime()).setHours(11, 30, 0, 0), // 11:30 AM
   USC_ILL: new Date(TODAY.getTime()).setHours(12, 0, 0, 0),  // 12:00 PM  

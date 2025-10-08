@@ -1,0 +1,232 @@
+{
+  "anytime_touchdown": [
+    {
+      "momentId": "moment_1_9-27_georgia_tech_wake_forest_haynes_king_passing_touchdown_from_3rd_and_10_to_begin_comeback",
+      "filename": "9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_2_9-27_georgia_tech_wake_forest_haynes_king_running_touchdown_bringing_game_to_17-20",
+      "filename": "9-27 georgia tech wake forest haynes king running touchdown bringing game to 17-20.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_4_9-27_illinois_usc_altmyer_throws_a_pass_to_feagin_64_yard_touchdown",
+      "filename": "9-27 illinois usc altmyer throws a pass to feagin 64 yard touchdown.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_8_9-27_illinois_usc_luke_altmyer_throws_touchdown",
+      "filename": "9-27 illinois usc luke altmyer throws touchdown.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_9_9-27_illinois_usc_makai_lemon_scores_75_yd_touchdown",
+      "filename": "9-27 illinois usc makai lemon scores 75 yd touchdown.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_10_9-27_ole_miss_lsu_nic_anderson_touchdown",
+      "filename": "9-27 ole miss lsu nic anderson touchdown.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_11_9-27_uga_alabama_Gunner_Stockton_passes_to_Colbie_Young_touchdown",
+      "filename": "9-27 uga alabama Gunner Stockton passes to Colbie Young touchdown.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_13_9-27_uga_alabama_Ty_Simpson_passes_to_Isaiah_Horton_for_touchdown_",
+      "filename": "9-27 uga alabama Ty Simpson passes to Isaiah Horton for touchdown .mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    }
+  ],
+  "first_touchdown": [
+    {
+      "momentId": "moment_1_9-27_georgia_tech_wake_forest_haynes_king_passing_touchdown_from_3rd_and_10_to_begin_comeback",
+      "filename": "9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_2_9-27_georgia_tech_wake_forest_haynes_king_running_touchdown_bringing_game_to_17-20",
+      "filename": "9-27 georgia tech wake forest haynes king running touchdown bringing game to 17-20.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_4_9-27_illinois_usc_altmyer_throws_a_pass_to_feagin_64_yard_touchdown",
+      "filename": "9-27 illinois usc altmyer throws a pass to feagin 64 yard touchdown.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_8_9-27_illinois_usc_luke_altmyer_throws_touchdown",
+      "filename": "9-27 illinois usc luke altmyer throws touchdown.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_9_9-27_illinois_usc_makai_lemon_scores_75_yd_touchdown",
+      "filename": "9-27 illinois usc makai lemon scores 75 yd touchdown.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_10_9-27_ole_miss_lsu_nic_anderson_touchdown",
+      "filename": "9-27 ole miss lsu nic anderson touchdown.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_11_9-27_uga_alabama_Gunner_Stockton_passes_to_Colbie_Young_touchdown",
+      "filename": "9-27 uga alabama Gunner Stockton passes to Colbie Young touchdown.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    },
+    {
+      "momentId": "moment_13_9-27_uga_alabama_Ty_Simpson_passes_to_Isaiah_Horton_for_touchdown_",
+      "filename": "9-27 uga alabama Ty Simpson passes to Isaiah Horton for touchdown .mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    }
+  ],
+  "passing_touchdowns": [
+    {
+      "momentId": "moment_1_9-27_georgia_tech_wake_forest_haynes_king_passing_touchdown_from_3rd_and_10_to_begin_comeback",
+      "filename": "9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    }
+  ],
+  "passing_yards": [
+    {
+      "momentId": "moment_1_9-27_georgia_tech_wake_forest_haynes_king_passing_touchdown_from_3rd_and_10_to_begin_comeback",
+      "filename": "9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    }
+  ],
+  "completions": [
+    {
+      "momentId": "moment_1_9-27_georgia_tech_wake_forest_haynes_king_passing_touchdown_from_3rd_and_10_to_begin_comeback",
+      "filename": "9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    }
+  ],
+  "rushing_touchdowns": [
+    {
+      "momentId": "moment_2_9-27_georgia_tech_wake_forest_haynes_king_running_touchdown_bringing_game_to_17-20",
+      "filename": "9-27 georgia tech wake forest haynes king running touchdown bringing game to 17-20.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    }
+  ],
+  "rushing_yards": [
+    {
+      "momentId": "moment_2_9-27_georgia_tech_wake_forest_haynes_king_running_touchdown_bringing_game_to_17-20",
+      "filename": "9-27 georgia tech wake forest haynes king running touchdown bringing game to 17-20.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    }
+  ],
+  "rushing_attempts": [
+    {
+      "momentId": "moment_2_9-27_georgia_tech_wake_forest_haynes_king_running_touchdown_bringing_game_to_17-20",
+      "filename": "9-27 georgia tech wake forest haynes king running touchdown bringing game to 17-20.mp4",
+      "evidenceWeight": 0.8,
+      "deltaMu": 0.15,
+      "deltaSigma": -0.05
+    }
+  ],
+  "turnovers": [
+    {
+      "momentId": "moment_3_9-27_georgia_tech_wake_forest_jamal_haines_fumble",
+      "filename": "9-27 georgia tech wake forest jamal haines fumble.mp4",
+      "evidenceWeight": 0.7,
+      "deltaMu": -0.1,
+      "deltaSigma": 0.02
+    },
+    {
+      "momentId": "moment_5_9-27_illinois_usc_illinois_fumbles_at_goal_line_usc_recovers",
+      "filename": "9-27 illinois usc illinois fumbles at goal line usc recovers.mp4",
+      "evidenceWeight": 0.7,
+      "deltaMu": -0.1,
+      "deltaSigma": 0.02
+    },
+    {
+      "momentId": "moment_6_9-27_illinois_usc_jayden_maiava_throws_interception_to_dylan_rosiek",
+      "filename": "9-27 illinois usc jayden maiava throws interception to dylan rosiek.mp4",
+      "evidenceWeight": 0.7,
+      "deltaMu": -0.1,
+      "deltaSigma": 0.02
+    },
+    {
+      "momentId": "moment_7_9-27_illinois_usc_kaden_feagin_fumbles_at_the_1_turnover",
+      "filename": "9-27 illinois usc kaden feagin fumbles at the 1 turnover.mp4",
+      "evidenceWeight": 0.7,
+      "deltaMu": -0.1,
+      "deltaSigma": 0.02
+    }
+  ],
+  "defensive_props": [
+    {
+      "momentId": "moment_3_9-27_georgia_tech_wake_forest_jamal_haines_fumble",
+      "filename": "9-27 georgia tech wake forest jamal haines fumble.mp4",
+      "evidenceWeight": 0.7,
+      "deltaMu": -0.1,
+      "deltaSigma": 0.02
+    },
+    {
+      "momentId": "moment_5_9-27_illinois_usc_illinois_fumbles_at_goal_line_usc_recovers",
+      "filename": "9-27 illinois usc illinois fumbles at goal line usc recovers.mp4",
+      "evidenceWeight": 0.7,
+      "deltaMu": -0.1,
+      "deltaSigma": 0.02
+    },
+    {
+      "momentId": "moment_6_9-27_illinois_usc_jayden_maiava_throws_interception_to_dylan_rosiek",
+      "filename": "9-27 illinois usc jayden maiava throws interception to dylan rosiek.mp4",
+      "evidenceWeight": 0.7,
+      "deltaMu": -0.1,
+      "deltaSigma": 0.02
+    },
+    {
+      "momentId": "moment_7_9-27_illinois_usc_kaden_feagin_fumbles_at_the_1_turnover",
+      "filename": "9-27 illinois usc kaden feagin fumbles at the 1 turnover.mp4",
+      "evidenceWeight": 0.7,
+      "deltaMu": -0.1,
+      "deltaSigma": 0.02
+    }
+  ]
+}

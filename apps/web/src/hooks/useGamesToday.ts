@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import type { GameLite } from '@/types/cfb';
-import { ENDPOINTS } from '@/lib/api';
+import { apiUrl } from '@/lib/api';
 
 interface UseGamesTodayOptions {
   pollIntervalMs?: number;
@@ -37,7 +37,9 @@ export function useGamesToday(options: UseGamesTodayOptions = {}): UseGamesToday
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(ENDPOINTS.gamesToday, { 
+      const url = apiUrl('/games/today');
+      console.log('🎮 GAMES API: Fetching from:', url);
+      const res = await fetch(url, { 
         cache: 'force-cache', // Use cache when available
         next: { revalidate: 60 } // Revalidate every 60s
       });

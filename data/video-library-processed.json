@@ -1,0 +1,519 @@
+[
+  {
+    "filename": "9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.mp4",
+    "teams": "georgia vs tech",
+    "playerNames": [],
+    "actions": [
+      "touchdown",
+      "passing"
+    ],
+    "yardage": null,
+    "propCategories": [
+      "anytime_touchdown",
+      "first_touchdown",
+      "passing_touchdowns",
+      "passing_yards",
+      "completions"
+    ],
+    "evidenceWeight": 0.8,
+    "deltaMu": 0.15,
+    "deltaSigma": -0.05,
+    "tlMoment": {
+      "id": "moment_1_9-27_georgia_tech_wake_forest_haynes_king_passing_touchdown_from_3rd_and_10_to_begin_comeback",
+      "videoId": "video_9-27_georgia_tech_wake_forest_haynes_king_passing_touchdown_from_3rd_and_10_to_begin_comeback",
+      "start": 1.1,
+      "end": 7.7,
+      "text": "touchdown, passing",
+      "confidence": "high",
+      "metadata": {
+        "filename": "9-27 georgia tech wake forest haynes king passing touchdown from 3rd and 10 to begin comeback.mp4",
+        "actions": [
+          "touchdown",
+          "passing"
+        ],
+        "players": [],
+        "yardage": null,
+        "propRelevance": [
+          "anytime_touchdown",
+          "first_touchdown",
+          "passing_touchdowns",
+          "passing_yards",
+          "completions"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.918Z"
+  },
+  {
+    "filename": "9-27 georgia tech wake forest haynes king running touchdown bringing game to 17-20.mp4",
+    "teams": "georgia vs tech",
+    "playerNames": [],
+    "actions": [
+      "touchdown",
+      "rushing"
+    ],
+    "yardage": null,
+    "propCategories": [
+      "anytime_touchdown",
+      "first_touchdown",
+      "rushing_touchdowns",
+      "rushing_yards",
+      "rushing_attempts"
+    ],
+    "evidenceWeight": 0.8,
+    "deltaMu": 0.15,
+    "deltaSigma": -0.05,
+    "tlMoment": {
+      "id": "moment_2_9-27_georgia_tech_wake_forest_haynes_king_running_touchdown_bringing_game_to_17-20",
+      "videoId": "video_9-27_georgia_tech_wake_forest_haynes_king_running_touchdown_bringing_game_to_17-20",
+      "start": 1.2,
+      "end": 9.1,
+      "text": "touchdown, rushing",
+      "confidence": "high",
+      "metadata": {
+        "filename": "9-27 georgia tech wake forest haynes king running touchdown bringing game to 17-20.mp4",
+        "actions": [
+          "touchdown",
+          "rushing"
+        ],
+        "players": [],
+        "yardage": null,
+        "propRelevance": [
+          "anytime_touchdown",
+          "first_touchdown",
+          "rushing_touchdowns",
+          "rushing_yards",
+          "rushing_attempts"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.919Z"
+  },
+  {
+    "filename": "9-27 georgia tech wake forest jamal haines fumble.mp4",
+    "teams": "georgia vs tech",
+    "playerNames": [],
+    "actions": [
+      "fumble"
+    ],
+    "yardage": null,
+    "propCategories": [
+      "turnovers",
+      "defensive_props"
+    ],
+    "evidenceWeight": 0.7,
+    "deltaMu": -0.1,
+    "deltaSigma": 0.02,
+    "tlMoment": {
+      "id": "moment_3_9-27_georgia_tech_wake_forest_jamal_haines_fumble",
+      "videoId": "video_9-27_georgia_tech_wake_forest_jamal_haines_fumble",
+      "start": 1.1,
+      "end": 9.8,
+      "text": "fumble",
+      "confidence": "medium",
+      "metadata": {
+        "filename": "9-27 georgia tech wake forest jamal haines fumble.mp4",
+        "actions": [
+          "fumble"
+        ],
+        "players": [],
+        "yardage": null,
+        "propRelevance": [
+          "turnovers",
+          "defensive_props"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.920Z"
+  },
+  {
+    "filename": "9-27 illinois usc altmyer throws a pass to feagin 64 yard touchdown.mp4",
+    "teams": "illinois vs usc",
+    "playerNames": [],
+    "actions": [
+      "touchdown"
+    ],
+    "yardage": 64,
+    "propCategories": [
+      "anytime_touchdown",
+      "first_touchdown"
+    ],
+    "evidenceWeight": 0.8,
+    "deltaMu": 0.15,
+    "deltaSigma": -0.05,
+    "tlMoment": {
+      "id": "moment_4_9-27_illinois_usc_altmyer_throws_a_pass_to_feagin_64_yard_touchdown",
+      "videoId": "video_9-27_illinois_usc_altmyer_throws_a_pass_to_feagin_64_yard_touchdown",
+      "start": 0.7,
+      "end": 8.8,
+      "text": "touchdown 64 yard play",
+      "confidence": "high",
+      "metadata": {
+        "filename": "9-27 illinois usc altmyer throws a pass to feagin 64 yard touchdown.mp4",
+        "actions": [
+          "touchdown"
+        ],
+        "players": [],
+        "yardage": 64,
+        "propRelevance": [
+          "anytime_touchdown",
+          "first_touchdown"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.920Z"
+  },
+  {
+    "filename": "9-27 illinois usc illinois fumbles at goal line usc recovers.mp4",
+    "teams": "illinois vs usc",
+    "playerNames": [],
+    "actions": [
+      "fumble"
+    ],
+    "yardage": null,
+    "propCategories": [
+      "turnovers",
+      "defensive_props"
+    ],
+    "evidenceWeight": 0.7,
+    "deltaMu": -0.1,
+    "deltaSigma": 0.02,
+    "tlMoment": {
+      "id": "moment_5_9-27_illinois_usc_illinois_fumbles_at_goal_line_usc_recovers",
+      "videoId": "video_9-27_illinois_usc_illinois_fumbles_at_goal_line_usc_recovers",
+      "start": 0.5,
+      "end": 8,
+      "text": "fumble",
+      "confidence": "medium",
+      "metadata": {
+        "filename": "9-27 illinois usc illinois fumbles at goal line usc recovers.mp4",
+        "actions": [
+          "fumble"
+        ],
+        "players": [],
+        "yardage": null,
+        "propRelevance": [
+          "turnovers",
+          "defensive_props"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.921Z"
+  },
+  {
+    "filename": "9-27 illinois usc jayden maiava throws interception to dylan rosiek.mp4",
+    "teams": "illinois vs usc",
+    "playerNames": [],
+    "actions": [
+      "interception"
+    ],
+    "yardage": null,
+    "propCategories": [
+      "turnovers",
+      "defensive_props"
+    ],
+    "evidenceWeight": 0.7,
+    "deltaMu": -0.1,
+    "deltaSigma": 0.02,
+    "tlMoment": {
+      "id": "moment_6_9-27_illinois_usc_jayden_maiava_throws_interception_to_dylan_rosiek",
+      "videoId": "video_9-27_illinois_usc_jayden_maiava_throws_interception_to_dylan_rosiek",
+      "start": 1.7,
+      "end": 8,
+      "text": "interception",
+      "confidence": "medium",
+      "metadata": {
+        "filename": "9-27 illinois usc jayden maiava throws interception to dylan rosiek.mp4",
+        "actions": [
+          "interception"
+        ],
+        "players": [],
+        "yardage": null,
+        "propRelevance": [
+          "turnovers",
+          "defensive_props"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.921Z"
+  },
+  {
+    "filename": "9-27 illinois usc kaden feagin fumbles at the 1 turnover.mp4",
+    "teams": "illinois vs usc",
+    "playerNames": [],
+    "actions": [
+      "fumble"
+    ],
+    "yardage": null,
+    "propCategories": [
+      "turnovers",
+      "defensive_props"
+    ],
+    "evidenceWeight": 0.7,
+    "deltaMu": -0.1,
+    "deltaSigma": 0.02,
+    "tlMoment": {
+      "id": "moment_7_9-27_illinois_usc_kaden_feagin_fumbles_at_the_1_turnover",
+      "videoId": "video_9-27_illinois_usc_kaden_feagin_fumbles_at_the_1_turnover",
+      "start": 1.7,
+      "end": 9.1,
+      "text": "fumble",
+      "confidence": "medium",
+      "metadata": {
+        "filename": "9-27 illinois usc kaden feagin fumbles at the 1 turnover.mp4",
+        "actions": [
+          "fumble"
+        ],
+        "players": [],
+        "yardage": null,
+        "propRelevance": [
+          "turnovers",
+          "defensive_props"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.921Z"
+  },
+  {
+    "filename": "9-27 illinois usc luke altmyer throws touchdown.mp4",
+    "teams": "illinois vs usc",
+    "playerNames": [],
+    "actions": [
+      "touchdown"
+    ],
+    "yardage": null,
+    "propCategories": [
+      "anytime_touchdown",
+      "first_touchdown"
+    ],
+    "evidenceWeight": 0.8,
+    "deltaMu": 0.15,
+    "deltaSigma": -0.05,
+    "tlMoment": {
+      "id": "moment_8_9-27_illinois_usc_luke_altmyer_throws_touchdown",
+      "videoId": "video_9-27_illinois_usc_luke_altmyer_throws_touchdown",
+      "start": 1.3,
+      "end": 10.3,
+      "text": "touchdown",
+      "confidence": "high",
+      "metadata": {
+        "filename": "9-27 illinois usc luke altmyer throws touchdown.mp4",
+        "actions": [
+          "touchdown"
+        ],
+        "players": [],
+        "yardage": null,
+        "propRelevance": [
+          "anytime_touchdown",
+          "first_touchdown"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.921Z"
+  },
+  {
+    "filename": "9-27 illinois usc makai lemon scores 75 yd touchdown.mp4",
+    "teams": "illinois vs usc",
+    "playerNames": [],
+    "actions": [
+      "touchdown"
+    ],
+    "yardage": 75,
+    "propCategories": [
+      "anytime_touchdown",
+      "first_touchdown"
+    ],
+    "evidenceWeight": 0.8,
+    "deltaMu": 0.15,
+    "deltaSigma": -0.05,
+    "tlMoment": {
+      "id": "moment_9_9-27_illinois_usc_makai_lemon_scores_75_yd_touchdown",
+      "videoId": "video_9-27_illinois_usc_makai_lemon_scores_75_yd_touchdown",
+      "start": 0.1,
+      "end": 6.8,
+      "text": "touchdown 75 yard play",
+      "confidence": "high",
+      "metadata": {
+        "filename": "9-27 illinois usc makai lemon scores 75 yd touchdown.mp4",
+        "actions": [
+          "touchdown"
+        ],
+        "players": [],
+        "yardage": 75,
+        "propRelevance": [
+          "anytime_touchdown",
+          "first_touchdown"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.922Z"
+  },
+  {
+    "filename": "9-27 ole miss lsu nic anderson touchdown.mp4",
+    "teams": "ole vs miss",
+    "playerNames": [],
+    "actions": [
+      "touchdown"
+    ],
+    "yardage": null,
+    "propCategories": [
+      "anytime_touchdown",
+      "first_touchdown"
+    ],
+    "evidenceWeight": 0.8,
+    "deltaMu": 0.15,
+    "deltaSigma": -0.05,
+    "tlMoment": {
+      "id": "moment_10_9-27_ole_miss_lsu_nic_anderson_touchdown",
+      "videoId": "video_9-27_ole_miss_lsu_nic_anderson_touchdown",
+      "start": 1.3,
+      "end": 9.2,
+      "text": "touchdown",
+      "confidence": "high",
+      "metadata": {
+        "filename": "9-27 ole miss lsu nic anderson touchdown.mp4",
+        "actions": [
+          "touchdown"
+        ],
+        "players": [],
+        "yardage": null,
+        "propRelevance": [
+          "anytime_touchdown",
+          "first_touchdown"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.923Z"
+  },
+  {
+    "filename": "9-27 uga alabama Gunner Stockton passes to Colbie Young touchdown.mp4",
+    "teams": "uga vs alabama",
+    "playerNames": [
+      "Gunner",
+      "Stockton",
+      "Colbie",
+      "Young"
+    ],
+    "actions": [
+      "touchdown"
+    ],
+    "yardage": null,
+    "propCategories": [
+      "anytime_touchdown",
+      "first_touchdown"
+    ],
+    "evidenceWeight": 0.8,
+    "deltaMu": 0.15,
+    "deltaSigma": -0.05,
+    "tlMoment": {
+      "id": "moment_11_9-27_uga_alabama_Gunner_Stockton_passes_to_Colbie_Young_touchdown",
+      "videoId": "video_9-27_uga_alabama_Gunner_Stockton_passes_to_Colbie_Young_touchdown",
+      "start": 0.6,
+      "end": 8.4,
+      "text": "touchdown Gunner Stockton Colbie Young",
+      "confidence": "high",
+      "metadata": {
+        "filename": "9-27 uga alabama Gunner Stockton passes to Colbie Young touchdown.mp4",
+        "actions": [
+          "touchdown"
+        ],
+        "players": [
+          "Gunner",
+          "Stockton",
+          "Colbie",
+          "Young"
+        ],
+        "yardage": null,
+        "propRelevance": [
+          "anytime_touchdown",
+          "first_touchdown"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.923Z"
+  },
+  {
+    "filename": "9-27 uga alabama Ryan Williams drops wide open pass.mp4",
+    "teams": "uga vs alabama",
+    "playerNames": [
+      "Ryan",
+      "Williams"
+    ],
+    "actions": [
+      "drop"
+    ],
+    "yardage": null,
+    "propCategories": [],
+    "evidenceWeight": 0.7,
+    "deltaMu": -0.1,
+    "deltaSigma": 0.02,
+    "tlMoment": {
+      "id": "moment_12_9-27_uga_alabama_Ryan_Williams_drops_wide_open_pass",
+      "videoId": "video_9-27_uga_alabama_Ryan_Williams_drops_wide_open_pass",
+      "start": 0.4,
+      "end": 8.7,
+      "text": "drop Ryan Williams",
+      "confidence": "medium",
+      "metadata": {
+        "filename": "9-27 uga alabama Ryan Williams drops wide open pass.mp4",
+        "actions": [
+          "drop"
+        ],
+        "players": [
+          "Ryan",
+          "Williams"
+        ],
+        "yardage": null,
+        "propRelevance": []
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.923Z"
+  },
+  {
+    "filename": "9-27 uga alabama Ty Simpson passes to Isaiah Horton for touchdown .mp4",
+    "teams": "uga vs alabama",
+    "playerNames": [
+      "Ty",
+      "Simpson",
+      "Isaiah",
+      "Horton"
+    ],
+    "actions": [
+      "touchdown"
+    ],
+    "yardage": null,
+    "propCategories": [
+      "anytime_touchdown",
+      "first_touchdown"
+    ],
+    "evidenceWeight": 0.8,
+    "deltaMu": 0.15,
+    "deltaSigma": -0.05,
+    "tlMoment": {
+      "id": "moment_13_9-27_uga_alabama_Ty_Simpson_passes_to_Isaiah_Horton_for_touchdown_",
+      "videoId": "video_9-27_uga_alabama_Ty_Simpson_passes_to_Isaiah_Horton_for_touchdown_",
+      "start": 1.1,
+      "end": 8.3,
+      "text": "touchdown Ty Simpson Isaiah Horton",
+      "confidence": "high",
+      "metadata": {
+        "filename": "9-27 uga alabama Ty Simpson passes to Isaiah Horton for touchdown .mp4",
+        "actions": [
+          "touchdown"
+        ],
+        "players": [
+          "Ty",
+          "Simpson",
+          "Isaiah",
+          "Horton"
+        ],
+        "yardage": null,
+        "propRelevance": [
+          "anytime_touchdown",
+          "first_touchdown"
+        ]
+      }
+    },
+    "processedAt": "2025-10-08T16:15:20.924Z"
+  }
+]

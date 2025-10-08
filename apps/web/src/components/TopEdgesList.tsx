@@ -27,6 +27,10 @@ interface Props {
 export default function TopEdgesList({ gameId, onSelect }: Props) {
   console.log('TopEdgesList: Rendering component');
   
+  const handleSelect = React.useCallback((edge: EdgeItem) => {
+    onSelect?.({ ...edge, normalizedMarket: normalizePropForFocus(edge.market) } as any);
+  }, [onSelect]);
+  
   // Mock data
   const edges: EdgeItem[] = [
     {
@@ -100,7 +104,7 @@ export default function TopEdgesList({ gameId, onSelect }: Props) {
           <motion.div key={edge.id} variants={staggerItem}>
             <HoverCard
               elevated
-              onClick={() => onSelect?.({ ...edge, normalizedMarket: normalizePropForFocus(edge.market) } as any)}
+              onClick={() => handleSelect(edge)}
               className="p-6 cursor-pointer group overflow-hidden relative"
               data-testid="edge-row"
             >

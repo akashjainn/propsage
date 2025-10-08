@@ -1,0 +1,32 @@
+{
+  "totalVideos": 13,
+  "totalMoments": 13,
+  "propCategories": 10,
+  "actionTypes": [
+    "touchdown",
+    "passing",
+    "rushing",
+    "fumble",
+    "interception",
+    "drop"
+  ],
+  "players": [
+    "Gunner",
+    "Stockton",
+    "Colbie",
+    "Young",
+    "Ryan",
+    "Williams",
+    "Ty",
+    "Simpson",
+    "Isaiah",
+    "Horton"
+  ],
+  "teams": [
+    "georgia vs tech",
+    "illinois vs usc",
+    "ole vs miss",
+    "uga vs alabama"
+  ],
+  "processedAt": "2025-10-08T16:15:20.924Z"
+}
