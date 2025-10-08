@@ -21,4 +21,8 @@ RUN pnpm run build || npm run build
 
 ENV NODE_ENV=production
 EXPOSE 3000
+# Healthcheck for orchestrators
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+	CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
+
 CMD ["pnpm","start"]

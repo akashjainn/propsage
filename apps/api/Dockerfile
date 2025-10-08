@@ -25,5 +25,8 @@ RUN pnpm prune --prod
 
 ENV NODE_ENV=production PORT=4000
 EXPOSE 4000
+# Healthcheck for orchestrators
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+	CMD wget --no-verbose --tries=1 --spider http://localhost:4000/readyz || exit 1
 
 CMD ["node","apps/api/dist/index.js"]

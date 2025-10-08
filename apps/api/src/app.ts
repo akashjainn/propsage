@@ -51,6 +51,7 @@ export function createApp() {
     status: 'running'
   }))
 
+  // Health endpoint for monitoring
   app.get('/health', (_req, res) => res.json({
     demo: config.demoMode,
     video: config.videoEnabled,
@@ -59,6 +60,16 @@ export function createApp() {
     seed: config.demoMode ? '20250927' : undefined,
     ok: true,
   }))
+
+  // Readiness endpoint for orchestrators (K8s, Docker, etc.)
+  app.get('/readyz', (_req, res) => res.status(200).json({ ready: true }))
+// ---
+// Cloud/Monitoring/Secrets best practices:
+// - All secrets should be injected via environment variables (never hardcoded)
+// - CORS origins should be locked down in production
+// - /health and /readyz endpoints are safe for monitoring
+// - Use Docker HEALTHCHECK for container orchestration
+// ---
   app.use('/fml', fml)
   app.use('/cfb/players', cfbPlayers)
   app.use('/cfb/props', cfbProps)
