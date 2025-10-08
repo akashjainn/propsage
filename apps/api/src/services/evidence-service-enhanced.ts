@@ -4,13 +4,24 @@
  * Integrates processed video library with evidence-driven pricing adjustments
  */
 
+
 import fs from 'fs';
 import path from 'path';
+import { LRUCache } from 'lru-cache';
 
 // Load processed video data
+
 let PROCESSED_VIDEO_LIBRARY: any[] = [];
 let PROP_MAPPINGS: any = {};
 let MOMENT_LIBRARY: any[] = [];
+
+// --- Phase 1 Day 4: Performance Optimization ---
+// LRU caches for evidence packs and search results
+const evidenceCache = new LRUCache<string, any>({ max: 200, ttl: 1000 * 60 * 2 }); // 2 min
+const searchCache = new LRUCache<string, any[]>({ max: 200, ttl: 1000 * 60 * 10 }); // 10 min
+
+// In-memory search index for fast lookups
+let SEARCH_INDEX: Record<string, Set<number>> = {};
 
 try {
   const dataPath = path.join(__dirname, '../../../data');
@@ -42,16 +53,17 @@ try {
 export function getVideoEvidenceForProps(propCategories: string[], playerId?: string) {
   const evidencePacks: any = {};
   
+  // Caching by propCategories+playerId
+  const cacheKey = JSON.stringify({ propCategories, playerId });
+  const cached = evidenceCache.get(cacheKey);
+  if (cached) return cached;
+
   for (const category of propCategories) {
     if (PROP_MAPPINGS[category]) {
       const categoryMoments = PROP_MAPPINGS[category];
-      
       // Find corresponding video library entries
       const evidenceEntries = categoryMoments.map((mapping: any) => {
-        const videoEntry = PROCESSED_VIDEO_LIBRARY.find(video => 
-          video.filename === mapping.filename
-        );
-        
+        const videoEntry = PROCESSED_VIDEO_LIBRARY.find(video => video.filename === mapping.filename);
         if (videoEntry) {
           return {
             momentId: mapping.momentId,
@@ -69,7 +81,6 @@ export function getVideoEvidenceForProps(propCategories: string[], playerId?: st
         }
         return null;
       }).filter(Boolean);
-      
       if (evidenceEntries.length > 0) {
         evidencePacks[category] = {
           propCategory: category,
@@ -84,7 +95,7 @@ export function getVideoEvidenceForProps(propCategories: string[], playerId?: st
       }
     }
   }
-  
+  evidenceCache.set(cacheKey, evidencePacks);
   return evidencePacks;
 }
 
@@ -92,63 +103,59 @@ export function getVideoEvidenceForProps(propCategories: string[], playerId?: st
  * Search for evidence moments by query
  */
 export function searchEvidenceMoments(query: string, maxResults = 5) {
+  const cacheKey = JSON.stringify({ query, maxResults });
+  const cached = searchCache.get(cacheKey);
+  if (cached) return cached;
+
   const queryLower = query.toLowerCase();
   const queryTerms = queryLower.split(/\s+/);
-  
-  const scoredMoments = PROCESSED_VIDEO_LIBRARY.map((video: any) => {
+
+  const scoredMoments = PROCESSED_VIDEO_LIBRARY.map((video: any, idx: number) => {
     let score = 0;
-    
     // Action matching
     if (video.actions) {
       video.actions.forEach((action: string) => {
         queryTerms.forEach((term: string) => {
-          if (action.toLowerCase().includes(term)) {
-            score += 1.0;
-          }
+          if (action.toLowerCase().includes(term)) score += 1.0;
         });
       });
     }
-    
     // Player matching
     if (video.playerNames) {
       video.playerNames.forEach((player: string) => {
         queryTerms.forEach((term: string) => {
-          if (player.toLowerCase().includes(term)) {
-            score += 0.8;
-          }
+          if (player.toLowerCase().includes(term)) score += 0.8;
         });
       });
     }
-    
     // Team matching
     if (video.teams) {
       queryTerms.forEach((term: string) => {
-        if (video.teams.toLowerCase().includes(term)) {
-          score += 0.6;
-        }
+        if (video.teams.toLowerCase().includes(term)) score += 0.6;
       });
     }
-    
     // Prop category matching
     if (video.propCategories) {
       video.propCategories.forEach((prop: string) => {
         queryTerms.forEach((term: string) => {
-          if (prop.toLowerCase().includes(term)) {
-            score += 0.7;
-          }
+          if (prop.toLowerCase().includes(term)) score += 0.7;
         });
       });
     }
-    
+    // Indexing: add to search index for each term
+    queryTerms.forEach(term => {
+      if (!SEARCH_INDEX[term]) SEARCH_INDEX[term] = new Set();
+      SEARCH_INDEX[term].add(idx);
+    });
     return { video, score };
   }).filter(({ score }) => score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, maxResults);
-  
-  return scoredMoments.map(({ video, score }) => ({
-    ...video,
-    searchScore: score
-  }));
+
+  const result = scoredMoments.map(({ video, score }) => ({ ...video, searchScore: score }));
+  searchCache.set(cacheKey, result);
+  return result;
+// --- END Phase 1 Day 4: Performance Optimization ---
 }
 
 /**

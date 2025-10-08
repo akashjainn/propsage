@@ -1,3 +1,7 @@
+
+import fs from 'fs';
+import path from 'path';
+import type { TLMoment, TLSearchResponse } from '../types/twelve-labs.js';
 /**
  * Enhanced TwelveLabs Mock Service for PropSage Webinar Demo
  * 
@@ -7,9 +11,7 @@
  * Updated: Phase 1 Day 2 - Now uses processed video metadata
  */
 
-import type { TLMoment, TLSearchResponse } from '../types/twelve-labs.js';
-import fs from 'fs';
-import path from 'path';
+
 
 // Load processed video data if available
 let PROCESSED_MOMENTS: any[] = [];
@@ -29,19 +31,13 @@ try {
     PROCESSED_MAPPINGS = JSON.parse(fs.readFileSync(propMappingsPath, 'utf8'));
     console.log(`🎯 Loaded prop mappings for ${Object.keys(PROCESSED_MAPPINGS).length} categories`);
   }
+
 } catch (error) {
   console.log('📁 Using fallback video data for mock service');
-}nced TwelveLabs Mock Service for PropSage Webinar Demo
- * 
- * This service creates realistic TwelveLabs API responses using our processed video library.
- * It can seamlessly switch to live API when available.
- * 
- * Updated: Phase 1 Day 2 - Now uses processed video metadata
- */
+}
 
-import type { TLMoment, TLSearchResponse } from '../types/twelve-labs.js';
-import fs from 'fs';
-import path from 'path';
+
+
 
 // Video clip metadata based on our 13 existing clips
 const VIDEO_MOMENTS_DATABASE = {
