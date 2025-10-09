@@ -2,10 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { tokens } from './theme';
-import dynamic from 'next/dynamic';
-
-// Lazy load TabBar to avoid impacting initial desktop bundle
-const TabBar = dynamic(() => import('./TabBar'), { ssr: false });
+// TabBar removed per request (dashboard/players/insights/settings bottom bar)
 
 function Logo(){
   return (
@@ -34,7 +31,7 @@ function Logo(){
 export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh text-slate-100" style={{ background: tokens.bg }}>
-      <div className="bg-grid/30 min-h-dvh relative pb-20 md:pb-0">{/* pb for mobile tab bar */}
+  <div className="bg-grid/30 min-h-dvh relative">{/* bottom tab bar removed */}
         <header className="sticky top-0 z-30 border-b border-white/10 backdrop-blur-xl bg-[#0b1420]/80">
           <div className="mx-auto max-w-6xl px-4 md:px-6 py-3 md:py-4 flex items-center justify-between gap-4">
             <Logo />
@@ -48,7 +45,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
         <main className="mx-auto max-w-6xl px-4 md:px-6 py-6 md:py-8 space-y-12">{children}</main>
-        <TabBar />
       </div>
     </div>
   );
