@@ -117,6 +117,3 @@ At repo root (Turborepo):
 - T+18h: Lines ingestor + caching + evidence retrieval.
 - T+30h: TwelveLabs clips & latency instrumentation (OTel spans).
 - T+42h: Offline demo mode + polish + deck.
-
-## License
-MIT (hackathon prototype). Clean-room for data feeds.
