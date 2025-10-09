@@ -1,0 +1,13 @@
+[
+  {
+    "id": "401671234",
+    "week": 5,
+    "season": 2025,
+    "seasonType": 2,
+    "date": "2025-10-05T17:00:00Z",
+    "status": "scheduled",
+    "venue": "Sample Stadium",
+    "home": { "id": "12", "name": "Dallas Cowboys", "abbreviation": "DAL", "score": 0 },
+    "away": { "id": "20", "name": "New England Patriots", "abbreviation": "NE", "score": 0 }
+  }
+]
