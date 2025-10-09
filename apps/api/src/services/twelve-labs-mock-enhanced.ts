@@ -49,7 +49,7 @@ function loadProcessedVideoData() {
     }
     
   } catch (error) {
-    console.log('⚠️  Error loading processed data, using fallback:', error.message);
+    console.log('⚠️  Error loading processed data, using fallback:', (error as Error).message);
     VIDEO_MOMENTS_DATABASE = getFallbackMoments();
   }
 }
@@ -207,12 +207,26 @@ export const twelveLabsMockService = {
     try {
       const moments = searchMoments(query, options);
       
-      // Add realistic timing variations
+      // Convert to TLSearchResult format with timing variations
       const processedMoments = moments.map(moment => ({
-        ...moment,
-        // Add slight timing variations for realism
-        start: moment.start + (Math.random() - 0.5) * 0.2,
-        end: moment.end + (Math.random() - 0.5) * 0.2
+        video_id: moment.videoId,
+        score: moment.score * 100, // TwelveLabs scores are 0-100
+        start: moment.startTime + (Math.random() - 0.5) * 0.2,
+        end: moment.endTime + (Math.random() - 0.5) * 0.2,
+        metadata: [
+          {
+            type: 'text',
+            text: moment.label,
+            start: moment.startTime,
+            end: moment.endTime
+          }
+        ],
+        modules: [
+          {
+            type: 'visual' as const,
+            confidence: 0.85
+          }
+        ]
       }));
 
       return {

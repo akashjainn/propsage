@@ -1,28 +1,48 @@
-import { Router } from "express";import { Router } from "express";import { Router } from "express";import { Router } from "express";import { Router } from "express";import { Router } from "express";
+import { Router } from "express";import { Router } from "express";
 
+import { evidenceService } from "../services/evidence-service.js";import { evidenceService } from "../services/evidence-service.js";
 
+import { LRUCache } from "lru-cache";
 
-const r = Router();import { evidenceService } from "../services/evidence-service.js";
+const r = Router();
 
+const r = Router();
 
+// Minimal clips endpoint to unblock the API server
 
-// Minimal clips endpoint to unblock the API serverimport { LRUCache } from "lru-cache";import { evidenceService } from "../services/evidence-service.js";
-
-r.get("/", async (req, res) => {
+r.get("/", async (req, res) => {// Minimal clips endpoint to unblock the API server
 
   res.json({
 
-    clips: [],
+    clips: [],r.get("/", async (req, res) => {
 
-    message: "TwelveLabs mock integration in development",const r = Router();import { LRUCache } from "lru-cache";
+    message: "TwelveLabs mock integration in development", 
 
-    available: true
+    available: true  res.json({
 
   });
 
-});
+});    clips: [],
 
-// Typesconst r = Router();
+
+
+r.get("/health", async (req, res) => {    message: "TwelveLabs mock integration in development",const r = Router();import { LRUCache } from "lru-cache";
+
+  res.json({
+
+    status: 'ok',    available: true
+
+    service: 'CFB Clips',
+
+    timestamp: new Date().toISOString()  });
+
+  });
+
+});});
+
+
+
+export default r;// Typesconst r = Router();
 
 r.get("/health", async (req, res) => {
 

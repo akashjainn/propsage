@@ -5,6 +5,7 @@ import cfbPlayers from './routes/cfb.players.js'
 import cfbProps from './routes/cfb.props.js'
 // import cfbClips from './routes/cfb.clips.js' // Temporarily disabled
 import cfbEvidence from './routes/cfb.evidence.js'
+import { nflEvidenceRoutes } from './routes/nfl-evidence.js'
 // Demo enterprise routes
 import demoGames from './routes/demo.games.js'
 import demoPlayers from './routes/demo.players.js'
@@ -41,6 +42,7 @@ export function createApp() {
       cfbProps: '/cfb/props',
       cfbClips: '/cfb/clips',
       cfbEvidence: '/cfb/evidence',
+      nflEvidence: '/nfl/evidence',
       // Demo enterprise endpoints
       games: '/games',
       players: '/players',
@@ -75,6 +77,7 @@ export function createApp() {
   app.use('/cfb/props', cfbProps)
   // app.use('/cfb/clips', cfbClips) // Temporarily disabled
   app.use('/cfb/evidence', cfbEvidence)
+  app.use('/nfl/evidence', nflEvidenceRoutes)
 
   // Demo enterprise routes
   app.use('/games', demoGames)
