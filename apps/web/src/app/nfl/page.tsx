@@ -1,8 +1,9 @@
 import React from 'react'
 
+export const dynamic = 'force-dynamic'
+
 async function fetchJson<T>(path: string): Promise<T> {
-  const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
-  const res = await fetch(`${base}${path}`, { next: { revalidate: 60 } })
+  const res = await fetch(path, { cache: 'no-store' })
   if (!res.ok) throw new Error(`Failed: ${res.status}`)
   return res.json()
 }
@@ -11,8 +12,8 @@ export default async function NFLPage() {
   const week = 5
   const demo = true
   const [games, props] = await Promise.all([
-    fetchJson<any>(`/nfl/games?week=${week}&demo=${demo ? '1' : '0'}`),
-    fetchJson<any>(`/nfl/props?week=${week}&demo=${demo ? '1' : '0'}`)
+    fetchJson<any>(`/api/nfl/games?week=${week}&demo=${demo ? '1' : '0'}`),
+    fetchJson<any>(`/api/nfl/props?week=${week}&demo=${demo ? '1' : '0'}`)
   ])
 
   const byTeam = new Map<string, any[]>()
