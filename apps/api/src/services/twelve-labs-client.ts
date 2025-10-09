@@ -13,7 +13,7 @@ import {
 const TL_CONFIG: TwelveLabsConfig = {
   apiKey: process.env.TL_API_KEY || process.env.TWELVELABS_API_KEY || '',
   indexId: process.env.TWELVELABS_INDEX_ID || 'default_cfb_index',
-  baseUrl: process.env.TWELVELABS_BASE_URL || 'https://api.twelvelabs.io/v1.2'
+  baseUrl: process.env.TWELVELABS_BASE_URL || 'https://api.twelvelabs.io/v1.3'
 };
 
 // Cache for search results (30 minutes)
@@ -153,13 +153,26 @@ export class TwelveLabsClient {
           };
         }
 
+        // TwelveLabs v1.3+ requires FormData with individual search options
+        const formData = new FormData();
+        formData.append('query_text', query.trim());
+        formData.append('index_id', this.config.indexId || '');
+        formData.append('search_options', 'visual');
+        formData.append('search_options', 'audio');
+        formData.append('sort_option', 'score');
+        formData.append('page_limit', Math.min(limit, 5).toString());
+        
+        // Filter by specific video IDs if provided
+        if (videoIds && videoIds.length > 0) {
+          formData.append('filter', JSON.stringify({ video_id: videoIds }));
+        }
+
         const response = await fetch(`${this.config.baseUrl}/search`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
             'x-api-key': this.config.apiKey
           },
-          body: JSON.stringify(searchBody)
+          body: formData
         });
 
         if (!response.ok) {
