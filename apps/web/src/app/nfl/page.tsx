@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,12 +31,14 @@ export default async function NFLPage() {
         <h2 className="text-xl font-semibold mb-2">Games</h2>
         <ul className="space-y-2">
           {(games.games || []).map((g: any) => (
-            <li key={g.id} className="border rounded p-3 flex items-center justify-between">
-              <div>
-                <div className="font-medium">{g.away.abbreviation} @ {g.home.abbreviation}</div>
-                <div className="text-sm text-gray-500">{new Date(g.date).toLocaleString()}</div>
-              </div>
-              <div className="text-sm text-gray-600">{g.venue}</div>
+            <li key={g.id} className="border rounded p-0">
+              <Link href={`/nfl/games/${encodeURIComponent(g.id)}?week=${week}&demo=${demo ? '1' : '0'}`} className="p-3 flex items-center justify-between hover:bg-gray-50 block">
+                <div>
+                  <div className="font-medium">{g.away.abbreviation} @ {g.home.abbreviation}</div>
+                  <div className="text-sm text-gray-500">{new Date(g.date).toLocaleString()}</div>
+                </div>
+                <div className="text-sm text-gray-600">{g.venue}</div>
+              </Link>
             </li>
           ))}
         </ul>
@@ -49,7 +52,9 @@ export default async function NFLPage() {
               <ul className="space-y-1">
                 {list.map((p: any) => (
                   <li key={p.propId} className="text-sm flex justify-between">
-                    <span>{p.playerName} - {p.stat} ({p.book})</span>
+                    <Link href={`/nfl/players/${encodeURIComponent(p.playerId)}?week=${week}&demo=${demo ? '1' : '0'}`} className="hover:underline">
+                      {p.playerName} - {p.stat} ({p.book})
+                    </Link>
                     <span>{p.marketLine}</span>
                   </li>
                 ))}

@@ -29,16 +29,36 @@ r.get('/games', async (req, res) => {
   }
 })
 
-// GET /nfl/players?week=5
+// GET /nfl/players?week=5&team=DAL
 r.get('/players', async (req, res) => {
   try {
     const week = getWeek(req)
     const season = getSeason(req)
     const useDemo = String(req.query.demo).toLowerCase() === '1' || String(req.query.demo).toLowerCase() === 'true'
-    const players = useDemo
+    let players = useDemo
       ? (await import('../data/week5.nfl.players.json', { assert: { type: 'json' } } as any)).default
       : await nflDataService.getWeekPlayers(week, season)
+    const team = (req.query.team as string | undefined)?.toUpperCase()
+    if (team) players = players.filter((p: any) => p.teamAbbr?.toUpperCase() === team)
     res.json({ week, season, count: players.length, players })
+  } catch (err) {
+    res.status(500).json({ error: (err as Error).message })
+  }
+})
+
+// GET /nfl/games/:id
+r.get('/games/:id', async (req, res) => {
+  try {
+    const id = String(req.params.id)
+    const week = getWeek(req)
+    const season = getSeason(req)
+    const useDemo = String(req.query.demo).toLowerCase() === '1' || String(req.query.demo).toLowerCase() === 'true'
+    const schedule = useDemo
+      ? (await import('../data/week5.nfl.games.json', { assert: { type: 'json' } } as any)).default
+      : await nflDataService.getWeekGames(week, season)
+    const game = (schedule as any[]).find(g => String(g.id) === id)
+    if (!game) return res.status(404).json({ error: 'Game not found' })
+    return res.json({ game })
   } catch (err) {
     res.status(500).json({ error: (err as Error).message })
   }
