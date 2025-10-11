@@ -5,7 +5,7 @@
  */
 
 import { Router } from 'express';
-import { nflEvidenceService } from '../services/nfl-evidence-service';
+import { nflEvidenceService } from '../services/nfl-evidence-service.js';
 
 const router = Router();
 

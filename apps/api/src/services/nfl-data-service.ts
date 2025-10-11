@@ -1,6 +1,9 @@
 import fetch from 'node-fetch'
 import { LRUCache } from 'lru-cache'
 import { config } from '../config.js'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 export interface NFLGame {
   id: string
@@ -54,6 +57,24 @@ function getCurrentSeason(date = new Date()): number {
 
 export class NFLDataService {
   private base = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl'
+  private __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+  private resolveFirstExisting(paths: string[]): string | undefined {
+    for (const p of paths) {
+      if (fs.existsSync(p)) return p
+    }
+    return undefined
+  }
+
+  private readJsonFromCandidates<T = any>(candidates: string[]): T | undefined {
+    const p = this.resolveFirstExisting(candidates)
+    if (!p) return undefined
+    try {
+      return JSON.parse(fs.readFileSync(p, 'utf-8')) as T
+    } catch {
+      return undefined
+    }
+  }
 
   async getWeekGames(week: number, season?: number): Promise<NFLGame[]> {
     const seasonYear = season ?? getCurrentSeason()
@@ -94,14 +115,15 @@ export class NFLDataService {
       gamesCache.set(key, games)
       return games
     } catch (err) {
-      // Fallback to demo if available
-      if (config.demoMode) {
-        try {
-          const demo = await import('../data/week5.nfl.games.json', { assert: { type: 'json' } } as any)
-          const games = (demo.default as NFLGame[])
-          gamesCache.set(key, games)
-          return games
-        } catch (_e) {}
+      // Fallback to demo if available (fs-based JSON to avoid import assertions)
+      const demo = this.readJsonFromCandidates<NFLGame[]>([
+        path.resolve(this.__dirname, '../data/week5.nfl.games.json'),
+        path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.games.json'),
+        path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.games.json')
+      ])
+      if (demo && demo.length) {
+        gamesCache.set(key, demo)
+        return demo
       }
       throw err
     }
@@ -138,13 +160,15 @@ export class NFLDataService {
       playersCache.set(key, all)
       return all
     } catch (err) {
-      if (config.demoMode) {
-        try {
-          const demo = await import('../data/week5.nfl.players.json', { assert: { type: 'json' } } as any)
-          const players = (demo.default as NFLPlayer[])
-          playersCache.set(key, players)
-          return players
-        } catch (_e) {}
+      // Fallback to demo if available (fs-based JSON to avoid import assertions)
+      const demo = this.readJsonFromCandidates<NFLPlayer[]>([
+        path.resolve(this.__dirname, '../data/week5.nfl.players.json'),
+        path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.players.json'),
+        path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.players.json')
+      ])
+      if (demo && demo.length) {
+        playersCache.set(key, demo)
+        return demo
       }
       throw err
     }

@@ -14,6 +14,7 @@ interface AppConfig {
   videoEnabled: boolean
   corsOrigin: string
   oddsApiKey: string
+  sportsDataIOKey?: string
 }
 
 function bool(val: string | undefined, fallback: boolean) {
@@ -45,6 +46,7 @@ export const config: AppConfig = {
   videoEnabled: bool(process.env.VIDEO_ENABLED, true),
   corsOrigin: process.env.CORS_ORIGIN || process.env.WEB_BASE_URL || 'http://localhost:3000',
   oddsApiKey: process.env.ODDS_API_KEY || '',
+  sportsDataIOKey: process.env.SPORTSDATAIO_API_KEY || process.env.SPORTS_DATA_IO_KEY || process.env.SPORTS_DATAIO_KEY || undefined,
 }
 
 // Export demo mode for easy access

@@ -7,6 +7,7 @@ import cfbProps from './routes/cfb.props.js'
 import cfbEvidence from './routes/cfb.evidence.js'
 import { nflEvidenceRoutes } from './routes/nfl-evidence.js'
 import nfl from './routes/nfl.js'
+import nflSD from './routes/nfl.sportsdata.js'
 // Demo enterprise routes
 import demoGames from './routes/demo.games.js'
 import demoPlayers from './routes/demo.players.js'
@@ -45,6 +46,7 @@ export function createApp() {
       cfbEvidence: '/cfb/evidence',
     nflEvidence: '/nfl/evidence',
     nfl: '/nfl',
+  nflSportsData: '/nfl/sd',
     // Demo enterprise endpoints
       games: '/games',
       players: '/players',
@@ -81,6 +83,7 @@ export function createApp() {
   app.use('/cfb/evidence', cfbEvidence)
   app.use('/nfl/evidence', nflEvidenceRoutes)
   app.use('/nfl', nfl)
+  app.use('/nfl/sd', nflSD)
 
   // Demo enterprise routes
   app.use('/games', demoGames)
