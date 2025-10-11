@@ -5,6 +5,7 @@ import { config } from './config.js'
 import { getPriors } from './services/demoCache.js'
 import { monteCarloFairValue } from '@propsage/core'
 import { createApp } from './app.js'
+import { startMsfGamewatch } from './jobs/msf-gamewatch.js'
 
 const logger = pino({ transport: { target: 'pino-pretty' } })
 const app = createApp()
@@ -70,3 +71,6 @@ function start(port: number, attemptsLeft = 5) {
 }
 
 start(config.port)
+
+// optional background job
+startMsfGamewatch()

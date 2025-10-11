@@ -15,6 +15,10 @@ interface AppConfig {
   corsOrigin: string
   oddsApiKey: string
   sportsDataIOKey?: string
+  msfApiKey?: string
+  msfBaseUrl: string
+  msfEnabled: boolean
+  msfPollingEnabled: boolean
 }
 
 function bool(val: string | undefined, fallback: boolean) {
@@ -47,6 +51,10 @@ export const config: AppConfig = {
   corsOrigin: process.env.CORS_ORIGIN || process.env.WEB_BASE_URL || 'http://localhost:3000',
   oddsApiKey: process.env.ODDS_API_KEY || '',
   sportsDataIOKey: process.env.SPORTSDATAIO_API_KEY || process.env.SPORTS_DATA_IO_KEY || process.env.SPORTS_DATAIO_KEY || undefined,
+  msfApiKey: process.env.MSF_API_KEY || undefined,
+  msfBaseUrl: process.env.MSF_BASE_URL || 'https://api.mysportsfeeds.com/v2.1/pull/nfl',
+  msfEnabled: bool(process.env.MSF_ENABLED, false) && !!process.env.MSF_API_KEY,
+  msfPollingEnabled: bool(process.env.MSF_POLLING_ENABLED, false),
 }
 
 // Export demo mode for easy access

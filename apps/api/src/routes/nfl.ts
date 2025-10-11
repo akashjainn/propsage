@@ -2,8 +2,6 @@ import { Router } from 'express'
 import { nflDataService } from '../services/nfl-data-service.js'
 import fs from 'fs'
 import path from 'path'
-import { createRequire } from 'node:module'
-const require = createRequire(import.meta.url)
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -20,12 +18,8 @@ function readJsonFromCandidates<T = any>(candidates: string[]): T {
   return JSON.parse(fs.readFileSync(p, 'utf-8')) as T
 }
 
-// Load demo props JSON via fs to avoid JSON import assertions
-const props = readJsonFromCandidates<any>([
-  path.resolve(__dirname, '../data/props.nfl.json'),
-  path.resolve(process.cwd(), 'apps/api/src/data/props.nfl.json'),
-  path.resolve(process.cwd(), 'apps/api/dist/data/props.nfl.json')
-])
+// Note: do NOT load demo props at module init to avoid startup failures in production.
+// We'll lazy-load within the route only when demo=1 is requested.
 
 const r = Router()
 
@@ -117,7 +111,15 @@ r.get('/props', async (req, res) => {
       : await nflDataService.getWeekGames(week, season)
     const weekTeams = new Set((schedule as Array<{ home: { abbreviation: string }, away: { abbreviation: string } }>).
       flatMap(g => [g.home.abbreviation, g.away.abbreviation]))
-    let list = (props as any[]).filter(p => weekTeams.has(p.team))
+    // Lazy-load demo props only when requested; otherwise, return empty until live source is added
+    const demoProps: any[] = useDemo
+      ? readJsonFromCandidates<any[]>([
+          path.resolve(__dirname, '../data/props.nfl.json'),
+          path.resolve(process.cwd(), 'apps/api/src/data/props.nfl.json'),
+          path.resolve(process.cwd(), 'apps/api/dist/data/props.nfl.json')
+        ]) || []
+      : []
+    let list = demoProps.filter(p => weekTeams.has(p.team))
     if (team) list = list.filter(p => p.team === String(team))
     if (playerId) list = list.filter(p => p.playerId?.endsWith(String(playerId)))
     if (stat) list = list.filter(p => p.stat === String(stat))

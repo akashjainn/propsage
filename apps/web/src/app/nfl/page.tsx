@@ -27,6 +27,9 @@ export default async function NFLPage() {
   return (
     <div className="mx-auto max-w-5xl p-6 space-y-6">
       <h1 className="text-2xl font-semibold">NFL Week {week}</h1>
+      <div className="text-sm text-blue-700">
+        <Link href={`/api/nfl/msf/week/${week}/games`} className="underline">View MSF Live Week {week} (raw)</Link>
+      </div>
       <section>
         <h2 className="text-xl font-semibold mb-2">Games</h2>
         <ul className="space-y-2">

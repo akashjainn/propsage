@@ -8,6 +8,7 @@ import cfbEvidence from './routes/cfb.evidence.js'
 import { nflEvidenceRoutes } from './routes/nfl-evidence.js'
 import nfl from './routes/nfl.js'
 import nflSD from './routes/nfl.sportsdata.js'
+import nflMSF from './routes/nfl.msf.js'
 // Demo enterprise routes
 import demoGames from './routes/demo.games.js'
 import demoPlayers from './routes/demo.players.js'
@@ -37,7 +38,7 @@ export function createApp() {
     name: 'PropSage API',
     version: '1.0.0',
     description: 'HackGT 12 - Sports betting analytics with AI-powered fair value calculations',
-    endpoints: {
+  endpoints: {
       health: '/health',
       fml: '/fml',
       cfbPlayers: '/cfb/players',
@@ -47,6 +48,7 @@ export function createApp() {
     nflEvidence: '/nfl/evidence',
     nfl: '/nfl',
   nflSportsData: '/nfl/sd',
+  nflMSF: '/nfl/msf',
     // Demo enterprise endpoints
       games: '/games',
       players: '/players',
@@ -84,6 +86,7 @@ export function createApp() {
   app.use('/nfl/evidence', nflEvidenceRoutes)
   app.use('/nfl', nfl)
   app.use('/nfl/sd', nflSD)
+  app.use('/nfl/msf', nflMSF)
 
   // Demo enterprise routes
   app.use('/games', demoGames)
