@@ -6,3 +6,146 @@
    - Environments: .env.local
 
    Creating an optimized production build ...
+ ⚠ Compiled with warnings
+
+../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+../../node_modules/.pnpm/@prisma+instrumentation@6.15.0_@opentelemetry+api@1.9.0/node_modules/@prisma/instrumentation/dist/index.js
+../../node_modules/.pnpm/@sentry+node@10.15.0/node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+../../node_modules/.pnpm/@sentry+node@10.15.0/node_modules/@sentry/node/build/cjs/index.js
+../../node_modules/.pnpm/@sentry+nextjs@10.15.0_@ope_ac8f64ff085f578606971434bae21aae/node_modules/@sentry/nextjs/build/cjs/index.server.js
+./src/app/page.tsx
+
+../../node_modules/.pnpm/require-in-the-middle@7.5.2/node_modules/require-in-the-middle/index.js
+Critical dependency: require function is used in a way in which dependencies cannot be statically extracted
+
+Import trace for requested module:
+../../node_modules/.pnpm/require-in-the-middle@7.5.2/node_modules/require-in-the-middle/index.js
+../../node_modules/.pnpm/@opentelemetry+instrumentat_f652686f626c89883300e722e0beadcf/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+../../node_modules/.pnpm/@opentelemetry+instrumentat_f652686f626c89883300e722e0beadcf/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+../../node_modules/.pnpm/@opentelemetry+instrumentat_f652686f626c89883300e722e0beadcf/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+../../node_modules/.pnpm/@opentelemetry+instrumentat_f652686f626c89883300e722e0beadcf/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+../../node_modules/.pnpm/@sentry+node@10.15.0/node_modules/@sentry/node/build/cjs/integrations/tracing/postgresjs.js
+../../node_modules/.pnpm/@sentry+node@10.15.0/node_modules/@sentry/node/build/cjs/index.js
+../../node_modules/.pnpm/@sentry+nextjs@10.15.0_@ope_ac8f64ff085f578606971434bae21aae/node_modules/@sentry/nextjs/build/cjs/index.server.js
+./src/app/page.tsx
+
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+[TL] TWELVE_LABS_API_KEY not set – index route will fail.
+   Generating static pages (0/14) ...
+   Generating static pages (3/14) 
+   Generating static pages (6/14) 
+   Generating static pages (10/14) 
+TopEdgesList: Rendering component
+TopEdgesList: edges: [
+  {
+    id: 'edge_stockton_passing_td',
+    gameId: 'uga-alabama-20250927',
+    player: 'Gunner Stockton',
+    team: 'UGA',
+    market: 'Passing TDs',
+    marketLine: 1.5,
+    fairLine: 1.9,
+    edgePct: 21.3,
+    confidence: 0.88,
+    bullets: [
+      'Stockton red‑zone TD rate 42% of drives (team avg 34%)',
+      'Alabama defense allows 1.7 passing TDs per game last 4 weeks',
+      'UGA using more tempo packages ( +9% pace) boosting total plays',
+      'Film: Stockton attacking seams vs split safety looks with success'
+    ],
+    analysis: 'Video shows Stockton consistently winning on layered seam concepts and leveraging play‑action to freeze linebackers. Alabama has recently conceded intermediate window throws inside the 25. Projection model lifts his median TD passes from 1.4 to 1.9 given matchup and pace uptick.'
+  },
+  {
+    id: 'edge_stockton_deep_ball',
+    gameId: 'uga-alabama-20250927',
+    player: 'Gunner Stockton',
+    team: 'UGA',
+    market: 'Longest Completion',
+    marketLine: 37.5,
+    fairLine: 42,
+    edgePct: 12,
+    confidence: 0.74,
+    bullets: [
+      'Stockton averages 2.6 deep attempts (20+ air yds) per half',
+      'Colbie Young target share on deep posts rising (28% → 34%)',
+      'Alabama has surrendered 5 completions 35+ yds past 3 games',
+      'Play‑action shot rate for UGA on 2nd & short at 46% (top 10)'
+    ],
+    analysis: 'Tendency self‑scout suggests early scripted shot off counter look. Alabama boundary corner rotating late in Cover 6 has produced exposure on deep post window. Probability model gives 57% for a completion ≥38 yds vs implied 47%.'
+  },
+  {
+    id: 'edge_haynes_king_passing',
+    gameId: 'gt-wake-forest-20250927',
+    player: 'Haynes King',
+    team: 'Georgia Tech',
+    market: 'Passing Yards',
+    marketLine: 235.5,
+    fairLine: 252,
+    edgePct: 7,
+    confidence: 0.72,
+    bullets: [
+      'Wake Forest pressure rate 27% (ACC median 31%) gives cleaner pockets',
+      'GT RPO usage up 11% last 3 games increasing YAC opportunity',
+      'King averaging 8.4 aDOT vs two‑high; Wake sits in two‑high 62%',
+      'Tempo splits: +6.5 plays per game when GT favored by <4 points'
+    ],
+    analysis: 'Film: King’s mechanical consistency improved on intermediate glance routes; Wake’s lighter boxes invite RPO glance digs. Projection model lifts mean yardage to 252 given expected play volume and efficiency bump vs sub‑average pressure.'
+  }
+]
+ ✓ Generating static pages (14/14) 
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    2.8 kB          146 kB
+├ ○ /_not-found                          872 B            85 kB
+├ λ /api/cfb/games/for-team              0 B                0 B
+├ ○ /api/cfb/games/today                 0 B                0 B
+├ λ /api/clips                           0 B                0 B
+├ λ /api/clips/player/[playerId]         0 B                0 B
+├ λ /api/clips/search                    0 B                0 B
+├ λ /api/edges/[gameId]                  0 B                0 B
+├ λ /api/games/[gameId]                  0 B                0 B
+├ λ /api/games/[gameId]/props            0 B                0 B
+├ λ /api/insights/[gameId]               0 B                0 B
+├ λ /api/nfl/evidence/player/[playerId]  0 B                0 B
+├ λ /api/nfl/evidence/search             0 B                0 B
+├ λ /api/nfl/games                       0 B                0 B
+├ λ /api/nfl/games/[id]                  0 B                0 B
+├ λ /api/nfl/props                       0 B                0 B
+├ λ /api/players/[playerId]              0 B                0 B
+├ λ /api/proxy-hls                       0 B                0 B
+├ λ /api/thumb/[clipId]                  0 B                0 B
+├ λ /api/tl/clips                        0 B                0 B
+├ λ /api/tl/index                        0 B                0 B
+├ λ /api/tl/search                       0 B                0 B
+├ λ /api/video/clip/[clipId]             0 B                0 B
+├ λ /api/video/mock/[clipId]             0 B                0 B
+├ ○ /apple-icon.png                      0 B                0 B
+├ ○ /demo                                14.1 kB         157 kB
+├ ○ /icon.png                            0 B                0 B
+├ λ /nfl                                 182 B            91 kB
+├ ○ /nfl-evidence                        2.75 kB        86.8 kB
+├ λ /nfl/games/[id]                      182 B            91 kB
+├ λ /nfl/players/[playerId]              182 B            91 kB
+├ ○ /realtime                            6.01 kB        95.9 kB
+└ ○ /webinar-demo                        9.17 kB         100 kB
++ First Load JS shared by all            84.1 kB
+  ├ chunks/741-75cfa60fedd35cdc.js       28.8 kB
+  ├ chunks/f3c09c60-3aa5b04f5c733c31.js  53.3 kB
+  ├ chunks/main-app-9a8c9425881fa496.js  219 B
+  └ chunks/webpack-00f597d58a199855.js   1.84 kB
+
+
+○  (Static)   prerendered as static content
+λ  (Dynamic)  server-rendered on demand using Node.js
+

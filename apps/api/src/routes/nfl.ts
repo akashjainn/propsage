@@ -1,6 +1,11 @@
 import { Router } from 'express'
 import { nflDataService } from '../services/nfl-data-service.js'
-import props from '../data/props.nfl.json' assert { type: 'json' }
+import fs from 'fs'
+import path from 'path'
+
+// Load demo props JSON via fs to avoid import assertion issues in Node 22
+const PROPS_PATH = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../data/props.nfl.json')
+const props = JSON.parse(fs.readFileSync(PROPS_PATH, 'utf-8'))
 
 const r = Router()
 

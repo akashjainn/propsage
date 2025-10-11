@@ -1,5 +1,80 @@
 [
-  { "id": "6786", "fullName": "CeeDee Lamb", "position": "WR", "teamId": "12", "teamAbbr": "DAL", "jersey": 88 },
-  { "id": "11533", "fullName": "Brandon Aubrey", "position": "K", "teamId": "12", "teamAbbr": "DAL", "jersey": 17 },
-  { "id": "9504", "fullName": "Kayshon Boutte", "position": "WR", "teamId": "20", "teamAbbr": "NE", "jersey": 80 }
+  { "id": "6786", "fullName": "CeeDee Lamb", "position": "WR", "teamId": "DAL", "teamAbbr": "DAL", "jersey": 88 },
+  { "id": "11533", "fullName": "Brandon Aubrey", "position": "K", "teamId": "DAL", "teamAbbr": "DAL", "jersey": 17 },
+  { "id": "4", "fullName": "Dak Prescott", "position": "QB", "teamId": "DAL", "teamAbbr": "DAL", "jersey": 4 },
+
+  { "id": "9504", "fullName": "Kayshon Boutte", "position": "WR", "teamId": "NE", "teamAbbr": "NE", "jersey": 80 },
+  { "id": "12ne", "fullName": "Drake Maye", "position": "QB", "teamId": "NE", "teamAbbr": "NE", "jersey": 10 },
+
+  { "id": "10nyg", "fullName": "Daniel Jones", "position": "QB", "teamId": "NYG", "teamAbbr": "NYG", "jersey": 8 },
+  { "id": "26nyg", "fullName": "Saquon Barkley", "position": "RB", "teamId": "NYG", "teamAbbr": "NYG", "jersey": 26 },
+
+  { "id": "1phi", "fullName": "Jalen Hurts", "position": "QB", "teamId": "PHI", "teamAbbr": "PHI", "jersey": 1 },
+  { "id": "11phi", "fullName": "A.J. Brown", "position": "WR", "teamId": "PHI", "teamAbbr": "PHI", "jersey": 11 },
+
+  { "id": "15kc", "fullName": "Patrick Mahomes", "position": "QB", "teamId": "KC", "teamAbbr": "KC", "jersey": 15 },
+  { "id": "87kc", "fullName": "Travis Kelce", "position": "TE", "teamId": "KC", "teamAbbr": "KC", "jersey": 87 },
+
+  { "id": "16jax", "fullName": "Trevor Lawrence", "position": "QB", "teamId": "JAX", "teamAbbr": "JAX", "jersey": 16 },
+  { "id": "17jax", "fullName": "Evan Engram", "position": "TE", "teamId": "JAX", "teamAbbr": "JAX", "jersey": 17 },
+
+  { "id": "9buf", "fullName": "Josh Allen", "position": "QB", "teamId": "BUF", "teamAbbr": "BUF", "jersey": 17 },
+  { "id": "14buf", "fullName": "Stefon Diggs", "position": "WR", "teamId": "BUF", "teamAbbr": "BUF", "jersey": 14 },
+
+  { "id": "9det", "fullName": "Jared Goff", "position": "QB", "teamId": "DET", "teamAbbr": "DET", "jersey": 16 },
+  { "id": "14det", "fullName": "Amon-Ra St. Brown", "position": "WR", "teamId": "DET", "teamAbbr": "DET", "jersey": 14 },
+
+  { "id": "10cin", "fullName": "Joe Burrow", "position": "QB", "teamId": "CIN", "teamAbbr": "CIN", "jersey": 9 },
+  { "id": "1cin", "fullName": "Ja'Marr Chase", "position": "WR", "teamId": "CIN", "teamAbbr": "CIN", "jersey": 1 },
+
+  { "id": "10was", "fullName": "Jayden Daniels", "position": "QB", "teamId": "WAS", "teamAbbr": "WAS", "jersey": 5 },
+  { "id": "17was", "fullName": "Terry McLaurin", "position": "WR", "teamId": "WAS", "teamAbbr": "WAS", "jersey": 17 },
+
+  { "id": "10lac", "fullName": "Justin Herbert", "position": "QB", "teamId": "LAC", "teamAbbr": "LAC", "jersey": 10 },
+  { "id": "13lac", "fullName": "Keenan Allen", "position": "WR", "teamId": "LAC", "teamAbbr": "LAC", "jersey": 13 },
+
+  { "id": "17ten", "fullName": "Will Levis", "position": "QB", "teamId": "TEN", "teamAbbr": "TEN", "jersey": 8 },
+  { "id": "22ten", "fullName": "Tyjae Spears", "position": "RB", "teamId": "TEN", "teamAbbr": "TEN", "jersey": 32 },
+
+  { "id": "1ari", "fullName": "Kyler Murray", "position": "QB", "teamId": "ARI", "teamAbbr": "ARI", "jersey": 1 },
+  { "id": "6ari", "fullName": "James Conner", "position": "RB", "teamId": "ARI", "teamAbbr": "ARI", "jersey": 6 },
+
+  { "id": "12tb", "fullName": "Baker Mayfield", "position": "QB", "teamId": "TB", "teamAbbr": "TB", "jersey": 6 },
+  { "id": "13tb", "fullName": "Mike Evans", "position": "WR", "teamId": "TB", "teamAbbr": "TB", "jersey": 13 },
+
+  { "id": "7sea", "fullName": "Geno Smith", "position": "QB", "teamId": "SEA", "teamAbbr": "SEA", "jersey": 7 },
+  { "id": "14sea", "fullName": "DK Metcalf", "position": "WR", "teamId": "SEA", "teamAbbr": "SEA", "jersey": 14 },
+
+  { "id": "1mia", "fullName": "Tua Tagovailoa", "position": "QB", "teamId": "MIA", "teamAbbr": "MIA", "jersey": 1 },
+  { "id": "10mia", "fullName": "Tyreek Hill", "position": "WR", "teamId": "MIA", "teamAbbr": "MIA", "jersey": 10 },
+
+  { "id": "15ind", "fullName": "Anthony Richardson", "position": "QB", "teamId": "IND", "teamAbbr": "IND", "jersey": 5 },
+  { "id": "28ind", "fullName": "Jonathan Taylor", "position": "RB", "teamId": "IND", "teamAbbr": "IND", "jersey": 28 },
+
+  { "id": "17no", "fullName": "Derek Carr", "position": "QB", "teamId": "NO", "teamAbbr": "NO", "jersey": 4 },
+  { "id": "12no", "fullName": "Chris Olave", "position": "WR", "teamId": "NO", "teamAbbr": "NO", "jersey": 12 },
+
+  { "id": "8bal", "fullName": "Lamar Jackson", "position": "QB", "teamId": "BAL", "teamAbbr": "BAL", "jersey": 8 },
+  { "id": "89bal", "fullName": "Zay Flowers", "position": "WR", "teamId": "BAL", "teamAbbr": "BAL", "jersey": 4 },
+
+  { "id": "7hou", "fullName": "C.J. Stroud", "position": "QB", "teamId": "HOU", "teamAbbr": "HOU", "jersey": 7 },
+  { "id": "3hou", "fullName": "Tank Dell", "position": "WR", "teamId": "HOU", "teamAbbr": "HOU", "jersey": 3 },
+
+  { "id": "4nyj", "fullName": "Aaron Rodgers", "position": "QB", "teamId": "NYJ", "teamAbbr": "NYJ", "jersey": 8 },
+  { "id": "17nyj", "fullName": "Garrett Wilson", "position": "WR", "teamId": "NYJ", "teamAbbr": "NYJ", "jersey": 17 },
+
+  { "id": "3den", "fullName": "Bo Nix", "position": "QB", "teamId": "DEN", "teamAbbr": "DEN", "jersey": 10 },
+  { "id": "14den", "fullName": "Courtland Sutton", "position": "WR", "teamId": "DEN", "teamAbbr": "DEN", "jersey": 14 },
+
+  { "id": "13sf", "fullName": "Brock Purdy", "position": "QB", "teamId": "SF", "teamAbbr": "SF", "jersey": 13 },
+  { "id": "19sf", "fullName": "Deebo Samuel", "position": "WR", "teamId": "SF", "teamAbbr": "SF", "jersey": 19 },
+
+  { "id": "9lar", "fullName": "Matthew Stafford", "position": "QB", "teamId": "LAR", "teamAbbr": "LAR", "jersey": 9 },
+  { "id": "10lar", "fullName": "Cooper Kupp", "position": "WR", "teamId": "LAR", "teamAbbr": "LAR", "jersey": 10 },
+
+  { "id": "7pit", "fullName": "Russell Wilson", "position": "QB", "teamId": "PIT", "teamAbbr": "PIT", "jersey": 3 },
+  { "id": "14pit", "fullName": "George Pickens", "position": "WR", "teamId": "PIT", "teamAbbr": "PIT", "jersey": 14 },
+
+  { "id": "4cle", "fullName": "Deshaun Watson", "position": "QB", "teamId": "CLE", "teamAbbr": "CLE", "jersey": 4 },
+  { "id": "2cle", "fullName": "Amari Cooper", "position": "WR", "teamId": "CLE", "teamAbbr": "CLE", "jersey": 2 }
 ]
