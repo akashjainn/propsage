@@ -46,7 +46,11 @@ r.get('/games', async (req, res) => {
     const season = getSeason(req)
     const useDemo = String(req.query.demo).toLowerCase() === '1' || String(req.query.demo).toLowerCase() === 'true'
     const games = useDemo
-      ? require('../data/week5.nfl.games.json')
+      ? readJsonFromCandidates<any[]>([
+          path.resolve(__dirname, '../data/week5.nfl.games.json'),
+          path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.games.json'),
+          path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.games.json')
+        ]) || []
       : await nflDataService.getWeekGames(week, season)
     res.json({ week, season, count: games.length, games })
   } catch (err) {
@@ -60,9 +64,13 @@ r.get('/players', async (req, res) => {
     const week = getWeek(req)
     const season = getSeason(req)
     const useDemo = String(req.query.demo).toLowerCase() === '1' || String(req.query.demo).toLowerCase() === 'true'
-      let players = useDemo
-        ? require('../data/week5.nfl.players.json')
-        : await nflDataService.getWeekPlayers(week, season)
+    let players = useDemo
+      ? readJsonFromCandidates<any[]>([
+          path.resolve(__dirname, '../data/week5.nfl.players.json'),
+          path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.players.json'),
+          path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.players.json')
+        ]) || []
+      : await nflDataService.getWeekPlayers(week, season)
     const team = (req.query.team as string | undefined)?.toUpperCase()
     if (team) players = players.filter((p: any) => p.teamAbbr?.toUpperCase() === team)
     res.json({ week, season, count: players.length, players })
@@ -78,9 +86,13 @@ r.get('/games/:id', async (req, res) => {
     const week = getWeek(req)
     const season = getSeason(req)
     const useDemo = String(req.query.demo).toLowerCase() === '1' || String(req.query.demo).toLowerCase() === 'true'
-      const schedule = useDemo
-        ? require('../data/week5.nfl.games.json')
-        : await nflDataService.getWeekGames(week, season)
+    const schedule = useDemo
+      ? readJsonFromCandidates<any[]>([
+          path.resolve(__dirname, '../data/week5.nfl.games.json'),
+          path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.games.json'),
+          path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.games.json')
+        ]) || []
+      : await nflDataService.getWeekGames(week, season)
     const game = (schedule as any[]).find(g => String(g.id) === id)
     if (!game) return res.status(404).json({ error: 'Game not found' })
     return res.json({ game })
@@ -96,9 +108,13 @@ r.get('/props', async (req, res) => {
     const week = getWeek(req)
     const season = getSeason(req)
     const useDemo = String(req.query.demo).toLowerCase() === '1' || String(req.query.demo).toLowerCase() === 'true'
-      const schedule = useDemo
-        ? require('../data/week5.nfl.games.json')
-        : await nflDataService.getWeekGames(week, season)
+    const schedule = useDemo
+      ? readJsonFromCandidates<any[]>([
+          path.resolve(__dirname, '../data/week5.nfl.games.json'),
+          path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.games.json'),
+          path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.games.json')
+        ]) || []
+      : await nflDataService.getWeekGames(week, season)
     const weekTeams = new Set((schedule as Array<{ home: { abbreviation: string }, away: { abbreviation: string } }>).
       flatMap(g => [g.home.abbreviation, g.away.abbreviation]))
     let list = (props as any[]).filter(p => weekTeams.has(p.team))
