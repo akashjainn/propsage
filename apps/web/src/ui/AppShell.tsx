@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { tokens } from './theme';
 // TabBar removed per request (dashboard/players/insights/settings bottom bar)
 
@@ -35,13 +36,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <header className="sticky top-0 z-30 border-b border-white/10 backdrop-blur-xl bg-[#0b1420]/80">
           <div className="mx-auto max-w-6xl px-4 md:px-6 py-3 md:py-4 flex items-center justify-between gap-4">
             <Logo />
-            <div className="hidden md:flex items-center gap-6 text-sm">
+            <nav className="hidden md:flex items-center gap-6 text-sm">
+              <Link href="/nfl" className="text-white/80 hover:text-white transition-colors">NFL</Link>
+              <Link href="/nfl/msf" className="text-white/80 hover:text-white transition-colors">NFL (Live)</Link>
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 bg-green-400 rounded-full animate-pulse" />
                 <span className="text-white/70">Live Analysis</span>
               </div>
-              <div className="text-white/60 font-medium">Market · Video Intelligence</div>
-            </div>
+            </nav>
           </div>
         </header>
         <main className="mx-auto max-w-6xl px-4 md:px-6 py-6 md:py-8 space-y-12">{children}</main>

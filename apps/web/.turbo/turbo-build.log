@@ -13,11 +13,11 @@ Critical dependency: the request of a dependency is an expression
 
 Import trace for requested module:
 ../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
-   Skipping linting
 ../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
-   Checking validity of types ...
+   Skipping linting
 ../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
 ../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+   Checking validity of types ...
 ../../node_modules/.pnpm/@prisma+instrumentation@6.15.0_@opentelemetry+api@1.9.0/node_modules/@prisma/instrumentation/dist/index.js
 ../../node_modules/.pnpm/@sentry+node@10.15.0/node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
 ../../node_modules/.pnpm/@sentry+node@10.15.0/node_modules/@sentry/node/build/cjs/index.js
@@ -106,7 +106,7 @@ TopEdgesList: edges: [
    Collecting build traces ...
 
 Route (app)                              Size     First Load JS
-┌ ○ /                                    2.8 kB          146 kB
+┌ ○ /                                    2.8 kB          152 kB
 ├ ○ /_not-found                          872 B            85 kB
 ├ λ /api/cfb/games/for-team              0 B                0 B
 ├ ○ /api/cfb/games/today                 0 B                0 B
@@ -135,7 +135,7 @@ Route (app)                              Size     First Load JS
 ├ λ /api/video/clip/[clipId]             0 B                0 B
 ├ λ /api/video/mock/[clipId]             0 B                0 B
 ├ ○ /apple-icon.png                      0 B                0 B
-├ ○ /demo                                14.3 kB         157 kB
+├ ○ /demo                                14.3 kB         164 kB
 ├ ○ /icon.png                            0 B                0 B
 ├ λ /nfl                                 183 B            91 kB
 ├ ○ /nfl-evidence                        2.75 kB        86.8 kB
@@ -143,7 +143,7 @@ Route (app)                              Size     First Load JS
 ├ λ /nfl/msf                             183 B            91 kB
 ├ λ /nfl/msf/game/[id]                   138 B          84.2 kB
 ├ λ /nfl/players/[playerId]              183 B            91 kB
-├ ○ /realtime                            6.01 kB        95.9 kB
+├ ○ /realtime                            6.05 kB         103 kB
 └ ○ /webinar-demo                        9.17 kB         100 kB
 + First Load JS shared by all            84.1 kB
   ├ chunks/741-75cfa60fedd35cdc.js       28.8 kB
