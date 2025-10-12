@@ -1,9 +1,28 @@
 import { config } from '../config.js'
 
+function seasonPath(): string {
+  if (config.msfSeason) return config.msfSeason
+  const now = new Date()
+  const y = now.getFullYear()
+  const month = now.getMonth() + 1
+  // NFL regular typically starts Sep; treat Aug+ as current-year regular, otherwise previous-year
+  const seasonYear = month >= 8 ? y : (y - 1)
+  return `${seasonYear}-regular`
+}
+
+function yyyymmdd(d: Date): string {
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}${m}${day}`
+}
+
 // Minimal MSF client with Basic Auth and simple retries
 async function fetchMSF(path: string, params?: Record<string, string | number | boolean>): Promise<any> {
   if (!config.msfApiKey) throw new Error('MSF_API_KEY missing')
-  const url = new URL(path, config.msfBaseUrl.endsWith('/') ? config.msfBaseUrl : config.msfBaseUrl + '/')
+  // MSF requires sport/season segment; allow callers to pass absolute or relative
+  const base = config.msfBaseUrl.replace(/\/$/, '')
+  const url = new URL(path.startsWith('http') ? path : `${base}/${seasonPath()}/${path}`)
   if (params) {
     for (const [k, v] of Object.entries(params)) {
       if (v !== undefined && v !== null) url.searchParams.set(k, String(v))
@@ -39,14 +58,13 @@ async function fetchMSF(path: string, params?: Record<string, string | number | 
 
 // Public adapter surface (subset; expand later)
 export const msfAdapter = {
-  getSeasonInfo: async () => {
-    // MSF has season endpoints; placeholder to allow wiring
-    return { season: new Date().getFullYear(), phase: 'REG' as 'PRE'|'REG'|'POST' }
-  },
-  getWeekSchedule: async (season: number, week: number) => {
-    // Endpoint example: /games.json?season=YYYY-YYYY-regular&date=...
-    // Concrete mapping to be completed with MSF docs during live setup
-    const data = await fetchMSF('games.json', {})
+  getSeasonInfo: async () => ({ season: seasonPath(), phase: 'REG' as 'PRE'|'REG'|'POST' }),
+  // For now, fetch a 7-day window around today; MSF supports date ranges like 20251001-20251007
+  getWeekSchedule: async (_season: number, _week: number) => {
+    const start = new Date()
+    const end = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    const dateRange = `${yyyymmdd(start)}-${yyyymmdd(end)}`
+    const data = await fetchMSF('games.json', { date: dateRange })
     return data
   },
   getGameBoxScore: async (gameId: string) => {

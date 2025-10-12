@@ -19,6 +19,7 @@ interface AppConfig {
   msfBaseUrl: string
   msfEnabled: boolean
   msfPollingEnabled: boolean
+  msfSeason?: string
 }
 
 function bool(val: string | undefined, fallback: boolean) {
@@ -55,6 +56,8 @@ export const config: AppConfig = {
   msfBaseUrl: process.env.MSF_BASE_URL || 'https://api.mysportsfeeds.com/v2.1/pull/nfl',
   msfEnabled: bool(process.env.MSF_ENABLED, false) && !!process.env.MSF_API_KEY,
   msfPollingEnabled: bool(process.env.MSF_POLLING_ENABLED, false),
+  // e.g., "2025-regular"; if unset, adapter will compute based on current date
+  msfSeason: process.env.MSF_SEASON || undefined,
 }
 
 // Export demo mode for easy access

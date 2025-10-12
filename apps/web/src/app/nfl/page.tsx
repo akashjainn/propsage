@@ -12,9 +12,11 @@ async function fetchJson<T>(path: string): Promise<T> {
 export default async function NFLPage() {
   const week = 5
   const demo = true
-  const [games, props] = await Promise.all([
+  // Keep existing demo-backed NFL data for now
+  const [games, props, msf] = await Promise.all([
     fetchJson<any>(`/api/nfl/games?week=${week}&demo=${demo ? '1' : '0'}`),
-    fetchJson<any>(`/api/nfl/props?week=${week}&demo=${demo ? '1' : '0'}`)
+    fetchJson<any>(`/api/nfl/props?week=${week}&demo=${demo ? '1' : '0'}`),
+    fetchJson<any>(`/api/nfl/msf/week/${week}/games`).catch(() => ({ games: [] }))
   ])
 
   const byTeam = new Map<string, any[]>()
@@ -28,8 +30,27 @@ export default async function NFLPage() {
     <div className="mx-auto max-w-5xl p-6 space-y-6">
       <h1 className="text-2xl font-semibold">NFL Week {week}</h1>
       <div className="text-sm text-blue-700">
-        <Link href={`/api/nfl/msf/week/${week}/games`} className="underline">View MSF Live Week {week} (raw)</Link>
+        <Link href={`/nfl/msf?week=${week}`} className="underline">Open MSF Live Week {week}</Link>
       </div>
+      <section>
+        <h2 className="text-xl font-semibold mb-2">Live (MSF) Games</h2>
+        <ul className="space-y-2">
+          {(msf.games || []).map((g: any) => (
+            <li key={g.id} className="border rounded">
+              <Link href={`/nfl/msf/game/${encodeURIComponent(g.id)}?week=${week}`} className="p-3 flex items-center justify-between hover:bg-gray-50 block">
+                <div>
+                  <div className="font-medium">{g.away?.abbr} @ {g.home?.abbr}</div>
+                  <div className="text-sm text-gray-500">{g.startTime ? new Date(g.startTime).toLocaleString() : ''}</div>
+                </div>
+                <div className="text-sm text-gray-600">{g.status} {g.quarter ? `Q${g.quarter}` : ''} {g.clock || ''} {g.score ? `· ${g.score.away}-${g.score.home}` : ''}</div>
+              </Link>
+            </li>
+          ))}
+          {(!msf.games || msf.games.length === 0) && (
+            <li className="text-sm text-gray-500">No live games found from MSF for this window.</li>
+          )}
+        </ul>
+      </section>
       <section>
         <h2 className="text-xl font-semibold mb-2">Games</h2>
         <ul className="space-y-2">
