@@ -4,19 +4,54 @@ import Link from 'next/link'
 export const dynamic = 'force-dynamic'
 
 async function fetchJson<T>(path: string): Promise<T> {
-  const res = await fetch(path, { cache: 'no-store' })
-  if (!res.ok) throw new Error(`Failed: ${res.status}`)
+  // For server components, we need to use absolute URLs
+  let baseUrl: string
+  
+  if (typeof window === 'undefined') {
+    // Server-side: construct absolute URL to our own Next.js API routes
+    baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3000'
+  } else {
+    // Client-side: use relative URLs
+    baseUrl = ''
+  }
+  
+  const url = path.startsWith('http') ? path : `${baseUrl}${path}`
+  const res = await fetch(url, { 
+    cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  if (!res.ok) {
+    throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`)
+  }
   return res.json()
 }
 
 export default async function NFLPage() {
   const week = 5
   const demo = true
+  
   // Keep existing demo-backed NFL data for now
+  // Add more robust error handling for each API call
   const [games, props, msf] = await Promise.all([
-    fetchJson<any>(`/api/nfl/games?week=${week}&demo=${demo ? '1' : '0'}`),
-    fetchJson<any>(`/api/nfl/props?week=${week}&demo=${demo ? '1' : '0'}`),
-    fetchJson<any>(`/api/nfl/msf/week/${week}/games`).catch(() => ({ games: [] }))
+    fetchJson<any>(`/api/nfl/games?week=${week}&demo=${demo ? '1' : '0'}`)
+      .catch((e) => {
+        console.error('Failed to fetch NFL games:', e.message)
+        return { games: [] }
+      }),
+    fetchJson<any>(`/api/nfl/props?week=${week}&demo=${demo ? '1' : '0'}`)
+      .catch((e) => {
+        console.error('Failed to fetch NFL props:', e.message)
+        return { props: [] }
+      }),
+    fetchJson<any>(`/api/nfl/msf/week/${week}/games`)
+      .catch((e) => {
+        console.error('Failed to fetch MSF games (this is expected if MSF is not configured):', e.message)
+        return { games: [] }
+      })
   ])
 
   const byTeam = new Map<string, any[]>()

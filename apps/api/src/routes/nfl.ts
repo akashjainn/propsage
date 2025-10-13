@@ -18,6 +18,19 @@ function readJsonFromCandidates<T = any>(candidates: string[]): T {
   return JSON.parse(fs.readFileSync(p, 'utf-8')) as T
 }
 
+function maybeReadJsonFromCandidates<T = any>(candidates: string[]): T | null {
+  for (const p of candidates) {
+    if (fs.existsSync(p)) {
+      try {
+        return JSON.parse(fs.readFileSync(p, 'utf-8')) as T
+      } catch {
+        // fallthrough to try next candidate
+      }
+    }
+  }
+  return null
+}
+
 // Note: do NOT load demo props at module init to avoid startup failures in production.
 // We'll lazy-load within the route only when demo=1 is requested.
 
@@ -40,11 +53,11 @@ r.get('/games', async (req, res) => {
     const season = getSeason(req)
     const useDemo = String(req.query.demo).toLowerCase() === '1' || String(req.query.demo).toLowerCase() === 'true'
     const games = useDemo
-      ? readJsonFromCandidates<any[]>([
+      ? (maybeReadJsonFromCandidates<any[]>([
           path.resolve(__dirname, '../data/week5.nfl.games.json'),
           path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.games.json'),
           path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.games.json')
-        ]) || []
+        ]) || [])
       : await nflDataService.getWeekGames(week, season)
     res.json({ week, season, count: games.length, games })
   } catch (err) {
@@ -59,11 +72,11 @@ r.get('/players', async (req, res) => {
     const season = getSeason(req)
     const useDemo = String(req.query.demo).toLowerCase() === '1' || String(req.query.demo).toLowerCase() === 'true'
     let players = useDemo
-      ? readJsonFromCandidates<any[]>([
+      ? (maybeReadJsonFromCandidates<any[]>([
           path.resolve(__dirname, '../data/week5.nfl.players.json'),
           path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.players.json'),
           path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.players.json')
-        ]) || []
+        ]) || [])
       : await nflDataService.getWeekPlayers(week, season)
     const team = (req.query.team as string | undefined)?.toUpperCase()
     if (team) players = players.filter((p: any) => p.teamAbbr?.toUpperCase() === team)
@@ -81,11 +94,11 @@ r.get('/games/:id', async (req, res) => {
     const season = getSeason(req)
     const useDemo = String(req.query.demo).toLowerCase() === '1' || String(req.query.demo).toLowerCase() === 'true'
     const schedule = useDemo
-      ? readJsonFromCandidates<any[]>([
+      ? (maybeReadJsonFromCandidates<any[]>([
           path.resolve(__dirname, '../data/week5.nfl.games.json'),
           path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.games.json'),
           path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.games.json')
-        ]) || []
+        ]) || [])
       : await nflDataService.getWeekGames(week, season)
     const game = (schedule as any[]).find(g => String(g.id) === id)
     if (!game) return res.status(404).json({ error: 'Game not found' })
@@ -103,21 +116,21 @@ r.get('/props', async (req, res) => {
     const season = getSeason(req)
     const useDemo = String(req.query.demo).toLowerCase() === '1' || String(req.query.demo).toLowerCase() === 'true'
     const schedule = useDemo
-      ? readJsonFromCandidates<any[]>([
+      ? (maybeReadJsonFromCandidates<any[]>([
           path.resolve(__dirname, '../data/week5.nfl.games.json'),
           path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.games.json'),
           path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.games.json')
-        ]) || []
+        ]) || [])
       : await nflDataService.getWeekGames(week, season)
     const weekTeams = new Set((schedule as Array<{ home: { abbreviation: string }, away: { abbreviation: string } }>).
       flatMap(g => [g.home.abbreviation, g.away.abbreviation]))
     // Lazy-load demo props only when requested; otherwise, return empty until live source is added
     const demoProps: any[] = useDemo
-      ? readJsonFromCandidates<any[]>([
+      ? (maybeReadJsonFromCandidates<any[]>([
           path.resolve(__dirname, '../data/props.nfl.json'),
           path.resolve(process.cwd(), 'apps/api/src/data/props.nfl.json'),
           path.resolve(process.cwd(), 'apps/api/dist/data/props.nfl.json')
-        ]) || []
+        ]) || [])
       : []
     let list = demoProps.filter(p => weekTeams.has(p.team))
     if (team) list = list.filter(p => p.team === String(team))

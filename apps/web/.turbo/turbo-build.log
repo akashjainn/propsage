@@ -11,13 +11,13 @@
 ../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
 Critical dependency: the request of a dependency is an expression
 
+   Skipping linting
 Import trace for requested module:
 ../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+   Checking validity of types ...
 ../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
-   Skipping linting
 ../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
 ../../node_modules/.pnpm/@opentelemetry+instrumentat_04f370d515cee0be955272f826166073/node_modules/@opentelemetry/instrumentation/build/esm/index.js
-   Checking validity of types ...
 ../../node_modules/.pnpm/@prisma+instrumentation@6.15.0_@opentelemetry+api@1.9.0/node_modules/@prisma/instrumentation/dist/index.js
 ../../node_modules/.pnpm/@sentry+node@10.15.0/node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
 ../../node_modules/.pnpm/@sentry+node@10.15.0/node_modules/@sentry/node/build/cjs/index.js
