@@ -1,11 +1,14 @@
 [phases.setup]
-nixPkgs = ['nodejs', 'pnpm']
+nixPkgs = ['nodejs']
 
 [phases.install]
-cmd = 'pnpm install --frozen-lockfile'
+cmd = 'npm install -g corepack@0.24.1 && corepack enable && pnpm install --frozen-lockfile'
 
 [phases.build]
 cmd = 'pnpm --filter @propsage/core build && pnpm --filter @propsage/api build'
 
 [start]
-cmd = 'cd apps/api && PORT=${PORT:-8080} node dist/index.js'
+cmd = 'cd apps/api && node dist/index.js'
+
+[variables]
+NODE_ENV = 'production'
