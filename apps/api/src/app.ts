@@ -9,6 +9,7 @@ import { nflEvidenceRoutes } from './routes/nfl-evidence.js'
 import nfl from './routes/nfl.js'
 import nflSD from './routes/nfl.sportsdata.js'
 import nflMSF from './routes/nfl.msf.js'
+// import { alignmentRoutes } from './routes/alignment.js' // Temporarily disabled due to imports
 // Demo enterprise routes
 import demoGames from './routes/demo.games.js'
 import demoPlayers from './routes/demo.players.js'
@@ -87,6 +88,7 @@ export function createApp() {
   app.use('/nfl', nfl)
   app.use('/nfl/sd', nflSD)
   app.use('/nfl/msf', nflMSF)
+  // app.use('/alignment', alignmentRoutes) // Temporarily disabled due to imports
 
   // Demo enterprise routes
   app.use('/games', demoGames)

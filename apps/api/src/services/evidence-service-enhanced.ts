@@ -58,6 +58,9 @@ export function getVideoEvidenceForProps(propCategories: string[], playerId?: st
   const cached = evidenceCache.get(cacheKey);
   if (cached) return cached;
 
+  // Get R2 config from env
+  const R2_ENDPOINT = process.env.R2_ENDPOINT || '';
+  const VIDEO_BUCKET_NAME = process.env.VIDEO_BUCKET_NAME || '';
   for (const category of propCategories) {
     if (PROP_MAPPINGS[category]) {
       const categoryMoments = PROP_MAPPINGS[category];
@@ -65,9 +68,15 @@ export function getVideoEvidenceForProps(propCategories: string[], playerId?: st
       const evidenceEntries = categoryMoments.map((mapping: any) => {
         const videoEntry = PROCESSED_VIDEO_LIBRARY.find(video => video.filename === mapping.filename);
         if (videoEntry) {
+          // Construct video URL (public R2 URL pattern)
+          let url = '';
+          if (R2_ENDPOINT && VIDEO_BUCKET_NAME && videoEntry.filename) {
+            url = `${R2_ENDPOINT}/${VIDEO_BUCKET_NAME}/${encodeURIComponent(videoEntry.filename)}`;
+          }
           return {
             momentId: mapping.momentId,
             filename: mapping.filename,
+            url,
             actions: videoEntry.actions || [],
             players: videoEntry.playerNames || [],
             teams: videoEntry.teams,
