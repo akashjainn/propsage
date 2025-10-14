@@ -75,6 +75,52 @@ r.get('/scores', async (req, res) => {
   }
 })
 
+// GET /nfl/sd/scoresByDate?date=YYYY-MM-DD
+r.get('/scoresByDate', async (req, res) => {
+  try {
+    const date = String(req.query.date || '').slice(0, 10)
+    if (!/\d{4}-\d{2}-\d{2}/.test(date)) return res.status(400).json({ error: 'date=YYYY-MM-DD required' })
+    const rows = await sportsDataNFL.scoresByDate(date)
+    res.json({ date, count: rows.length, scores: rows })
+  } catch (e) {
+    res.status(500).json({ error: (e as Error).message })
+  }
+})
+
+// GET /nfl/sd/odds/books
+r.get('/odds/books', async (_req, res) => {
+  try {
+    const rows = await sportsDataNFL.activeSportsbooks()
+    res.json({ count: rows.length, books: rows })
+  } catch (e) {
+    res.status(500).json({ error: (e as Error).message })
+  }
+})
+
+// GET /nfl/sd/oddsByDate?date=YYYY-MM-DD
+r.get('/oddsByDate', async (req, res) => {
+  try {
+    const date = String(req.query.date || '').slice(0, 10)
+    if (!/\d{4}-\d{2}-\d{2}/.test(date)) return res.status(400).json({ error: 'date=YYYY-MM-DD required' })
+    const rows = await sportsDataNFL.gameOddsByDate(date)
+    res.json({ date, count: rows.length, games: rows })
+  } catch (e) {
+    res.status(500).json({ error: (e as Error).message })
+  }
+})
+
+// GET /nfl/sd/propsByGame/:gameId
+r.get('/propsByGame/:gameId', async (req, res) => {
+  try {
+    const gameId = parseInt(String(req.params.gameId || '0'), 10)
+    if (!Number.isFinite(gameId) || gameId <= 0) return res.status(400).json({ error: 'invalid gameId' })
+    const rows = await sportsDataNFL.playerPropsByGameId(gameId)
+    res.json({ gameId, count: rows.length, props: rows })
+  } catch (e) {
+    res.status(500).json({ error: (e as Error).message })
+  }
+})
+
 // GET /nfl/sd/players?team=DAL or all=1
 r.get('/players', async (req, res) => {
   try {

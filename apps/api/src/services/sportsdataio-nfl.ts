@@ -71,6 +71,10 @@ export const sportsDataNFL = {
   },
 
   // Scores
+  scoresByDate(date: string): Promise<any[]> {
+    // date format YYYY-MM-DD
+    return fromCache(cache5m, `scoresByDate:${date}`, () => get<any[]>(`scores/json/ScoresByDate/${date}`))
+  },
   scoresByWeek(season: string, week: number): Promise<any[]> {
     return fromCache(cache5m, `scores:${season}:${week}`, () => get<any[]>(`scores/json/ScoresByWeek/${season}/${week}`))
   },
@@ -97,5 +101,16 @@ export const sportsDataNFL = {
   // Stats examples
   playerGameStatsByWeek(season: string, week: number): Promise<any[]> {
     return fromCache(cache5m, `stats:playerGame:${season}:${week}`, () => get<any[]>(`stats/json/PlayerGameStatsByWeek/${season}/${week}`))
+  },
+
+  // Betting / Odds / Props (requires plan access)
+  activeSportsbooks(): Promise<any[]> {
+    return fromCache(cache30m, `odds:books`, () => get<any[]>(`odds/json/ActiveSportsbooks`))
+  },
+  gameOddsByDate(date: string): Promise<any[]> {
+    return fromCache(cache5m, `odds:byDate:${date}`, () => get<any[]>(`odds/json/GameOddsByDate/${date}`))
+  },
+  playerPropsByGameId(gameId: number): Promise<any[]> {
+    return fromCache(cache5m, `props:byGame:${gameId}`, () => get<any[]>(`odds/json/PlayerPropsByGameID/${gameId}`))
   }
 }
