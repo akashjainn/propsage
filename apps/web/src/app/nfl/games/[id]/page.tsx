@@ -1,5 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
+import { AppShell, SectionHeader } from '@/ui'
+import PropCard from '@/components/PropCard'
 
 export const dynamic = 'force-dynamic'
 
@@ -27,19 +29,20 @@ export default async function NFLGamePage({ params, searchParams }: { params: { 
   const relevantProps = (propsRes.props || []).filter((p: any) => p.team === homeAbbr || p.team === awayAbbr)
 
   return (
-    <div className="mx-auto max-w-6xl p-6 space-y-8">
-      <div>
-        <h1 className="text-2xl font-semibold">{awayAbbr} @ {homeAbbr}</h1>
-        <div className="text-sm text-gray-500">{new Date(game.date).toLocaleString()} · {game.venue}</div>
-      </div>
+    <AppShell>
+      <SectionHeader
+        title={`${awayAbbr} @ ${homeAbbr}`}
+        subtitle={`${new Date(game.date).toLocaleString()} · ${game.venue}`}
+        action={<Link href={`/nfl?week=${week}`} className="text-sm text-white/80 hover:text-white">Back to Week {week}</Link>}
+      />
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h2 className="font-semibold mb-2">{homeAbbr} Roster</h2>
+          <h3 className="font-semibold mb-2">{homeAbbr} Roster</h3>
           <ul className="space-y-1">
             {homePlayers.map((p: any) => (
               <li key={p.id} className="text-sm">
-                <Link href={`/nfl/players/${encodeURIComponent(p.id)}?week=${week}&demo=${demo ? '1' : '0'}`} className="hover:underline">
+                <Link href={`/nfl/players/${encodeURIComponent(p.id)}?week=${week}&demo=${demo ? '1' : '0'}`} className="text-white/80 hover:text-white">
                   {p.fullName} {p.position ? `(${p.position})` : ''}
                 </Link>
               </li>
@@ -47,11 +50,11 @@ export default async function NFLGamePage({ params, searchParams }: { params: { 
           </ul>
         </div>
         <div>
-          <h2 className="font-semibold mb-2">{awayAbbr} Roster</h2>
+          <h3 className="font-semibold mb-2">{awayAbbr} Roster</h3>
           <ul className="space-y-1">
             {awayPlayers.map((p: any) => (
               <li key={p.id} className="text-sm">
-                <Link href={`/nfl/players/${encodeURIComponent(p.id)}?week=${week}&demo=${demo ? '1' : '0'}`} className="hover:underline">
+                <Link href={`/nfl/players/${encodeURIComponent(p.id)}?week=${week}&demo=${demo ? '1' : '0'}`} className="text-white/80 hover:text-white">
                   {p.fullName} {p.position ? `(${p.position})` : ''}
                 </Link>
               </li>
@@ -60,17 +63,25 @@ export default async function NFLGamePage({ params, searchParams }: { params: { 
         </div>
       </section>
 
-      <section>
-        <h2 className="font-semibold mb-2">Props</h2>
+      <section className="mt-8">
+        <SectionHeader title="Props" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {relevantProps.map((p: any) => (
-            <div key={p.propId} className="border rounded p-3 text-sm flex justify-between">
-              <span>{p.team} · {p.playerName} · {p.stat} ({p.book})</span>
-              <span>{p.marketLine}</span>
-            </div>
+            <PropCard
+              key={p.propId}
+              item={{
+                id: p.propId,
+                playerName: p.playerName,
+                team: p.team,
+                stat: p.stat,
+                marketLine: p.marketLine,
+                fairLine: p.fairLine ?? null,
+                book: p.book,
+              }}
+            />
           ))}
         </div>
       </section>
-    </div>
+    </AppShell>
   )
 }

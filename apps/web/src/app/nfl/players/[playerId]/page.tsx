@@ -1,5 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
+import { AppShell, SectionHeader } from '@/ui'
+import PropCard from '@/components/PropCard'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,36 +27,45 @@ export default async function NFLPlayerPage({ params, searchParams }: { params: 
   const clips = evidenceRes.clips || []
 
   return (
-    <div className="mx-auto max-w-5xl p-6 space-y-8">
-      <div>
-        <div className="text-sm text-gray-500"><Link href="/nfl">NFL</Link> / Player</div>
-        <h1 className="text-2xl font-semibold">{player?.fullName || 'Player'} {player?.position ? `(${player.position})` : ''} · {player?.teamAbbr}</h1>
-      </div>
+    <AppShell>
+      <SectionHeader
+        title={`${player?.fullName || 'Player'} ${player?.position ? `(${player.position})` : ''} · ${player?.teamAbbr ?? ''}`}
+        subtitle={<span className="text-white/70 text-sm">NFL / Player</span> as any}
+        action={<Link href={`/nfl?week=${week}`} className="text-sm text-white/80 hover:text-white">Back to Week {week}</Link>}
+      />
 
       <section>
-        <h2 className="font-semibold mb-2">Props</h2>
+        <SectionHeader title="Props" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {props.map((p: any) => (
-            <div key={p.propId} className="border rounded p-3 text-sm flex justify-between">
-              <span>{p.team} · {p.playerName} · {p.stat} ({p.book})</span>
-              <span>{p.marketLine}</span>
-            </div>
+            <PropCard
+              key={p.propId}
+              item={{
+                id: p.propId,
+                playerName: p.playerName,
+                team: p.team,
+                stat: p.stat,
+                marketLine: p.marketLine,
+                fairLine: p.fairLine ?? null,
+                book: p.book,
+              }}
+            />
           ))}
         </div>
       </section>
 
-      <section>
-        <h2 className="font-semibold mb-2">Evidence Clips</h2>
-        {clips.length === 0 && <div className="text-sm text-gray-500">No clips available.</div>}
+      <section className="mt-8">
+        <SectionHeader title="Evidence Clips" />
+        {clips.length === 0 && <div className="text-sm text-white/60">No clips available.</div>}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {clips.map((c: any) => (
-            <a key={c.id} href={c.url} target="_blank" className="border rounded p-3 text-sm hover:bg-gray-50">
-              <div className="font-medium">{c.title || 'Clip'}</div>
-              <div className="text-xs text-gray-500">{c.duration ? `${Math.round(c.duration)}s` : ''} {c.tags?.length ? `· ${c.tags.join(', ')}` : ''}</div>
+            <a key={c.id} href={c.url} target="_blank" className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm hover:bg-white/10 transition-colors">
+              <div className="font-medium text-white">{c.title || 'Clip'}</div>
+              <div className="text-xs text-white/60">{c.duration ? `${Math.round(c.duration)}s` : ''} {c.tags?.length ? `· ${c.tags.join(', ')}` : ''}</div>
             </a>
           ))}
         </div>
       </section>
-    </div>
+    </AppShell>
   )
 }

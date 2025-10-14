@@ -1,91 +1,48 @@
-import React from 'react'
-import Link from 'next/link'
-import { loadNFLGames, loadNFLProps, filterPropsForWeek } from './demo-data'
+import React from 'react';
+import Link from 'next/link';
+import { AppShell, SectionHeader } from '@/ui';
+import { loadNFLGames, loadNFLProps, filterPropsForWeek } from './demo-data';
+import NFLClient from './NFLClient';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
-export default async function NFLPage() {
-  const week = 5
-  const demo = true
-  
+export default function NFLPage() {
+  const week = 5;
+  const demo = true;
+
   // Load data directly from demo files to avoid API dependency issues
-  const allGames = loadNFLGames()
-  const allProps = loadNFLProps()
-  const weekProps = filterPropsForWeek(allProps, allGames)
-  
-  // Structure data in expected format
-  const games = { games: allGames, count: allGames.length }
-  const props = { props: weekProps, count: weekProps.length }
-  const msf = { games: [] } // MSF disabled for now
+  const allGames = loadNFLGames();
+  const allProps = loadNFLProps();
+  const weekProps = filterPropsForWeek(allProps, allGames);
 
-  const byTeam = new Map<string, any[]>()
-  for (const p of props.props || []) {
-    const arr = byTeam.get(p.team) || []
-    arr.push(p)
-    byTeam.set(p.team, arr)
-  }
+  // Transform games to GameLite for GamesRail
+  const gamesForRail = allGames.map((g) => ({
+    id: g.id,
+    start: g.date,
+    state: 'pre' as const,
+    home: { id: g.home.id, name: g.home.name, short: g.home.name, abbrev: g.home.abbreviation },
+    away: { id: g.away.id, name: g.away.name, short: g.away.name, abbrev: g.away.abbreviation },
+    venue: { name: g.venue },
+  }));
+  const byTeamEntries = Array.from(
+    weekProps.reduce((m: Map<string, any[]>, p: any) => {
+      const arr = m.get(p.team) || [];
+      arr.push(p);
+      m.set(p.team, arr);
+      return m;
+    }, new Map<string, any[]>()).entries()
+  );
 
   return (
-    <div className="mx-auto max-w-5xl p-6 space-y-6">
-      <h1 className="text-2xl font-semibold">NFL Week {week}</h1>
-      <div className="text-sm text-blue-700">
-        <Link href={`/nfl/msf?week=${week}`} className="underline">Open MSF Live Week {week}</Link>
-      </div>
-      <section>
-        <h2 className="text-xl font-semibold mb-2">Live (MSF) Games</h2>
-        <ul className="space-y-2">
-          {(msf.games || []).map((g: any) => (
-            <li key={g.id} className="border rounded">
-              <Link href={`/nfl/msf/game/${encodeURIComponent(g.id)}?week=${week}`} className="p-3 flex items-center justify-between hover:bg-gray-50 block">
-                <div>
-                  <div className="font-medium">{g.away?.abbr} @ {g.home?.abbr}</div>
-                  <div className="text-sm text-gray-500">{g.startTime ? new Date(g.startTime).toLocaleString() : ''}</div>
-                </div>
-                <div className="text-sm text-gray-600">{g.status} {g.quarter ? `Q${g.quarter}` : ''} {g.clock || ''} {g.score ? `· ${g.score.away}-${g.score.home}` : ''}</div>
-              </Link>
-            </li>
-          ))}
-          {(!msf.games || msf.games.length === 0) && (
-            <li className="text-sm text-gray-500">No live games found from MSF for this window.</li>
-          )}
-        </ul>
+    <AppShell>
+      <section className="mb-8">
+        <SectionHeader
+          title={`NFL Week ${week}`}
+          subtitle="Props and games presented in the same visual style as the homepage"
+          action={<Link href={`/nfl/msf?week=${week}`} className="text-sm text-white/80 hover:text-white">Live view →</Link>}
+        />
+        <NFLClient games={gamesForRail as any} byTeamEntries={byTeamEntries} week={week} />
       </section>
-      <section>
-        <h2 className="text-xl font-semibold mb-2">Games</h2>
-        <ul className="space-y-2">
-          {(games.games || []).map((g: any) => (
-            <li key={g.id} className="border rounded p-0">
-              <Link href={`/nfl/games/${encodeURIComponent(g.id)}?week=${week}&demo=${demo ? '1' : '0'}`} className="p-3 flex items-center justify-between hover:bg-gray-50 block">
-                <div>
-                  <div className="font-medium">{g.away.abbreviation} @ {g.home.abbreviation}</div>
-                  <div className="text-sm text-gray-500">{new Date(g.date).toLocaleString()}</div>
-                </div>
-                <div className="text-sm text-gray-600">{g.venue}</div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-      <section>
-        <h2 className="text-xl font-semibold mb-2">Props (filtered to Week 5 teams)</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {Array.from(byTeam.entries()).map(([team, list]) => (
-            <div key={team} className="border rounded p-3">
-              <div className="font-semibold mb-2">{team}</div>
-              <ul className="space-y-1">
-                {list.map((p: any) => (
-                  <li key={p.propId} className="text-sm flex justify-between">
-                    <Link href={`/nfl/players/${encodeURIComponent(p.playerId)}?week=${week}&demo=${demo ? '1' : '0'}`} className="hover:underline">
-                      {p.playerName} - {p.stat} ({p.book})
-                    </Link>
-                    <span>{p.marketLine}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
-  )
+    </AppShell>
+  );
 }
