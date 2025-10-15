@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/lib/utils'
 import ToastBus from '@/components/ToastBus'
+import DevOverlay from '@/components/DevOverlay'
 import { ThemePicker } from '@/components/ui/ThemePicker'
 
 const inter = Inter({ 
@@ -110,6 +111,7 @@ export default function RootLayout({
           </div>
           <ToastBus />
           <ThemePicker />
+          <DevOverlay />
           
           {/* Footer */}
           <footer className="border-t border-white/10 bg-[var(--card)]/50 backdrop-blur-sm">

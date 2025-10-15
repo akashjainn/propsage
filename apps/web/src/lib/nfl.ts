@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { logger } from "@/utils/logger";
+import { getNFLContext } from "./nflConfig";
 
 export const PlayerZ = z.object({
   id: z.string().optional(),
@@ -39,7 +40,9 @@ export async function fetchNFLProps(): Promise<{ data?: NFLProp[]; status: "load
      logger.info("nfl-props-fetch-skipped", { reason: "No DATA_API_URL configured" });
      return { data: [], status: "ok" };
    }
-    const res = await fetch(api("/nfl/props"), { next: { revalidate: 60 } });
+    const { season, week } = getNFLContext();
+    const url = api(`/nfl/props?season=${encodeURIComponent(season)}&week=${encodeURIComponent(String(week))}`);
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) throw new Error(`fetchNFLProps failed: ${res.status}`);
     const json = await res.json();
     // Accept either plain array or wrapped {data}
@@ -72,11 +75,20 @@ export type Clip = z.infer<typeof ClipZ>;
 export async function fetchClipsForWeek(): Promise<{ data?: Clip[]; status: "loading" | "ok" | "error"; error?: any; }> {
   try {
     const base = process.env.CLIPS_API_URL || process.env.NEXT_PUBLIC_CLIPS_API_URL || "";
+    const { season, week } = getNFLContext();
+
     if (!base) {
-      // Graceful empty for local dev without clips
-      return { data: [], status: "ok" };
+      // Local, static Week fixture when no external clips API is configured
+      try {
+        const local = (await import("../data/week5_clips.json")).default as Clip[];
+        return { data: local, status: "ok" };
+      } catch {
+        return { data: [], status: "ok" };
+      }
     }
-    const res = await fetch(`${base}/nfl/clips`, { next: { revalidate: 60 } });
+    const res = await fetch(`${base}/nfl/clips?season=${encodeURIComponent(season)}&week=${encodeURIComponent(String(week))}`,
+      { next: { revalidate: 60 } }
+    );
     if (!res.ok) throw new Error(`fetchClipsForWeek failed: ${res.status}`);
     const json = await res.json();
     const arr = Array.isArray(json) ? json : json?.data;
