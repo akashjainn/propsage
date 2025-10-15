@@ -2,8 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { AppShell, SectionHeader } from '@/ui';
 import NFLClient from './NFLClient';
-import { todayNY } from '@/lib/source';
-import { fetchNFLProps, fetchClipsForWeek } from "@/lib/nfl";
+import { fetchNFLProps, fetchClipsForWeek, fetchGamesForWeek } from "@/lib/nfl";
 import { getNFLContext } from "@/lib/nflConfig";
 import { DataBoundary } from "@/components/DataBoundary";
 import { matchClipsToProps } from "@/lib/clipPropMatch";
@@ -15,7 +14,6 @@ export const revalidate = 60; // ISR for 1 minute
 
 export default async function NFLPage() {
   const { season, week } = getNFLContext();
-  const date = todayNY();
   const usingFixtures = (process.env.NEXT_PUBLIC_USE_LOCAL_WEEK5 ?? "").toLowerCase() === "true";
   
   // Fetch props and clips in parallel
@@ -36,12 +34,12 @@ export default async function NFLPage() {
 
   const unmatchedCount = (props?.length ?? 0) - matched.filter(m => m.clip).length;
   
-  // Fetch unified games (SportsDataIO if live, else demo fallback)
-  const res = await fetch(`${process.env.NEXT_PUBLIC_WEB_BASE_URL ?? ''}/api/nfl/unified?date=${date}`, { cache: 'no-store' }).catch(() => null);
-  const unified = res && res.ok ? await res.json() : { games: [], source: 'none' };
-  const gamesForRail = (unified.games || []).map((g: any) => ({
+  // Fetch Week-5-aware games (fixtures-first)
+  const gamesResult = await fetchGamesForWeek();
+  const gamesArr = gamesResult.data ?? [];
+  const gamesForRail = gamesArr.map((g: any) => ({
     id: String(g.id),
-    start: g.date,
+    start: g.kickoff,
     state: g.status === 'InProgress' ? 'in' : (g.status === 'Final' ? 'post' : 'pre'),
     home: { id: g.homeTeam, name: g.homeTeam, short: g.homeTeam, abbrev: g.homeTeam },
     away: { id: g.awayTeam, name: g.awayTeam, short: g.awayTeam, abbrev: g.awayTeam },
@@ -52,7 +50,7 @@ export default async function NFLPage() {
     <AppShell>
       <section className="mb-8">
         <SectionHeader
-          title={`NFL — ${date}`}
+          title={`NFL — Week ${week}`}
           subtitle={`Season: ${season} · Week: ${week}`}
           action={<Link href={`/nfl/msf?week=${week}`} className="text-sm text-white/80 hover:text-white">MSF live →</Link>}
         />
