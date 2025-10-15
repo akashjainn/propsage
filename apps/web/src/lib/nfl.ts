@@ -33,6 +33,12 @@ const api = (path: string) => {
 
 export async function fetchNFLProps(): Promise<{ data?: NFLProp[]; status: "loading" | "ok" | "error"; error?: any; }> {
   try {
+   const base = process.env.DATA_API_URL || process.env.NEXT_PUBLIC_DATA_API_URL;
+   if (!base) {
+     // Graceful empty for local dev without API configured
+     logger.info("nfl-props-fetch-skipped", { reason: "No DATA_API_URL configured" });
+     return { data: [], status: "ok" };
+   }
     const res = await fetch(api("/nfl/props"), { next: { revalidate: 60 } });
     if (!res.ok) throw new Error(`fetchNFLProps failed: ${res.status}`);
     const json = await res.json();
