@@ -1,25 +1,29 @@
-import fetch from 'node-fetch'
-import { LRUCache } from 'lru-cache'
-import { config } from '../config.js'
+import fetch from 'node-fetch';
+import { LRUCache } from 'lru-cache';
+import { config } from '../config.js';
 
-const BASE = 'https://api.sportsdata.io/v3/nfl'
+const BASE = 'https://api.sportsdata.io/v3/nfl';
 
 // Small helper
 async function get<T>(path: string, params: Record<string, any> = {}): Promise<T> {
-  const key = config.sportsDataIOKey
-  if (!key) throw new Error('SPORTSDATAIO_API_KEY not configured')
-  const url = new URL(`${BASE}/${path}`)
+  const key = config.sportsDataIOKey;
+  if (!key) throw new Error('SPORTSDATAIO_API_KEY not configured');
+  const url = new URL(`${BASE}/${path}`);
   // Default json format endpoints already include /json/ in path passed
   Object.entries(params).forEach(([k, v]) => {
-    if (v !== undefined && v !== null) url.searchParams.set(k, String(v))
-  })
-  url.searchParams.set('key', key)
-  const res = await fetch(url.toString())
+    if (v !== undefined && v !== null) url.searchParams.set(k, String(v));
+  });
+  // Prefer header-based auth per SportsDataIO docs
+  const res = await fetch(url.toString(), {
+    headers: {
+      'Ocp-Apim-Subscription-Key': key,
+    },
+  });
   if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`SportsDataIO ${path} HTTP ${res.status}: ${text}`)
+    const text = await res.text();
+    throw new Error(`SportsDataIO ${path} HTTP ${res.status}: ${text}`);
   }
-  return res.json() as any
+  return res.json() as any;
 }
 
 // Simple caches (5-30 min)

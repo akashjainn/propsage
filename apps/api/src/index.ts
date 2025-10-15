@@ -1,76 +1,42 @@
-import pino from 'pino'
-import { WebSocketServer } from 'ws'
-import { createServer } from 'http'
-import { config } from './config.js'
-import { getPriors } from './services/demoCache.js'
-import { monteCarloFairValue } from '@propsage/core'
-import { createApp } from './app.js'
-import { startMsfGamewatch } from './jobs/msf-gamewatch.js'
 
-const logger = pino({ transport: { target: 'pino-pretty' } })
-const app = createApp()
 
-const server = createServer(app)
-const wss = new WebSocketServer({ server })
+import express from "express";
+import http from "http";
 
-wss.on('connection', (socket) => {
-  logger.info('client connected')
-  socket.send(JSON.stringify({ type: 'welcome', ts: Date.now() }))
-})
+const app = express();
 
-function broadcast(obj: any) {
-  const data = JSON.stringify(obj)
-  wss.clients.forEach(c => {
-      // ws WebSocket clients expose readyState (1 = OPEN)
-      // Casting to any is acceptable here while legacy unsafe rules are relaxed
-      const client: any = c
-      if (client.readyState === 1) client.send(data)
-  })
+// ---- Health route only ----
+app.get("/health", (_req, res) => {
+  res.status(200).json({
+    ok: true,
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+    demo: process.env.DEMO_MODE === "true",
+  });
+});
+
+// ---- Fatal guards ----
+function onFatal(err: unknown) {
+  console.error("\uD83D\uDCA5 Fatal error — exiting:", err);
+  process.exit(1);
 }
+process.on("uncaughtException", onFatal);
+process.on("unhandledRejection", onFatal);
 
-// Periodic simulation using first prior
-setInterval(() => {
-  const prior = getPriors()[0]
-  if (!prior) return
-  const marketLine = prior.mu - 1.3
-  const jitter = (Math.random() - 0.5) * 0.8
-  const mc = monteCarloFairValue({ marketLine, prior: { ...prior, mu: prior.mu + jitter }, evidence: [], simulations: 10000 })
-  broadcast({ type: 'edge_update', playerId: prior.playerId, market: prior.market, result: mc })
-}, 6000)
+// ---- Bind explicitly on Windows ----
+const port = Number(process.env.PORT ?? 4000);
+const host = process.env.HOST ?? "127.0.0.1";
 
-/**
- * Start server with simple incremental port retry if port is occupied.
- * If user explicitly set PORT env, we fail fast (so CI/config issues are visible).
- */
-function start(port: number, attemptsLeft = 5) {
-  server.listen(port, () => {
-    if (port !== config.port) {
-      logger.warn({ original: config.port, actual: port }, 'API port reassigned due to conflict')
-    }
-    logger.info(`API listening on :${port} (demo=${config.demoMode})`)
-  }).on('error', (err: any) => {
-    if (err.code === 'EADDRINUSE') {
-      const explicit = !!process.env.PORT
-      if (explicit) {
-        logger.error(`Configured PORT ${port} in use. Please free it or change PORT.`)
-        process.exit(1)
-      }
-      if (attemptsLeft > 0) {
-        const next = port + 1
-        logger.warn(`Port ${port} in use, retrying on ${next} (attempts left: ${attemptsLeft - 1})`)
-        setTimeout(() => start(next, attemptsLeft - 1), 300)
-      } else {
-        logger.error('Unable to bind any port after retries')
-        process.exit(1)
-      }
-    } else {
-      logger.error({ err }, 'Server error')
-      process.exit(1)
-    }
-  })
-}
+const server = http.createServer(app);
 
-start(config.port)
+server.on("error", (err: any) => {
+  console.error("Server error:", err);
+  if (err.code === "EADDRINUSE") {
+    console.error(`Port ${port} in use.`);
+  }
+  process.exit(1);
+});
 
-// optional background job
-startMsfGamewatch()
+server.listen(port, host, () => {
+  console.log(`✅ Minimal API is alive at http://${host}:${port}/health`);
+});
