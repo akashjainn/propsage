@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/nextjs';
+import Link from 'next/link';
 import { AppShell, SectionHeader } from '@/ui';
 import { FEATURES } from '@/lib/features';
 import { useRef, lazy, Suspense } from 'react';
@@ -19,7 +20,7 @@ import { ENDPOINTS } from '@/lib/api';
 import { useGamesToday } from '@/hooks/useGamesToday';
 
 export default function HomePage() {
-  const { games: gamesToday, loading: loadingGames } = useGamesToday({ 
+  const { games: gamesToday, loading: loadingGames } = useGamesToday({
     pollIntervalMs: 300000, // Reduce from 2min to 5min
     immediate: true // Enable immediate loading to show games
   });
@@ -29,7 +30,7 @@ export default function HomePage() {
   const [selectedEdge, setSelectedEdge] = useState<any | null>(null);
   const [evidenceOpen, setEvidenceOpen] = useState(false);
   const dashboardRef = useRef<GameDashboardHandle>(null);
-  
+
   // Auto-select first game when games load
   useEffect(() => {
     console.log('HomePage: Games loaded:', gamesToday.length, 'selectedGameId:', selectedGameId);
@@ -145,6 +146,21 @@ export default function HomePage() {
 
   return (
     <AppShell>
+      {/* NFL Hero Section */}
+      <section className="mb-8 rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/2 p-8 shadow-lg backdrop-blur-sm">
+        <h2 className="text-3xl font-bold mb-2">🏈 NFL Props</h2>
+        <p className="text-[var(--fg-dim)] mb-6">Explore NFL player prop lines with matched highlight clips and video evidence.</p>
+        <Link
+          href="/nfl"
+          className="inline-flex items-center rounded-lg border border-transparent bg-white text-black px-6 py-3 font-semibold hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50"
+        >
+          Explore NFL Props
+          <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </Link>
+      </section>
+
       {/* Hero Section */}
   <section className="mb-12 text-center relative">
         {/* Gradient overlay */}

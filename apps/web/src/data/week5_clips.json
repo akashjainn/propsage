@@ -1,0 +1,13 @@
+[
+  {
+    "id": "wk5-clip-1",
+    "source": "TwelveLabs",
+    "playerId": "12345",
+    "playerName": "Patrick Mahomes",
+    "market": "Passing Yards",
+    "line": 285.5,
+    "thumbnailUrl": "/placeholder/week5/mahomes-thumb.jpg",
+    "playbackUrl": "https://example.com/twelvelabs/mahomes",
+    "createdAt": "2025-10-06T00:00:00.000Z"
+  }
+]

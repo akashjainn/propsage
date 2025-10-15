@@ -1,25 +1,27 @@
-import dotenv from 'dotenv'
-import path from 'path'
 
+import dotenv from 'dotenv';
+import path from 'path';
 // Load .env from project root (two levels up from this file)
-dotenv.config({ path: path.resolve(process.cwd(), '../../.env') })
+dotenv.config({ path: path.resolve(process.cwd(), '../../.env') });
 // Also try loading from current directory as fallback
-dotenv.config()
+dotenv.config();
 
 interface AppConfig {
-  demoMode: boolean
-  port: number
-  perplexityKey: string
-  twelveLabsKey: string
-  videoEnabled: boolean
-  corsOrigin: string
-  oddsApiKey: string
-  sportsDataIOKey?: string
-  msfApiKey?: string
-  msfBaseUrl: string
-  msfEnabled: boolean
-  msfPollingEnabled: boolean
-  msfSeason?: string
+  demoMode: boolean;
+  port: number;
+  perplexityKey: string;
+  twelveLabsKey: string;
+  twelveLabsIndexByLeague: Record<string, string>;
+  videoEnabled: boolean;
+  corsOrigin: string;
+  oddsApiKey: string;
+  sportsDataIOKey?: string;
+  msfApiKey?: string;
+  msfBaseUrl: string;
+  msfEnabled: boolean;
+  msfPollingEnabled: boolean;
+  msfSeason?: string;
+  useMock: boolean;
 }
 
 function bool(val: string | undefined, fallback: boolean) {
@@ -31,10 +33,20 @@ function bool(val: string | undefined, fallback: boolean) {
   return fallback
 }
 
-const demoMode = bool(process.env.DEMO_MODE, false)
-console.log(`[Config] DEMO_MODE=${process.env.DEMO_MODE}, parsed demoMode=${demoMode}`)
-console.log(`[Config] TWELVELABS_API_KEY present: ${!!process.env.TWELVELABS_API_KEY}`)
-console.log(`[Config] TL_API_KEY present: ${!!process.env.TL_API_KEY}`)
+
+const demoMode = bool(process.env.DEMO_MODE, false);
+const TL_API_KEY = process.env.TL_API_KEY || process.env.TWELVELABS_API_KEY || '';
+const TL_INDEX_BY_LEAGUE = {
+  nfl: process.env.TL_INDEX_NFL || process.env.TWELVELABS_INDEX_ID || '',
+  cfb: process.env.TL_INDEX_CFB || '',
+};
+const useMock = demoMode || !TL_API_KEY;
+
+console.log(`[Config] DEMO_MODE=${process.env.DEMO_MODE}, parsed demoMode=${demoMode}`);
+console.log(`[Config] TWELVELABS_API_KEY present: ${!!process.env.TWELVELABS_API_KEY}`);
+console.log(`[Config] TL_API_KEY present: ${!!process.env.TL_API_KEY}`);
+console.log(`[Config] TL_INDEX_BY_LEAGUE:`, TL_INDEX_BY_LEAGUE);
+console.log(`[Config] USE_MOCK: ${useMock}`);
 
 function requireIfLive(name: string, value: string | undefined): string {
   if (!demoMode && !value) {
@@ -47,7 +59,8 @@ export const config: AppConfig = {
   demoMode,
   port: parseInt(process.env.PORT || '4000', 10),
   perplexityKey: requireIfLive('PPLX_API_KEY', process.env.PPLX_API_KEY),
-  twelveLabsKey: requireIfLive('TWELVELABS_API_KEY', process.env.TWELVELABS_API_KEY || process.env.TL_API_KEY),
+  twelveLabsKey: TL_API_KEY,
+  twelveLabsIndexByLeague: TL_INDEX_BY_LEAGUE,
   videoEnabled: bool(process.env.VIDEO_ENABLED, true),
   corsOrigin: process.env.CORS_ORIGIN || process.env.WEB_BASE_URL || 'http://localhost:3000',
   oddsApiKey: process.env.ODDS_API_KEY || '',
@@ -56,8 +69,8 @@ export const config: AppConfig = {
   msfBaseUrl: process.env.MSF_BASE_URL || 'https://api.mysportsfeeds.com/v2.1/pull/nfl',
   msfEnabled: bool(process.env.MSF_ENABLED, false) && !!process.env.MSF_API_KEY,
   msfPollingEnabled: bool(process.env.MSF_POLLING_ENABLED, false),
-  // e.g., "2025-regular"; if unset, adapter will compute based on current date
   msfSeason: process.env.MSF_SEASON || undefined,
+  useMock,
 }
 
 // Export demo mode for easy access
