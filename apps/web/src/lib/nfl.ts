@@ -56,7 +56,7 @@ export async function fetchNFLProps(): Promise<{ data?: NFLProp[]; status: "load
 
     // 1) Prefer local fixtures when flag is on
     if (useLocalWeek5()) {
-      const local = await loadLocal(() => import("../data/week5_props.json").then(m => m.default), "props");
+      const local = await loadLocal(() => import("../../../../data/week5_props.json").then(m => m.default), "props");
       if (local) {
         const parsedLocal = z.array(NFLPropZ).safeParse(local);
         if (parsedLocal.success) return { data: parsedLocal.data, status: "ok" };
@@ -66,7 +66,7 @@ export async function fetchNFLProps(): Promise<{ data?: NFLProp[]; status: "load
     // 2) If no API base configured, fall back to local fixtures
     const base = process.env.DATA_API_URL || process.env.NEXT_PUBLIC_DATA_API_URL;
     if (!base) {
-      const local = await loadLocal(() => import("../data/week5_props.json").then(m => m.default), "props");
+      const local = await loadLocal(() => import("../../../../data/week5_props.json").then(m => m.default), "props");
       const parsedLocal = z.array(NFLPropZ).safeParse(local ?? []);
       return parsedLocal.success
         ? { data: parsedLocal.data, status: "ok" }
@@ -79,7 +79,7 @@ export async function fetchNFLProps(): Promise<{ data?: NFLProp[]; status: "load
     if (!res.ok) {
       logger.warn("nfl-props-api-not-ok", { status: res.status });
       // Fallback to local
-      const local = await loadLocal(() => import("../data/week5_props.json").then(m => m.default), "props");
+      const local = await loadLocal(() => import("../../../../data/week5_props.json").then(m => m.default), "props");
       const parsedLocal = z.array(NFLPropZ).safeParse(local ?? []);
       return parsedLocal.success
         ? { data: parsedLocal.data, status: "ok" }
@@ -91,7 +91,7 @@ export async function fetchNFLProps(): Promise<{ data?: NFLProp[]; status: "load
     if (!parsed.success || parsed.data.length === 0) {
       logger.warn("nfl-props-empty-or-parse-failed", { issues: (!parsed.success && parsed.error.issues) || "empty" });
       // Fallback to local
-      const local = await loadLocal(() => import("../data/week5_props.json").then(m => m.default), "props");
+      const local = await loadLocal(() => import("../../../../data/week5_props.json").then(m => m.default), "props");
       const parsedLocal = z.array(NFLPropZ).safeParse(local ?? []);
       return parsedLocal.success
         ? { data: parsedLocal.data, status: "ok" }
@@ -124,7 +124,7 @@ export async function fetchClipsForWeek(): Promise<{ data?: Clip[]; status: "loa
 
     // Prefer local when flag is on OR no base configured
     if (useLocalWeek5() || !base) {
-      const local = await loadLocal(() => import("../data/week5_clips.json").then(m => m.default), "clips");
+  const local = await loadLocal(() => import("../data/week5_clips.json").then(m => m.default), "clips");
       const parsedLocal = z.array(ClipZ).safeParse(local ?? []);
       return parsedLocal.success
         ? { data: parsedLocal.data, status: "ok" }
@@ -136,7 +136,7 @@ export async function fetchClipsForWeek(): Promise<{ data?: Clip[]; status: "loa
     );
     if (!res.ok) {
       logger.warn("clips-api-not-ok", { status: res.status });
-      const local = await loadLocal(() => import("../data/week5_clips.json").then(m => m.default), "clips");
+    const local = await loadLocal(() => import("../data/week5_clips.json").then(m => m.default), "clips");
       const parsedLocal = z.array(ClipZ).safeParse(local ?? []);
       return parsedLocal.success
         ? { data: parsedLocal.data, status: "ok" }
@@ -147,7 +147,7 @@ export async function fetchClipsForWeek(): Promise<{ data?: Clip[]; status: "loa
     const parsed = z.array(ClipZ).safeParse(arr ?? []);
     if (!parsed.success || parsed.data.length === 0) {
       logger.warn("clips-empty-or-parse-failed", { issues: (!parsed.success && parsed.error.issues) || "empty" });
-      const local = await loadLocal(() => import("../data/week5_clips.json").then(m => m.default), "clips");
+    const local = await loadLocal(() => import("../data/week5_clips.json").then(m => m.default), "clips");
       const parsedLocal = z.array(ClipZ).safeParse(local ?? []);
       return parsedLocal.success
         ? { data: parsedLocal.data, status: "ok" }
@@ -166,7 +166,7 @@ export async function fetchGamesForWeek(): Promise<{ data?: NFLGame[]; status: "
 
     // Prefer local when flag is on
     if (useLocalWeek5()) {
-      const local = await loadLocal(() => import("../data/week5_games.json").then(m => m.default), "games");
+      const local = await loadLocal(() => import("../../../../data/week5_games.json").then(m => m.default), "games");
       const parsedLocal = z.array(GameZ).safeParse(local ?? []);
       return parsedLocal.success
         ? { data: parsedLocal.data, status: "ok" }
@@ -175,7 +175,7 @@ export async function fetchGamesForWeek(): Promise<{ data?: NFLGame[]; status: "
 
     const base = process.env.DATA_API_URL || process.env.NEXT_PUBLIC_DATA_API_URL;
     if (!base) {
-      const local = await loadLocal(() => import("../data/week5_games.json").then(m => m.default), "games");
+      const local = await loadLocal(() => import("../../../../data/week5_games.json").then(m => m.default), "games");
       const parsedLocal = z.array(GameZ).safeParse(local ?? []);
       return parsedLocal.success
         ? { data: parsedLocal.data, status: "ok" }
@@ -187,7 +187,7 @@ export async function fetchGamesForWeek(): Promise<{ data?: NFLGame[]; status: "
     });
     if (!res.ok) {
       logger.warn("games-api-not-ok", { status: res.status });
-      const local = await loadLocal(() => import("../data/week5_games.json").then(m => m.default), "games");
+      const local = await loadLocal(() => import("../../../../data/week5_games.json").then(m => m.default), "games");
       const parsedLocal = z.array(GameZ).safeParse(local ?? []);
       return parsedLocal.success
         ? { data: parsedLocal.data, status: "ok" }
@@ -198,7 +198,7 @@ export async function fetchGamesForWeek(): Promise<{ data?: NFLGame[]; status: "
     const parsed = z.array(GameZ).safeParse(arr ?? []);
     if (!parsed.success || parsed.data.length === 0) {
       logger.warn("games-empty-or-parse-failed", { issues: (!parsed.success && parsed.error.issues) || "empty" });
-      const local = await loadLocal(() => import("../data/week5_games.json").then(m => m.default), "games");
+      const local = await loadLocal(() => import("../../../../data/week5_games.json").then(m => m.default), "games");
       const parsedLocal = z.array(GameZ).safeParse(local ?? []);
       return parsedLocal.success
         ? { data: parsedLocal.data, status: "ok" }
