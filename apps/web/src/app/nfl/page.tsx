@@ -16,6 +16,7 @@ export const revalidate = 60; // ISR for 1 minute
 export default async function NFLPage() {
   const { season, week } = getNFLContext();
   const date = todayNY();
+  const usingFixtures = (process.env.NEXT_PUBLIC_USE_LOCAL_WEEK5 ?? "").toLowerCase() === "true";
   
   // Fetch props and clips in parallel
   const [propsResult, clipsResult] = await Promise.all([
@@ -56,6 +57,11 @@ export default async function NFLPage() {
           action={<Link href={`/nfl/msf?week=${week}`} className="text-sm text-white/80 hover:text-white">MSF live →</Link>}
         />
         <NFLClient games={gamesForRail as any} />
+        {usingFixtures && (
+          <div className="mb-4 rounded-md border border-blue-300 bg-blue-50 p-3 text-sm">
+            Using local Week 5 fixtures for props/clips/games.
+          </div>
+        )}
       </section>
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">

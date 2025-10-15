@@ -1,63 +1,35 @@
-'use client';
 
-import React, { useState, useEffect } from 'react';
-import * as Sentry from '@sentry/nextjs';
-import Link from 'next/link';
-import { AppShell, SectionHeader } from '@/ui';
-import { FEATURES } from '@/lib/features';
-import { useRef, lazy, Suspense } from 'react';
-import { useSearch } from '@/components/SearchModal';
-import type { GameDashboardHandle } from '@/components/GameDashboard';
+import React from 'react';
+import { fetchGamesForWeek } from '@/lib/nfl';
+import { getNFLContext } from '@/lib/nflConfig';
 
-// Lazy load heavy components
-const TopEdgesList = lazy(() => import('@/components/TopEdgesList'));
-const EdgeEvidenceDrawer = lazy(() => import('@/components/EdgeEvidenceDrawer'));
-const GameDashboard = lazy(() => import('@/components/GameDashboard').then(mod => ({ default: mod.default })));
-const GamesRail = lazy(() => import('@/components/GamesRail'));
-const SearchModal = lazy(() => import('@/components/SearchModal').then(mod => ({ default: mod.default })));
-import type { GameLite } from '@/types/cfb';
-import { ENDPOINTS } from '@/lib/api';
-import { useGamesToday } from '@/hooks/useGamesToday';
 
-export default function HomePage() {
-  const { games: gamesToday, loading: loadingGames } = useGamesToday({ 
-    pollIntervalMs: 300000, // Reduce from 2min to 5min
-    immediate: true // Enable immediate loading to show games
-  });
-  const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
-  const [showGameDashboard, setShowGameDashboard] = useState(false);
-  const search = useSearch();
-  const [selectedEdge, setSelectedEdge] = useState<any | null>(null);
-  const [evidenceOpen, setEvidenceOpen] = useState(false);
-  const dashboardRef = useRef<GameDashboardHandle>(null);
-  
-  // Auto-select first game when games load
-  useEffect(() => {
-    console.log('HomePage: Games loaded:', gamesToday.length, 'selectedGameId:', selectedGameId);
-    if (!selectedGameId && gamesToday.length > 0) {
-      console.log('HomePage: Auto-selecting first game:', gamesToday[0].id);
-      setSelectedGameId(gamesToday[0].id);
-    }
-  }, [gamesToday, selectedGameId]);
-
-  const handleGameSelect = (gameId: string) => {
-    setSelectedGameId(gameId);
-    setShowGameDashboard(true);
-  };
-
-  const handleEdgeSelect = (edge: any) => {
-    Sentry.addBreadcrumb({ category: 'edge', level: 'info', message: 'edge_selected', data: { player: edge.player, market: edge.market } });
-    // Persist normalized market for deterministic clip lookup
-    const normalizedMarket = edge.normalizedMarket || edge.market;
-    setSelectedEdge({ ...edge, normalizedMarket });
-    if (edge?.gameId && edge.gameId !== selectedGameId) {
-      setSelectedGameId(edge.gameId);
-    }
-    setEvidenceOpen(true);
-    dashboardRef.current?.focusProp(edge?.normalizedMarket ?? edge?.market);
-  };
-
-  const handleSearchSelect = (result: any) => {
+export default async function HomePage() {
+  const { season, week } = getNFLContext();
+  const { data: games } = await fetchGamesForWeek();
+  return (
+    <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      <section className="mt-8">
+        <h2 className="text-xl font-semibold">Week {week} Games ({season})</h2>
+        {!games?.length ? (
+          <div className="mt-3 text-gray-500">No games available for Week {week} (fixtures may be minimal).</div>
+        ) : (
+          <ul className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {games.map(g => (
+              <li key={g.id} className="rounded-lg border bg-white p-4">
+                <div className="font-medium">{g.awayTeam} @ {g.homeTeam}</div>
+                <div className="text-sm text-gray-500">{new Date(g.kickoff).toLocaleString()}</div>
+                {"homeScore" in g && "awayScore" in g ? (
+                  <div className="mt-1 text-sm">Final: {g.awayScore}–{g.homeScore}</div>
+                ) : null}
+              </li>
+            ))}
+                      </ul>
+                    )}
+                  </section>
+                </main>
+              );
+            }
     console.log('Search selected:', result);
     
     // Handle player search - find their game and show dashboard
