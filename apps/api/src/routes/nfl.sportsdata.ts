@@ -3,6 +3,9 @@ import { sportsDataNFL } from '../services/sportsdataio-nfl.js'
 
 const r = Router()
 
+// NOTE: These routes now use Sportradar NFL API (not SportsDataIO)
+// The service name 'sportsDataNFL' is kept for backwards compatibility
+
 function seasonParam(season?: string): string {
   if (!season) {
     const year = new Date().getUTCFullYear()
@@ -20,21 +23,21 @@ r.get('/health', async (_req, res) => {
       sportsDataNFL.currentWeek(),
       sportsDataNFL.teamsBasic()
     ])
-    res.json({ ok: true, provider: 'sportsdataio', week, teams: teams.length })
+    res.json({ ok: true, provider: 'sportradar', week, teams: teams.length })
   } catch (e) {
     res.status(500).json({ ok: false, error: (e as Error).message })
   }
 })
 
-// GET /nfl/sd/teams
+// GET /nfl/sd/teams (now Sportradar)
 r.get('/teams', async (_req, res) => {
   try {
-    const teams = await sportsDataNFL.teamsBasic()
-    res.json({ count: teams.length, teams })
+    const teams = await sportsDataNFL.teamsBasic();
+    res.json({ count: teams.length, teams });
   } catch (e) {
-    res.status(500).json({ error: (e as Error).message })
+    res.status(500).json({ error: (e as Error).message });
   }
-})
+});
 
 // GET /nfl/sd/standings?season=2025REG
 r.get('/standings', async (req, res) => {
@@ -47,19 +50,19 @@ r.get('/standings', async (req, res) => {
   }
 })
 
-// GET /nfl/sd/schedule?season=2025REG&basic=1
+// GET /nfl/sd/schedule?season=2025REG&basic=1 (now Sportradar)
 r.get('/schedule', async (req, res) => {
   try {
-    const season = seasonParam(String(req.query.season || ''))
-    const basic = String(req.query.basic || '').toLowerCase()
+    const season = seasonParam(String(req.query.season || ''));
+    const basic = String(req.query.basic || '').toLowerCase();
     const rows = basic === '1' || basic === 'true'
       ? await sportsDataNFL.schedulesBasic(season)
-      : await sportsDataNFL.schedules(season)
-    res.json({ season, count: rows.length, schedule: rows })
+      : await sportsDataNFL.schedules(season);
+    res.json({ season, count: rows.length, schedule: rows });
   } catch (e) {
-    res.status(500).json({ error: (e as Error).message })
+    res.status(500).json({ error: (e as Error).message });
   }
-})
+});
 
 // GET /nfl/sd/scores?season=2025REG&week=5
 r.get('/scores', async (req, res) => {

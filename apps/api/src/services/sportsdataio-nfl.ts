@@ -2,26 +2,32 @@ import fetch from 'node-fetch';
 import { LRUCache } from 'lru-cache';
 import { config } from '../config.js';
 
-const BASE = 'https://api.sportsdata.io/v3/nfl';
+// Sportradar NFL API v7
+const BASE = 'https://api.sportradar.com/nfl/official';
+const ACCESS_LEVEL = 'trial'; // or 'production' based on your subscription
+const LANGUAGE = 'en';
+const FORMAT = 'json';
 
-// Small helper
+// Small helper for Sportradar API calls
 async function get<T>(path: string, params: Record<string, any> = {}): Promise<T> {
-  const key = config.sportsDataIOKey;
-  if (!key) throw new Error('SPORTSDATAIO_API_KEY not configured');
-  const url = new URL(`${BASE}/${path}`);
-  // Default json format endpoints already include /json/ in path passed
+  const key = config.sportradarKey;
+  if (!key) throw new Error('SPORTRADAR_API_KEY not configured');
+  
+  // Build URL with Sportradar structure
+  const url = new URL(`${BASE}/${ACCESS_LEVEL}/v7/${LANGUAGE}/${path}.${FORMAT}`);
+  
+  // Add API key as query parameter (Sportradar auth method)
+  url.searchParams.set('api_key', key);
+  
+  // Add any additional parameters
   Object.entries(params).forEach(([k, v]) => {
     if (v !== undefined && v !== null) url.searchParams.set(k, String(v));
   });
-  // Prefer header-based auth per SportsDataIO docs
-  const res = await fetch(url.toString(), {
-    headers: {
-      'Ocp-Apim-Subscription-Key': key,
-    },
-  });
+  
+  const res = await fetch(url.toString());
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(`SportsDataIO ${path} HTTP ${res.status}: ${text}`);
+    throw new Error(`Sportradar ${path} HTTP ${res.status}: ${text}`);
   }
   return res.json() as any;
 }
@@ -52,12 +58,38 @@ export const sportsDataNFL = {
     return fromCache(cache5m, 'week:upcoming', () => get<number>('scores/json/UpcomingWeek'))
   },
 
-  // Teams
-  teamsBasic(): Promise<any[]> {
-    return fromCache(cache30m, 'teams:basic', () => get<any[]>('scores/json/Teams'))
+  // Teams - Sportradar League Hierarchy
+  async teamsBasic(): Promise<any[]> {
+    return fromCache(cache30m, 'teams:basic', async () => {
+      const data = await get<any>('league/hierarchy');
+      // Sportradar returns: { conferences: [ { divisions: [ { teams: [...] } ] } ] }
+      const teams: any[] = [];
+      if (data.conferences) {
+        for (const conf of data.conferences) {
+          if (conf.divisions) {
+            for (const div of conf.divisions) {
+              if (div.teams) {
+                teams.push(...div.teams.map((t: any) => ({
+                  id: t.id,
+                  name: t.name,
+                  alias: t.alias,
+                  market: t.market,
+                  abbreviation: t.alias,
+                  conference: conf.alias,
+                  division: div.alias,
+                  venue: t.venue,
+                })));
+              }
+            }
+          }
+        }
+      }
+      return teams;
+    });
   },
-  teamsAll(): Promise<any[]> {
-    return fromCache(cache30m, 'teams:all', () => get<any[]>('scores/json/AllTeams'))
+  async teamsAll(): Promise<any[]> {
+    // Same as teamsBasic for Sportradar
+    return this.teamsBasic();
   },
 
   // Standings
@@ -66,12 +98,54 @@ export const sportsDataNFL = {
     return fromCache(cache15m, `standings:${season}`, () => get<any[]>(`scores/json/Standings/${season}`))
   },
 
-  // Schedule
-  schedules(season: string): Promise<any[]> {
-    return fromCache(cache15m, `schedules:${season}`, () => get<any[]>(`scores/json/Schedules/${season}`))
+  // Schedule - Sportradar Season Schedule
+  async schedules(season: string): Promise<any[]> {
+    // season like "2025REG" or "2025" -> extract year and type
+    const year = season.replace(/[^0-9]/g, '') || String(new Date().getFullYear());
+    let seasonType = 'REG'; // REG, PRE, PST (postseason)
+    if (season.includes('PRE')) seasonType = 'PRE';
+    if (season.includes('POST') || season.includes('PST')) seasonType = 'PST';
+    
+    return fromCache(cache15m, `schedules:${season}`, async () => {
+      // Sportradar: /games/{year}/{season_type}/schedule
+      const data = await get<any>(`games/${year}/${seasonType}/schedule`);
+      // Sportradar returns: { weeks: [ { games: [...] } ] }
+      const games: any[] = [];
+      if (data.weeks) {
+        for (const week of data.weeks) {
+          if (week.games) {
+            games.push(...week.games.map((g: any) => ({
+              id: g.id,
+              week: week.sequence || undefined,
+              season: parseInt(year),
+              date: g.scheduled,
+              status: g.status,
+              venue: g.venue,
+              home: {
+                id: g.home?.id,
+                name: g.home?.name,
+                alias: g.home?.alias,
+                abbreviation: g.home?.alias,
+                score: g.scoring?.home_points,
+              },
+              away: {
+                id: g.away?.id,
+                name: g.away?.name,
+                alias: g.away?.alias,
+                abbreviation: g.away?.alias,
+                score: g.scoring?.away_points,
+              },
+              broadcast: g.broadcast,
+            })));
+          }
+        }
+      }
+      return games;
+    });
   },
-  schedulesBasic(season: string): Promise<any[]> {
-    return fromCache(cache15m, `schedulesBasic:${season}`, () => get<any[]>(`scores/json/SchedulesBasic/${season}`))
+  async schedulesBasic(season: string): Promise<any[]> {
+    // Same as schedules for Sportradar
+    return this.schedules(season);
   },
 
   // Scores

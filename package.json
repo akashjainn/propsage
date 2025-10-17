@@ -25,6 +25,8 @@
     "tl:health": "node scripts/check-tl-status.js --health",
     "tl:search": "node scripts/check-tl-status.js --search",
     "tl:test": "node scripts/check-tl-status.js --test-queries",
+    "test:sportsdataio": "node scripts/test-sportsdataio.js",
+    "test:sportradar": "tsx scripts/test-sportradar.js",
     "setup:storage": "cd apps/api && node ../../scripts/setup-cloud-storage.js",
     "setup:storage:aws": "cd apps/api && node ../../scripts/setup-cloud-storage.js --provider=aws",
     "setup:storage:r2": "cd apps/api && node ../../scripts/setup-cloud-storage.js --provider=r2",

@@ -1,9 +1,15 @@
 
 import dotenv from 'dotenv';
 import path from 'path';
-// Load .env from project root (two levels up from this file)
-dotenv.config({ path: path.resolve(process.cwd(), '../../.env') });
-// Also try loading from current directory as fallback
+import { fileURLToPath } from 'url';
+
+// Get the directory name in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load .env from project root (three levels up: src -> api -> apps -> root)
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+// Also try loading from current working directory as fallback
 dotenv.config();
 
 interface AppConfig {
@@ -16,6 +22,7 @@ interface AppConfig {
   corsOrigin: string;
   oddsApiKey: string;
   sportsDataIOKey?: string;
+  sportradarKey?: string;
   msfApiKey?: string;
   msfBaseUrl: string;
   msfEnabled: boolean;
@@ -65,6 +72,7 @@ export const config: AppConfig = {
   corsOrigin: process.env.CORS_ORIGIN || process.env.WEB_BASE_URL || 'http://localhost:3000',
   oddsApiKey: process.env.ODDS_API_KEY || '',
   sportsDataIOKey: process.env.SPORTSDATAIO_API_KEY || process.env.SPORTS_DATA_IO_KEY || process.env.SPORTS_DATAIO_KEY || undefined,
+  sportradarKey: process.env.SPORTRADAR_API_KEY || undefined,
   msfApiKey: process.env.MSF_API_KEY || undefined,
   msfBaseUrl: process.env.MSF_BASE_URL || 'https://api.mysportsfeeds.com/v2.1/pull/nfl',
   msfEnabled: bool(process.env.MSF_ENABLED, false) && !!process.env.MSF_API_KEY,

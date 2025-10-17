@@ -1,19 +1,5 @@
-
-
-import express from "express";
 import http from "http";
-
-const app = express();
-
-// ---- Health route only ----
-app.get("/health", (_req, res) => {
-  res.status(200).json({
-    ok: true,
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString(),
-    demo: process.env.DEMO_MODE === "true",
-  });
-});
+import { createApp } from "./app.js";
 
 // ---- Fatal guards ----
 function onFatal(err: unknown) {
@@ -22,6 +8,9 @@ function onFatal(err: unknown) {
 }
 process.on("uncaughtException", onFatal);
 process.on("unhandledRejection", onFatal);
+
+// ---- Create Express app with all routes ----
+const app = createApp();
 
 // ---- Bind explicitly on Windows ----
 const port = Number(process.env.PORT ?? 4000);
@@ -38,5 +27,7 @@ server.on("error", (err: any) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`✅ Minimal API is alive at http://${host}:${port}/health`);
+  console.log(`✅ PropSage API is alive at http://${host}:${port}`);
+  console.log(`   Health: http://${host}:${port}/health`);
+  console.log(`   NFL Routes: http://${host}:${port}/nfl/sd/teams`);
 });
