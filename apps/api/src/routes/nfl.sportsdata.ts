@@ -64,6 +64,28 @@ r.get('/schedule', async (req, res) => {
   }
 });
 
+// GET /nfl/sd/schedule/current (Sportradar current season)
+r.get('/schedule/current', async (_req, res) => {
+  try {
+    const rows = await sportsDataNFL.currentSeasonSchedule();
+    res.json({ count: rows.length, schedule: rows });
+  } catch (e) {
+    res.status(500).json({ error: (e as Error).message });
+  }
+});
+
+// GET /nfl/sd/boxscore/:gameId (Sportradar box score)
+r.get('/boxscore/:gameId', async (req, res) => {
+  try {
+    const { gameId } = req.params;
+    if (!gameId) return res.status(400).json({ error: 'gameId required' });
+    const data = await sportsDataNFL.gameBoxscore(gameId);
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: (e as Error).message });
+  }
+});
+
 // GET /nfl/sd/scores?season=2025REG&week=5
 r.get('/scores', async (req, res) => {
   try {

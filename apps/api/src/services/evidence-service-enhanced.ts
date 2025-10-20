@@ -98,7 +98,7 @@ export function getVideoEvidenceForProps(propCategories: string[], playerId?: st
           overallImpact: {
             avgWeight: evidenceEntries.reduce((sum: number, e: any) => sum + e.evidenceWeight, 0) / evidenceEntries.length,
             avgDeltaMu: evidenceEntries.reduce((sum: number, e: any) => sum + e.deltaMu, 0) / evidenceEntries.length,
-            avgDeltaSigma: evidenceEntries.reduce((sum: number, e: any) => sum + e.deltaSi            netstat -an | grep 4000gma, 0) / evidenceEntries.length
+            avgDeltaSigma: evidenceEntries.reduce((sum: number, e: any) => sum + e.deltaSigma, 0) / evidenceEntries.length
           }
         };
       }

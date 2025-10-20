@@ -47,15 +47,29 @@ function fromCache<T>(cache: LRUCache<string, any>, key: string, loader: () => P
 }
 
 export const sportsDataNFL = {
-  // Utility weeks
-  currentWeek(): Promise<number> {
-    return fromCache(cache5m, 'week:current', () => get<number>('scores/json/CurrentWeek'))
+  // Utility weeks - Note: Sportradar doesn't have direct week number endpoints
+  // Using current season schedule to derive current week
+  async currentWeek(): Promise<number> {
+    return fromCache(cache5m, 'week:current', async () => {
+      const schedule = await this.currentSeasonSchedule();
+      const now = new Date();
+      // Find the current week based on games in progress or upcoming
+      for (const game of schedule) {
+        const gameDate = new Date(game.date);
+        if (gameDate > now && game.week) {
+          return game.week;
+        }
+      }
+      return 1; // Default to week 1
+    });
   },
-  lastCompletedWeek(): Promise<number> {
-    return fromCache(cache5m, 'week:last', () => get<number>('scores/json/LastCompletedWeek'))
+  async lastCompletedWeek(): Promise<number> {
+    const current = await this.currentWeek();
+    return Math.max(1, current - 1);
   },
-  upcomingWeek(): Promise<number> {
-    return fromCache(cache5m, 'week:upcoming', () => get<number>('scores/json/UpcomingWeek'))
+  async upcomingWeek(): Promise<number> {
+    const current = await this.currentWeek();
+    return current + 1;
   },
 
   // Teams - Sportradar League Hierarchy
@@ -146,6 +160,79 @@ export const sportsDataNFL = {
   async schedulesBasic(season: string): Promise<any[]> {
     // Same as schedules for Sportradar
     return this.schedules(season);
+  },
+
+  // Current Season Schedule - Sportradar
+  async currentSeasonSchedule(): Promise<any[]> {
+    return fromCache(cache15m, 'schedule:currentSeason', async () => {
+      // Sportradar: /games/current_season/schedule
+      const data = await get<any>('games/current_season/schedule');
+      const games: any[] = [];
+      if (data.weeks) {
+        for (const week of data.weeks) {
+          if (week.games) {
+            games.push(...week.games.map((g: any) => ({
+              id: g.id,
+              week: week.sequence || undefined,
+              season: data.year,
+              seasonType: data.type,
+              date: g.scheduled,
+              status: g.status,
+              venue: g.venue,
+              home: {
+                id: g.home?.id,
+                name: g.home?.name,
+                alias: g.home?.alias,
+                abbreviation: g.home?.alias,
+                score: g.scoring?.home_points,
+              },
+              away: {
+                id: g.away?.id,
+                name: g.away?.name,
+                alias: g.away?.alias,
+                abbreviation: g.away?.alias,
+                score: g.scoring?.away_points,
+              },
+              broadcast: g.broadcast,
+            })));
+          }
+        }
+      }
+      return games;
+    });
+  },
+
+  // Game Box Score - Sportradar
+  async gameBoxscore(gameId: string): Promise<any> {
+    return fromCache(cache5m, `boxscore:${gameId}`, async () => {
+      // Sportradar: /games/{game_id}/boxscore
+      const data = await get<any>(`games/${gameId}/boxscore`);
+      return {
+        id: data.id,
+        status: data.status,
+        scheduled: data.scheduled,
+        attendance: data.attendance,
+        duration: data.duration,
+        clock: data.clock,
+        quarter: data.quarter,
+        summary: data.summary,
+        home: {
+          id: data.summary?.home?.id,
+          name: data.summary?.home?.name,
+          alias: data.summary?.home?.alias,
+          points: data.summary?.home?.points,
+          statistics: data.summary?.home?.statistics,
+        },
+        away: {
+          id: data.summary?.away?.id,
+          name: data.summary?.away?.name,
+          alias: data.summary?.away?.alias,
+          points: data.summary?.away?.points,
+          statistics: data.summary?.away?.statistics,
+        },
+        scoring: data.scoring,
+      };
+    });
   },
 
   // Scores
