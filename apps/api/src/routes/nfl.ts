@@ -94,11 +94,23 @@ r.get('/games', async (req, res) => {
           path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.games.json')
         ]) || [])
       : await nflDataService.getWeekGames(week, season)
-    // Best-effort enrich with ocSportEventId from cache if present and game has id as string
-    games = await Promise.all((games as any[]).map(async (g) => ({
-      ...g,
-      ocSportEventId: g?.id ? await idMap.get(String(g.id), 'game') : undefined,
-    })))
+    // Enrich with ocSportEventId: warm cache live, read from cache in demo
+    const demoMode = String(process.env.DEMO_MODE).toLowerCase() === 'true'
+    const enriched = await Promise.all((games as any[]).map(async (g) => {
+      const gid = String(g?.id ?? '')
+      if (!gid) return { ...g, ocSportEventId: null }
+      let ocId = await idMap.get(gid, 'game')
+      if (!ocId && !useDemo && !demoMode) {
+        try {
+          ocId = await mapSportEventFromNflGameId(gid)
+          if (ocId) await idMap.set(gid, ocId, 'game')
+        } catch (err) {
+          console.warn('Mapping fetch failed for', gid, err)
+        }
+      }
+      return { ...g, ocSportEventId: ocId ?? null }
+    }))
+    games = enriched
 
     console.log(`[NFL Games] Found ${games.length} games`)
     res.json({ week, season, count: games.length, games })

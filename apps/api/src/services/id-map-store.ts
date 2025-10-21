@@ -8,8 +8,7 @@ export interface IdMapStore {
   del(key: string, kind: MapKinds): Promise<void>
 }
 
-const prefix = (kind: MapKinds) => `propsage:idmap:${kind}:
-`
+const prefix = (kind: MapKinds) => `propsage:idmap:${kind}:`
 
 export function createIdMapStore(): IdMapStore {
   const url = process.env.REDIS_URL
