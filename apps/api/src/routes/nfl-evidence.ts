@@ -6,6 +6,7 @@
 
 import { Router } from 'express';
 import { nflEvidenceService } from '../services/nfl-evidence-service.js';
+import { unifiedEvidenceService } from '../services/unified-evidence-service.js';
 
 const router = Router();
 
@@ -47,7 +48,7 @@ router.get('/search', async (req, res) => {
 
 /**
  * GET /nfl/evidence/player/:playerId
- * Get evidence for a specific player's props
+ * Get evidence for a specific player's props (LEAGUE-AWARE)
  */
 router.get('/player/:playerId', async (req, res) => {
   try {
@@ -55,6 +56,8 @@ router.get('/player/:playerId', async (req, res) => {
     const { 
       propType = 'rushing_attempts',
       team,
+      opponent,
+      week = 5,
       limit = 8,
       minScore = 0.6
     } = req.query;
@@ -65,17 +68,30 @@ router.get('/player/:playerId', async (req, res) => {
       });
     }
 
-    const playerEvidence = await nflEvidenceService.getPlayerPropEvidence(
-      playerId,
-      propType as string,
-      {
-        team: team as string,
-        limit: parseInt(limit as string, 10),
-        minScore: parseFloat(minScore as string)
-      }
-    );
+    // Use unified evidence service for league-aware search
+    const clips = await unifiedEvidenceService.searchEvidence({
+      league: 'nfl',
+      player: playerId,
+      team: team as string,
+      opponent: opponent as string,
+      propType: propType as string,
+      season: '2024',
+      week: parseInt(week as string)
+    }, {
+      limit: parseInt(limit as string, 10),
+      minScore: parseFloat(minScore as string)
+    });
 
-    res.json(playerEvidence);
+    res.json({
+      player: playerId,
+      propType,
+      team,
+      totalClips: clips.length,
+      clips,
+      league: 'NFL',
+      week: parseInt(week as string),
+      timestamp: new Date().toISOString()
+    });
 
   } catch (error) {
     console.error('NFL player evidence error:', error);
