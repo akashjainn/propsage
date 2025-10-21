@@ -12,9 +12,11 @@ process.on("unhandledRejection", onFatal);
 // ---- Create Express app with all routes ----
 const app = createApp();
 
-// ---- Bind explicitly on Windows ----
+// ---- Bind address/port ----
+// Use platform-provided PORT if available. Bind to 0.0.0.0 so PaaS (Railway, Render) can route traffic.
+// You can override HOST via env if needed for local quirks, but default should be 0.0.0.0 in containers.
 const port = Number(process.env.PORT ?? 4000);
-const host = process.env.HOST ?? "127.0.0.1";
+const host = process.env.HOST ?? "0.0.0.0";
 
 const server = http.createServer(app);
 
@@ -27,7 +29,7 @@ server.on("error", (err: any) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`✅ PropSage API is alive at http://${host}:${port}`);
-  console.log(`   Health: http://${host}:${port}/health`);
-  console.log(`   NFL Routes: http://${host}:${port}/nfl/sd/teams`);
+  console.log(`✅ PropSage API is listening on ${host}:${port}`);
+  console.log(`   Health: /health`);
+  console.log(`   NFL Routes: /nfl/sd/teams`);
 });

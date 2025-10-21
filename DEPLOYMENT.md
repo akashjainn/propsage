@@ -12,7 +12,7 @@ VIDEO_ENABLED=true
 PPLX_API_KEY=[your-perplexity-api-key]
 TL_API_KEY=[your-twelvelabs-api-key]
 ODDS_API_KEY=[your-odds-api-key]
-PORT=8080
+# Do NOT hardcode a PORT on Railway; the platform sets PORT for you.
 FEATURE_FLAGS=demo_mode:true,video:true
 # Primary origin (kept for backwards compatibility)
 CORS_ORIGIN=https://propsage-web.vercel.app
@@ -121,6 +121,12 @@ The API now allows the following by default:
 - Any origin in `CORS_ORIGIN` and `CORS_ALLOWED_ORIGINS`
 
 You can add more with `CORS_ALLOWED_ORIGINS` (comma-separated; supports `*` wildcards and raw regex between slashes).
+
+### 2. 504 Bad Gateway on Railway
+
+- Ensure the API binds to `0.0.0.0` (this repo does by default). If you overrode `HOST`, unset it.
+- Don’t set a fixed `PORT`; Railway injects `PORT` and the server uses it automatically.
+- Check `/health`: `https://<your-railway>.up.railway.app/health` should return ok.
 
 ### 2. WebSocket Connection Failed  
 - Check that `NEXT_PUBLIC_API_WS_URL` uses `wss://` (not `ws://`)
