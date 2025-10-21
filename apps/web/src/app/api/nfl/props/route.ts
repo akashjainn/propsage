@@ -5,7 +5,9 @@ import path from 'path'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
+// Sanitize API base; avoid using literal strings like "undefined" or invalid values.
+const RAW_API_BASE = (process.env.NEXT_PUBLIC_API_URL || process.env.DATA_API_URL || '').trim()
+const API_BASE = /^https?:\/\//i.test(RAW_API_BASE) ? RAW_API_BASE : null
 
 function getLocalNFLData(gameId?: string) {
   const gamesCandidates = [
@@ -83,25 +85,36 @@ function getLocalNFLData(gameId?: string) {
 
 export async function GET(req: NextRequest) {
   try {
-    const url = new URL('/nfl/props', API_BASE)
-    req.nextUrl.searchParams.forEach((v, k) => url.searchParams.set(k, v))
-    if (!url.searchParams.has('week')) url.searchParams.set('week', '5')
-    if (!url.searchParams.has('demo')) url.searchParams.set('demo', '1')
+    // Build upstream URL only if API_BASE is a valid absolute URL
     const gameId = req.nextUrl.searchParams.get('gameId') || undefined
+    let url: URL | null = null
+    if (API_BASE) {
+      try {
+        url = new URL('/nfl/props', API_BASE)
+        req.nextUrl.searchParams.forEach((v, k) => url!.searchParams.set(k, v))
+        if (!url.searchParams.has('week')) url.searchParams.set('week', '5')
+        if (!url.searchParams.has('demo')) url.searchParams.set('demo', '1')
+      } catch (e) {
+        console.warn('Invalid API_BASE, skipping upstream fetch')
+        url = null
+      }
+    }
     
     // Try to fetch from API server first
-    try {
-      const r = await fetch(url.toString(), { 
-        signal: AbortSignal.timeout(5000) // 5 second timeout
-      })
-      if (r.ok) {
-        const data = await r.json()
-        return NextResponse.json(data)
+    if (url) {
+      try {
+        const r = await fetch(url.toString(), {
+          signal: AbortSignal.timeout(5000) // 5 second timeout
+        })
+        if (r.ok) {
+          const data = await r.json()
+          return NextResponse.json(data)
+        }
+        // If API responded but not OK, fall back to local
+        console.warn('Upstream /nfl/props not OK:', r.status)
+      } catch (apiError) {
+        console.log('API server not available, using local fallback')
       }
-      // If API responded but not OK, fall back to local
-      console.warn('Upstream /nfl/props not OK:', r.status)
-    } catch (apiError) {
-      console.log('API server not available, using local fallback')
     }
     
     // Fallback to local data

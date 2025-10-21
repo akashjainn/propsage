@@ -61,6 +61,19 @@ async function testSportradarDirect(name, path) {
         }
       }
     }
+    // Week-specific schedule response variant
+    if (name.includes('Schedule') && data.week) {
+      const gameCount = data.week?.games?.length || 0;
+      console.log(`   📊 Week ${data.week?.sequence ?? '?'} has ${gameCount} games`);
+      if (data.week?.games?.[0]) {
+        const sampleGame = data.week.games[0];
+        console.log(`   🏈 Sample game: ${sampleGame.away?.alias} @ ${sampleGame.home?.alias}`);
+        console.log(`   📅 Scheduled: ${sampleGame.scheduled}, Status: ${sampleGame.status}`);
+        if (sampleGame.id) {
+          return { success: true, data: { gameId: sampleGame.id, ...data } };
+        }
+      }
+    }
     
     if (name.includes('Boxscore')) {
       console.log(`   🎯 Game ID: ${data.id}`);
@@ -126,6 +139,7 @@ async function main() {
     ['League Hierarchy (Teams)', 'league/hierarchy'],
     ['Current Season Schedule', 'games/current_season/schedule'],
     [`Season Schedule (${currentYear} REG)`, `games/${currentYear}/REG/schedule`],
+    [`Season Week 5 Schedule (${currentYear} REG)`, `games/${currentYear}/REG/5/schedule`],
   ];
   
   let directPassed = 0;

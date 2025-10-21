@@ -3,8 +3,12 @@ import fs from 'fs'
 import path from 'path'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:4000'
+// Prefer explicit env-provided API base; if invalid/missing, fall back to production API host
+const RAW_API_BASE = (process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_DATA_API_URL || process.env.DATA_API_URL || '').trim()
+const DEFAULT_PROD_API = 'https://propsage-production.up.railway.app'
+const API_BASE = /^https?:\/\//i.test(RAW_API_BASE) ? RAW_API_BASE : DEFAULT_PROD_API
 
 function getLocalNFLGames() {
   const candidates = [
@@ -29,22 +33,33 @@ function getLocalNFLGames() {
 
 export async function GET(req: NextRequest) {
   try {
-    const url = new URL('/nfl/games', API_BASE)
-    req.nextUrl.searchParams.forEach((v, k) => url.searchParams.set(k, v))
-    if (!url.searchParams.has('week')) url.searchParams.set('week', '5')
-    // don't force demo here; let API decide demo/live based on env
+    // Build upstream URL to API server
+    let url: URL | null = null
+    try {
+      url = new URL('/nfl/games', API_BASE)
+      req.nextUrl.searchParams.forEach((v, k) => url!.searchParams.set(k, v))
+      if (!url.searchParams.has('week')) url.searchParams.set('week', '5')
+      // don't force demo here; let API decide demo/live based on env
+    } catch (e) {
+      console.warn('Invalid API_BASE for /nfl/games; falling back to local fixtures')
+      url = null
+    }
     
     // Try to fetch from API server first
-    try {
-      const r = await fetch(url.toString(), { 
-        signal: AbortSignal.timeout(5000) // 5 second timeout
-      })
-      if (r.ok) {
-        const data = await r.json()
-        return NextResponse.json(data)
+    if (url) {
+      try {
+        const r = await fetch(url.toString(), { 
+          signal: AbortSignal.timeout(5000) // 5 second timeout
+        })
+        if (r.ok) {
+          const data = await r.json()
+          return NextResponse.json(data)
+        } else {
+          console.warn('Upstream /nfl/games not OK:', r.status)
+        }
+      } catch (apiError) {
+        console.log('API server not available, using local fallback')
       }
-    } catch (apiError) {
-      console.log('API server not available, using local fallback')
     }
     
     // Fallback to local data
