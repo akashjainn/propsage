@@ -3,25 +3,15 @@ import React from 'react';
 import GamesRail from '@/components/GamesRail';
 import PropCard from '@/components/PropCard';
 import { SectionHeader } from '@/ui';
+import { useNflProps } from '@/hooks/useNFL';
 
 interface NFLClientProps { games: any[] }
 
 export default function NFLClient({ games }: NFLClientProps) {
   const [selectedGameId, setSelectedGameId] = React.useState<string>(games[0]?.id ?? '');
-  const [loading, setLoading] = React.useState(false);
-  const [propsList, setPropsList] = React.useState<any[]>([]);
-
-  // Load props for selected game
-  React.useEffect(() => {
-    if (!selectedGameId) return;
-    setLoading(true);
-    setPropsList([]);
-    fetch(`/api/nfl/unified/props/${encodeURIComponent(selectedGameId)}`, { cache: 'no-store' })
-      .then(r => r.ok ? r.json() : Promise.reject(new Error(String(r.status))))
-      .then(data => setPropsList(data.props || []))
-      .catch(() => setPropsList([]))
-      .finally(() => setLoading(false));
-  }, [selectedGameId]);
+  const demo = (process.env.NEXT_PUBLIC_DEMO_MODE ?? 'false').toLowerCase() === 'true';
+  const { data: propsData, isLoading: loading } = useNflProps(selectedGameId || undefined, demo);
+  const propsList = propsData?.props || [];
 
   return (
     <>
@@ -38,13 +28,13 @@ export default function NFLClient({ games }: NFLClientProps) {
             <PropCard
               key={p.id || `${p.gameId}:${p.playerId}:${p.market}:${p.book}`}
               item={{
-                id: p.id || `${p.gameId}:${p.playerId}:${p.market}:${p.book}`,
-                playerName: p.player || p.playerName,
-                team: p.team,
-                stat: p.market,
+                id: p.id || `${p.gameId || p.nflGameId}:${p.playerId || ''}:${(p.market && (p.market.key || p.market)) || ''}:${(p.book && (p.book.name || p.book)) || ''}`,
+                playerName: (p.player && p.player.name) || p.playerName || p.player || 'Unknown',
+                team: (p.player && p.player.teamAbbr) || p.team,
+                stat: (p.market && (p.market.name || p.market.key)) || p.market,
                 marketLine: p.line ?? p.marketLine,
                 fairLine: p.fairLine ?? null,
-                book: p.book,
+                book: (p.book && (p.book.name || p.book)) || undefined,
               }}
             />
           ))}

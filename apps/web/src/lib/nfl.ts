@@ -46,7 +46,11 @@ async function loadLocal<T>(importer: () => Promise<T>, label: string): Promise<
 }
 
 const api = (path: string) => {
-  const base = process.env.DATA_API_URL || process.env.NEXT_PUBLIC_DATA_API_URL || "";
+  const base =
+    process.env.DATA_API_URL ||
+    process.env.NEXT_PUBLIC_DATA_API_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    "";
   return `${base}${path}`;
 };
 
@@ -190,7 +194,22 @@ export async function fetchGamesForWeek(): Promise<{ data?: NFLGame[]; status: "
         : { data: [], status: "error", error: parsedLocal.error };
     }
     const json = await res.json();
-    const arr = Array.isArray(json) ? json : json?.data;
+    let arr: any[] | undefined;
+    if (Array.isArray(json)) arr = json;
+    else if (Array.isArray(json?.data)) arr = json.data;
+    else if (Array.isArray(json?.games)) {
+      // Transform live API shape -> GameZ shape
+      arr = json.games.map((g: any) => ({
+        id: String(g.id),
+        homeTeam: g.home?.abbreviation || g.home?.alias || g.homeTeam,
+        awayTeam: g.away?.abbreviation || g.away?.alias || g.awayTeam,
+        kickoff: g.date || g.kickoff,
+        status: g.status,
+        homeScore: g.home?.score,
+        awayScore: g.away?.score,
+      }))
+    } else arr = []
+
     const parsed = z.array(GameZ).safeParse(arr ?? []);
     if (!parsed.success || parsed.data.length === 0) {
       logger.warn("games-empty-or-parse-failed", { issues: (!parsed.success && parsed.error.issues) || "empty" });

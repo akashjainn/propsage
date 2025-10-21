@@ -4,7 +4,7 @@ import path from 'path'
 
 export const dynamic = 'force-dynamic'
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:4000'
 
 function getLocalNFLGames() {
   const candidates = [
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     const url = new URL('/nfl/games', API_BASE)
     req.nextUrl.searchParams.forEach((v, k) => url.searchParams.set(k, v))
     if (!url.searchParams.has('week')) url.searchParams.set('week', '5')
-    if (!url.searchParams.has('demo')) url.searchParams.set('demo', '1')
+    // don't force demo here; let API decide demo/live based on env
     
     // Try to fetch from API server first
     try {

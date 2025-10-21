@@ -62,27 +62,7 @@ export default async function NFLPage() {
         )}
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-  <h2 className="text-2xl font-semibold tracking-tight mb-1">NFL Props</h2>
-  <p className="text-sm text-gray-500 mb-4">Season: <span className="font-medium">{season}</span> · Week: <span className="font-medium">{week}</span></p>
-        <DataBoundary
-          status={propStatus === "ok" ? "success" : propStatus}
-          error={propError ?? clipError}
-          empty={!(props && props.length)}
-        >
-          {unmatchedCount > 0 && process.env.NODE_ENV === 'development' ? (
-            <div className="mb-4 rounded-md border border-yellow-300 bg-yellow-50 p-3 text-sm">
-              {unmatchedCount} props couldn't be matched to clips (dev note).
-            </div>
-          ) : null}
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(matched.length ? matched : (props ?? []).map(p => ({ prop: p, clip: undefined }))).map((row) => (
-              <NFLPropCard key={row.prop.id} prop={row.prop} clip={row.clip} />
-            ))}
-          </div>
-        </DataBoundary>
-      </section>
+      {/* Props are now rendered via NFLClient with live/demo hooks; removing static fallback section to avoid duplication */}
     </AppShell>
   );
 }
