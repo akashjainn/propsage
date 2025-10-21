@@ -6,16 +6,18 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(_req: NextRequest, { params }: { params: { gameId: string } }) {
   const base = apiBase()
-  const gameId = parseInt(params.gameId, 10)
-  if (!Number.isFinite(gameId)) return NextResponse.json({ error: 'invalid gameId' }, { status: 400 })
+  const gameIdRaw = params.gameId
+  const gameIdNum = parseInt(gameIdRaw, 10)
 
   // Try SDIO first
   try {
-    const r = await fetch(`${base}/nfl/sd/propsByGame/${gameId}`, { signal: AbortSignal.timeout(8000) })
-    if (r.ok) {
-      const data = await r.json()
-      const props = (data.props || []).map((p: any) => fromSportsDataIOProp(p, gameId))
-      return NextResponse.json({ gameId, props, source: 'sportsdataio' })
+    if (Number.isFinite(gameIdNum)) {
+      const r = await fetch(`${base}/nfl/sd/propsByGame/${gameIdNum}`, { signal: AbortSignal.timeout(8000) })
+      if (r.ok) {
+        const data = await r.json()
+        const props = (data.props || []).map((p: any) => fromSportsDataIOProp(p, gameIdNum))
+        return NextResponse.json({ gameId: gameIdRaw, props, source: 'sportsdataio' })
+      }
     }
   } catch {}
 
@@ -25,9 +27,9 @@ export async function GET(_req: NextRequest, { params }: { params: { gameId: str
     if (r.ok) {
       const data = await r.json()
       // demo format may not include gameId; return raw
-      return NextResponse.json({ gameId, props: data.props || [], source: 'demo' })
+      return NextResponse.json({ gameId: gameIdRaw, props: data.props || [], source: 'demo' })
     }
   } catch {}
 
-  return NextResponse.json({ gameId, props: [], source: 'none' })
+  return NextResponse.json({ gameId: gameIdRaw, props: [], source: 'none' })
 }
