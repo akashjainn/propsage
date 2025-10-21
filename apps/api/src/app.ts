@@ -21,14 +21,51 @@ import { config } from './config.js'
 
 export function createApp() {
   const app = express()
+  // Build a flexible, safe CORS allowlist that supports Vercel preview URLs
+  // and common local dev hosts. Also allow additional patterns via CORS_ALLOWED_ORIGINS.
+  const additionalOrigins = (process.env.CORS_ALLOWED_ORIGINS || '')
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean)
+    // Convert wildcard globs like *.vercel.app to a RegExp
+    .map((pattern) => {
+      try {
+        if (pattern === '*') return /.*/
+        // If already looks like a regex (e.g., /.../), try to parse it
+        if (pattern.startsWith('/') && pattern.endsWith('/')) {
+          return new RegExp(pattern.slice(1, -1))
+        }
+        // Ensure scheme is optional; escape dots; turn * into .*
+        const escaped = pattern
+          .replace(/^https?:\/\//, '')
+          .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+          .replace(/\*/g, '.*')
+        return new RegExp(`^https?:\/\/${escaped}$`)
+      } catch {
+        // Fallback: treat as exact string if regex creation fails
+        return pattern
+      }
+    })
+
+  const defaultOrigins: (string | RegExp)[] = [
+    /\.up\.railway\.app$/,
+    /\.vercel\.app$/,
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://propsage-web.vercel.app',
+    config.corsOrigin,
+    ...additionalOrigins,
+  ].filter(Boolean as unknown as (v: string | RegExp) => v is string | RegExp)
+
   app.use(cors({
-    origin: [
-      /\.up\.railway\.app$/,
-      /\.vercel\.app$/,
-      'http://localhost:3000',
-      'https://propsage-web.vercel.app',
-      config.corsOrigin
-    ].filter(Boolean),
+    origin: (origin, callback) => {
+      // Allow server-to-server, curl, health checks (no Origin header)
+      if (!origin) return callback(null, true)
+      const allowed = defaultOrigins.some((o) =>
+        typeof o === 'string' ? o === origin : o.test(origin)
+      )
+      return callback(null, allowed)
+    },
     credentials: true
   }))
   app.use(express.json())

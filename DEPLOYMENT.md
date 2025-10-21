@@ -14,7 +14,11 @@ TL_API_KEY=[your-twelvelabs-api-key]
 ODDS_API_KEY=[your-odds-api-key]
 PORT=8080
 FEATURE_FLAGS=demo_mode:true,video:true
-CORS_ORIGIN=https://propsage.vercel.app
+# Primary origin (kept for backwards compatibility)
+CORS_ORIGIN=https://propsage-web.vercel.app
+# Optional: add more allowed origins (comma-separated; supports * wildcards)
+# This is useful for Vercel preview deployments like https://<hash>.vercel.app
+CORS_ALLOWED_ORIGINS=*.vercel.app
 ```
 
 **Steps:**
@@ -68,8 +72,12 @@ Once you have your Railway domain:
 ### 5. Update Railway CORS
 
 After your Vercel deployment:
-1. Get your Vercel domain (like `https://propsage.vercel.app`)
-2. Update Railway's `CORS_ORIGIN` variable to your Vercel domain
+1. Get your Vercel domains:
+  - Production: `https://propsage-web.vercel.app`
+  - Preview: `https://<anything>.vercel.app` (auto-generated per deployment)
+2. Set Railway CORS variables:
+  - `CORS_ORIGIN=https://propsage-web.vercel.app`
+  - `CORS_ALLOWED_ORIGINS=*.vercel.app` (optional, adds preview domains)
 3. Railway will auto-redeploy
 
 ## Testing Deployment
@@ -98,8 +106,21 @@ Open your Vercel app and try searching for "Anthony Edwards". You should see:
 ## Common Issues
 
 ### 1. CORS Errors
-- Make sure `CORS_ORIGIN` on Railway matches your Vercel domain exactly
+- Ensure `CORS_ORIGIN` on Railway matches your production Vercel domain exactly
 - Include `https://` in the domain
+- For Vercel preview deployments, set `CORS_ALLOWED_ORIGINS=*.vercel.app` on Railway (or list specific preview domains, comma-separated)
+
+### CORS for Vercel Preview Deployments
+
+Vercel generates a unique preview URL for each deployment (e.g., `https://your-project-abc123.vercel.app`).
+The API now allows the following by default:
+
+- `*.vercel.app` and `*.up.railway.app`
+- `http://localhost:3000`, `http://127.0.0.1:3000`
+- `https://propsage-web.vercel.app`
+- Any origin in `CORS_ORIGIN` and `CORS_ALLOWED_ORIGINS`
+
+You can add more with `CORS_ALLOWED_ORIGINS` (comma-separated; supports `*` wildcards and raw regex between slashes).
 
 ### 2. WebSocket Connection Failed  
 - Check that `NEXT_PUBLIC_API_WS_URL` uses `wss://` (not `ws://`)
