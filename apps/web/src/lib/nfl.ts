@@ -173,53 +173,76 @@ export async function fetchGamesForWeek(): Promise<{ data?: NFLGame[]; status: "
         : { data: [], status: "error", error: parsedLocal.error };
     }
 
+    // 1) Try Next.js internal proxy first to avoid CORS/env drift
+    const proxyRes = await fetch(`/api/nfl/games?season=${encodeURIComponent(season)}&week=${encodeURIComponent(String(week))}`,
+      { next: { revalidate: 60 } }
+    )
+    if (proxyRes.ok) {
+      const json = await proxyRes.json()
+      let arr: any[] | undefined
+      if (Array.isArray(json)) arr = json
+      else if (Array.isArray(json?.data)) arr = json.data
+      else if (Array.isArray(json?.games)) {
+        arr = json.games.map((g: any) => ({
+          id: String(g.id),
+          homeTeam: g.home?.abbreviation || g.home?.alias || g.homeTeam,
+          awayTeam: g.away?.abbreviation || g.away?.alias || g.awayTeam,
+          kickoff: g.date || g.kickoff,
+          status: g.status,
+          homeScore: g.home?.score,
+          awayScore: g.away?.score,
+        }))
+      } else arr = []
+
+      const parsed = z.array(GameZ).safeParse(arr ?? [])
+      if (parsed.success && parsed.data.length > 0) {
+        return { data: parsed.data, status: 'ok' }
+      }
+      logger.warn("games-empty-or-parse-failed-proxy", { issues: (!parsed.success && parsed.error.issues) || "empty" })
+    } else {
+      logger.warn("games-api-proxy-not-ok", { status: proxyRes.status })
+    }
+
+    // 2) Fallback to external API if configured
     const base = process.env.DATA_API_URL || process.env.NEXT_PUBLIC_DATA_API_URL;
-    if (!base) {
-      const local = await loadLocal(() => import("../../../../data/week5_games.json").then(m => m.default), "games");
-      const parsedLocal = z.array(GameZ).safeParse(local ?? []);
-      return parsedLocal.success
-        ? { data: parsedLocal.data, status: "ok" }
-        : { data: [], status: "error", error: parsedLocal.error };
+    if (base) {
+      const res = await fetch(api(`/nfl/games?season=${encodeURIComponent(season)}&week=${encodeURIComponent(String(week))}`), {
+        next: { revalidate: 60 },
+      });
+      if (!res.ok) {
+        logger.warn("games-api-not-ok", { status: res.status });
+      } else {
+        const json = await res.json();
+        let arr: any[] | undefined;
+        if (Array.isArray(json)) arr = json;
+        else if (Array.isArray(json?.data)) arr = json.data;
+        else if (Array.isArray(json?.games)) {
+          // Transform live API shape -> GameZ shape
+          arr = json.games.map((g: any) => ({
+            id: String(g.id),
+            homeTeam: g.home?.abbreviation || g.home?.alias || g.homeTeam,
+            awayTeam: g.away?.abbreviation || g.away?.alias || g.awayTeam,
+            kickoff: g.date || g.kickoff,
+            status: g.status,
+            homeScore: g.home?.score,
+            awayScore: g.away?.score,
+          }))
+        } else arr = []
+
+        const parsed = z.array(GameZ).safeParse(arr ?? []);
+        if (parsed.success && parsed.data.length > 0) {
+          return { data: parsed.data, status: "ok" };
+        }
+        logger.warn("games-empty-or-parse-failed-external", { issues: (!parsed.success && parsed.error.issues) || "empty" });
+      }
     }
 
-    const res = await fetch(api(`/nfl/games?season=${encodeURIComponent(season)}&week=${encodeURIComponent(String(week))}`), {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) {
-      logger.warn("games-api-not-ok", { status: res.status });
-      const local = await loadLocal(() => import("../../../../data/week5_games.json").then(m => m.default), "games");
-      const parsedLocal = z.array(GameZ).safeParse(local ?? []);
-      return parsedLocal.success
-        ? { data: parsedLocal.data, status: "ok" }
-        : { data: [], status: "error", error: parsedLocal.error };
-    }
-    const json = await res.json();
-    let arr: any[] | undefined;
-    if (Array.isArray(json)) arr = json;
-    else if (Array.isArray(json?.data)) arr = json.data;
-    else if (Array.isArray(json?.games)) {
-      // Transform live API shape -> GameZ shape
-      arr = json.games.map((g: any) => ({
-        id: String(g.id),
-        homeTeam: g.home?.abbreviation || g.home?.alias || g.homeTeam,
-        awayTeam: g.away?.abbreviation || g.away?.alias || g.awayTeam,
-        kickoff: g.date || g.kickoff,
-        status: g.status,
-        homeScore: g.home?.score,
-        awayScore: g.away?.score,
-      }))
-    } else arr = []
-
-    const parsed = z.array(GameZ).safeParse(arr ?? []);
-    if (!parsed.success || parsed.data.length === 0) {
-      logger.warn("games-empty-or-parse-failed", { issues: (!parsed.success && parsed.error.issues) || "empty" });
-      const local = await loadLocal(() => import("../../../../data/week5_games.json").then(m => m.default), "games");
-      const parsedLocal = z.array(GameZ).safeParse(local ?? []);
-      return parsedLocal.success
-        ? { data: parsedLocal.data, status: "ok" }
-        : { data: [], status: "error", error: parsedLocal.error };
-    }
-    return { data: parsed.data, status: "ok" };
+    // 3) Final fallback to local fixtures
+    const local = await loadLocal(() => import("../../../../data/week5_games.json").then(m => m.default), "games");
+    const parsedLocal = z.array(GameZ).safeParse(local ?? []);
+    return parsedLocal.success
+      ? { data: parsedLocal.data, status: "ok" }
+      : { data: [], status: "error", error: parsedLocal.error };
   } catch (e) {
     logger.error("games-fetch-failed", { e });
     return { data: [], status: "error", error: e };
