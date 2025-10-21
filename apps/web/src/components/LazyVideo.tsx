@@ -21,6 +21,7 @@ export function LazyVideo({ src, type = 'mp4', poster, startTime = 0, autoPlay =
   const { ref, inView } = useIntersection<HTMLDivElement>({ rootMargin: '200px', threshold: 0.1, freezeOnceVisible: true });
   const shouldLoad = eager || inView;
   const [loaded, setLoaded] = useState(false);
+  const proxiedSrc = type === 'hls' ? `/api/proxy-hls?src=${encodeURIComponent(src)}` : src;
 
   useEffect(() => {
     if (shouldLoad) {
@@ -51,7 +52,7 @@ export function LazyVideo({ src, type = 'mp4', poster, startTime = 0, autoPlay =
       )}
       {loaded && (
         <VideoPlayer
-          source={{ type, src }}
+          source={{ type, src: proxiedSrc }}
           poster={poster}
           startTime={startTime}
           autoPlay={autoPlay}

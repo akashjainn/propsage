@@ -153,12 +153,9 @@ export default function EdgeEvidenceDrawer({
                         variants={staggerItem}
                         className="glass rounded-2xl p-4 space-y-3"
                       >
-                        <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center justify-start text-sm">
                           <span className="text-white/70 font-medium">
                             Match Score: <span className="text-primary-400 font-bold">{r.score?.toFixed?.(2) ?? '—'}</span>
-                          </span>
-                          <span className="text-white/50 font-medium">
-                            {Math.round(r.start)}s–{Math.round(r.end)}s
                           </span>
                         </div>
                         <LazyVideo 
@@ -213,9 +210,7 @@ export default function EdgeEvidenceDrawer({
                             variants={staggerItem}
                             className="glass rounded-2xl p-4 space-y-3"
                           >
-                            <div className="text-sm text-white/50 font-medium">
-                              {Math.round(c.start)}s–{Math.round(c.end)}s
-                            </div>
+                            {/* Removed explicit time range display per UX preference */}
                             <LazyVideo
                               src={c.url}
                               type={c.url.endsWith('.m3u8') ? 'hls' : 'mp4'}

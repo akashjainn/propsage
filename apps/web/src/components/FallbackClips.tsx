@@ -30,7 +30,6 @@ export default function FallbackClips({ game, edge }: { game: string; edge: { pl
     <div className="space-y-4">
       {clips.map((c) => (
         <div key={`${c.url}-${c.start}`} className="space-y-2">
-          <div className="text-sm opacity-80">{Math.round(c.start)}s–{Math.round(c.end)}s</div>
           <video
             src={c.url}
             controls
