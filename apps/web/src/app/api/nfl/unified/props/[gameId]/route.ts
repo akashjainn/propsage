@@ -23,11 +23,28 @@ export async function GET(_req: NextRequest, { params }: { params: { gameId: str
 
   // Fallback: try demo props route and filter client-side if available
   try {
-    const r = await fetch(`${base}/nfl/props?week=5&demo=1`, { signal: AbortSignal.timeout(6000) })
-    if (r.ok) {
-      const data = await r.json()
-      // demo format may not include gameId; return raw
-      return NextResponse.json({ gameId: gameIdRaw, props: data.props || [], source: 'demo' })
+    const [propsRes, gamesRes] = await Promise.all([
+      fetch(`${base}/nfl/props?week=5&demo=1`, { signal: AbortSignal.timeout(6000) }),
+      fetch(`${base}/nfl/games?week=5&demo=1`, { signal: AbortSignal.timeout(6000) })
+    ])
+
+    if (propsRes.ok) {
+      const data = await propsRes.json()
+      let list: any[] = data.props || []
+
+      // If we know the game, filter props by its teams (abbreviation)
+      if (gamesRes.ok) {
+        const gdata = await gamesRes.json()
+        const game = (gdata.games || []).find((g: any) => String(g.id) === String(gameIdRaw))
+        const home = game?.home?.abbreviation || game?.home?.alias || game?.homeTeam
+        const away = game?.away?.abbreviation || game?.away?.alias || game?.awayTeam
+        if (home && away) {
+          const set = new Set([String(home).toUpperCase(), String(away).toUpperCase()])
+          list = list.filter(p => set.has(String(p.team || '').toUpperCase()))
+        }
+      }
+
+      return NextResponse.json({ gameId: gameIdRaw, props: list, source: 'demo' })
     }
   } catch {}
 
