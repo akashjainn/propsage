@@ -23,6 +23,10 @@ interface AppConfig {
   oddsApiKey: string;
   sportsDataIOKey?: string;
   sportradarKey?: string;
+  sportradarBase: string;
+  sportradarLocale: string;
+  sportradarNflPackage: string; // e.g., v5 or v7 official
+  sportradarOddsCenter: string; // e.g., oc
   msfApiKey?: string;
   msfBaseUrl: string;
   msfEnabled: boolean;
@@ -73,6 +77,10 @@ export const config: AppConfig = {
   oddsApiKey: process.env.ODDS_API_KEY || '',
   sportsDataIOKey: process.env.SPORTSDATAIO_API_KEY || process.env.SPORTS_DATA_IO_KEY || process.env.SPORTS_DATAIO_KEY || undefined,
   sportradarKey: process.env.SPORTRADAR_API_KEY || undefined,
+  sportradarBase: process.env.SPORTRADAR_BASE || 'https://api.sportradar.com',
+  sportradarLocale: process.env.SPORTRADAR_LOCALE || 'en',
+  sportradarNflPackage: process.env.SPORTRADAR_NFL_PACKAGE || 'v7',
+  sportradarOddsCenter: process.env.SPORTRADAR_ODDS_CENTER || 'oc',
   msfApiKey: process.env.MSF_API_KEY || undefined,
   msfBaseUrl: process.env.MSF_BASE_URL || 'https://api.mysportsfeeds.com/v2.1/pull/nfl',
   msfEnabled: bool(process.env.MSF_ENABLED, false) && !!process.env.MSF_API_KEY,

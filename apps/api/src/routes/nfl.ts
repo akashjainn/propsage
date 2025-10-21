@@ -3,6 +3,9 @@ import { nflDataService } from '../services/nfl-data-service.js'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { ocClient } from '../services/sportradar-oc.js'
+import { idMapStore } from '../services/id-map-store.js'
+import { normalizeOcPlayerProps } from '../services/prop-normalizer.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -44,6 +47,23 @@ function maybeReadJsonFromCandidates<T = any>(candidates: string[]): T | null {
 // We'll lazy-load within the route only when demo=1 is requested.
 
 const r = Router()
+// GET /nfl/weeks?season=2025&season_type=REG
+r.get('/weeks', async (req, res) => {
+  try {
+    const season = String(req.query.season || new Date().getFullYear())
+    const seasonType = String(req.query.season_type || 'REG')
+    // Simple 1..18 scaffolding with placeholders; dates can be derived from schedules when needed
+    const weeks = Array.from({ length: 18 }).map((_, i) => ({
+      sequence: i + 1,
+      season,
+      seasonType,
+    }))
+    res.json({ season, seasonType, weeks })
+  } catch (e) {
+    res.status(500).json({ error: (e as Error).message })
+  }
+})
+
 
 function getWeek(req: any): number {
   const w = req.query.week ? Number(req.query.week) : 5
@@ -128,12 +148,42 @@ r.get('/games/:id', async (req, res) => {
 // GET /nfl/props?week=5&team=DAL&playerId=6786
 r.get('/props', async (req, res) => {
   try {
-    const { team, playerId, stat } = req.query as any
+    const { team, playerId, stat, gameId } = req.query as any
     const week = getWeek(req)
     const season = getSeason(req)
     const useDemo = String(req.query.demo).toLowerCase() === '1' || String(req.query.demo).toLowerCase() === 'true'
     
     console.log(`[NFL Props] week=${week}, season=${season}, demo=${useDemo}`)
+    
+    // If a specific gameId is requested and live is allowed, try OC mapping + props
+    if (!useDemo && gameId) {
+      try {
+        const nflGameId = String(gameId)
+        let ocId = idMapStore.getSportEventForNflGame(nflGameId)
+        if (!ocId) {
+          const map = await ocClient.sportEventMapping(nflGameId)
+          ocId = map?.mapped_id || map?.sport_event_id || map?.id
+          if (ocId) idMapStore.setSportEventForNflGame(nflGameId, ocId)
+        }
+        if (!ocId) return res.status(404).json({ error: 'Mapping not found' })
+        let start = 0
+        const all: any[] = []
+        // Basic pagination loop. If X-Max-Results semantics require headers, adapt; here we try start offsets until empty page.
+        for (let i = 0; i < 5; i++) {
+          const page = await ocClient.playerPropsBySportEvent(ocId, start)
+          const count = (page?.player_markets || page?.markets || []).length
+          if (!count) break
+          all.push(page)
+          start += count
+        }
+        // Normalize
+        const flat = all.flatMap(p => normalizeOcPlayerProps(p, ocId!, nflGameId))
+        // TODO: attach fair lines using core model if desired
+        return res.json({ updatedAt: new Date().toISOString(), source: 'sportradar-oc', props: flat })
+      } catch (e) {
+        console.warn('[NFL Props live] falling back to demo:', (e as Error).message)
+      }
+    }
     
     const schedule = useDemo
       ? (maybeReadJsonFromCandidates<any[]>([
