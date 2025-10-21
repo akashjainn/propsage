@@ -5,7 +5,8 @@ export function isSportsDataIOLive() {
 }
 
 export function apiBase() {
-  return process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+  // Prefer 127.0.0.1 on Windows to avoid IPv6 localhost (::1) mismatch with server binding
+  return process.env.NEXT_PUBLIC_API_URL ?? 'http://127.0.0.1:4000';
 }
 
 export function todayNY() {

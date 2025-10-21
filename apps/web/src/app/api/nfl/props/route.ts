@@ -14,7 +14,11 @@ function getLocalNFLData() {
     path.resolve(process.cwd(), '../api/data/week5.nfl.games.json')
   ]
   
+  // Prefer top-level Week 5 props demo first (data/week5_props.json),
+  // then fall back to apps/api demo props file if needed.
   const propsCandidates = [
+    path.resolve(process.cwd(), '../../data/week5_props.json'),
+    path.resolve(process.cwd(), 'data/week5_props.json'),
     path.resolve(process.cwd(), '../../apps/api/src/data/props.nfl.json'),
     path.resolve(process.cwd(), 'apps/api/src/data/props.nfl.json'),
     path.resolve(process.cwd(), '../api/src/data/props.nfl.json'),
@@ -48,8 +52,13 @@ function getLocalNFLData() {
     }
   }
   
-  // Filter props to week 5 teams
-  const weekTeams = new Set(games.flatMap((g: any) => [g.home.abbreviation, g.away.abbreviation]))
+  // Filter props to week 5 teams (supports either {home/away}.{abbreviation|alias} or {homeTeam, awayTeam})
+  const weekTeams = new Set(
+    games.flatMap((g: any) => [
+      g.home?.abbreviation || g.home?.alias || g.homeTeam,
+      g.away?.abbreviation || g.away?.alias || g.awayTeam
+    ].filter(Boolean))
+  )
   const filteredProps = props.filter((p: any) => weekTeams.has(p.team))
   
   return { 

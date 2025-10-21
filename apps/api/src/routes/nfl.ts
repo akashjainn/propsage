@@ -66,6 +66,8 @@ r.get('/games', async (req, res) => {
     
     const games = useDemo
       ? (maybeReadJsonFromCandidates<any[]>([
+          // Prefer top-level fixtures if present
+          path.resolve(process.cwd(), 'data/week5_games.json'),
           path.resolve(__dirname, '../data/week5.nfl.games.json'),
           path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.games.json'),
           path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.games.json')
@@ -135,19 +137,30 @@ r.get('/props', async (req, res) => {
     
     const schedule = useDemo
       ? (maybeReadJsonFromCandidates<any[]>([
+          // Prefer top-level fixtures if present
+          path.resolve(process.cwd(), 'data/week5_games.json'),
           path.resolve(__dirname, '../data/week5.nfl.games.json'),
           path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.games.json'),
           path.resolve(process.cwd(), 'apps/api/dist/data/week5.nfl.games.json')
         ]) || [])
       : await nflDataService.getWeekGames(week, season)
-    const weekTeams = new Set((schedule as Array<{ home: { abbreviation: string }, away: { abbreviation: string } }>).
-      flatMap(g => [g.home.abbreviation, g.away.abbreviation]))
+    // Support both schemas:
+    // - { home: { abbreviation|alias }, away: { abbreviation|alias } }
+    // - { homeTeam: 'KC', awayTeam: 'MIN' }
+    const weekTeams = new Set(
+      (schedule as any[]).flatMap((g: any) => [
+        g?.home?.abbreviation || g?.home?.alias || g?.homeTeam,
+        g?.away?.abbreviation || g?.away?.alias || g?.awayTeam,
+      ].filter(Boolean)).map((s: string) => String(s).toUpperCase())
+    )
     
     console.log(`[NFL Props] Week teams:`, Array.from(weekTeams))
     
     // Lazy-load demo props only when requested; otherwise, return empty until live source is added
     const demoProps: any[] = useDemo
       ? (maybeReadJsonFromCandidates<any[]>([
+          // Prefer consolidated top-level Week 5 props if available
+          path.resolve(process.cwd(), 'data/week5_props.json'),
           path.resolve(__dirname, '../data/props.nfl.json'),
           path.resolve(process.cwd(), 'apps/api/src/data/props.nfl.json'),
           path.resolve(process.cwd(), 'apps/api/dist/data/props.nfl.json')
@@ -156,7 +169,7 @@ r.get('/props', async (req, res) => {
       
     console.log(`[NFL Props] Total demo props found: ${demoProps.length}`)
     
-    let list = demoProps.filter(p => weekTeams.has(p.team))
+  let list = demoProps.filter(p => weekTeams.has(String(p.team || '').toUpperCase()))
     console.log(`[NFL Props] Props after team filter: ${list.length}`)
     
     if (team) list = list.filter(p => p.team === String(team))
