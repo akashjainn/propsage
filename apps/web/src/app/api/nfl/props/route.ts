@@ -3,10 +3,11 @@ import fs from 'fs'
 import path from 'path'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
 
-function getLocalNFLData() {
+function getLocalNFLData(gameId?: string) {
   const gamesCandidates = [
     path.resolve(process.cwd(), '../../apps/api/src/data/week5.nfl.games.json'),
     path.resolve(process.cwd(), 'apps/api/src/data/week5.nfl.games.json'),
@@ -25,8 +26,8 @@ function getLocalNFLData() {
     path.resolve(process.cwd(), '../api/data/props.nfl.json')
   ]
   
-  let games = []
-  let props = []
+  let games: any[] = []
+  let props: any[] = []
   
   // Load games
   for (const candidate of gamesCandidates) {
@@ -52,20 +53,31 @@ function getLocalNFLData() {
     }
   }
   
-  // Filter props to week 5 teams (supports either {home/away}.{abbreviation|alias} or {homeTeam, awayTeam})
-  const weekTeams = new Set(
-    games.flatMap((g: any) => [
-      g.home?.abbreviation || g.home?.alias || g.homeTeam,
-      g.away?.abbreviation || g.away?.alias || g.awayTeam
-    ].filter(Boolean))
-  )
-  const filteredProps = props.filter((p: any) => weekTeams.has(p.team))
+  // Determine team filter set
+  let teamSet: Set<string>
+  if (gameId) {
+    const g = games.find((x: any) => String(x?.id) === String(gameId))
+    const home = g?.home?.abbreviation || g?.home?.alias || g?.homeTeam
+    const away = g?.away?.abbreviation || g?.away?.alias || g?.awayTeam
+    teamSet = new Set([home, away].filter(Boolean).map((s: any) => String(s).toUpperCase()))
+  } else {
+    // Filter props to week 5 teams (supports either {home/away}.{abbreviation|alias} or {homeTeam, awayTeam})
+    teamSet = new Set(
+      games
+        .flatMap((g: any) => [
+          g.home?.abbreviation || g.home?.alias || g.homeTeam,
+          g.away?.abbreviation || g.away?.alias || g.awayTeam,
+        ].filter(Boolean))
+        .map((s: any) => String(s).toUpperCase())
+    )
+  }
+  const filteredProps = props.filter((p: any) => teamSet.has(String(p.team || '').toUpperCase()))
   
-  return { 
-    props: filteredProps, 
-    week: 5, 
-    season: 2025, 
-    count: filteredProps.length 
+  return {
+    props: filteredProps,
+    week: 5,
+    season: 2025,
+    count: filteredProps.length
   }
 }
 
@@ -75,6 +87,7 @@ export async function GET(req: NextRequest) {
     req.nextUrl.searchParams.forEach((v, k) => url.searchParams.set(k, v))
     if (!url.searchParams.has('week')) url.searchParams.set('week', '5')
     if (!url.searchParams.has('demo')) url.searchParams.set('demo', '1')
+    const gameId = req.nextUrl.searchParams.get('gameId') || undefined
     
     // Try to fetch from API server first
     try {
@@ -85,12 +98,14 @@ export async function GET(req: NextRequest) {
         const data = await r.json()
         return NextResponse.json(data)
       }
+      // If API responded but not OK, fall back to local
+      console.warn('Upstream /nfl/props not OK:', r.status)
     } catch (apiError) {
       console.log('API server not available, using local fallback')
     }
     
     // Fallback to local data
-    const localData = getLocalNFLData()
+    const localData = getLocalNFLData(gameId)
     return NextResponse.json(localData)
     
   } catch (e: any) {
