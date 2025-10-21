@@ -1,53 +1,66 @@
-import fetch from 'node-fetch'
-import { LRUCache } from 'lru-cache'
-import { config } from '../config.js'
+import { setTimeout as delay } from 'node:timers/promises'
+import { z } from 'zod'
+import { request } from 'undici'
 
-const cache10m = new LRUCache<string, any>({ max: 500, ttl: 1000 * 60 * 10 })
+const BASE = process.env.SPORTRADAR_BASE ?? 'https://api.sportradar.com'
+const LOCALE = process.env.SPORTRADAR_LOCALE ?? 'en'
+const OC = process.env.SPORTRADAR_ODDS_CENTER ?? 'odds'
+const KEY = process.env.SPORTRADAR_API_KEY!
 
-function ocUrl(path: string) {
-  const base = config.sportradarBase
-  const locale = config.sportradarLocale
-  const pack = config.sportradarOddsCenter || 'oc'
-  // Example: https://api.sportradar.com/oddscomparison/trial/v1/en/... (varies by plan)
-  return `${base}/oddscomparison/trial/v1/${locale}/${path}.json`
+function url(p: string, q: Record<string, string | number | undefined> = {}) {
+  const u = new URL(`${BASE}/${OC}/${LOCALE}${p}`)
+  u.searchParams.set('api_key', KEY)
+  for (const [k, v] of Object.entries(q)) if (v != null) u.searchParams.set(k, String(v))
+  return u.toString()
 }
 
-async function ocGet<T>(path: string, params: Record<string, any> = {}): Promise<T> {
-  if (!config.sportradarKey) throw new Error('SPORTRADAR_API_KEY not configured')
-  const url = new URL(ocUrl(path))
-  url.searchParams.set('api_key', config.sportradarKey)
-  for (const [k, v] of Object.entries(params)) if (v != null) url.searchParams.set(k, String(v))
-  const r = await fetch(url.toString())
-  if (!r.ok) {
-    const txt = await r.text()
-    throw new Error(`Sportradar OC ${path} ${r.status}: ${txt}`)
+async function getJson<T>(u: string): Promise<T> {
+  const res = await request(u, { method: 'GET' })
+  if ((res.statusCode ?? 0) >= 429) { await delay(350); return getJson<T>(u) }
+  if ((res.statusCode ?? 0) >= 400) throw new Error(`OC HTTP ${res.statusCode} for ${u}`)
+  return await res.body.json() as T
+}
+
+export async function mapSportEventFromNflGameId(nflGameId: string) {
+  const u = url(`/mappings/sport_events/sportradar/${encodeURIComponent(nflGameId)}.json`)
+  const j = await getJson<{ sport_event?: { id?: string } }>(u)
+  return j?.sport_event?.id ?? null
+}
+
+const SelectionZ = z.object({
+  name: z.string(),
+  outcome: z.string().optional(),
+  odds: z.number().optional(),
+  american_odds: z.string().optional(),
+  handicap: z.number().nullable().optional(),
+})
+
+export const MarketZ = z.object({
+  name: z.string(),
+  specifiers: z.record(z.string()).optional(),
+  selections: z.array(SelectionZ).default([]),
+})
+
+const PropsPageZ = z.object({
+  sport_event: z.object({ id: z.string(), start_time: z.string().optional() }).optional(),
+  markets: z.array(MarketZ).default([]),
+  paging: z.object({ start: z.number(), limit: z.number(), total: z.number() }).optional(),
+})
+
+export type OcMarket = z.infer<typeof MarketZ>
+
+export async function getPlayerPropsBySportEvent(ocSportEventId: string) {
+  const pageSize = 200
+  let start = 0
+  const agg: OcMarket[] = []
+  while (true) {
+    const u = url(`/sport_events/${encodeURIComponent(ocSportEventId)}/playerprops.json`, { start, limit: pageSize })
+    const j = PropsPageZ.parse(await getJson(u))
+    agg.push(...j.markets)
+    const p = j.paging ?? { start, limit: agg.length, total: agg.length }
+    start = (p.start ?? 0) + (p.limit ?? pageSize)
+    if (start >= (p.total ?? agg.length)) break
+    await delay(100)
   }
-  return r.json() as any
-}
-
-export const ocClient = {
-  // Mappings
-  sportEventMapping(nflGameId: string) {
-    const k = `map:event:${nflGameId}`
-    const v = cache10m.get(k)
-    if (v) return Promise.resolve(v)
-    return ocGet<any>(`mappings/sport_event/${nflGameId}`).then((data) => { cache10m.set(k, data); return data })
-  },
-  playerMapping(nflPlayerId: string) {
-    const k = `map:player:${nflPlayerId}`
-    const v = cache10m.get(k)
-    if (v) return Promise.resolve(v)
-    return ocGet<any>(`mappings/player/${nflPlayerId}`).then((data) => { cache10m.set(k, data); return data })
-  },
-  teamMapping(nflTeamId: string) {
-    const k = `map:team:${nflTeamId}`
-    const v = cache10m.get(k)
-    if (v) return Promise.resolve(v)
-    return ocGet<any>(`mappings/team/${nflTeamId}`).then((data) => { cache10m.set(k, data); return data })
-  },
-
-  // Props by sport event (paged). Caller should loop by start parameter.
-  playerPropsBySportEvent(ocSportEventId: string, start = 0) {
-    return ocGet<any>(`sport_events/${ocSportEventId}/player_props`, { start })
-  },
+  return agg
 }

@@ -1,11 +1,11 @@
 export interface PlayerProp {
   sportEventId: string
-  nflGameId: string
-  player: { name: string; nflId?: string; ocId?: string; teamAbbr: string; position?: string }
+  nflGameId?: string
+  player: { name: string; nflId?: string; ocId?: string; teamAbbr?: string; position?: string }
   market: { key: string; name: string }
   line: number
-  book: { name: string; lastUpdated: string }
-  odds: { over?: number; under?: number }
+  book?: { name?: string; lastUpdated?: string }
+  odds: { over?: number; under?: number; overAmerican?: string; underAmerican?: string }
   fairLine?: number
   edge?: number
 }
@@ -23,33 +23,33 @@ function toKey(name: string): string {
   return map[name] || name.toLowerCase().replace(/\s+/g, '_')
 }
 
-export function normalizeOcPlayerProps(oc: any, ocSportEventId: string, nflGameId: string): PlayerProp[] {
-  const props: PlayerProp[] = []
-  const markets = oc?.markets || oc?.player_markets || []
-  for (const m of markets) {
+export function normalizeOcPlayerProps(ocEventId: string, nflGameId: string | undefined, markets: any[]): PlayerProp[] {
+  const out: PlayerProp[] = []
+  for (const m of markets || []) {
     const marketName = m.name || m.market || 'Unknown'
     const key = toKey(marketName)
     const selections = m.selections || m.outcomes || []
     for (const sel of selections) {
-      const competitor = sel?.competitor || sel?.player || {}
-      const name = competitor?.name || competitor?.full_name || 'Unknown'
-      const teamAbbr = competitor?.team_abbr || competitor?.team?.abbreviation || competitor?.team || ''
-      const line = Number(sel?.line ?? sel?.handicap ?? sel?.points)
-      const book = { name: sel?.book?.name || sel?.book || 'consensus', lastUpdated: sel?.last_updated || sel?.updated_at || new Date().toISOString() }
+      const fullName = sel?.name || sel?.player_name || 'Unknown'
+      // Try to parse a line from handicap or from selection text
+      const lineVal = sel?.handicap ?? sel?.line ?? parseFloat((fullName.match(/(-?\d+(?:\.\d+)?)/)?.[0] ?? 'NaN'))
+      const over = /over/i.test(sel?.outcome ?? fullName)
+      const under = /under/i.test(sel?.outcome ?? fullName)
       const odds = {
-        over: sel?.over_odds ?? sel?.over?.odds ?? sel?.price_over,
-        under: sel?.under_odds ?? sel?.under?.odds ?? sel?.price_under,
+        over: over ? sel?.odds : undefined,
+        under: under ? sel?.odds : undefined,
+        overAmerican: over ? sel?.american_odds : undefined,
+        underAmerican: under ? sel?.american_odds : undefined,
       }
-      props.push({
-        sportEventId: ocSportEventId,
+      out.push({
+        sportEventId: ocEventId,
         nflGameId,
-        player: { name, teamAbbr },
+        player: { name: fullName.replace(/Over.*|Under.*/i, '').trim() },
         market: { key, name: marketName },
-        line: isFinite(line) ? line : NaN,
-        book,
+        line: Number.isFinite(Number(lineVal)) ? Number(lineVal) : NaN,
         odds,
       })
     }
   }
-  return props.filter(p => isFinite(p.line))
+  return out.filter(p => Number.isFinite(p.line))
 }
