@@ -36,31 +36,9 @@ interface MockVideo {
   createdAt: Date;
 }
 
-// Mock data for demo - replace with real database calls
-const MOCK_VIDEOS: MockVideo[] = [
-  {
-    id: 'vid_georgia_alabama_2024',
-    gameId: 'game_georgia_alabama_2024_09_27',
-    s3Url: 'https://propsage-clips.s3.amazonaws.com/cfb/georgia-alabama-highlights.mp4',
-    tlVideoId: 'tl_video_12345',
-    title: 'Georgia vs Alabama - Key Plays',
-    status: 'ready',
-    teams: ['Georgia', 'Alabama'],
-    players: ['Carson Beck', 'Ryan Puglisi', 'Jalen Milroe'],
-    createdAt: new Date('2024-09-27')
-  },
-  {
-    id: 'vid_georgia_recap_week4',
-    gameId: 'game_georgia_recap_2024_week4',
-    s3Url: 'https://propsage-clips.s3.amazonaws.com/cfb/georgia-week4-recap.mp4',
-    tlVideoId: 'tl_video_67890',
-    title: 'Georgia Week 4 Recap',
-    status: 'ready', 
-    teams: ['Georgia'],
-    players: ['Carson Beck', 'Ryan Puglisi', 'Brock Bowers'],
-    createdAt: new Date('2024-09-25')
-  }
-];
+// Mock data - no longer used for filtering since we search the entire TwelveLabs index
+// Keeping the interface definition for future database implementation
+const MOCK_VIDEOS: MockVideo[] = [];
 
 export class EvidenceService {
   
@@ -87,13 +65,6 @@ export class EvidenceService {
     if (cached) return cached;
 
     try {
-      // Get relevant videos for this player/game
-      const videos = this.getRelevantVideos(playerName, gameId);
-      if (videos.length === 0) {
-        console.log(`No videos found for ${playerName} in game ${gameId}`);
-        return null;
-      }
-
       // Get prop intent queries
       const intent = PROP_INTENT_LIBRARY[propType];
       if (!intent) {
@@ -103,14 +74,13 @@ export class EvidenceService {
 
       // Build search queries for this player
       const queries = buildMomentQuery(intent, playerName);
-      const videoIds = videos.map(v => v.tlVideoId).filter(Boolean) as string[];
-
-      // Search TwelveLabs for moments
-      // Use mock service for demo, live API for production
+      
+      // Search entire TwelveLabs index (no video ID filtering)
+      // The player name in the query will filter results naturally
       const isDemoMode = process.env.DEMO_MODE === 'true';
       const moments = isDemoMode 
-        ? await twelveLabsMockService.searchMoments(queries, videoIds, 8)
-        : await twelveLabsClient.searchMoments(queries, videoIds, 8);
+        ? await twelveLabsMockService.searchMoments(queries, undefined, 8)
+        : await twelveLabsClient.searchMoments(queries, undefined, 8);
 
       // Create moment pack
       const momentPack: MomentPack = {
@@ -197,20 +167,17 @@ export class EvidenceService {
     }
 
     try {
-      // Get relevant videos
-      const videos = this.getRelevantVideos(playerName, gameId);
-      const videoIds = videos.map(v => v.tlVideoId).filter(Boolean) as string[];
-
       // Expand query with synonyms for better results
       const expandedQuery = this.expandQuery(query);
       const queries = playerName 
         ? [expandedQuery.replace('{player}', playerName)]
         : [expandedQuery];
 
+      // Search entire TwelveLabs index (no video ID filtering)
       const isDemoMode = process.env.DEMO_MODE === 'true';
       return isDemoMode
-        ? await twelveLabsMockService.searchMoments(queries, videoIds, limit)
-        : await twelveLabsClient.searchMoments(queries, videoIds, limit);
+        ? await twelveLabsMockService.searchMoments(queries, undefined, limit)
+        : await twelveLabsClient.searchMoments(queries, undefined, limit);
 
     } catch (error) {
       console.error('Free-form search error:', error);
