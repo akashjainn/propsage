@@ -43,16 +43,28 @@ const LIMIT = parseInt((args.find(a => a.startsWith('--limit=')) || '').split('=
 const MIN_HITS = parseInt((args.find(a => a.startsWith('--minHits=')) || '').split('=')[1] || '3', 10);
 
 function loadProcessed() {
-  const p = resolve(__dirname, '../../data/video-library-processed.json');
-  if (!existsSync(p)) {
-    console.error('❌ Missing data/video-library-processed.json');
+  // Prefer data/video-library-processed.json, but fallback to repo-root video-processing-results.json
+  const primary = resolve(__dirname, '../../data/video-library-processed.json');
+  const fallback = resolve(__dirname, '../../video-processing-results.json');
+  let filePath = null;
+  if (existsSync(primary)) filePath = primary;
+  else if (existsSync(fallback)) filePath = fallback;
+
+  if (!filePath) {
+    console.error('❌ Missing processed video library. Expected one of:');
+    console.error('   - data/video-library-processed.json');
+    console.error('   - video-processing-results.json');
     process.exit(1);
   }
-  return JSON.parse(readFileSync(p, 'utf-8'));
+  return JSON.parse(readFileSync(filePath, 'utf-8'));
 }
 
-const NFL_TEAMS = new Set(getTeamsForLeague('nfl'));
-const CFB_TEAMS = new Set(getTeamsForLeague('cfb'));
+const NFL_TEAM_LIST = getTeamsForLeague('nfl');
+const CFB_TEAM_LIST = getTeamsForLeague('cfb');
+const NFL_TEAMS = new Set(NFL_TEAM_LIST);
+const CFB_TEAMS = new Set(CFB_TEAM_LIST);
+const NFL_LC_MAP = new Map(NFL_TEAM_LIST.map(t => [t.toLowerCase(), t]));
+const CFB_LC_MAP = new Map(CFB_TEAM_LIST.map(t => [t.toLowerCase(), t]));
 
 function extractTeams(filename) {
   const base = filename.replace(/\.[a-z0-9]+$/i,'');
@@ -69,13 +81,16 @@ function extractTeams(filename) {
   for (let i=0;i<words.length;i++) {
     for (let j=i+1;j<=Math.min(words.length,i+3);j++) {
       const phrase = words.slice(i,j).join(' ');
-      const norm = normalizeTeamName(phrase);
-      if (NFL_TEAMS.has(norm) || CFB_TEAMS.has(norm)) {
-        candidates.add(norm);
-      }
+      const norm = normalizeTeamName(phrase).toLowerCase();
+      // Match case-insensitively and map back to canonical case
+      if (NFL_LC_MAP.has(norm)) candidates.add(NFL_LC_MAP.get(norm));
+      if (CFB_LC_MAP.has(norm)) candidates.add(CFB_LC_MAP.get(norm));
     }
   }
-  let teams = Array.from(candidates);
+  // Dedupe by substring containment (prefer longer names like "Georgia Tech" over "Georgia")
+  let teams = Array.from(candidates)
+    .sort((a,b)=>b.length-a.length)
+    .filter((name, idx, arr) => !arr.some((other, j) => j < idx && other.toLowerCase().includes(name.toLowerCase())));
   // If league hint exists, prefer teams of that league
   if (leagueHint) {
     teams = teams.filter(t => leagueHint === 'nfl' ? NFL_TEAMS.has(t) : CFB_TEAMS.has(t));
@@ -132,11 +147,15 @@ async function updateVideoMetadata(videoId, metadata) {
   const url = `${BASE_V13}/indexes/${INDEX_ID}/videos/${videoId}`;
   // Prefer PATCH
   let res = await fetch(url, { method: 'PATCH', headers: { 'x-api-key': API_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ metadata }) });
-  if (res.ok) return res.json();
+  if (res.ok) {
+    try { return await res.json(); } catch { return { ok: true }; }
+  }
   const e1 = await res.text();
   // Fallback PUT
   res = await fetch(url, { method: 'PUT', headers: { 'x-api-key': API_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ metadata }) });
-  if (res.ok) return res.json();
+  if (res.ok) {
+    try { return await res.json(); } catch { return { ok: true }; }
+  }
   const e2 = await res.text();
   throw new Error(`Update failed: PATCH(${e1}) PUT(${e2})`);
 }
@@ -157,9 +176,15 @@ async function main() {
 
   for (const item of items) {
     const filename = item.filename || '';
-  const { teams, league } = extractTeams(filename);
-  const { season, week } = extractSeasonWeek(filename);
+    // Some processed files include explicit team1/team2 and date metadata
+    const explicitTeams = [item?.metadata?.team1, item?.metadata?.team2]
+      .filter(Boolean)
+      .map(t => normalizeTeamName(String(t)));
+    const { teams: parsedTeams, league: parsedLeague } = extractTeams(filename);
+    const teams = explicitTeams.length ? explicitTeams.slice(0,2) : parsedTeams;
+    const { season, week } = extractSeasonWeek(filename);
 
+    const league = parsedLeague || (teams.length ? detectLeague(teams[0]) : null);
     if (!league || teams.length===0) {
       console.log(`⏭️  [skip:no-teams] ${filename}`);
       skipped++;
@@ -197,6 +222,7 @@ async function main() {
       league: league.toUpperCase(), 
       team: teams[0], 
       ...(teams[1]?{opponent: teams[1]}:{}), 
+      ...(item?.metadata?.date?{gameDate: item.metadata.date}:{}) ,
       ...(season?{season}:{}), 
       ...(week?{week}:{}), 
       filename 

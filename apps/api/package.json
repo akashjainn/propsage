@@ -9,6 +9,8 @@
     "prestart": "pnpm build",
     "start": "node dist/index.js",
     "tag:filenames": "node tag-videos-from-filenames.js",
+    "tag:library": "node tag-videos-from-filenames.js",
+    "tag:smart": "node smart-tag-videos.js",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "vitest"
   },
