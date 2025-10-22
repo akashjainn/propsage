@@ -7,6 +7,8 @@
 import { Router } from 'express';
 import { nflEvidenceService } from '../services/nfl-evidence-service.js';
 import { unifiedEvidenceService } from '../services/unified-evidence-service.js';
+import { sportradarNFLClient } from '../services/sportradar-nfl.js';
+import { eventClipMapper } from '../services/event-clip-mapper.js';
 
 const router = Router();
 
@@ -247,6 +249,93 @@ router.get('/patterns', (req, res) => {
   };
 
   res.json(patterns);
+});
+
+/**
+ * GET /nfl/evidence/week/:week/schedule
+ * Get Week schedule from Sportradar v7
+ */
+router.get('/week/:week/schedule', async (req, res) => {
+  try {
+    const week = parseInt(req.params.week, 10);
+    const year = parseInt(req.query.year as string) || 2024;
+    const seasonType = (req.query.seasonType as string) || 'REG';
+    
+    const games = await sportradarNFLClient.getWeekSchedule({
+      year,
+      seasonType: seasonType as any,
+      week
+    });
+    
+    return res.json({ games, week, year, seasonType });
+  } catch (error) {
+    console.error('[NFL Evidence] Schedule error:', error);
+    return res.status(500).json({ error: 'Failed to fetch schedule' });
+  }
+});
+
+/**
+ * GET /nfl/evidence/game/:gameId/events
+ * Get game events from play-by-play
+ */
+router.get('/game/:gameId/events', async (req, res) => {
+  try {
+    const gameId = req.params.gameId;
+    const events = await sportradarNFLClient.getGameEvents(gameId);
+    
+    return res.json({ 
+      gameId, 
+      events,
+      total: events.length
+    });
+  } catch (error) {
+    console.error('[NFL Evidence] Events error:', error);
+    return res.status(500).json({ error: 'Failed to fetch game events' });
+  }
+});
+
+/**
+ * GET /nfl/evidence/clips
+ * Get TwelveLabs clips for player/market
+ * Query: player, market, gameId, limit
+ */
+router.get('/clips', async (req, res) => {
+  try {
+    const { player, market, gameId, limit = '4' } = req.query;
+    
+    if (!player || !market) {
+      return res.status(400).json({ 
+        error: 'Missing required params: player, market' 
+      });
+    }
+    
+    const clips = await eventClipMapper.getClipsForProp({
+      gameId: gameId as string || '',
+      player: player as string,
+      market: market as any,
+      limit: parseInt(limit as string)
+    });
+    
+    return res.json({
+      clips: clips.map(c => ({
+        id: c.id,
+        videoId: c.videoId,
+        startTime: c.startTime,
+        endTime: c.endTime,
+        score: c.score,
+        label: c.label,
+        thumbnailUrl: c.thumbnailUrl,
+        confidence: c.confidence
+      })),
+      total: clips.length,
+      player,
+      market
+    });
+    
+  } catch (error) {
+    console.error('[NFL Evidence] Clips error:', error);
+    return res.status(500).json({ error: 'Failed to fetch clips' });
+  }
 });
 
 /**
