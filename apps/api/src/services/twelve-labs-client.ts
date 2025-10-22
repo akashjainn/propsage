@@ -153,7 +153,7 @@ export class TwelveLabsClient {
         }
 
         // Retry logic for rate limits
-        let response;
+        let response: Response | null = null;
         let retries = 0;
         const maxRetries = 2;
         
@@ -178,9 +178,9 @@ export class TwelveLabsClient {
           break;
         }
 
-        if (!response.ok) {
-          console.warn(`Search failed for query "${query}": ${response.status}`);
-          if (response.status === 429) {
+        if (!response || !response.ok) {
+          console.warn(`Search failed for query "${query}": ${response?.status || 'no response'}`);
+          if (response?.status === 429) {
             console.error('Rate limit exceeded - consider upgrading TwelveLabs plan or reducing concurrent searches');
           }
           continue;
