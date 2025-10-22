@@ -55,8 +55,14 @@ const NFL_TEAMS = new Set(getTeamsForLeague('nfl'));
 const CFB_TEAMS = new Set(getTeamsForLeague('cfb'));
 
 function extractTeams(filename) {
-  const tokens = filename.toLowerCase().replace(/\.[a-z0-9]+$/i,'').split(/[^a-z0-9]+/).filter(Boolean);
-  const words = filename.replace(/\.[a-z0-9]+$/i,'').split(/[^A-Za-z]+/);
+  const base = filename.replace(/\.[a-z0-9]+$/i,'');
+  const tokens = base.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  const words = base.split(/[^A-Za-z]+/);
+
+  // League hint from filename
+  let leagueHint = null;
+  if (/\bnfl\b/i.test(base)) leagueHint = 'nfl';
+  else if (/\b(cfb|college|ncaa)\b/i.test(base)) leagueHint = 'cfb';
 
   // Try multi-word team names by scanning all possible substrings up to 3 words
   const candidates = new Set();
@@ -69,14 +75,39 @@ function extractTeams(filename) {
       }
     }
   }
-  const teams = Array.from(candidates).slice(0,2);
+  let teams = Array.from(candidates);
+  // If league hint exists, prefer teams of that league
+  if (leagueHint) {
+    teams = teams.filter(t => leagueHint === 'nfl' ? NFL_TEAMS.has(t) : CFB_TEAMS.has(t));
+  }
+  teams = teams.slice(0,2);
   let league = null;
   if (teams.length>0) {
     const l1 = detectLeague(teams[0]);
     const l2 = teams[1] ? detectLeague(teams[1]) : null;
-    league = l1 || l2;
+    league = leagueHint || l1 || l2;
   }
   return { teams, league };
+}
+
+function extractSeasonWeek(filename) {
+  const base = filename.replace(/\.[a-z0-9]+$/i,'');
+  // Season: 4-digit year, prefer the one near 'Season' keyword
+  let season = null;
+  const seasonMatch = base.match(/(\d{4})\s*(?:nfl|cfb)?\s*season/i);
+  if (seasonMatch) {
+    season = seasonMatch[1];
+  } else {
+    const yearMatch = base.match(/\b(20\d{2})\b/);
+    if (yearMatch) season = yearMatch[1];
+  }
+
+  // Week: "Week 5" patterns
+  let week = null;
+  const weekMatch = base.match(/\bweek\s*(\d{1,2})\b/i);
+  if (weekMatch) week = parseInt(weekMatch[1], 10);
+
+  return { season, week };
 }
 
 async function tlSearch(queryText, limit=10) {
@@ -126,7 +157,8 @@ async function main() {
 
   for (const item of items) {
     const filename = item.filename || '';
-    const { teams, league } = extractTeams(filename);
+  const { teams, league } = extractTeams(filename);
+  const { season, week } = extractSeasonWeek(filename);
 
     if (!league || teams.length===0) {
       console.log(`⏭️  [skip:no-teams] ${filename}`);
@@ -161,8 +193,14 @@ async function main() {
       continue;
     }
 
-    const { season='2024', week = league==='nfl'?5:undefined } = {};
-    const metadata = { league: league.toUpperCase(), team: teams[0], ...(teams[1]?{opponent: teams[1]}:{}), season, ...(week?{week}:{}), filename };
+    const metadata = { 
+      league: league.toUpperCase(), 
+      team: teams[0], 
+      ...(teams[1]?{opponent: teams[1]}:{}), 
+      ...(season?{season}:{}), 
+      ...(week?{week}:{}), 
+      filename 
+    };
 
     console.log(`${APPLY?'✍️':'🔎'} [${league}] ${filename} → video ${bestId} (${hits} hits)`, metadata);
 
