@@ -38,51 +38,20 @@ export async function GET(req: Request) {
     let data: any;
     try { data = JSON.parse(text); } catch (e) { throw new Error('Invalid JSON from backend'); }
 
-    let results = (data.clips || []).map((clip: any) => formatClip(clip, player, market));
-    if (results.length === 0) {
-      console.log('[TL Clips API] Backend returned 0 clips – attempting embedded fallback merge');
-      const embedded = embeddedFallback(player, market);
-      if (embedded.length) {
-        results = embedded;
-        return NextResponse.json({ results, source: 'embedded-after-backend-empty' });
-      }
-    }
+    const results = (data.clips || []).map((clip: any) => formatClip(clip, player, market));
+    // Do NOT use embedded fallback here to avoid cross-team contamination and non-playable assets
     console.log(`[TL Clips API] Found ${results.length} clips from backend`);
     return NextResponse.json({ results, source: 'backend' });
   } catch (error) {
     console.error('[TL Clips API] Backend error:', error);
-    return await fallbackDirect(req, player, market);
+    // Avoid generic fallback to prevent unrelated teams and broken media URLs
+    return NextResponse.json({ results: [], source: 'backend-error' });
   }
 }
 
 async function fallbackDirect(req: Request, player: string, market: string) {
-  try {
-    console.log('[TL Clips API] Falling back to direct /api/clips');
-    const fallbackUrl = new URL('/api/clips', req.url);
-    if (player) fallbackUrl.searchParams.set('player', player);
-    if (market) fallbackUrl.searchParams.set('stat', market);
-    fallbackUrl.searchParams.set('limit', '6');
-
-    const fallbackResponse = await fetch(fallbackUrl.toString(), { headers: { 'Accept': 'application/json' } });
-    const fallbackText = await fallbackResponse.text();
-    if (fallbackText.trim().startsWith('<')) throw new Error('Fallback returned HTML');
-    const fallbackData = JSON.parse(fallbackText);
-    const results = (fallbackData.clips || []).map((clip: any) => formatClip(clip, player, market));
-    console.log(`[TL Clips API] Fallback found ${results.length} clips`);
-    if (results.length > 0) return NextResponse.json({ results, fallback: true, source: 'direct' });
-    // If still empty, attempt embedded dataset directly
-    const embedded = embeddedFallback(player, market);
-    console.log(`[TL Clips API] Embedded fallback produced ${embedded.length} clips`);
-    return NextResponse.json({ results: embedded, fallback: true, source: 'embedded' });
-  } catch (fallbackError) {
-    console.error('[TL Clips API] Fallback failed:', fallbackError);
-    const embedded = embeddedFallback(player, market);
-    if (embedded.length) {
-      return NextResponse.json({ results: embedded, fallback: true, source: 'embedded', error: String(fallbackError) });
-    }
-    // Last resort: return empty but do NOT surface 502 to client UI (avoid hard errors)
-    return NextResponse.json({ results: [], error: String(fallbackError), fallback: true, source: 'none' });
-  }
+  // Deprecated: generic fallbacks can pollute results with unrelated teams and non-playable URLs
+  return NextResponse.json({ results: [], fallback: true, source: 'disabled' });
 }
 
 interface EmbeddedPlayerVideos { team: string; videos: any[] }
