@@ -138,21 +138,6 @@ export class TwelveLabsClient {
       const allMoments: TLMoment[] = [];
 
       for (const query of queries) {
-        const searchBody: any = {
-          query: query.trim(),
-          index_id: this.config.indexId,
-          search_options: ['visual', 'conversation', 'text_in_video'],
-          sort_option: 'score',
-          page_limit: Math.min(limit, 5) // Limit per query to get diverse results
-        };
-
-        // Filter by specific video IDs if provided
-        if (videoIds && videoIds.length > 0) {
-          searchBody.filter = {
-            video_id: videoIds
-          };
-        }
-
         // TwelveLabs v1.3+ requires FormData with individual search options
         const formData = new FormData();
         formData.append('query_text', query.trim());
@@ -167,16 +152,37 @@ export class TwelveLabsClient {
           formData.append('filter', JSON.stringify({ video_id: videoIds }));
         }
 
-        const response = await fetch(`${this.config.baseUrl}/search`, {
-          method: 'POST',
-          headers: {
-            'x-api-key': this.config.apiKey
-          },
-          body: formData
-        });
+        // Retry logic for rate limits
+        let response;
+        let retries = 0;
+        const maxRetries = 2;
+        
+        while (retries <= maxRetries) {
+          response = await fetch(`${this.config.baseUrl}/search`, {
+            method: 'POST',
+            headers: {
+              'x-api-key': this.config.apiKey
+            },
+            body: formData
+          });
+          
+          if (response.status === 429 && retries < maxRetries) {
+            // Rate limited - wait and retry
+            const waitTime = Math.pow(2, retries) * 1000; // Exponential backoff: 1s, 2s
+            console.warn(`Rate limited, retrying in ${waitTime}ms...`);
+            await new Promise(resolve => setTimeout(resolve, waitTime));
+            retries++;
+            continue;
+          }
+          
+          break;
+        }
 
         if (!response.ok) {
           console.warn(`Search failed for query "${query}": ${response.status}`);
+          if (response.status === 429) {
+            console.error('Rate limit exceeded - consider upgrading TwelveLabs plan or reducing concurrent searches');
+          }
           continue;
         }
 

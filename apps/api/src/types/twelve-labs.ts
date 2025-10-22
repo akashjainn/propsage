@@ -147,10 +147,7 @@ export const PROP_INTENT_LIBRARY: Record<PropType, PropIntent> = {
   PASS_YDS: {
     propType: 'PASS_YDS',
     queries: [
-      'quarterback {player} throws deep completion',
-      '{player} intermediate passing plays',
-      'QB {player} throwing under pressure',
-      '{player} red zone passes'
+      '{player} throwing completion'
     ],
     label: 'Passing Moments',
     description: 'Deep completions, intermediate routes, pressure situations',
@@ -159,10 +156,7 @@ export const PROP_INTENT_LIBRARY: Record<PropType, PropIntent> = {
   PASS_TDS: {
     propType: 'PASS_TDS', 
     queries: [
-      '{player} touchdown pass',
-      'QB {player} red zone touchdown',
-      '{player} passing touchdown in end zone',
-      '{player} scoring throws'
+      '{player} touchdown pass'
     ],
     label: 'TD Passes',
     description: 'Red zone efficiency, touchdown throws',
@@ -171,10 +165,7 @@ export const PROP_INTENT_LIBRARY: Record<PropType, PropIntent> = {
   RUSH_YDS: {
     propType: 'RUSH_YDS',
     queries: [
-      '{player} running outside zone rush',
-      '{player} inside zone carry with broken tackle', 
-      'running back {player} explosive run',
-      '{player} rushing between tackles'
+      '{player} rushing'
     ],
     label: 'Rushing Plays',
     description: 'Zone schemes, broken tackles, explosive runs',
@@ -183,10 +174,7 @@ export const PROP_INTENT_LIBRARY: Record<PropType, PropIntent> = {
   RUSH_TDS: {
     propType: 'RUSH_TDS',
     queries: [
-      '{player} rushing touchdown',
-      'running back {player} goal line touchdown',
-      '{player} red zone rushing score',
-      '{player} short yardage touchdown run'
+      '{player} rushing touchdown'
     ],
     label: 'Rushing TDs',
     description: 'Goal line carries, red zone success',
@@ -195,10 +183,7 @@ export const PROP_INTENT_LIBRARY: Record<PropType, PropIntent> = {
   REC_YDS: {
     propType: 'REC_YDS',
     queries: [
-      'receiver {player} seam route with YAC',
-      '{player} slant route with yards after catch',
-      'wide receiver {player} crossing route',
-      '{player} deep reception downfield'
+      '{player} catching reception'
     ],
     label: 'Receiving',
     description: 'Route running, YAC ability, deep targets',
@@ -207,10 +192,7 @@ export const PROP_INTENT_LIBRARY: Record<PropType, PropIntent> = {
   REC_TDS: {
     propType: 'REC_TDS',
     queries: [
-      '{player} receiving touchdown',
-      'receiver {player} end zone catch',
-      '{player} touchdown reception',
-      '{player} red zone receiving score'
+      '{player} receiving touchdown'
     ],
     label: 'Receiving TDs', 
     description: 'End zone targets, red zone usage',
@@ -219,10 +201,7 @@ export const PROP_INTENT_LIBRARY: Record<PropType, PropIntent> = {
   RECEPTIONS: {
     propType: 'RECEPTIONS',
     queries: [
-      '{player} catching passes underneath',
-      'receiver {player} short route completions',
-      '{player} check down receptions',
-      '{player} volume catching'
+      '{player} catching pass'
     ],
     label: 'Receptions',
     description: 'Target share, underneath routes, volume',
@@ -231,10 +210,7 @@ export const PROP_INTENT_LIBRARY: Record<PropType, PropIntent> = {
   INTERCEPTIONS: {
     propType: 'INTERCEPTIONS',
     queries: [
-      'quarterback {player} throws interception',
-      '{player} intercepted pass under pressure',
-      'QB {player} turnover throwing',
-      '{player} picked off by defense'
+      '{player} throws interception'
     ],
     label: 'Turnovers',
     description: 'Pressure situations, risky throws',
@@ -243,10 +219,7 @@ export const PROP_INTENT_LIBRARY: Record<PropType, PropIntent> = {
   SACKS: {
     propType: 'SACKS',
     queries: [
-      'quarterback {player} gets sacked',
-      '{player} pressured behind offensive line',
-      'QB {player} hit while throwing',
-      '{player} hurried in pocket'
+      '{player} sacked'
     ],
     label: 'Pressure',
     description: 'Pass protection, pocket presence',
