@@ -2,7 +2,12 @@ import { NextResponse } from 'next/server';
 import { TWELVE_LABS_MOCK } from '@/data/twelvelabs.mock';
 export const dynamic = 'force-dynamic';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`) || 'http://localhost:4000';
+const getApiBaseUrl = () => {
+  const url = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`) || 'http://localhost:4000';
+  // Ensure URL has protocol
+  return url.match(/^https?:\/\//) ? url : `https://${url}`;
+};
+const API_BASE_URL = getApiBaseUrl();
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);

@@ -3,7 +3,7 @@ import cors from 'cors'
 import fml from './routes/fml.js'
 import cfbPlayers from './routes/cfb.players.js'
 import cfbProps from './routes/cfb.props.js'
-// import cfbClips from './routes/cfb.clips.js' // Temporarily disabled
+import cfbClips from './routes/cfb.clips.js'
 import cfbEvidence from './routes/cfb.evidence.js'
 import { nflEvidenceRoutes } from './routes/nfl-evidence.js'
 import nfl from './routes/nfl.js'
@@ -119,7 +119,7 @@ export function createApp() {
   app.use('/fml', fml)
   app.use('/cfb/players', cfbPlayers)
   app.use('/cfb/props', cfbProps)
-  // app.use('/cfb/clips', cfbClips) // Temporarily disabled
+  app.use('/cfb/clips', cfbClips)
   app.use('/cfb/evidence', cfbEvidence)
   app.use('/nfl/evidence', nflEvidenceRoutes)
   app.use('/nfl', nfl)
