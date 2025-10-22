@@ -92,12 +92,14 @@ export class UnifiedEvidenceService {
     console.log(`[UnifiedEvidence] Raw results: ${rawResults.length}`);
 
     // Post-filter by league to remove any cross-contamination
-    const leagueFiltered = filterByLeague(
-      rawResults,
-      context.league,
-      context.team
-    );
+    const skipFilter = process.env.SKIP_LEAGUE_FILTER === 'true';
+    const leagueFiltered = skipFilter
+      ? rawResults.map(r => ({ ...r, adjustedScore: r.score }))
+      : filterByLeague(rawResults, context.league, context.team);
 
+    if (skipFilter) {
+      console.log(`[UnifiedEvidence] ⚠️  SKIP_LEAGUE_FILTER enabled - bypassing metadata check`);
+    }
     console.log(`[UnifiedEvidence] After league filter: ${leagueFiltered.length}`);
 
     // Rank by context relevance
