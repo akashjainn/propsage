@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { evidenceService, isEvidenceAvailable } from '../services/evidence-service.js';
 import { PROP_INTENT_LIBRARY, PropType, buildMomentQuery } from '../types/twelve-labs.js';
+import { twelveLabsClient } from '../services/twelve-labs-client.js';
 
 const r = Router();
 
@@ -52,25 +53,49 @@ r.get('/', async (req, res) => {
     const intent = PROP_INTENT_LIBRARY[propType];
     const queries = buildMomentQuery(intent, player);
 
-    // Search TL for moments scoped to this player
-    const moments = await evidenceService.searchFreefromMoments(queries[0], player, undefined, limit);
+    console.log(`[CFB Clips] Searching for player="${player}", stat="${statLabel}", propType=${propType}`);
+    console.log(`[CFB Clips] Query: "${queries[0]}"`);
+    
+    // Known video IDs for specific players (temporary mapping until we have proper metadata)
+    const KNOWN_VIDEOS: Record<string, string[]> = {
+      'gunner stockton': ['68d88739dd044d81bd8b08c0'],
+      'colbie young': ['68d88739dd044d81bd8b08c0']
+    };
+    
+    const playerKey = player.toLowerCase().trim();
+    const knownVideoIds = KNOWN_VIDEOS[playerKey];
+    
+    // Search TL - use direct client with video filtering if we have known videos
+    let moments;
+    if (knownVideoIds && knownVideoIds.length > 0) {
+      console.log(`[CFB Clips] Using known video IDs: ${knownVideoIds.join(', ')}`);
+      moments = await twelveLabsClient.searchMoments([queries[0]], knownVideoIds, limit);
+    } else {
+      console.log(`[CFB Clips] Searching entire index (no known videos)`);
+      moments = await evidenceService.searchFreefromMoments(queries[0], player, undefined, limit);
+    }
+    
+    console.log(`[CFB Clips] Found ${moments.length} moments from TwelveLabs`);
 
     // Transform to clip DTO expected by web route
     const clips = moments.map(m => ({
       id: m.id,
       title: `${player} — ${statLabel}`,
       description: m.label,
-      url: '', // TL playback URL not wired yet
+      url: m.thumbnailUrl || '', // Use thumbnail URL as fallback
       thumbnailUrl: m.thumbnailUrl,
       startTime: m.startTime,
       endTime: m.endTime,
       relevanceScore: m.score,
-      gameContext: { team: undefined, opponent: undefined }
+      gameContext: { 
+        videoId: m.videoId,
+        team: undefined, 
+        opponent: undefined 
+      }
     }));
 
-    // For now, omit url to prevent broken playback; web will suppress empty-URL clips
-    const playable = clips.filter(c => c.url);
-    return res.json({ clips: playable, total: playable.length, source: 'twelvelabs' });
+    // Return all clips (removed URL filter)
+    return res.json({ clips, total: clips.length, source: 'twelvelabs' });
   } catch (err) {
     console.error('[CFB Clips] error:', err);
     return res.status(500).json({ clips: [], total: 0, error: 'Failed to fetch clips' });

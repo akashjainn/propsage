@@ -16,6 +16,9 @@ RUN pnpm install --frozen-lockfile --filter @propsage/core... --filter @propsage
 COPY packages ./packages
 COPY apps/api ./apps/api
 COPY data ./data
+# Also copy data files to apps/api/data for fallback paths
+RUN mkdir -p apps/api/data
+RUN cp -r data/* apps/api/data/ 2>/dev/null || true
 
 # Build (turborepo not strictly necessary here)
 RUN pnpm --filter @propsage/core build && pnpm --filter @propsage/api build

@@ -3,9 +3,10 @@
  * Implements event-to-market rules for clip evidence
  */
 
-import { twelveLabsClient } from './twelve-labs-client.js';
+import { TwelveLabsClient } from './twelve-labs-client.js';
 import { GameEvent } from './sportradar-nfl.js';
 import { TLMoment } from '../types/twelve-labs.js';
+import { config } from '../config.js';
 
 export type PropMarket = 
   | 'PASS_YDS' 
@@ -27,6 +28,15 @@ interface ClipRequest {
 }
 
 export class EventClipMapper {
+  private tlClient: TwelveLabsClient;
+  
+  constructor() {
+    // Use NFL-specific index from config
+    this.tlClient = new TwelveLabsClient({
+      indexId: config.twelveLabsIndexByLeague.nfl || config.twelveLabsIndexByLeague.cfb
+    });
+    console.log('[EventClipMapper] Initialized with NFL index:', config.twelveLabsIndexByLeague.nfl);
+  }
   
   /**
    * Get clips for a player/market combination
@@ -41,7 +51,7 @@ export class EventClipMapper {
     console.log(`[EventClipMapper] Query: "${query}"`);
     
     // Search with gameId filter
-    const moments = await twelveLabsClient.searchMoments(
+    const moments = await this.tlClient.searchMoments(
       [query],
       undefined, // no videoId filter - use entire index
       limit
@@ -86,7 +96,7 @@ export class EventClipMapper {
     // Search each event
     const allMoments: TLMoment[] = [];
     for (const query of queries) {
-      const moments = await twelveLabsClient.searchMoments([query], undefined, 2);
+      const moments = await this.tlClient.searchMoments([query], undefined, 2);
       allMoments.push(...moments);
     }
     
